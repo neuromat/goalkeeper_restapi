@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{5AC885EE-D8FA-02CF-31CC-2AE5729BA45E}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TCLE.cs">
+    <Files>
+      <File FileName="Assets/Scripts/TCLE.cs" Line="59" Column="27" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.181015-NewDesk PreferredExecutionTarget="Unity.Editor" />
+</Properties>
