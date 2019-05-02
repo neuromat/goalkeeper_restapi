@@ -58,10 +58,14 @@ class Game(models.Model):
     plays_to_relax = models.IntegerField(default=0)
     play_pause = models.BooleanField()
     play_pause_key = models.CharField(max_length=10, blank=True)
-    animation_time = models.FloatField(default=1.0)
+    player_time = models.FloatField(default=1.0)
+    celebration_time = models.FloatField(default=1.0)
     score_board = models.BooleanField()
-    final_score_board = models.CharField(max_length=5, choices=FINAL_SCORE)
+    final_score_board = models.CharField(max_length=5, choices=FINAL_SCORE, default='short')
     game_type = models.CharField(max_length=2)
+    left_key = models.CharField(max_length=20, blank=True)
+    center_key = models.CharField(max_length=20, blank=True)
+    right_key = models.CharField(max_length=20, blank=True)
 
 
 class WarmUp(Game):
