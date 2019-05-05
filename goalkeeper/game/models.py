@@ -67,6 +67,9 @@ class Game(models.Model):
     center_key = models.CharField(max_length=20, blank=True)
     right_key = models.CharField(max_length=20, blank=True)
 
+    def __str__(self):
+        return self.config.name + ' - ' + self.game_type
+
 
 class WarmUp(Game):
     """ An instance of this class is a Warm Up game. """
