@@ -13,8 +13,17 @@ class GameResultSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    results = serializers.PrimaryKeyRelatedField(many=True, queryset=GameResult.objects.all())
+    email = serializers.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'game_results')
+        fields = ('id', 'email', 'username', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
