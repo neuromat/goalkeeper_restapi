@@ -7,7 +7,7 @@ urlpatterns = [
     path('results/', GameResultList.as_view()),
     path('result/<int:pk>/', GameResultDetail.as_view()),
     path('user', UserAPI.as_view()),
-    path('user/(?P<pk>\d+)/$', UserAPI.as_view()),
+    path('user/<int:pk>/', UserAPI.as_view()),
     path('getauthtoken', GetAuthToken.as_view()),
 ]
 
