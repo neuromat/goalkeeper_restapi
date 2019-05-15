@@ -1,7 +1,10 @@
 *.pyc
 *.pyo
+*.meta
+*.info
 db.sqlite3
 .DS_Store
 .coverage
 .idea/
+metadata
 local_settings.py
