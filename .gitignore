@@ -2,9 +2,15 @@
 *.pyo
 *.meta
 *.info
+*.bin
+*.csv
+*.log
+*.cache
 db.sqlite3
 .DS_Store
 .coverage
 .idea/
+.vs/
+Temp/
 metadata
 local_settings.py
