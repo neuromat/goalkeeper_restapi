@@ -550,7 +550,7 @@ public class UIManager : MonoBehaviour
 			// e nao mais espera pelo final da fase
 
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> INPUT PRESSIONADO = "+input);
-			SendEventsToServer(PlayerPrefs.GetInt("gameSelected"));
+			SendEventsToServerMini(PlayerPrefs.GetInt("gameSelected"));
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> SENDEVENTSTOSERVER ATIVADO = ");
 
 
