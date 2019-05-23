@@ -1,0 +1,18 @@
+{% extends "base_site.html" %}
+{% load i18n staticfiles %}
+
+{% block extrahead %}
+    <script src="{% static 'js/show_modal_remove.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">{% trans "New goalkeeper game" %}</li>
+        </ol>
+
+        {% include "game/game_data.html" %}
+    </div>
+{% endblock %}

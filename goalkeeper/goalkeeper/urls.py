@@ -46,4 +46,6 @@ urlpatterns = [
     path('settings/password/done/',
          auth_views.PasswordChangeDoneView.as_view(template_name='login/password_change_done.html'),
          name='password_change_done'),
+
+    path('game/', include('game.urls'))
 ]
