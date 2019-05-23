@@ -14,9 +14,36 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.contrib.auth import views as auth_views
+from django.urls import include, path, re_path
+from game.views import home, language_change
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', home, name='home'),
+    path('admin', admin.site.urls),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('api/', include('result.urls')),
+    path('login/', auth_views.LoginView.as_view(template_name='login/sign_in.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    re_path('language/(?P<language_code>(?:(?:\w{2})|(?:\w{2}\-\w{2})))$', language_change, name='language_change'),
+
+    path('reset/', auth_views.PasswordResetView.as_view(
+        template_name='login/password_reset.html',
+        email_template_name='login/password_reset_email.html',
+        subject_template_name='login/password_reset_subject.txt'), name='password_reset'),
+    path('reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='login/password_reset_done.html'),
+         name='password_reset_done'),
+    re_path('reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
+            auth_views.PasswordResetConfirmView.as_view(template_name='login/password_reset_confirm.html'),
+            name='password_reset_confirm'),
+    path('reset/complete/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='login/password_reset_complete.html'),
+         name='password_reset_complete'),
+    path('settings/password/',
+         auth_views.PasswordChangeView.as_view(template_name='login/password_change.html'),
+         name='password_change'),
+    path('settings/password/done/',
+         auth_views.PasswordChangeDoneView.as_view(template_name='login/password_change_done.html'),
+         name='password_change_done'),
 ]

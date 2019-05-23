@@ -1,0 +1,183 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-23 11:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: game/models.py:5
+msgid "Long"
+msgstr "Longo"
+
+#: game/models.py:6
+msgid "Short"
+msgstr "Curto"
+
+#: game/models.py:7
+msgid "None"
+msgstr "Nenhum"
+
+#: game/models.py:19
+msgid "Institution"
+msgstr "Instituição"
+
+#: game/models.py:20
+msgid "Institutions"
+msgstr "Instituições"
+
+#: game/models.py:36
+msgid "Game configuration"
+msgstr "Configuração do jogo"
+
+#: game/models.py:37
+msgid "Game configurations"
+msgstr "Configurações do jogo"
+
+#: goalkeeper/settings.py:123
+msgid "Portuguese"
+msgstr ""
+
+#: goalkeeper/settings.py:124
+msgid "English"
+msgstr ""
+
+#: templates/404.html:4
+msgid "404 - Page not found"
+msgstr "404 - Página não encontrada"
+
+#: templates/404.html:9
+msgid "OPS! Page not found (404)"
+msgstr "OPS! Página não encontrada (404)"
+
+#: templates/404.html:12
+msgid ""
+"\n"
+"                        Sorry, but the page you are looking for was either "
+"not found or does not exist.\n"
+"                        <br><br>\n"
+"                        Try refreshing the page or click the button below to "
+"go back to the Homepage.\n"
+"                    "
+msgstr ""
+"\n"
+"                        Desculpe, mas a página que você está procurando "
+"não existe ou não foi encontrada.\n"
+"                        <br><br> \n"
+"                        Tente atualizar a página ou clique no botão abaixo para "
+"voltar para a página inicial.\n"
+"                    "
+
+#: templates/404.html:20
+msgid "Take me home"
+msgstr "Voltar"
+
+#: templates/base_site.html:89
+msgid "This system is licensed under the"
+msgstr "Licenciado sob os termos da"
+
+#: templates/login/password_change.html:9
+#: templates/login/password_change.html:13
+#: templates/login/password_change_done.html:9
+#: templates/login/password_reset_confirm.html:13 templates/menu.html:44
+msgid "Change password"
+msgstr "Alterar senha"
+
+#: templates/login/password_change_done.html:11
+msgid "Success! Your password has been changed!"
+msgstr "Sucesso! Sua senha foi alterada"
+
+#: templates/login/password_change_done.html:12
+msgid "Return to home page"
+msgstr "Voltar para página inicial"
+
+#: templates/login/password_reset.html:7
+#: templates/login/password_reset_confirm.html:16
+#: templates/login/password_reset_done.html:8
+msgid "Reset your password"
+msgstr "Redefinição de senha"
+
+#: templates/login/password_reset.html:11
+msgid ""
+"Enter your email address and we will send you a link to reset your password."
+msgstr "Digite seu endereço de e-mail e nós lhe enviaremos um link para redefinir sua senha."
+
+#: templates/login/password_reset.html:14
+msgid "Reset password"
+msgstr "Redefinir senha"
+
+#: templates/login/password_reset.html:15
+#: templates/login/password_reset_done.html:11
+msgid "Back"
+msgstr "Voltar"
+
+#: templates/login/password_reset_complete.html:8
+msgid "Password changed!"
+msgstr "Senha alterada!"
+
+#: templates/login/password_reset_complete.html:10
+msgid ""
+"You have successfully changed your password! You may now proceed to log in."
+msgstr "Você alterou sua senha com sucesso! Você pode agora fazer login."
+
+#: templates/login/password_reset_complete.html:12
+msgid "Return to log in"
+msgstr "Voltar para o login"
+
+#: templates/login/password_reset_confirm.html:9
+msgid "Change password for"
+msgstr "Alterar senha para"
+
+#: templates/login/password_reset_confirm.html:18
+msgid ""
+"It looks like you clicked on an invalid password reset link. Please try "
+"again."
+msgstr ""
+"Parece que você clicou em um link de redefinição de senha inválido. Por favor, tente novamente."
+
+#: templates/login/password_reset_confirm.html:20
+msgid "Request a new password reset link"
+msgstr "Solicitar um novo link de redefinição de senha"
+
+#: templates/login/password_reset_done.html:9
+msgid ""
+"Check your email for a link to reset your password. If it doesn't appear "
+"within a few minutes, check your spam folder."
+msgstr "Verifique no seu email um link para redefinir sua senha. "
+"Se não aparecer dentro de alguns minutos, verifique sua caixa de spam."
+
+#: templates/login/sign_in.html:7
+msgid "Sign in"
+msgstr "Acesso ao sistema"
+
+#: templates/login/sign_in.html:12
+msgid "Forgot your password?"
+msgstr "Esqueceu sua senha?"
+
+#: templates/login/sign_in.html:14
+msgid "Enter"
+msgstr "Entrar"
+
+#: templates/menu.html:7 templates/menu.html:10
+msgid "Home"
+msgstr ""
+
+#: templates/menu.html:14 templates/menu.html:17
+msgid "Users"
+msgstr "Usuários"
+
+#: templates/menu.html:47
+msgid "Logout"
+msgstr "Sair"
