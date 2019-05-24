@@ -1,0 +1,46 @@
+{% extends "base_site.html" %}
+{% load i18n staticfiles %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'goalkeeper_game_view' game.id %}">{% trans "Goalkeeper game" %}</a></li>
+            <li class="breadcrumb-item active">{% trans "Context" %}</li>
+        </ol>
+
+        <form role="form" method="post">{% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="control-label">{% trans "Select the path" %} <b style="color: red;">*</b></label>
+                        <select class="form-control">
+                            {% for num in number_of_directions %}
+                                <option value="{{ num }}">{{ num }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+            {% for num in number_of_directions %}
+                <div class="col-sm-2 col-12">
+                    <div class="form-group">
+                        <label class="control-label">{% trans "Probability for" %} {{ num }} <b style="color: red;">*</b></label>
+                        <input type="number" class="form-control" name="context-{{ num }}" step="0.01">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+            <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
+            <a href="{% url 'goalkeeper_game_view' game.id %}" class="btn btn-secondary">{% trans "Back" %}</a>
+        </form>
+    </div>
+{% endblock %}

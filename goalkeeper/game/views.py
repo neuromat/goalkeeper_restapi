@@ -81,6 +81,7 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
         if goalkeeper_game_form.is_valid():
             if goalkeeper_game_form.has_changed():
                 goalkeeper_game_form.save()
+                messages.success(request, _('Goalkeeper game updated successfully.'))
             else:
                 messages.warning(request, _('There is no changes to save.'))
         else:
@@ -93,6 +94,25 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
         "game": game,
         "goalkeeper_game_form": goalkeeper_game_form,
         "editing": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def context(request, goalkeeper_game_id, template_name="game/probability.html"):
+    game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
+    number_of_directions = game.number_of_directions
+    probability = {}
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        for direction in range(number_of_directions):
+            probability[direction] = request.POST['context-'+str(direction)]
+
+    context = {
+        "game": game,
+        "number_of_directions": range(number_of_directions),
+        "probability": probability
     }
 
     return render(request, template_name, context)

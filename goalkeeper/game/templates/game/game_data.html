@@ -238,6 +238,11 @@
         </div>
     </div>
 
+    {% if viewing %}
+        <br>
+        {% include "game/context.html" %}
+    {% endif %}
+
     <br>
     {% if creating %}
         <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
