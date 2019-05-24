@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.urls import resolve, reverse
 from django.test import TestCase
 
-from .views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update
-from .models import GameConfig, GoalkeeperGame, Institution, Level
+from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update
+from game.models import GameConfig, GoalkeeperGame, Institution, Level
 
 USER_USERNAME = 'user'
 USER_PWD = 'mypassword'
@@ -27,7 +27,7 @@ class GameTest(TestCase):
         level = Level.objects.create(name=0)
         config = GameConfig.objects.create(institution=institution, code='teste', is_public=True, name='Teste')
         GoalkeeperGame.objects.create(config=config, level=level, phase=0, depth=2, number_of_directions=3,
-                                      plays_to_relax=0, player_time=1.0, celebration_time=1.0, read_seq= True,
+                                      plays_to_relax=0, player_time=1.0, celebration_time=1.0, read_seq=True,
                                       final_score_board='short', play_pause=True, score_board=True, show_history=True)
 
     def test_goalkeeper_game_new_status_code(self):
