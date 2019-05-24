@@ -65,11 +65,52 @@ class GameTest(TestCase):
 
     def test_goalkeeper_game_view_status_code(self):
         game = GoalkeeperGame.objects.first()
-        url = reverse('goalkeeper_game_view', args=(game.id,))
-        response = self.client.get(url)
+        response = self.client.get(reverse("goalkeeper_game_view", args=(game.id,)))
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'game/goalkeeper_game.html')
 
     def test_goalkeeper_game_view_url_resolves_goalkeeper_game_view_view(self):
         view = resolve('/game/goalkeeper/view/1/')
         self.assertEquals(view.func, goalkeeper_game_view)
+
+    def test_goalkeeper_game_view_remove(self):
+        game = GoalkeeperGame.objects.first()
+        self.data = {
+            'action': 'remove'
+        }
+        response = self.client.post(reverse("goalkeeper_game_view", args=(game.id,)), self.data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(GoalkeeperGame.objects.count(), 0)
+
+    def test_goalkeeper_game_update_status_code(self):
+        game = GoalkeeperGame.objects.first()
+        response = self.client.get(reverse("goalkeeper_game_update", args=(game.id,)))
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'game/goalkeeper_game.html')
+
+    def test_goalkeeper_game_update_url_resolves_goalkeeper_game_update_view(self):
+        view = resolve('/game/goalkeeper/update/1/')
+        self.assertEquals(view.func, goalkeeper_game_update)
+
+    def test_goalkeeper_game_update(self):
+        game = GoalkeeperGame.objects.first()
+        self.data = {
+            'config': 1,
+            'level': 1,
+            'phase': 1,
+            'depth': 4,
+            'number_of_directions': 3,
+            'plays_to_relax': 0,
+            'player_time': 2.0,
+            'celebration_time': 1.0,
+            'final_score_board': 'short',
+            'read_seq': False,
+            'play_pause': True,
+            'score_board': True,
+            'show_history': True,
+            'action': 'save'
+        }
+        response = self.client.post(reverse("goalkeeper_game_update", args=(game.id,)), self.data)
+        self.assertEqual(response.status_code, 302)
+        game_update = GoalkeeperGame.objects.filter(depth=4, read_seq=False)
+        self.assertEqual(game_update.count(), 1)
