@@ -9,7 +9,7 @@ class GameResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameResult
         fields = ('id', 'game_phase', 'move', 'waited_result', 'is_random', 'option_chosen', 'correct', 'movement_time', 
-                  'time_running', 'owner')
+                  'time_running', 'owner', 'pause_time')
 
 
 class UserSerializer(serializers.ModelSerializer):

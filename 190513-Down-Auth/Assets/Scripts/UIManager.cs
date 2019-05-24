@@ -550,7 +550,8 @@ public class UIManager : MonoBehaviour
 			// e nao mais espera pelo final da fase
 
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> INPUT PRESSIONADO = "+input);
-			SendEventsToServerMini(PlayerPrefs.GetInt("gameSelected"));
+            //SendEventsToServerMini(PlayerPrefs.GetInt("gameSelected"));
+            SendPlaytoServer(eventCount, eLog);
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> SENDEVENTSTOSERVER ATIVADO = ");
 
 
@@ -674,6 +675,13 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+
+    public void SendPlaytoServer(int move, RandomEvent jogada)
+    {
+        Debug.Log("Dando início ao salvamento da jogada");
+        ServerOperations.instance.RegistrarJogada(move, jogada);
+
+    }
 
 
 	public void SendEventsToServerMini(int gameSelected)
