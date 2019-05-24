@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using JsonFx.Json;				        //iOS JsonFx: http://answers.unity3d.com/questions/502124/importing-jsonfx.html
+using Newtonsoft.Json;
 using System.Text;                      //StringBuilder
 using System.Security.Cryptography;     //170830 sha512Hash available
 
@@ -85,19 +86,39 @@ public class ServerOperations
 
 
 
-	// -------------------------------------------------------------------------------------
-	//Josi: 161205: acrescido parametro sobre o modo de operacao do jogo
-	//170126 added param bmMinHits
-	//170310 added phaseNumber
-	//170316 added endSessionTime
-	//170622 added showHistory
-	//170629 researchGroup (now groupCode)
-	//171025 choices and showPlayPauseButton
-	//180117 locale
-	//180326 new parameters: minHitsInSequenceForJG, ForJM, mdMaxPlays
-	//180417 send speedAnim
-	//180419 write keyboardTimeMarkers
-	public void RegisterPlayMini (MonoBehaviour mb, string locale, float endSessionTime, string stageID, bool gameMode, int phaseNumber, int totalPlays, int totalCorrect, float successRate,
+    // Função que registra a jogada (cada 
+    public void RegistrarJogada (int move, RandomEvent evento)
+    {
+        Dictionary<string, object> dictObj = new Dictionary<string, object>();
+        dictObj.Add("game_phase", 1);
+        dictObj.Add("move", move);
+        dictObj.Add("waited_result", evento.resultInt);
+        dictObj.Add("is_random", evento.ehRandom);
+        dictObj.Add("option_chosen", evento.optionChosenInt);
+        dictObj.Add("correct", evento.correct);
+        dictObj.Add("movement_time", 1);
+        dictObj.Add("time_running", evento.time);
+        dictObj.Add("pause_time", evento.pauseTime);
+
+        string jsonObj = JsonConvert.SerializeObject(dictObj);
+        var encoding = new System.Text.UTF8Encoding();         Dictionary<string, string> postHeader = new Dictionary<string, string>();         postHeader.Add("Content-Type", "application/json");         postHeader.Add("Authorization", "Token " + PlayerInfo.token);          var request = new WWW("localhost:8000/api/results/", encoding.GetBytes(jsonObj), postHeader);         Debug.Log(request.text); 
+    }
+
+
+
+    // -------------------------------------------------------------------------------------
+    //Josi: 161205: acrescido parametro sobre o modo de operacao do jogo
+    //170126 added param bmMinHits
+    //170310 added phaseNumber
+    //170316 added endSessionTime
+    //170622 added showHistory
+    //170629 researchGroup (now groupCode)
+    //171025 choices and showPlayPauseButton
+    //180117 locale
+    //180326 new parameters: minHitsInSequenceForJG, ForJM, mdMaxPlays
+    //180417 send speedAnim
+    //180419 write keyboardTimeMarkers
+    public void RegisterPlayMini (MonoBehaviour mb, string locale, float endSessionTime, string stageID, bool gameMode, int phaseNumber, int totalPlays, int totalCorrect, float successRate,
 		int bmMinHits, int bmMaxPlays, int bmMinHitsInSequence, List<RandomEvent> log, bool interrupted, List<RandomEvent> firstScreenMD, string animationType,
 		int playsToRelax,
 		bool showHistory,

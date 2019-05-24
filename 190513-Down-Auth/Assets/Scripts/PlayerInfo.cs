@@ -11,6 +11,7 @@ using System.Collections;
 public class PlayerInfo 
 {
 	public static string alias = System.String.Empty;        //Use System.String.Empty instead of "" when dealing with lots of strings
+    public static string token = System.String.Empty;
 	//public static string gender = System.String.Empty;     //170829 comentar se não estão em uso
 	//public static string age = System.String.Empty;
 	//public static string education = System.String.Empty;

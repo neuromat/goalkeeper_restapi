@@ -86,11 +86,13 @@ public partial class BackendManager {
         //@ale : atribui o username ao Playinfo.alias
         PlayerInfo.alias = username;
         Debug.Log("***********************************Playinfo.alias = " + PlayerInfo.alias);
+        Debug.Log("***********************************Playinfo.token = " + PlayerInfo.token);
     }
 
     private void OnLoginResponse(ResponseType responseType, JToken responseData, string callee) {
         if (responseType == ResponseType.Success) {
             authenticationToken = responseData.Value<string>("token");
+            PlayerInfo.token = authenticationToken;
             if (OnLoggedIn != null) {
                 OnLoggedIn();
 
