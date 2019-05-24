@@ -43,8 +43,8 @@
         </div>
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Number of plays" %}</label>
-                {{ goalkeeper_game_form.number_of_plays }}
+                <label class="control-label">{% trans "Sequence" %}</label>
+                {{ goalkeeper_game_form.sequence }}
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -57,127 +57,188 @@
                 <div class="help-block with-errors"></div>
             </div>
         </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Show history" %}</label>
-                {{ goalkeeper_game_form.show_history }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Minimum number of plays" %}</label>
-                {{ goalkeeper_game_form.min_plays }}
-                <div class="help-block with-errors"></div>
+
+    {#  Optional fields  #}
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        {% trans "Optional 1 - number of plays" %}
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Number of plays" %}</label>
+                                {{ goalkeeper_game_form.number_of_plays }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Minimum number of plays" %}</label>
+                                {{ goalkeeper_game_form.min_plays }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Minimum number of hits in sequence" %}</label>
+                                {{ goalkeeper_game_form.min_hits_in_seq }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Number of plays to have a break" %}</label>
+                                {{ goalkeeper_game_form.plays_to_relax }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Minimum number of hits in sequence" %}</label>
-                {{ goalkeeper_game_form.min_hits_in_seq }}
-                <div class="help-block with-errors"></div>
+
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        {% trans "Optional 2 - times" %}
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Animation time after a kick" %}</label>
+                                {{ goalkeeper_game_form.celebration_time }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Speed time for the opponent" %}</label>
+                                {{ goalkeeper_game_form.player_time }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Type of final score board" %}</label>
+                                {{ goalkeeper_game_form.final_score_board }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Sequence" %}</label>
-                {{ goalkeeper_game_form.sequence }}
-                <div class="help-block with-errors"></div>
+
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        {% trans "Optional 3 - show/hide options" %}
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Show history" %}</label>
+                                {{ goalkeeper_game_form.show_history }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Read sequence" %}</label>
+                                {{ goalkeeper_game_form.read_seq }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Show the score" %}</label>
+                                {{ goalkeeper_game_form.score_board }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Show play/pause button" %}</label>
+                                {{ goalkeeper_game_form.play_pause }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Read sequence" %}</label>
-                {{ goalkeeper_game_form.read_seq }}
-                <div class="help-block with-errors"></div>
+
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        {% trans "Optional 4 - buttons" %}
+                    </button>
+                </h5>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Number of plays to have a break" %}</label>
-                {{ goalkeeper_game_form.plays_to_relax }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Show play/pause button" %}</label>
-                {{ goalkeeper_game_form.play_pause }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Play/pause button" %}</label>
-                {{ goalkeeper_game_form.play_pause_key }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Speed time for the opponent" %}</label>
-                {{ goalkeeper_game_form.player_time }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Animation time after a kick" %}</label>
-                {{ goalkeeper_game_form.celebration_time }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Show the score" %}</label>
-                {{ goalkeeper_game_form.score_board }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Type of final score board" %}</label>
-                {{ goalkeeper_game_form.final_score_board }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Left button" %}</label>
-                {{ goalkeeper_game_form.left_key }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Center button" %}</label>
-                {{ goalkeeper_game_form.center_key }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Right button" %}</label>
-                {{ goalkeeper_game_form.right_key }}
-                <div class="help-block with-errors"></div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Play/pause button" %}</label>
+                                {{ goalkeeper_game_form.play_pause_key }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Left button" %}</label>
+                                {{ goalkeeper_game_form.left_key }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Center button" %}</label>
+                                {{ goalkeeper_game_form.center_key }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="form-group">
+                                <label class="control-label">{% trans "Right button" %}</label>
+                                {{ goalkeeper_game_form.right_key }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <br>
     {% if creating %}
         <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
         <a href="{% url 'home' %}" class="btn btn-secondary">{% trans "Back" %}</a>
