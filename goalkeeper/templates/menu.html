@@ -10,9 +10,15 @@
                 <span class="nav-link-text">{% trans "Home" %}</span>
             </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="{% trans "Games" %}">
+            <a class="nav-link" href="{% url 'home' %}">
+                <i class="fa fa-fw fa-soccer-ball-o"></i>
+                <span class="nav-link-text">{% trans "Games" %}</span>
+            </a>
+        </li>
         {% if user.is_superuser %}
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="{% trans "Users" %}">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'user_list' %}">
                     <i class="fa fa-fw fa-user"></i>
                     <span class="nav-link-text">{% trans "Users" %}</span>
                 </a>

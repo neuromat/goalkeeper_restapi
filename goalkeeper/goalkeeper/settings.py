@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 PROJECT_APPS = (
+    'custom_user',
     'game',
     'result',
 )
