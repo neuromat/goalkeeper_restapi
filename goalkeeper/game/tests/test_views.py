@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.urls import resolve, reverse
 from django.test import TestCase
 
-from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update
+from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list
 from game.models import GameConfig, GoalkeeperGame, Institution, Level
 
 USER_USERNAME = 'user'
@@ -29,6 +29,16 @@ class GameTest(TestCase):
         GoalkeeperGame.objects.create(config=config, level=level, phase=0, depth=2, number_of_directions=3,
                                       plays_to_relax=0, player_time=1.0, celebration_time=1.0, read_seq=True,
                                       final_score_board='short', play_pause=True, score_board=True, show_history=True)
+
+    def test_goalkeeper_game_list_status_code(self):
+        url = reverse('goalkeeper_game_list')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'game/goalkeeper_game_list.html')
+
+    def test_goalkeeper_game_list_url_resolves_goalkeeper_game_list_view(self):
+        view = resolve('/game/goalkeeper/list/')
+        self.assertEquals(view.func, goalkeeper_game_list)
 
     def test_goalkeeper_game_new_status_code(self):
         url = reverse('goalkeeper_game_new')
