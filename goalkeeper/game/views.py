@@ -22,6 +22,18 @@ def language_change(request, language_code):
 
 
 @login_required
+def goalkeeper_game_list(request, template_name="game/goalkeeper_game_list.html"):
+    games = GoalkeeperGame.objects.all().order_by('config', 'phase')
+
+    context = {
+        "games": games,
+        "creating": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
 def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None)
 
