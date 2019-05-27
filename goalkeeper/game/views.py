@@ -127,13 +127,19 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
             else:
                 probability[direction] = 0.0
 
-        if total_prob != 1:
-            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
-        else:
+        if total_prob == 1:
             new_context = Context.objects.create(goalkeeper=game, path=request.POST['path'])
             for key, value in probability.items():
                 Probability.objects.create(context=new_context, direction=key, value=value)
+
             messages.success(request, _('Probability created successfully.'))
+            redirect_url = reverse("goalkeeper_game_view", args=(game.id,))
+            return HttpResponseRedirect(redirect_url)
+
+        else:
+            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
+            redirect_url = reverse("context", args=(game.id,))
+            return HttpResponseRedirect(redirect_url)
 
     context = {
         "game": game,
