@@ -61,6 +61,8 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
 def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalkeeper_game.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None, instance=game)
+    probabilities = Probability.objects.filter(context__goalkeeper=game)
+    context_used = Context.objects.filter(goalkeeper=game)
 
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
@@ -78,6 +80,8 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     context = {
         "game": game,
         "goalkeeper_game_form": goalkeeper_game_form,
+        "probabilities": probabilities,
+        "context_used": context_used,
         "viewing": True
     }
 
