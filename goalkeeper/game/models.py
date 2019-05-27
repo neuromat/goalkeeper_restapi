@@ -117,9 +117,14 @@ class GoalkeeperGame(Game):
         super(GoalkeeperGame, self).save(*args, **kwargs)
 
 
-class States(models.Model):
+class Context(models.Model):
     """ An instance of this class is a context tree. """
     goalkeeper = models.ForeignKey(GoalkeeperGame, on_delete=models.PROTECT)
     path = models.CharField(max_length=5)
-    prob_event_0 = models.FloatField()
-    prob_event_1 = models.FloatField()
+
+
+class Probability(models.Model):
+    """ An instance of this class is the probability of a given direction in a given context.  """
+    context = models.ForeignKey(Context, on_delete=models.PROTECT)
+    direction = models.IntegerField()
+    value = models.FloatField()

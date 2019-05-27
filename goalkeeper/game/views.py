@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as _
 
 from .forms import GoalkeeperGameForm
-from .models import GoalkeeperGame
+from .models import Context, GoalkeeperGame, Probability
 
 
 @login_required
@@ -116,10 +116,24 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     number_of_directions = game.number_of_directions
     probability = {}
+    total_prob = 0.0
 
     if request.method == "POST" and request.POST['action'] == "save":
         for direction in range(number_of_directions):
-            probability[direction] = request.POST['context-'+str(direction)]
+            prob = request.POST['context-'+str(direction)].replace(',', '.')
+            if prob:
+                probability[direction] = float(prob)
+                total_prob += float(prob)
+            else:
+                probability[direction] = 0.0
+
+        if total_prob != 1:
+            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
+        else:
+            new_context = Context.objects.create(goalkeeper=game, path=request.POST['path'])
+            for key, value in probability.items():
+                Probability.objects.create(context=new_context, direction=key, value=value)
+            messages.success(request, _('Probability created successfully.'))
 
     context = {
         "game": game,
