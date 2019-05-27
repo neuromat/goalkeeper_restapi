@@ -118,7 +118,23 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
 @login_required
 def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
-    number_of_directions = game.number_of_directions
+    context_list = []
+
+    try:
+        number_of_directions = game.number_of_directions
+    except GoalkeeperGame.DoesNotExist():
+        number_of_directions = False
+
+    if number_of_directions:
+        for direction in range(number_of_directions):
+            context_list.append(direction)
+
+    context_used = Context.objects.filter(goalkeeper=game)
+
+    for item in context_used:
+        if item and int(item.path) in context_list:
+            context_list.remove(int(item.path))
+
     probability = {}
     total_prob = 0.0
 
@@ -148,6 +164,7 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     context = {
         "game": game,
         "number_of_directions": range(number_of_directions),
+        "context_list": context_list,
         "probability": probability
     }
 

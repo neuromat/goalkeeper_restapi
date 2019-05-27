@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label class="control-label">{% trans "Select the path" %} <b style="color: red;">*</b></label>
                         <select class="form-control" name="path" id="id_path">
-                            {% for num in number_of_directions %}
+                            {% for num in context_list %}
                                 <option value="{{ num }}">{{ num }}</option>
                             {% endfor %}
                         </select>
