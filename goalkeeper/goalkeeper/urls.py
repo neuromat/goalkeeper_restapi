@@ -20,7 +20,7 @@ from game.views import home, language_change
 
 urlpatterns = [
     path('', home, name='home'),
-    path('admin', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
     path('api/', include('result.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='login/sign_in.html'), name='login'),
