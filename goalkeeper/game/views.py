@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as _
 
 from .forms import GoalkeeperGameForm
-from .models import GoalkeeperGame
+from .models import Context, GoalkeeperGame, Probability
 
 
 @login_required
@@ -61,6 +61,8 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
 def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalkeeper_game.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None, instance=game)
+    probabilities = Probability.objects.filter(context__goalkeeper=game)
+    context_used = Context.objects.filter(goalkeeper=game)
 
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
@@ -78,6 +80,8 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     context = {
         "game": game,
         "goalkeeper_game_form": goalkeeper_game_form,
+        "probabilities": probabilities,
+        "context_used": context_used,
         "viewing": True
     }
 
@@ -114,16 +118,53 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
 @login_required
 def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
-    number_of_directions = game.number_of_directions
+    context_list = []
+
+    try:
+        number_of_directions = game.number_of_directions
+    except GoalkeeperGame.DoesNotExist():
+        number_of_directions = False
+
+    if number_of_directions:
+        for direction in range(number_of_directions):
+            context_list.append(direction)
+
+    context_used = Context.objects.filter(goalkeeper=game)
+
+    for item in context_used:
+        if item and int(item.path) in context_list:
+            context_list.remove(int(item.path))
+
     probability = {}
+    total_prob = 0.0
 
     if request.method == "POST" and request.POST['action'] == "save":
         for direction in range(number_of_directions):
-            probability[direction] = request.POST['context-'+str(direction)]
+            prob = request.POST['context-'+str(direction)].replace(',', '.')
+            if prob:
+                probability[direction] = float(prob)
+                total_prob += float(prob)
+            else:
+                probability[direction] = 0.0
+
+        if total_prob == 1:
+            new_context = Context.objects.create(goalkeeper=game, path=request.POST['path'])
+            for key, value in probability.items():
+                Probability.objects.create(context=new_context, direction=key, value=value)
+
+            messages.success(request, _('Probability created successfully.'))
+            redirect_url = reverse("goalkeeper_game_view", args=(game.id,))
+            return HttpResponseRedirect(redirect_url)
+
+        else:
+            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
+            redirect_url = reverse("context", args=(game.id,))
+            return HttpResponseRedirect(redirect_url)
 
     context = {
         "game": game,
         "number_of_directions": range(number_of_directions),
+        "context_list": context_list,
         "probability": probability
     }
 

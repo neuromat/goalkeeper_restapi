@@ -96,8 +96,8 @@ public class ServerOperations
         dictObj.Add("is_random", evento.ehRandom);
         dictObj.Add("option_chosen", evento.optionChosenInt);
         dictObj.Add("correct", evento.correct);
-        dictObj.Add("movement_time", 1);
-        dictObj.Add("time_running", evento.time);
+        dictObj.Add("movement_time", evento.time);
+        dictObj.Add("time_running", evento.realTime);
         dictObj.Add("pause_time", evento.pauseTime);
 
         string jsonObj = JsonConvert.SerializeObject(dictObj);

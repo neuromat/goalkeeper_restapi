@@ -13,14 +13,22 @@
                 <thead>
                     <tr>
                         <th class="w-50">{% trans "Path" %}</th>
-                        <th class="w-50">{% trans "Context" %}</th>
+                        <th class="w-50">{% trans "Probabilities" %}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    {% for item in context_used %}
+                        <tr>
+                            <td>{{ item.path }}</td>
+                            <td>
+                                {% for prob in probabilities %}
+                                    {% if prob.context_id == item.id %}
+                                        <span style="margin-right:5em">{{ prob.direction }} = {{ prob.value }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
