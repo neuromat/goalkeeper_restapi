@@ -1,0 +1,97 @@
+﻿/************************************************************************************/
+//  Module written by scaroni <renato.scaroni@gmail.com>
+//
+//	This module manages the data collection on the log. It initializes the form and
+//	saves the data on the PlayerInfo class for later persistance on remote DB
+/************************************************************************************/
+
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class LogUser : MonoBehaviour 
+{
+	public GameObject gameModeText;
+	public GameObject timeBtn;
+	public GameObject noTimeBtn;
+	public InputField alias;
+	public InputField age;
+	public GameObject Gender;
+	// public Dropdown gender;
+	// public Dropdown education;
+	// public Dropdown destro;
+	public string gender;
+	public string education;
+	public string destro;
+
+	public void EnterData()
+	{
+		PlayerInfo.alias = alias.text;
+		// PlayerInfo.gender = gender.options[gender.value].text;
+		//PlayerInfo.gender = "M";
+		PlayerInfo.age = age.text;
+		// PlayerInfo.education = education.options[education.value].text;
+		//PlayerInfo.education = "Total";
+		// PlayerInfo.destro = destro.options[destro.value].text;
+		//PlayerInfo.destro = "D";
+		gameModeText.SetActive (true);
+		timeBtn.SetActive(true);
+		noTimeBtn.SetActive(true);
+		gameObject.SetActive(false);	
+	}
+
+	public void DeleteHeaderGenero()
+	{
+
+	}
+
+	void Start () 
+	{
+
+	}
+	
+	public void SetGenderM()
+	{
+		PlayerInfo.gender = "M";
+	}
+
+	public void SetGenderF()
+	{
+		PlayerInfo.gender = "F";
+	}
+
+
+	public void SetDestroT()
+	{
+		PlayerInfo.destro = "D";
+	}
+
+	public void SetDestroF()
+	{
+		PlayerInfo.destro = "C";
+	}
+
+	public void SetEsc(string educ)
+	{
+		PlayerInfo.education = educ;
+		print(PlayerInfo.education + " é isso!!!!!!!");
+	}
+
+	void OnEnable()
+	{
+		if(PlayerInfo.age == "" || PlayerInfo.alias == "" || PlayerInfo.gender == "")
+		{
+			gameModeText.SetActive (false);
+			timeBtn.SetActive(false);
+			noTimeBtn.SetActive(false);
+		}
+		else
+		{
+			gameModeText.SetActive (true);
+			timeBtn.SetActive(true);
+			noTimeBtn.SetActive(true);
+			gameObject.SetActive(false);
+		}
+	}
+	
+}

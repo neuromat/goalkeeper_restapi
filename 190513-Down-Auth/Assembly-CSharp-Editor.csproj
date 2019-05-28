@@ -52,11 +52,16 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\CustomTrees\Doutor\tree4.txt" />
      <None Include="Assets\CustomTrees\Doutor\tree1.txt" />
+     <None Include="Assets\CustomTrees\Bruno\tree5.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote1\tree2.txt" />
      <None Include="Assets\CustomTrees\Tico-Tico\tree3.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Diamante\tree1.txt" />
+     <None Include="Assets\CustomTrees\Pacote1\tree3.txt" />
      <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Doutor\tree1.txt" />
      <None Include="Assets\CustomTrees\Divino\tree3.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Bruno\tree4.txt" />
+     <None Include="Assets\CustomTrees\Pacote1\tree2.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
@@ -64,42 +69,65 @@
      <None Include="Assets\CustomTrees\Nildo\tree2.txt" />
      <None Include="Assets\CustomTrees\Diamante\tree1.txt" />
      <None Include="Assets\Resources\Trees\tree3.txt" />
+     <None Include="Assets\Resources\Trees\tree4.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Bruno\tree5.txt" />
+     <None Include="Assets\CustomTrees\Pacote1\tree4.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote1\tree3.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Diamante\tree3.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\CustomTrees\Diamante\tree4.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote1\tree4.txt" />
      <None Include="Assets\CustomTrees\Divino\tree2.txt" />
      <None Include="Assets\CustomTrees\Diamante\tree3.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Rony\tree3.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote2\tree3.txt" />
      <None Include="Assets\CustomTrees\Rony\tree3.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Diamante\tree2.txt" />
      <None Include="Assets\CustomTrees\Doutor\tree3.txt" />
      <None Include="Assets\CustomTrees\Tico-Tico\tree2.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Diamante\tree4.txt" />
      <None Include="Assets\Resources\Trees\tree1.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Bruno\tree3.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote1\tree5.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\CustomTrees\Diamante\tree2.txt" />
+     <None Include="Assets\CustomTrees\Pacote2\tree4.txt" />
      <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald Bold - OFL.txt" />
+     <None Include="Assets\Resources\Trees\tree6.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\StreamingAssets\CustomTrees\Tico-Tico\tree2.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote1\tree1.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Tico-Tico\tree3.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Doutor\tree4.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Bruno\tree2.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Rony\tree4.txt" />
      <None Include="Assets\Resources\Trees\tree2.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\StreamingAssets\CustomTrees\Nildo\tree3.txt" />
+     <None Include="Assets\CustomTrees\Bruno\tree6.txt" />
+     <None Include="Assets\CustomTrees\Pacote2\tree1.txt" />
      <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\NotoSans - License.txt" />
+     <None Include="Assets\CustomTrees\Pacote1\tree10.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote2\tree6.txt" />
+     <None Include="Assets\CustomTrees\Pacote1\tree1.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote2\tree2.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\CustomTrees\Pacote2\tree5.txt" />
+     <None Include="Assets\CustomTrees\Bruno\tree4.txt" />
+     <None Include="Assets\Resources\Trees\tree5.txt" />
      <None Include="Assets\CustomTrees\Nildo\tree4.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Divino\tree2.txt" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote2\tree4.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Doutor\tree3.txt" />
      <None Include="Assets\CustomTrees\Nildo\tree3.txt" />
+     <None Include="Assets\CustomTrees\Bruno\tree3.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Rony\tree2.txt" />
      <None Include="Assets\CustomTrees\Nildo\tree1.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Tico-Tico\tree4.txt" />
@@ -109,7 +137,10 @@
      <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
      <None Include="Assets\CustomTrees\Rony\tree4.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Divino\tree1.txt" />
+     <None Include="Assets\CustomTrees\Pacote2\tree3.txt" />
+     <None Include="Assets\CustomTrees\Pacote1\tree5.txt" />
      <None Include="Assets\CustomTrees\Rony\tree2.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote2\tree5.txt" />
      <None Include="Assets\link.xml" />
      <None Include="Assets\StreamingAssets\CustomTrees\Nildo\tree2.txt" />
      <None Include="Assets\CustomTrees\Divino\tree4.txt" />
@@ -119,8 +150,18 @@
      <None Include="Assets\StreamingAssets\CustomTrees\Nildo\tree1.txt" />
      <None Include="Assets\CustomTrees\Rony\tree1.txt" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\CustomTrees\Bruno\tree2.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Bruno\tree1.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Divino\tree4.txt" />
+     <None Include="Assets\CustomTrees\Pacote1\tree6.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote1\tree10.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Bruno\tree6.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote2\tree1.txt" />
+     <None Include="Assets\StreamingAssets\CustomTrees\Pacote1\tree6.txt" />
+     <None Include="Assets\CustomTrees\Pacote2\tree6.txt" />
      <None Include="Assets\StreamingAssets\CustomTrees\Doutor\tree2.txt" />
+     <None Include="Assets\CustomTrees\Bruno\tree1.txt" />
+     <None Include="Assets\CustomTrees\Pacote2\tree2.txt" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -197,22 +238,22 @@
  <HintPath>/opt/Unity/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="TextMeshPro-5.6-Runtime">
- <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/190513-Down-Auth/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-5.6-Runtime.dll</HintPath>
+ <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/goalkeeper/190513-Down-Auth/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-5.6-Runtime.dll</HintPath>
  </Reference>
  <Reference Include="TextMeshPro-5.6-Editor">
- <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/190513-Down-Auth/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-5.6-Editor.dll</HintPath>
+ <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/goalkeeper/190513-Down-Auth/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-5.6-Editor.dll</HintPath>
  </Reference>
  <Reference Include="Npgsql">
- <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/190513-Down-Auth/Assets/Plugins/Npgsql.dll</HintPath>
+ <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/goalkeeper/190513-Down-Auth/Assets/Plugins/Npgsql.dll</HintPath>
  </Reference>
  <Reference Include="JsonFx.Json">
- <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/190513-Down-Auth/Assets/Plugins/JsonFx.Json.dll</HintPath>
+ <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/goalkeeper/190513-Down-Auth/Assets/Plugins/JsonFx.Json.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Security">
- <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/190513-Down-Auth/Assets/Plugins/Mono.Security.dll</HintPath>
+ <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/goalkeeper/190513-Down-Auth/Assets/Plugins/Mono.Security.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/190513-Down-Auth/Assets/Plugins/System.Data.dll</HintPath>
+ <HintPath>/home/neuromat/.conda/envs/ambiente_teste/lib/python3.7/site-packages/django/goalkeeper/190513-Down-Auth/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/opt/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
