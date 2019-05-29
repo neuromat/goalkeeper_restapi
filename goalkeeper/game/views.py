@@ -115,31 +115,57 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
     return render(request, template_name, context)
 
 
+def available_context(goalkeeper_game_id):
+    game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
+    context_used = Context.objects.filter(goalkeeper=game).order_by('path')
+    context_list = []
+
+    if context_used:
+        for direction in range(game.number_of_directions):
+            context_list.append(direction)
+
+        context_used_list = []
+        for context in context_used:
+            path = context.path
+            context_used_list.append(path)
+            probabilities = Probability.objects.filter(context=context.pk, value__gt=0)
+
+            for item in probabilities:
+                context_list.append(path+str(item.direction))
+
+        for context in context_used_list:
+            context_size = len(context)
+            while context_size > 0:
+                if int(context) in context_list:
+                    context_list.remove(int(context))
+                context = context[1:]
+                context_size -= 1
+
+        for context in context_list:
+            context_size = len(str(context))
+            context_aux = str(context)
+            while context_size > 0:
+                if context_aux in context_used_list:
+                    context_list.remove(context)
+                context_aux = context_aux[1:]
+                context_size -= 1
+
+    else:
+        for direction in range(game.number_of_directions):
+            context_list.append(direction)
+
+    return context_list
+
+
 @login_required
 def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
-    context_list = []
-
-    try:
-        number_of_directions = game.number_of_directions
-    except GoalkeeperGame.DoesNotExist():
-        number_of_directions = False
-
-    if number_of_directions:
-        for direction in range(number_of_directions):
-            context_list.append(direction)
-
-    context_used = Context.objects.filter(goalkeeper=game)
-
-    for item in context_used:
-        if item and int(item.path) in context_list:
-            context_list.remove(int(item.path))
-
+    context_list = available_context(goalkeeper_game_id)
     probability = {}
     total_prob = 0.0
 
     if request.method == "POST" and request.POST['action'] == "save":
-        for direction in range(number_of_directions):
+        for direction in range(game.number_of_directions):
             prob = request.POST['context-'+str(direction)].replace(',', '.')
             if prob:
                 probability[direction] = float(prob)
@@ -163,7 +189,7 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
 
     context = {
         "game": game,
-        "number_of_directions": range(number_of_directions),
+        "number_of_directions": range(game.number_of_directions),
         "context_list": context_list,
         "probability": probability
     }
