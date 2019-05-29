@@ -25,10 +25,10 @@ class GameTest(TestCase):
 
         institution = Institution.objects.create(name='NeuroMat')
         level = Level.objects.create(name=0)
-        config = GameConfig.objects.create(institution=institution, code='teste', is_public=True, name='Teste')
-        GoalkeeperGame.objects.create(config=config, level=level, phase=0, depth=2, number_of_directions=3,
-                                      plays_to_relax=0, player_time=1.0, celebration_time=1.0, read_seq=True,
-                                      final_score_board='short', play_pause=True, score_board=True, show_history=True)
+        config = GameConfig.objects.create(institution=institution, level=level, code='bla', is_public=True, name='Bla')
+        GoalkeeperGame.objects.create(config=config, phase=0, depth=2, number_of_directions=3, plays_to_relax=0,
+                                      player_time=1.0, celebration_time=1.0, read_seq=True, final_score_board='short',
+                                      play_pause=True, score_board=True, show_history=True)
 
     def test_goalkeeper_game_list_status_code(self):
         url = reverse('goalkeeper_game_list')
@@ -54,7 +54,6 @@ class GameTest(TestCase):
         url = reverse('goalkeeper_game_new')
         self.data = {
             'config': 1,
-            'level': 1,
             'phase': 1,
             'depth': 3,
             'number_of_directions': 3,
@@ -106,7 +105,6 @@ class GameTest(TestCase):
         game = GoalkeeperGame.objects.first()
         self.data = {
             'config': 1,
-            'level': 1,
             'phase': 1,
             'depth': 4,
             'number_of_directions': 3,
