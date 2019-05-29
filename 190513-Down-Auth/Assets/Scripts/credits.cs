@@ -15,6 +15,7 @@ public class credits : MonoBehaviour
 	//171006 elements to translate
 	public Text txtPessoas1;
 	public Text txtPessoas2;
+	public Text txtPessoas3;
 	public Text txtTrabalhos;
 	public Text txtVoltar;
 	public Text txtSair;
@@ -38,6 +39,10 @@ public class credits : MonoBehaviour
 		txtPessoas2.text = txtPessoas2.text.Replace("P3", translate.getLocalizedValue ("P3"));
 		txtPessoas2.text = txtPessoas2.text.Replace("P4", translate.getLocalizedValue ("P4"));
 		txtPessoas2.text = txtPessoas2.text.Replace("P5", translate.getLocalizedValue ("P5"));
+
+		//190415 - design 
+		txtPessoas3.text = txtPessoas3.text.Replace("P7", translate.getLocalizedValue ("P7"));
+		txtPessoas3.text = txtPessoas3.text.Replace("P8", translate.getLocalizedValue ("P8"));
 
 		txtTrabalhos.text = txtTrabalhos.text.Replace("T1", translate.getLocalizedValue ("T1"));	
 		txtVoltar.text = translate.getLocalizedValue ("voltar");

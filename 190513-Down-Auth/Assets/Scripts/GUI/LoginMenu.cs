@@ -23,11 +23,21 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class LoginMenu : BaseMenu {
+    
+    private LocalizationManager translate;
+    
     public delegate void LoggedIn();
     public LoggedIn HasLoggedIn;
 
+    private string user;
+    private string pass;
+    private string titJanLogin;
+    private string labelin;
+    
+    
     private const float LABEL_WIDTH = 110;
     private bool loggingIn = false;
     private bool rememberMe = false;
@@ -40,6 +50,13 @@ public class LoginMenu : BaseMenu {
 
     private void Start() {
         windowRect = new Rect(Screen.width /2 + 60 , Screen.height /2 - 25, 300, 200);
+
+        translate = LocalizationManager.instance;
+        user = translate.getLocalizedValue ("userName");	
+        pass = translate.getLocalizedValue ("passWd");	
+        titJanLogin = translate.getLocalizedValue ("titWinLogin");
+        labelin = translate.getLocalizedValue ("inputLabelLogin");
+        
         backendManager.OnLoggedIn += OnLoggedIn;
         backendManager.OnLoginFailed += OnLoginFailed;
         
@@ -71,12 +88,14 @@ public class LoginMenu : BaseMenu {
     }
 
     private void OnLoginFailed(string error) {
-        status = "Login error: " + error;
+//        status = "Login error: " + error;
+        status = "Erro no login: " + error;
         loggingIn = false;
     }
 
     private void OnLoggedIn() {
-        status = "Logged in!";
+//        status = "Logged in!";
+        status = "Logado!";
         loggingIn = false;
 
         if (rememberMe) {
@@ -106,13 +125,14 @@ public class LoginMenu : BaseMenu {
         GUILayout.BeginVertical();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("      ");
+        GUILayout.Label("    ");
         GUILayout.EndHorizontal();
 
 
-        //GUILayout.Label("Entra com seu nome de usuário e senha");
-        bool filledIn = (username != "" && password != "" && rememberMe.Equals(true) );
-
+        GUILayout.Label(labelin);
+     //   bool filledIn = (username != "" && password != "" && rememberMe.Equals(true) );
+        bool filledIn = (username != "" && password != "");
+        filledIn = true;
         /*
         GUILayout.BeginHorizontal(); 
         GUILayout.Label("      ");
@@ -121,20 +141,22 @@ public class LoginMenu : BaseMenu {
 
         GUILayout.BeginHorizontal();
         GUI.SetNextControlName("usernameField");
-        GUILayout.Label("Username", GUILayout.Width(LABEL_WIDTH));
+//       GUILayout.Label("Usuário", GUILayout.Width(LABEL_WIDTH));
+        GUILayout.Label(user, GUILayout.Width(LABEL_WIDTH));
         username = GUILayout.TextField(username, 30);
         GUILayout.EndHorizontal();
         
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Password", GUILayout.Width(LABEL_WIDTH));
+//        GUILayout.Label("Senha", GUILayout.Width(LABEL_WIDTH));
+        GUILayout.Label(pass, GUILayout.Width(LABEL_WIDTH));
         password = GUILayout.PasswordField(password, '*', 30);
         GUILayout.EndHorizontal();
 
 
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("", GUILayout.Width(LABEL_WIDTH));
-        rememberMe = GUILayout.Toggle(rememberMe, "Aceito o Termo de Consentimento");
-        GUILayout.EndHorizontal();
+ //       GUILayout.BeginHorizontal();
+ //       GUILayout.Label("", GUILayout.Width(LABEL_WIDTH));
+ //       rememberMe = GUILayout.Toggle(rememberMe, "Lembrar");
+ //       GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
         GUILayout.Label("      ");
@@ -179,7 +201,8 @@ public class LoginMenu : BaseMenu {
 
         if (Time.time > nextStatusChange) {
             nextStatusChange = Time.time + 0.5f;
-            status = "Logging in";
+//            status = "Logging in";
+            status = "Logado";
             for (int i = 0; i < dotNumber; i++) {
                 status += ".";
             }
@@ -191,6 +214,7 @@ public class LoginMenu : BaseMenu {
 
     private void OnGUI() {
         GUI.skin = Skin;
-        windowRect = GUILayout.Window(2, windowRect, ShowWindow, "Acesso ao Jogo do Goleiro");
+//        windowRect = GUILayout.Window(2, windowRect, ShowWindow, "Acesso ao Jogo do Goleiro");
+        windowRect = GUILayout.Window(2, windowRect, ShowWindow, titJanLogin);
     }
 }
