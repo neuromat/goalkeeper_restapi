@@ -32,10 +32,20 @@ public class SignupMenu : BaseMenu {
     public VoidDelegate OnSignedUp;
     public VoidDelegate OnCancel;
 
+    private LocalizationManager translate;
+    
+    
+    private string user;
+    private string pass;
+    private string titJanSignup;
+    private string labelin;
+    private string termAssigned;
+    
     private const float LABEL_WIDTH = 110;
 
     private bool hasFocussed = false;
     private bool signingUp = false;
+    private bool termOK = false;
     private int dotNumber = 1;
     private float nextStatusChange;
     private string status = "";
@@ -43,6 +53,14 @@ public class SignupMenu : BaseMenu {
     
     private void Start() {
         windowRect = new Rect(Screen.width / 2 + 60, Screen.height / 2 - 25, 300, 200);
+
+        translate = LocalizationManager.instance;
+        user = translate.getLocalizedValue ("userName");	
+        pass = translate.getLocalizedValue ("passWd");	
+        titJanSignup = translate.getLocalizedValue ("titWinSignup");
+        labelin = translate.getLocalizedValue("inputLabelSignup");
+        termAssigned= translate.getLocalizedValue("termCheck");;
+        
         backendManager.OnSignupSuccess += OnSignupSuccess;
         backendManager.OnSignupFailed += OnSignupFailed;
     }
@@ -53,7 +71,8 @@ public class SignupMenu : BaseMenu {
     }
 
     private void OnSignupSuccess() {
-        status = "Signup successful!";
+//        status = "Signup successful!";
+        status = "Cadastrado com sucesso";
         signingUp = false;
 
         Invoke("FinishSignup", 1.5f);
@@ -68,7 +87,8 @@ public class SignupMenu : BaseMenu {
 
     private void DoSignup() {
         if (signingUp) {
-            Debug.LogWarning("Already signing up, returning.");
+//            Debug.LogWarning("Already signing up, returning.");
+            Debug.LogWarning("Já possui cadastro, retornar.");
             return;
         }
         backendManager.Signup(username, email, password);
@@ -77,12 +97,14 @@ public class SignupMenu : BaseMenu {
 
     private void ShowWindow(int id) {
         GUILayout.BeginVertical();
-        GUILayout.Label("Please enter your details and signup");
-        bool filledIn = (username != "" && email != "" && password != "" && password_confirm != "");
+//        GUILayout.Label("Please enter your details and signup");
+        GUILayout.Label(labelin);
+        bool filledIn = (username != "" && email != "" && password != "" && password_confirm != "" && termOK.Equals(true));
+ //                                       filledIn = true;
 
         GUILayout.BeginHorizontal();
         GUI.SetNextControlName("usernameField");
-        GUILayout.Label("Username", GUILayout.Width(LABEL_WIDTH));
+        GUILayout.Label(user, GUILayout.Width(LABEL_WIDTH));
         username = GUILayout.TextField(username, 30);
         GUILayout.EndHorizontal();
 
@@ -92,15 +114,20 @@ public class SignupMenu : BaseMenu {
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Password", GUILayout.Width(LABEL_WIDTH));
+        GUILayout.Label(pass, GUILayout.Width(LABEL_WIDTH));
         password = GUILayout.PasswordField(password, '*', 30);
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Repeat password", GUILayout.Width(LABEL_WIDTH));
+        GUILayout.Label("Repita a senha", GUILayout.Width(LABEL_WIDTH));
         password_confirm = GUILayout.PasswordField(password_confirm, '*', 30);
         GUILayout.EndHorizontal();
 
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("", GUILayout.Width(LABEL_WIDTH));
+        termOK = GUILayout.Toggle(termOK, termAssigned);
+        GUILayout.EndHorizontal();
+        
         GUILayout.Label("Status: " + status);
         GUI.enabled = filledIn;
         Event e = Event.current;
@@ -110,11 +137,11 @@ public class SignupMenu : BaseMenu {
 
         GUILayout.FlexibleSpace();
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Signup")) {
+        if (GUILayout.Button("Cadastrar")) {
             DoSignup();
         }
         GUI.enabled = true;
-        if (GUILayout.Button("Cancel")) {
+        if (GUILayout.Button("Cancela")) {
             enabled = false;
             if (OnCancel != null) {
                 OnCancel();
@@ -136,7 +163,8 @@ public class SignupMenu : BaseMenu {
 
         if (Time.time > nextStatusChange) {
             nextStatusChange = Time.time + 0.5f;
-            status = "Signing up";
+//            status = "Signing up";
+            status = "Cadastrado";
             for (int i = 0; i < dotNumber; i++) {
                 status += ".";
             }
@@ -148,6 +176,7 @@ public class SignupMenu : BaseMenu {
 
     private void OnGUI() {
         GUI.skin = Skin;
-        windowRect = GUILayout.Window(4, windowRect, ShowWindow, "Signup menu");
+//        windowRect = GUILayout.Window(4, windowRect, ShowWindow, "Signup menu");
+        windowRect = GUILayout.Window(4, windowRect, ShowWindow, titJanSignup);
     }
 }

@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "190513-Down-Auth", "Assembly-CSharp.csproj", "{F6AD5C5F-18DB-7833-BD59-C8E6B2267780}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{F6AD5C5F-18DB-7833-BD59-C8E6B2267780}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "190513-Down-Auth", "Assembly-CSharp-Editor.csproj", "{C7B533FC-343B-CBF5-D510-66908AD6FD05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{C7B533FC-343B-CBF5-D510-66908AD6FD05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
