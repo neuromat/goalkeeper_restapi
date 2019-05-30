@@ -63,6 +63,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None, instance=game)
     probabilities = Probability.objects.filter(context__goalkeeper=game)
     context_used = Context.objects.filter(goalkeeper=game)
+    context_list = available_context(goalkeeper_game_id)
 
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
@@ -82,6 +83,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         "goalkeeper_game_form": goalkeeper_game_form,
         "probabilities": probabilities,
         "context_used": context_used,
+        "context_list": context_list,
         "viewing": True
     }
 
@@ -122,7 +124,7 @@ def available_context(goalkeeper_game_id):
 
     if context_used:
         for direction in range(game.number_of_directions):
-            context_list.append(direction)
+            context_list.append(str(direction))
 
         context_used_list = []
         for context in context_used:
@@ -131,24 +133,28 @@ def available_context(goalkeeper_game_id):
             probabilities = Probability.objects.filter(context=context.pk, value__gt=0)
 
             for item in probabilities:
-                context_list.append(path+str(item.direction))
+                new_path = path + str(item.direction)
+                context_list.append(new_path)
+                while len(new_path) > 0:
+                    new_path = new_path[1:]
+                    if new_path and new_path not in context_list:
+                        context_list.append(new_path)
 
         for context in context_used_list:
-            context_size = len(context)
-            while context_size > 0:
-                if int(context) in context_list:
-                    context_list.remove(int(context))
-                context = context[1:]
-                context_size -= 1
-
-        for context in context_list:
-            context_size = len(str(context))
-            context_aux = str(context)
-            while context_size > 0:
-                if context_aux in context_used_list:
+            while len(context) > 0:
+                if context in context_list:
                     context_list.remove(context)
+                context = context[1:]
+
+        remove_this_context = []
+        for context in context_list:
+            context_aux = context
+            while len(context_aux) > 0:
+                if context_aux in context_used_list:
+                    remove_this_context.append(context)
                 context_aux = context_aux[1:]
-                context_size -= 1
+
+        context_list = list(set(context_list) - set(remove_this_context))
 
     else:
         for direction in range(game.number_of_directions):
