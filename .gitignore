@@ -12,5 +12,6 @@ db.sqlite3
 .idea/
 .vs/
 Temp/
-metadata
+metadata/
 local_settings.py
+
