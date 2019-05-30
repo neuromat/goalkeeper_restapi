@@ -21,9 +21,18 @@ class Institution(models.Model):
         ordering = ('name',)
 
 
+class Level(models.Model):
+    """ An instance of this class is used to identify the level of a participant and also the level of the opponent. """
+    name = models.IntegerField(unique=True)
+
+    def __str__(self):
+        return str(self.name)
+
+
 class GameConfig(models.Model):
-    """ An instance of this class is an opponent with one or more phases. """
+    """ An instance of this class is an opponent. """
     institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
+    level = models.ForeignKey(Level, on_delete=models.PROTECT)
     code = models.CharField(max_length=50)
     is_public = models.BooleanField()
     name = models.CharField(max_length=100)
@@ -38,17 +47,8 @@ class GameConfig(models.Model):
         ordering = ('name',)
 
 
-class Level(models.Model):
-    """ An instance of this class is used to identify the level of a participant and also the level of the opponent """
-    name = models.IntegerField(unique=True)
-
-    def __str__(self):
-        return str(self.name)
-
-
 class Game(models.Model):
     config = models.ForeignKey(GameConfig, on_delete=models.PROTECT)
-    level = models.ForeignKey(Level, on_delete=models.PROTECT)
     number_of_directions = models.IntegerField(default=3)
     number_of_plays = models.IntegerField(blank=True, null=True)
     min_plays = models.IntegerField(blank=True, null=True)

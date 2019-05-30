@@ -11,24 +11,8 @@
         </div>
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Level" %} <b style="color: red;">*</b></label>
-                {{ goalkeeper_game_form.level }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
                 <label class="control-label">{% trans "Phase" %} <b style="color: red;">*</b></label>
                 {{ goalkeeper_game_form.phase }}
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-12">
-            <div class="form-group">
-                <label class="control-label">{% trans "Depth" %} <b style="color: red;">*</b></label>
-                {{ goalkeeper_game_form.depth }}
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -43,13 +27,20 @@
         </div>
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Sequence" %}</label>
-                {{ goalkeeper_game_form.sequence }}
+                <label class="control-label">{% trans "Depth" %} <b style="color: red;">*</b></label>
+                {{ goalkeeper_game_form.depth }}
                 <div class="help-block with-errors"></div>
             </div>
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-6 col-12">
+            <div class="form-group">
+                <label class="control-label">{% trans "Sequence" %}</label>
+                {{ goalkeeper_game_form.sequence }}
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
         <div class="col-sm-6 col-12">
             <div class="form-group">
                 <label class="control-label">{% trans "Deterministic or probabilistic move" %}</label>
