@@ -25,7 +25,7 @@ public class LocalizationManager : MonoBehaviour {
 				_instance = GameObject.Find("LocalizationManager").GetComponent<LocalizationManager>();
 			}
 			return _instance;
-		}	
+		}
 	}
 
 
@@ -37,13 +37,13 @@ public class LocalizationManager : MonoBehaviour {
 
     // -----------------------------------------------------------------------------------------------------
     //171004 json reading of selected language
-    //171023 coroutines do not appear in the inspector to call onClick, so, one "public void" was created 
+    //171023 coroutines do not appear in the inspector to call onClick, so, one "public void" was created
     public void loadLocalizedText(string language) {
 
 		if (isRunning == false) {
 			//180126 IPAddress Prof Gubi idea  (can know the machine, not the player! privacy respected!)
 			//180130 to load IPinfo (needed in ServerOperations)
-			//var ipaddress = Network.player.externalIP; //return Intranet IP if is the case... 
+			//var ipaddress = Network.player.externalIP; //return Intranet IP if is the case...
 			PlayerPrefs.DeleteAll();            //to remove values from previous execution, in the editor
 			StartCoroutine (readLocalizedText (language));
 
@@ -63,10 +63,10 @@ public class LocalizationManager : MonoBehaviour {
 		isRunning = true;   //171023
 
 		string filePath;
-		if (Application.platform == RuntimePlatform.Android) { 
+		if (Application.platform == RuntimePlatform.Android) {
 			filePath = Application.streamingAssetsPath + "/i18n/" + language + ".json";
 		} else {
-			if (Application.platform == RuntimePlatform.WebGLPlayer) { 
+			if (Application.platform == RuntimePlatform.WebGLPlayer) {
 				filePath = Application.streamingAssetsPath + "/i18n/" + language + ".json";
 			} else {
 				filePath = "file://" + Application.streamingAssetsPath + "/i18n/" + language + ".json";
@@ -82,7 +82,7 @@ public class LocalizationManager : MonoBehaviour {
 		if (!string.IsNullOrEmpty (www.error)) {
 			error = true;
 		}
-			
+
 
 		//171020 if the file does not exist send msg to the output.txt and it does not stop the game,
 		//       but all translatable texts will appear as @ - as defined above (arbitrary)
@@ -93,12 +93,12 @@ public class LocalizationManager : MonoBehaviour {
 			string[] keyValueArray = dataAsJson.Replace ("{", string.Empty).Replace ("}", string.Empty).Replace ("\"", string.Empty).Replace ("\r", string.Empty).Split (new string[] { "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
 
 			string tmp;
-			for (int i = 0; i < keyValueArray.Length; i++) {	
+			for (int i = 0; i < keyValueArray.Length; i++) {
 				//json: in all key/value pairs there is the comma separating between items, except in the last pair
 				tmp = keyValueArray [i].Substring (keyValueArray [i].IndexOf (":") + 1);
 				tmp = (i == keyValueArray.Length - 1) ? tmp : tmp.Substring (0, tmp.Length - 1);
 
-				localizedText.Add (keyValueArray [i].Substring (0, keyValueArray [i].IndexOf (":")), tmp);   
+				localizedText.Add (keyValueArray [i].Substring (0, keyValueArray [i].IndexOf (":")), tmp);
 			}
 		} else {
 			Debug.LogError (">>> Cannot find localization file StreamingAssets" + "/i18n/" + language + ".json");
@@ -108,17 +108,17 @@ public class LocalizationManager : MonoBehaviour {
         //180625 GameDevIME suggests intercalate TCLE screen here  - SceneManager.LoadScene("Configurations");
         SceneManager.LoadScene("TCLE");
     }
-		
+
 
 	// -----------------------------------------------------------------------------------------------------
-	// routine used by all programs 
+	// routine used by all programs
 	// returns the key translation to the selected language
     public string getLocalizedValue(string key)
-    {	
+    {
 		if (localizedText.ContainsKey (key)) return localizedText [key];
 		else return missingTextString;
     }
-		
+
 
 	// -----------------------------------------------------------------------------------------------------
 	//180115 ESC button
@@ -140,12 +140,38 @@ public class LocalizationManager : MonoBehaviour {
         {
             SceneManager.LoadScene("About");
         }
-        else { //where==2
+
+				if (where == 2)
+				{
+					localizedText.Clear ();
+					SceneManager.LoadScene("Localization");
+				}
+        else {
             SceneManager.LoadScene("MainScene");
         }
-        
+
     }
 
+	// @ale - Botao Voltar para TCLE
+	public void voltarTCLE()
+	{
+			SceneManager.LoadScene("TCLE");
+	}
+
+
+	// @ale - Botao para acessar a Tela (SObre o Jogo)
+	public void irAbout ()
+	{
+		SceneManager.LoadScene("About");
+	}
+
+
+	// @ale - Botao para voltar tela de Idiomas
+	public void voltarIdiomas ()
+	{
+		PlayerPrefs.DeleteAll();
+		SceneManager.LoadScene("Localization");
+	}
 
     // -----------------------------------------------------------------------------------------------------
     //171025 Exit button
@@ -158,11 +184,11 @@ public class LocalizationManager : MonoBehaviour {
 				Application.OpenURL(PlayerPrefs.GetString("gameURL"));
             } else {
 				//171121 not working kill()
-				if ((Application.platform == RuntimePlatform.IPhonePlayer) || 
+				if ((Application.platform == RuntimePlatform.IPhonePlayer) ||
 					(SystemInfo.deviceModel.Contains("iPad"))) {           //try #IF UNITY_IOS
-					Application.Quit ();     
+					Application.Quit ();
 				} else {
-					System.Diagnostics.Process.GetCurrentProcess ().Kill (); 
+					System.Diagnostics.Process.GetCurrentProcess ().Kill ();
 				}
 			}
 		}
@@ -202,10 +228,10 @@ public class LocalizationManager : MonoBehaviour {
 						#if UNITY_WEBGL
 						Application.ExternalEval("window.open('http://fapesp.br','FAPESP')");
 						#else
-						Application.OpenURL ("http://fapesp.br"); 
+						Application.OpenURL ("http://fapesp.br");
 						#endif
-					} else { 
-                        if (where == 5) { 
+					} else {
+                        if (where == 5) {
                         #if UNITY_WEBGL
 						Application.ExternalEval("window.open('http://neuromat.numec.prp.usp.br/pt-br/nes','NES')");
                         #else
