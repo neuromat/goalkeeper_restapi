@@ -168,6 +168,7 @@ def available_context(goalkeeper_game_id):
         context_list = list(set(context_list) - set(remove_this_context))
 
     else:
+        # Start the list of available context with 0 until the number_of_directions
         for direction in range(game.number_of_directions):
             context_list.append(direction)
 
