@@ -41,6 +41,32 @@
 
             <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
             <a href="{% url 'goalkeeper_game_view' game.id %}" class="btn btn-secondary">{% trans "Back" %}</a>
+
+            <br><br>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="w-25">{% trans "Path" %}</th>
+                            <th class="w-75">{% trans "Probabilities" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in context_used %}
+                            <tr>
+                                <td>{{ item.path }}</td>
+                                <td>
+                                    {% for prob in probabilities %}
+                                        {% if prob.context_id == item.id %}
+                                            <span style="margin-right:5em">{{ prob.direction }} = {{ prob.value }}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </form>
     </div>
 {% endblock %}

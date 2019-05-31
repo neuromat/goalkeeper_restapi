@@ -185,6 +185,8 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     :return: data available to create the context
     """
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
+    probabilities = Probability.objects.filter(context__goalkeeper=game)
+    context_used = Context.objects.filter(goalkeeper=game)
     context_list = available_context(goalkeeper_game_id)
     probability = {}
     total_prob = 0.0
@@ -206,7 +208,12 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
                 Probability.objects.create(context=new_context, direction=key, value=value)
 
             messages.success(request, _('Probability created successfully.'))
-            redirect_url = reverse("goalkeeper_game_view", args=(game.id,))
+            context_available = available_context(goalkeeper_game_id)
+            if context_available:
+                redirect_url = reverse("context", args=(goalkeeper_game_id,))
+            else:
+                redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
+
             return HttpResponseRedirect(redirect_url)
 
         else:
@@ -218,7 +225,8 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
         "game": game,
         "number_of_directions": range(game.number_of_directions),
         "context_list": context_list,
-        "probability": probability
+        "probabilities": probabilities,
+        "context_used": context_used
     }
 
     return render(request, template_name, context)
