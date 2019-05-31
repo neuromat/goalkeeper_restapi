@@ -1,8 +1,5 @@
 *.pyc
 *.pyo
-*.meta
-*.info
-*.bin
 *.csv
 *.log
 *.cache
@@ -11,7 +8,4 @@ db.sqlite3
 .coverage
 .idea/
 .vs/
-Temp/
-metadata/
 local_settings.py
-
