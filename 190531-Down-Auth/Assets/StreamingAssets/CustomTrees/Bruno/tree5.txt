@@ -1,0 +1,24 @@
+{
+	"choices": "3",
+    "depth": "1",
+    "limitValue": "80",
+    "id": "nivel5-v1",
+    "states": [
+        {
+            "path" : "0",
+            "probEvent0": "0.8",
+            "probEvent1": "0.1"
+        },
+        {
+            "path" : "1",
+            "probEvent0": "0.1",
+            "probEvent1": "0.8"
+        },
+        {
+            "path" : "2",
+            "probEvent0": "0.1",
+            "probEvent1": "0.1"
+        }
+
+    ]
+}

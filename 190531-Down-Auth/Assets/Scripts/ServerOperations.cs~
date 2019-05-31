@@ -1,0 +1,148 @@
+﻿/************************************************************************************/
+//  Module written by scaroni <renato.scaroni@gmail.com>
+//
+//	Module responsible for making all the http requests
+/************************************************************************************/
+
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.IO;				// Gubi
+using JsonFx.Json;
+
+public class ServerOperations
+{
+	public static readonly string gameServerLocation = "game.numec.prp.usp.br:8090/";
+	public static readonly string webProtocol = "http://";
+	
+	public delegate void LogRegistered (bool success,string response, List<RandomEvent> log, MonoBehaviour mb, string playId);
+	
+	// GUBI: local to save the plays
+	static private string LogGame;
+
+	static private ServerOperations _instance;
+	static public ServerOperations instance
+	{
+		get
+		{
+			if(_instance == null)
+			{
+				_instance = new ServerOperations();
+			}
+			
+			return _instance;
+		}
+	}
+	
+	public void Callback (bool success,string response, List<RandomEvent> log, MonoBehaviour mb, string playId)
+	{
+	//	if(success)
+	//	{
+		mb.StartCoroutine(RegisterLog(log, playId, success));
+	//	}
+	}
+	
+
+	// GAMBIARRA!!!!
+	IEnumerator RegisterLog (List<RandomEvent> log, string playId, bool sucess)
+	{
+		File.AppendAllText(LogGame, "resultInt,optionChosenInt,correct,playID,time\n");
+
+		foreach(RandomEvent l in log)
+		{
+			File.AppendAllText(LogGame, 
+							   l.resultInt.ToString() + "," + 
+							   l.optionChosenInt.ToString() + "," + 
+							   l.correct.ToString() + "," + 
+							   l.time.ToString()+"\n");
+			WWW www = null;
+			WWWForm form = new WWWForm ();
+			form.AddField ("resultInt", l.resultInt.ToString());
+			if (success) {	
+				form.AddField ("optionChosenInt", l.optionChosenInt.ToString());
+				form.AddField ("correct", l.correct.ToString());
+				form.AddField ("playID", playId);
+				form.AddField ("time", l.time.ToString());
+			}
+			string loginURL = webProtocol + gameServerLocation + "/insertLog";
+
+			www = new WWW (loginURL, form);
+			
+			yield return www;
+		}		
+	}
+	
+	public void RegisterPlay (MonoBehaviour mb, string stageID, int totalCorrect, float successRate, List<RandomEvent> log)
+	{
+
+		LogGame = Application.dataPath+"/Plays_"+DateTime.Now.ToShortDateString().Replace("/", "")+"-"+DateTime.Now.Hour+DateTime.Now.Minute+DateTime.Now.Second+".csv";
+		File.AppendAllText(LogGame,"playerAlias,"+ PlayerInfo.alias+"\n"+
+						   "gender,"+ PlayerInfo.gender+"\n"+
+						   "age,"+ PlayerInfo.age+"\n"+
+						   "education,"+ PlayerInfo.education+"\n"+
+						   "destro,"+ PlayerInfo.destro+"\n"+
+						   "totalPlays,"+ log.Count.ToString()+"\n"+
+						   "totalCorrect,"+ totalCorrect.ToString()+"\n"+
+						   "successRate,"+ successRate.ToString()+"\n"+
+						   "playId,"+ PlayerInfo.alias+","+DateTime.Now.ToShortDateString().Replace("/", "")+","+DateTime.Now.Hour+DateTime.Now.Minute+DateTime.Now.Second+"\n"+
+						   "stageID,"+ stageID+"\n");
+
+		
+		WWW www = null;
+		WWWForm form = new WWWForm ();
+		form.AddField ("playerAlias", PlayerInfo.alias);
+		form.AddField ("gender", PlayerInfo.gender);
+		form.AddField ("age", PlayerInfo.age);
+		form.AddField ("education", PlayerInfo.education);
+		form.AddField ("destro", PlayerInfo.destro);
+		form.AddField ("totalPlays", log.Count.ToString());
+		form.AddField ("totalCorrect", totalCorrect.ToString());
+		form.AddField ("successRate", successRate.ToString());
+		var playId = PlayerInfo.alias+","+DateTime.Now.ToShortDateString().Replace("/", "")+","+DateTime.Now.Hour+DateTime.Now.Minute+DateTime.Now.Second;
+		form.AddField ("playID", playId);
+		form.AddField ("stageID", stageID);
+		
+		string loginURL = webProtocol + gameServerLocation + "/insertPlay";
+
+		www = new WWW (loginURL, form);
+		mb.StartCoroutine (WaitRegister (www, Callback, log, mb, playId));
+	}
+	
+	IEnumerator WaitRegister (WWW www, LogRegistered callback, List<RandomEvent> log, MonoBehaviour mb, string playId)
+	{
+		yield return www;
+		
+		// check for error first
+		if (www.error != null && !String.IsNullOrEmpty (www.error))
+		{
+			if (callback != null)
+			{
+				Debug.Log ("WWW Error text - Wait Login: " + www.text + "; error message: " + www.error + "; url: " + www.url);
+				callback (false, www.text, log, mb, playId);
+			}
+		}
+		
+		if (www.text != null && !String.IsNullOrEmpty (www.text))
+		{
+			Debug.Log ("Got smthg! " + www.text);
+			
+			//I've received a response from the server
+			if (callback != null)
+			{
+				callback (true, www.text, log, mb, playId);
+			}
+		}
+		else
+		{
+			//Something went wrong
+			if (callback != null)
+			{
+				Debug.Log ("Error text: " + www.text + " error message " + www.error);
+				callback (false, www.error, log, mb, playId);
+			}
+		}
+	}
+	
+
+}
