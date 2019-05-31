@@ -33,15 +33,14 @@ class GameConfig(models.Model):
     """ An instance of this class is an opponent. """
     institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
     level = models.ForeignKey(Level, on_delete=models.PROTECT)
-    code = models.CharField(max_length=50)
+    code = models.CharField(max_length=50, unique=True)
     is_public = models.BooleanField()
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        unique_together = ['institution', 'code']
         verbose_name = _('Game configuration')
         verbose_name_plural = _('Game configurations')
         ordering = ('name',)
