@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext as _
 
 from .forms import UserForm, UserFormUpdate
+from custom_user.models import Profile
+from game.models import Level
 
 
 @login_required
@@ -22,7 +24,14 @@ def new_user(request, template_name='custom_user/register_users.html'):
 
     if request.method == "POST" and request.POST['action'] == "save":
         if form.is_valid():
-            form.save()
+            user = form.save()
+
+            try:
+                user_level = Level.objects.get(name=0)
+            except Level.DoesNotExist:
+                user_level = Level.objects.create(name=0)
+
+            Profile.objects.create(user=user, level=user_level)
             messages.success(request, _('User created successfully.'))
             return redirect('user_list')
         else:
