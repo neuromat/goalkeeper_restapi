@@ -9,7 +9,7 @@ from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as
 from rest_framework import generics, permissions
 
 from .forms import GoalkeeperGameForm
-from .models import Context, GoalkeeperGame, Probability, GameConfig
+from .models import Context, GoalkeeperGame, Probability, GameConfig, Level
 from .serializers import GameConfigSerializer
 
 
@@ -245,7 +245,9 @@ class GetGameConfigs(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = GameConfig.objects.all()
 
-        level = self.request.query_params.get('level', None)
+        level_req = self.request.query_params.get('level', None)
+
+        level= Level.objects.get_or_create(name=level_req)[0].id if level_req else 1
         if level is not None:
             queryset = queryset.filter(level__lte=level)
 
