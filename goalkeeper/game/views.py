@@ -6,8 +6,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as _
 
+from rest_framework import generics, permissions
+
 from .forms import GoalkeeperGameForm
-from .models import Context, GoalkeeperGame, Probability
+from .models import Context, GoalkeeperGame, Probability, GameConfig
+from .serializers import GameConfigSerializer
 
 
 @login_required
@@ -230,3 +233,20 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     }
 
     return render(request, template_name, context)
+
+
+# Django Rest
+# With ?level=<int:level X> at the URL we can filter only games of level X
+class GetGameConfigs(generics.ListCreateAPIView):
+    serializer_class = GameConfigSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        queryset = GameConfig.objects.all()
+
+        level = self.request.query_params.get('level', None)
+        if level is not None:
+            queryset = queryset.filter(level__lte=level)
+
+        return queryset.order_by('id')
