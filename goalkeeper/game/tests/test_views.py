@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from django.urls import resolve, reverse
 from django.test import TestCase
 
-from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list
+from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
+    context_tree
 from game.models import GameConfig, GoalkeeperGame, Institution, Level
 
 USER_USERNAME = 'user'
@@ -122,3 +123,13 @@ class GameTest(TestCase):
         self.assertEqual(response.status_code, 302)
         game_update = GoalkeeperGame.objects.filter(depth=4, read_seq=False)
         self.assertEqual(game_update.count(), 1)
+
+    def test_context_tree_status_code(self):
+        game = GoalkeeperGame.objects.first()
+        response = self.client.get(reverse("context", args=(game.id,)))
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'game/probability.html')
+
+    def test_context_tree_url_resolves_context_tree_view(self):
+        view = resolve('/game/goalkeeper/context/1/')
+        self.assertEquals(view.func, context_tree)
