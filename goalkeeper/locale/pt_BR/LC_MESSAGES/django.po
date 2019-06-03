@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-23 11:43-0300\n"
+"POT-Creation-Date: 2019-06-03 10:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,128 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: custom_user/forms.py:30
+msgid "Email already registered"
+msgstr "E-mail já registrado"
+
+#: custom_user/forms.py:35
+msgid "Password"
+msgstr "Senha"
+
+#: custom_user/forms.py:36
+msgid ""
+"Raw passwords are not stored, so there is no way to see this user's "
+"password, but you can change the password using <a href=/settings/"
+"password>this form</a>."
+msgstr ""
+"Não são armazenadas senhas desprotegidas e, por isso, não há como visualizar "
+"a senha de um usuário, mas você pode alterá-la utilizando <a href=/settings/"
+"password>este formulário</a>."
+
+#: custom_user/templates/custom_user/register_users.html:13
+#: custom_user/templates/custom_user/user_list.html:9 templates/menu.html:20
+#: templates/menu.html:23
+msgid "Users"
+msgstr "Usuários"
+
+#: custom_user/templates/custom_user/register_users.html:14
+msgid "New user"
+msgstr "Novo usuário"
+
+#: custom_user/templates/custom_user/register_users.html:22
+#: custom_user/templates/custom_user/register_users.html:25
+#: game/templates/game/game_data.html:239
+#: game/templates/game/game_data.html:242
+#: game/templates/game/probability.html:42
+msgid "Save"
+msgstr "Salvar"
+
+#: custom_user/templates/custom_user/register_users.html:23
+#: custom_user/templates/custom_user/register_users.html:26
+#: game/templates/game/game_data.html:240
+#: game/templates/game/game_data.html:246
+#: game/templates/game/game_data.html:249
+#: game/templates/game/probability.html:43
+#: templates/login/password_reset.html:15
+#: templates/login/password_reset_done.html:11
+msgid "Back"
+msgstr "Voltar"
+
+#: custom_user/templates/custom_user/register_users.html:27
+#: custom_user/templates/custom_user/register_users.html:41
+#: game/templates/game/game_data.html:247
+#: game/templates/game/game_data.html:264
+msgid "Delete"
+msgstr "Remover"
+
+#: custom_user/templates/custom_user/register_users.html:34
+msgid "Delete user"
+msgstr "Remover usuário"
+
+#: custom_user/templates/custom_user/register_users.html:37
+msgid "Are you sure you want to delete this user?"
+msgstr "Tem certeza de que deseja excluir este usuário?"
+
+#: custom_user/templates/custom_user/register_users.html:40
+#: game/templates/game/game_data.html:243
+#: game/templates/game/game_data.html:263
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: custom_user/templates/custom_user/user_list.html:14
+msgid "List of Users"
+msgstr "Lista de usuários"
+
+#: custom_user/templates/custom_user/user_list.html:16
+msgid "Add user"
+msgstr "Adicionar usuário"
+
+#: custom_user/templates/custom_user/user_list.html:16
+msgid "Create new"
+msgstr "Criar novo"
+
+#: custom_user/templates/custom_user/user_list.html:24
+msgid "Username"
+msgstr "Usuário"
+
+#: custom_user/templates/custom_user/user_list.html:25
+msgid "Email"
+msgstr "Email"
+
+#: custom_user/templates/custom_user/user_list.html:26
+msgid "Superuser status"
+msgstr "Superusuário"
+
+#: custom_user/templates/custom_user/user_list.html:27
+#: game/templates/game/goalkeeper_game_list.html:27
+msgid "Action"
+msgstr "Ação"
+
+#: custom_user/templates/custom_user/user_list.html:42
+#: game/templates/game/goalkeeper_game_list.html:36
+msgid "See data"
+msgstr "Ver dados"
+
+#: custom_user/templates/custom_user/user_list.html:46
+msgid "No user found!"
+msgstr "Nenhum usuário encontrado!"
+
+#: custom_user/views.py:35
+msgid "User created successfully."
+msgstr "Usuário criado com sucesso."
+
+#: custom_user/views.py:38 game/views.py:50 game/views.py:106
+msgid "Information not saved."
+msgstr "Informação não gravada."
+
+#: custom_user/views.py:60
+msgid "User updated successfully."
+msgstr "Usuário atualizado com sucesso."
+
+#: custom_user/views.py:67
+msgid "User deleted successfully."
+msgstr "Usuário excluído com sucesso."
 
 #: game/models.py:5
 msgid "Long"
@@ -38,19 +160,233 @@ msgstr "Instituição"
 msgid "Institutions"
 msgstr "Instituições"
 
-#: game/models.py:36
+#: game/models.py:44
 msgid "Game configuration"
 msgstr "Configuração do jogo"
 
-#: game/models.py:37
+#: game/models.py:45
 msgid "Game configurations"
 msgstr "Configurações do jogo"
 
-#: goalkeeper/settings.py:123
+#: game/templates/game/context.html:5 game/templates/game/probability.html:13
+msgid "Context"
+msgstr "Contexto"
+
+#: game/templates/game/context.html:7
+msgid "Create context"
+msgstr "Criar contexto"
+
+#: game/templates/game/context.html:7
+msgid "Add context"
+msgstr "Adicionar contexto"
+
+#: game/templates/game/context.html:9
+msgid "Create sequence"
+msgstr "Criar sequência"
+
+#: game/templates/game/context.html:9
+msgid "Add sequence"
+msgstr "Adicionar sequência"
+
+#: game/templates/game/context.html:18 game/templates/game/probability.html:50
+msgid "Path"
+msgstr ""
+
+#: game/templates/game/context.html:19 game/templates/game/probability.html:51
+msgid "Probabilities"
+msgstr "Probabilidades"
+
+#: game/templates/game/game_data.html:7
+msgid "Opponent's name"
+msgstr "Nome do adversário"
+
+#: game/templates/game/game_data.html:14
+#: game/templates/game/goalkeeper_game_list.html:25
+msgid "Phase"
+msgstr "Fase"
+
+#: game/templates/game/game_data.html:23
+msgid "Number of directions"
+msgstr "Número de direções"
+
+#: game/templates/game/game_data.html:30
+msgid "Depth"
+msgstr "Profundidade"
+
+#: game/templates/game/game_data.html:39
+msgid "Sequence"
+msgstr "Sequência"
+
+#: game/templates/game/game_data.html:46
+msgid "Deterministic or probabilistic move"
+msgstr "Movimento deterministico ou probabilístico"
+
+#: game/templates/game/game_data.html:60
+msgid "Optional 1 - number of plays"
+msgstr "Opcional 1 - número de jogadas"
+
+#: game/templates/game/game_data.html:69
+msgid "Number of plays"
+msgstr "Número de jogadas"
+
+#: game/templates/game/game_data.html:76
+msgid "Minimum number of plays"
+msgstr "Número mínimo de jogadas"
+
+#: game/templates/game/game_data.html:85
+msgid "Minimum number of hits in sequence"
+msgstr "Número mínimo de acertos em sequência"
+
+#: game/templates/game/game_data.html:92
+msgid "Number of plays to have a break"
+msgstr "Número de jogadas para fazer uma pausa"
+
+#: game/templates/game/game_data.html:106
+msgid "Optional 2 - times"
+msgstr "Opcional 2 - tempos"
+
+#: game/templates/game/game_data.html:115
+msgid "Animation time after a kick"
+msgstr "Tempo de animação depois de um chute"
+
+#: game/templates/game/game_data.html:122
+msgid "Speed time for the opponent"
+msgstr "Tempo de animação para o adversário"
+
+#: game/templates/game/game_data.html:131
+msgid "Type of final score board"
+msgstr "Tipo de placar final"
+
+#: game/templates/game/game_data.html:145
+msgid "Optional 3 - show/hide options"
+msgstr "Opcional 3 - mostrar/ocultar opções"
+
+#: game/templates/game/game_data.html:154
+msgid "Show history"
+msgstr "Mostrar histórico"
+
+#: game/templates/game/game_data.html:161
+msgid "Read sequence"
+msgstr "Ler sequência"
+
+#: game/templates/game/game_data.html:168
+msgid "Show the score"
+msgstr "Mostrar a pontuação"
+
+#: game/templates/game/game_data.html:175
+msgid "Show play/pause button"
+msgstr "Mostrar botão play/pause"
+
+#: game/templates/game/game_data.html:189
+msgid "Optional 4 - buttons"
+msgstr "Opcional 4 - botões"
+
+#: game/templates/game/game_data.html:198
+msgid "Play/pause button"
+msgstr "Botão play/pause"
+
+#: game/templates/game/game_data.html:205
+msgid "Left button"
+msgstr "Botão esquerdo"
+
+#: game/templates/game/game_data.html:214
+msgid "Center button"
+msgstr "Botão central"
+
+#: game/templates/game/game_data.html:221
+msgid "Right button"
+msgstr "Botão direito"
+
+#: game/templates/game/game_data.html:245
+msgid "Edit"
+msgstr "Editar"
+
+#: game/templates/game/game_data.html:257
+msgid "Delete goalkeeper game"
+msgstr "Remover jogo do goleiro"
+
+#: game/templates/game/game_data.html:260
+msgid "Are you sure you want to delete this game?"
+msgstr "Tem certeza que quer remover esse jogo?"
+
+#: game/templates/game/goalkeeper_game.html:13
+msgid "New goalkeeper game"
+msgstr "Novo jogo de goleiro"
+
+#: game/templates/game/goalkeeper_game_list.html:9 templates/menu.html:13
+#: templates/menu.html:16
+msgid "Games"
+msgstr "Jogos"
+
+#: game/templates/game/goalkeeper_game_list.html:14
+msgid "List of games"
+msgstr "Lista de jogos"
+
+#: game/templates/game/goalkeeper_game_list.html:16
+msgid "Add game"
+msgstr "Adicionar jogo"
+
+#: game/templates/game/goalkeeper_game_list.html:16
+msgid "Create game"
+msgstr "Criar jogo"
+
+#: game/templates/game/goalkeeper_game_list.html:24
+msgid "Game"
+msgstr "Jogo"
+
+#: game/templates/game/goalkeeper_game_list.html:26
+msgid "Level"
+msgstr "Nível"
+
+#: game/templates/game/goalkeeper_game_list.html:40
+msgid "No game found!"
+msgstr "Nenhum jogo encontrado!"
+
+#: game/templates/game/probability.html:12
+msgid "Goalkeeper game"
+msgstr "Jogo do goleiro"
+
+#: game/templates/game/probability.html:20
+msgid "Select the path"
+msgstr ""
+
+#: game/templates/game/probability.html:34
+msgid "Probability for"
+msgstr "Probabilidade para"
+
+#: game/views.py:45
+msgid "Goalkeeper game created successfully."
+msgstr "Jogo do goleiro criado com sucesso."
+
+#: game/views.py:74
+msgid "Game removed successfully."
+msgstr "Jogo removido com sucesso."
+
+#: game/views.py:77
+msgid "Error trying to delete the game."
+msgstr "Erro ao tentar excluir o jogo."
+
+#: game/views.py:102
+msgid "Goalkeeper game updated successfully."
+msgstr "Jogo do goleiro atualizado com sucesso."
+
+#: game/views.py:104
+msgid "There are no changes to save."
+msgstr "Não há alterações para salvar."
+
+#: game/views.py:210
+msgid "Probability created successfully."
+msgstr "Probabilidade criada com sucesso."
+
+#: game/views.py:220
+msgid "The sum of the probabilities must be equal to 1."
+msgstr "A soma das probabilidades deve ser igual a 1."
+
+#: goalkeeper/settings.py:130
 msgid "Portuguese"
 msgstr ""
 
-#: goalkeeper/settings.py:124
+#: goalkeeper/settings.py:131
 msgid "English"
 msgstr ""
 
@@ -73,11 +409,11 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                        Desculpe, mas a página que você está procurando "
-"não existe ou não foi encontrada.\n"
+"                        Desculpe, mas a página que você está procurando não "
+"existe ou não foi encontrada.\n"
 "                        <br><br> \n"
-"                        Tente atualizar a página ou clique no botão abaixo para "
-"voltar para a página inicial.\n"
+"                        Tente atualizar a página ou clique no botão abaixo "
+"para voltar para a página inicial.\n"
 "                    "
 
 #: templates/404.html:20
@@ -91,7 +427,7 @@ msgstr "Licenciado sob os termos da"
 #: templates/login/password_change.html:9
 #: templates/login/password_change.html:13
 #: templates/login/password_change_done.html:9
-#: templates/login/password_reset_confirm.html:13 templates/menu.html:44
+#: templates/login/password_reset_confirm.html:13 templates/menu.html:50
 msgid "Change password"
 msgstr "Alterar senha"
 
@@ -112,16 +448,13 @@ msgstr "Redefinição de senha"
 #: templates/login/password_reset.html:11
 msgid ""
 "Enter your email address and we will send you a link to reset your password."
-msgstr "Digite seu endereço de e-mail e nós lhe enviaremos um link para redefinir sua senha."
+msgstr ""
+"Digite seu endereço de e-mail e nós lhe enviaremos um link para redefinir "
+"sua senha."
 
 #: templates/login/password_reset.html:14
 msgid "Reset password"
 msgstr "Redefinir senha"
-
-#: templates/login/password_reset.html:15
-#: templates/login/password_reset_done.html:11
-msgid "Back"
-msgstr "Voltar"
 
 #: templates/login/password_reset_complete.html:8
 msgid "Password changed!"
@@ -145,7 +478,8 @@ msgid ""
 "It looks like you clicked on an invalid password reset link. Please try "
 "again."
 msgstr ""
-"Parece que você clicou em um link de redefinição de senha inválido. Por favor, tente novamente."
+"Parece que você clicou em um link de redefinição de senha inválido. Por "
+"favor, tente novamente."
 
 #: templates/login/password_reset_confirm.html:20
 msgid "Request a new password reset link"
@@ -155,8 +489,9 @@ msgstr "Solicitar um novo link de redefinição de senha"
 msgid ""
 "Check your email for a link to reset your password. If it doesn't appear "
 "within a few minutes, check your spam folder."
-msgstr "Verifique no seu email um link para redefinir sua senha. "
-"Se não aparecer dentro de alguns minutos, verifique sua caixa de spam."
+msgstr ""
+"Verifique no seu email um link para redefinir sua senha. Se não aparecer "
+"dentro de alguns minutos, verifique sua caixa de spam."
 
 #: templates/login/sign_in.html:7
 msgid "Sign in"
@@ -174,10 +509,6 @@ msgstr "Entrar"
 msgid "Home"
 msgstr ""
 
-#: templates/menu.html:14 templates/menu.html:17
-msgid "Users"
-msgstr "Usuários"
-
-#: templates/menu.html:47
+#: templates/menu.html:53
 msgid "Logout"
 msgstr "Sair"
