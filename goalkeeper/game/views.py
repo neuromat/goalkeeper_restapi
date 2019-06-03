@@ -71,13 +71,21 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
 
-    if request.method == "POST" and request.POST['action'] == "remove":
-        try:
-            game.delete()
-            messages.success(request, _('Game removed successfully.'))
-            return redirect('home')
-        except ProtectedError:
-            messages.error(request, _("Error trying to delete the game."))
+    if request.method == "POST":
+        if request.POST['action'] == "remove":
+            try:
+                game.delete()
+                messages.success(request, _('Game removed successfully.'))
+                return redirect('home')
+            except ProtectedError:
+                messages.error(request, _("Error trying to delete the game."))
+                redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
+                return HttpResponseRedirect(redirect_url)
+
+        if request.POST['action'][:12] == "remove_path-":
+            get_context = get_object_or_404(Context, pk=request.POST['action'][12:])
+            get_context.delete()
+            messages.success(request, _('Context removed successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
             return HttpResponseRedirect(redirect_url)
 
