@@ -3,8 +3,8 @@ from django.urls import resolve, reverse
 from django.test import TestCase
 
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
-    context_tree
-from game.models import GameConfig, GoalkeeperGame, Institution, Level
+    context_tree, available_context
+from game.models import Context, GameConfig, GoalkeeperGame, Institution, Level, Probability
 
 USER_USERNAME = 'user'
 USER_PWD = 'mypassword'
@@ -133,3 +133,44 @@ class GameTest(TestCase):
     def test_context_tree_url_resolves_context_tree_view(self):
         view = resolve('/game/goalkeeper/context/1/')
         self.assertEquals(view.func, context_tree)
+
+    def test_new_context_tree(self):
+        game = GoalkeeperGame.objects.first()
+        self.data = {
+            'goalkeeper': game.id,
+            'path': '0',
+            'context-0': 1,
+            'context-1': 0,
+            'context-2': 0,
+            'action': 'save'
+        }
+        response = self.client.post(reverse("context", args=(game.id,)), self.data)
+        self.assertEqual(response.status_code, 302)
+        new_context = Context.objects.filter(path='0')
+        self.assertEqual(new_context.count(), 1)
+        probabilities = Probability.objects.filter(context=new_context[0].id)
+        self.assertEqual(probabilities.count(), 3)
+
+    def test_context_tree_completed(self):
+        game = GoalkeeperGame.objects.first()
+        self.data1 = {'goalkeeper': game.id, 'path': '2', 'context-0': 0.3, 'context-1': 0.3, 'context-2': 0.4,
+                      'action': 'save'}
+        self.data2 = {'goalkeeper': game.id, 'path': '20', 'context-0': 1, 'context-1': 0, 'context-2': 0,
+                      'action': 'save'}
+        self.data3 = {'goalkeeper': game.id, 'path': '00', 'context-0': 0, 'context-1': 1, 'context-2': 0,
+                      'action': 'save'}
+        self.data4 = {'goalkeeper': game.id, 'path': '21', 'context-0': .5, 'context-1': 0, 'context-2': .5,
+                      'action': 'save'}
+        self.data5 = {'goalkeeper': game.id, 'path': '01', 'context-0': 0, 'context-1': 0, 'context-2': 1,
+                      'action': 'save'}
+        self.data6 = {'goalkeeper': game.id, 'path': '10', 'context-0': 0, 'context-1': 0, 'context-2': 1,
+                      'action': 'save'}
+        self.client.post(reverse("context", args=(game.id,)), self.data1)
+        self.client.post(reverse("context", args=(game.id,)), self.data2)
+        self.client.post(reverse("context", args=(game.id,)), self.data3)
+        self.client.post(reverse("context", args=(game.id,)), self.data4)
+        self.client.post(reverse("context", args=(game.id,)), self.data5)
+        response = self.client.post(reverse("context", args=(game.id,)), self.data6, follow=True)
+        self.assertRedirects(response, '/game/goalkeeper/view/1/')
+        available_contexts = available_context(game.id)
+        self.assertListEqual(available_contexts, [])
