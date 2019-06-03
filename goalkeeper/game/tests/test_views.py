@@ -221,7 +221,7 @@ class GameTest(TestCase):
         available_contexts = available_context(game.id)
         self.assertListEqual(available_contexts, [])
 
-    def test_remove_path(self):
+    def test_remove_path_from_goalkeeper_game_view(self):
         game = GoalkeeperGame.objects.first()
         Context.objects.create(goalkeeper=game, path='0')
         self.assertEqual(Context.objects.count(), 1)
@@ -230,4 +230,15 @@ class GameTest(TestCase):
             'action': 'remove_path-1'
         }
         self.client.post(reverse("goalkeeper_game_view", args=(game.id,)), self.data)
+        self.assertEqual(Context.objects.count(), 0)
+
+    def test_remove_path_from_context_tree(self):
+        game = GoalkeeperGame.objects.first()
+        Context.objects.create(goalkeeper=game, path='0')
+        self.assertEqual(Context.objects.count(), 1)
+        self.data = {
+            'goalkeeper': game,
+            'action': 'remove_path-1'
+        }
+        self.client.post(reverse("context", args=(game.id,)), self.data)
         self.assertEqual(Context.objects.count(), 0)
