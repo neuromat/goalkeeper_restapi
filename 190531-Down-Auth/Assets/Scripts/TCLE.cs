@@ -21,7 +21,9 @@ using TMPro;                        //171009 textMesh Pro (justified text and ma
 public class TCLE: MonoBehaviour 
 {
 	//public GameObject userData;                 //@@@Josi: IntroScene(1)/Canvas/LogBox/MenuGameMode
-	public InputField alias;
+	public GameObject TCLEbox;	//@ale : para chamar a tela do termo;
+	public GameObject userData; //@ale : para chamar a tela de entrada de dados do usuario;
+
 
     // public InputField age;                   //161205 pedir apenas nome
 	// public GameObject Gender;                //161205 pedir apenas nome
@@ -50,27 +52,30 @@ public class TCLE: MonoBehaviour
 
 	//171009 translation
     //180625 screen TCLE/alias comes after language selection, not more between gameMenu and gameModule
-	public Text preenchaNome;
-    public Text btnAvancar;
+	//public Text preenchaNome;
+  //public Text btnAvancar;
+	public Text txtTermo;
+
+	public Text txtVoltarIdioma;
     //public Text btnJogar;
 	//public Text btnJogarPausa;
 	//public Text btnMenu;
-	public Text placeholder;
+	//public Text placeholder;
 	//public Text tcleHeader;
 	public Text tcleNotAgree;
 	public Text tcleAgree;
-    public Text tcleText;                //180625 now, a TMPro justified, not TextUI
+  //public GameObject tcleText;                //180625 now, a TMPro justified, not TextUI
 
 
 
 	// -----------------------------------------------------------------------------------------------------
 	// Checks if there is anything entered into the input field.
-	public void LockInput(InputField input)	
+	public void LockInput(InputField input)
 	{
-		if (input.text.Trim().Length == 0)  {   
+		if (input.text.Trim().Length == 0)  {
 			obrigaAlias.text = translate.getLocalizedValue ("obrigaAlias"); //171011 necessary fill playerAlias
-			alias.Select();
-			alias.ActivateInputField();
+			//alias.Select();
+			//alias.ActivateInputField();
 		}
 	}
 
@@ -78,8 +83,8 @@ public class TCLE: MonoBehaviour
 
 	// -----------------------------------------------------------------------------------------------------
 	public void EnterData()
-	{   
-		if (alias.text.Trim().Length == 0) {           //to avoid fill with spaces
+	{
+		//if (alias.text.Trim().Length == 0) {           //to avoid fill with spaces
 			obrigaAlias.text = translate.getLocalizedValue ("obrigaAlias"); //171011 necessary fill playerAlias
 
 			//180220 problem to open keyboard on iOS; navigation vertical on inspector
@@ -95,30 +100,30 @@ public class TCLE: MonoBehaviour
 			//			alias.text = mobileKeyboard.text;
 			//		}
 			#else
-			alias.Select();
-			alias.ActivateInputField();
+			//alias.Select();
+			//alias.ActivateInputField();
 			#endif
-		} else {
+		//} else {
 			//170830 necessary to inform if agree or not in participate of the search
 			if (!(agree.isOn || notAgree.isOn)) {
-				//171011 obrigaAlias.text = "Por favor, informe sua concordância!";  
+				//171011 obrigaAlias.text = "Por favor, informe sua concordância!";
 				obrigaAlias.text = translate.getLocalizedValue ("obrigaTCLE");
 			} else {
-				PlayerInfo.alias = alias.text;
+				//PlayerInfo.alias = alias.text;
 				//@@@userData.SetActive (false);
 
                 //180625 logUsers was after select a game module and now, after select idiom
                 //@@gameFlowManager.NewGame (PlayerPrefs.GetInt ("gameSelected"));    //Josi: antes havia esta continuidade no onClick Unity, agora passa para ca para poder reclamar do apelido vazio
                 SceneManager.LoadScene("Configurations");
             }
-		}
+		//}
 	}
 
 
 
 
 	// -----------------------------------------------------------------------------------------------------
-	void Start () 
+	void Start ()
 	{   //161205 pedir apenas nome
 		//PlayerInfo.gender = "M";
 		//PlayerInfo.education = "Fundamental Completo";
@@ -129,20 +134,22 @@ public class TCLE: MonoBehaviour
 		translate = LocalizationManager.instance;
 
 		//171009 translate
-		preenchaNome.text = translate.getLocalizedValue ("preenchaNome");
+		//preenchaNome.text = translate.getLocalizedValue ("preenchaNome");
 		//btnJogar.text = translate.getLocalizedValue ("btnJogar");
 		//btnJogarPausa.text = translate.getLocalizedValue ("btnJogarPausa");
 		//btnMenu.text = translate.getLocalizedValue ("btnMenu");
-		placeholder.text = translate.getLocalizedValue ("placeholder");
+		//placeholder.text = translate.getLocalizedValue ("placeholder");
 		//tcleHeader.text = translate.getLocalizedValue ("tcleHeader");
 		tcleNotAgree.text = translate.getLocalizedValue ("tcleNotAgree");
 		tcleAgree.text = translate.getLocalizedValue ("tcleAgree");
+		txtTermo.text = translate.getLocalizedValue ("txtTermo");
+		Debug.Log ("Temo --> " + txtTermo);
 
         //180625 from UiText to TMPro
-		tcleText.text = translate.getLocalizedValue ("tcle").Replace("\\n","\n");
-        //tcleText.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tcle").Replace("\\n", "\n");
+		//tcleText.text = translate.getLocalizedValue ("tcle").Replace("\\n","\n");
+        //tcleText.text = translate.getLocalizedValue("tcle").Replace("\\n", "\n");
 
-        btnAvancar.text = translate.getLocalizedValue("avancar");
+        //btnAvancar.text = translate.getLocalizedValue("avancar");
 
         //Josi: declare GameFlowManager to continue if data filled
         //@@gameFlowManager = GameFlowManager.instance;
@@ -170,8 +177,8 @@ public class TCLE: MonoBehaviour
 //			alias.text = mobileKeyboard.text;
 //		}
 		#else
-		alias.Select();
-		alias.ActivateInputField();
+		//alias.Select();
+		//alias.ActivateInputField();
 		#endif
 	}
 
@@ -185,7 +192,7 @@ public class TCLE: MonoBehaviour
 
 		//170925 bold selected option and it is necessary to think that user can change again
 		ColorBlock tmp;
-		if (agree.isOn) { 
+		if (agree.isOn) {
 			tmp = agreeOriginalColors;
 			tmp.normalColor = tmp.highlightedColor;
 			agree.colors = tmp;  //verde (ok)
@@ -205,7 +212,7 @@ public class TCLE: MonoBehaviour
 
 	// -----------------------------------------------------------------------------------------------------
 	void OnEnable()
-	{   
+	{
         //@@@@ como resolver agora....
 		//if (PlayerInfo.alias == System.String.Empty) {      //170216 Use System.String.Empty instead of "" when dealing with lots of strings;)
 		//	if (!PlayerPrefs.	HasKey ("gameSelected")) {
@@ -216,6 +223,37 @@ public class TCLE: MonoBehaviour
 		//} else {
 		//	userData.SetActive (false);
 		//}
+	}
+
+
+	//@ale : chaama a tela do Termo de Consentimento
+
+	public void Termo () {
+		StartCoroutine (TermoOn ());
+	}
+
+	IEnumerator TermoOn() {
+
+		//Canvas.SetActive (true);
+		TCLEbox.SetActive (true);
+		userData.SetActive (false);
+		yield return new WaitForSeconds (2);
+
+	}
+
+	//@ale : Sair do Termo
+
+	public void SairTermo () {
+		StartCoroutine (SairTermoOn ());
+	}
+
+
+	IEnumerator SairTermoOn() {
+
+		TCLEbox.SetActive (false);
+		userData.SetActive (true);
+		yield return new WaitForSeconds (2);
+
 	}
 
 

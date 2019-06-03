@@ -6,8 +6,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as _
 
+from rest_framework import generics, permissions
+
 from .forms import GoalkeeperGameForm
-from .models import Context, GoalkeeperGame, Probability
+from .models import Context, GoalkeeperGame, Probability, GameConfig, Level
+from .serializers import GameConfigSerializer
 
 
 @login_required
@@ -101,7 +104,7 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
                 goalkeeper_game_form.save()
                 messages.success(request, _('Goalkeeper game updated successfully.'))
             else:
-                messages.warning(request, _('There is no changes to save.'))
+                messages.warning(request, _('There are no changes to save.'))
         else:
             messages.warning(request, _('Information not saved.'))
 
@@ -165,18 +168,18 @@ def available_context(goalkeeper_game_id):
                     remove_this_context.append(context)
                 context_aux = context_aux[1:]
 
-        context_list = list(set(context_list) - set(remove_this_context))
+        context_list = sorted(list(set(context_list) - set(remove_this_context)))
 
     else:
         # Start the list of available context with 0 until the number_of_directions
         for direction in range(game.number_of_directions):
-            context_list.append(direction)
+            context_list.append(str(direction))
 
     return context_list
 
 
 @login_required
-def context(request, goalkeeper_game_id, template_name="game/probability.html"):
+def context_tree(request, goalkeeper_game_id, template_name="game/probability.html"):
     """
     An instance of this class is a context with its probabilities
     :param request: request method
@@ -230,3 +233,21 @@ def context(request, goalkeeper_game_id, template_name="game/probability.html"):
     }
 
     return render(request, template_name, context)
+
+
+# Django Rest
+# With ?level=<int:level X> at the URL we can filter only games of level X
+class GetGameConfigs(generics.ListCreateAPIView):
+    serializer_class = GameConfigSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        queryset = GameConfig.objects.all()
+        level_req = self.request.query_params.get('level', None)
+        level = Level.objects.get_or_create(name=level_req)[0].id if level_req else 1
+
+        if level is not None:
+            queryset = queryset.filter(level__lte=level)
+
+        return queryset.order_by('id')

@@ -140,12 +140,38 @@ public class LocalizationManager : MonoBehaviour {
         {
             SceneManager.LoadScene("About");
         }
-        else { //where==2
+
+				if (where == 2)
+				{
+					localizedText.Clear ();
+					SceneManager.LoadScene("Localization");
+				}
+        else {
             SceneManager.LoadScene("MainScene");
         }
         
     }
 
+	// @ale - Botao Voltar para TCLE
+	public void voltarTCLE()
+	{
+			SceneManager.LoadScene("TCLE");
+	}
+
+
+	// @ale - Botao para acessar a Tela (SObre o Jogo)
+	public void irAbout ()
+	{
+		SceneManager.LoadScene("About");
+	}
+
+
+	// @ale - Botao para voltar tela de Idiomas
+	public void voltarIdiomas ()
+	{
+		PlayerPrefs.DeleteAll();
+		SceneManager.LoadScene("Localization");
+	}
 
     // -----------------------------------------------------------------------------------------------------
     //171025 Exit button
