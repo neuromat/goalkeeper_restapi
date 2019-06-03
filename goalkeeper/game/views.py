@@ -179,7 +179,7 @@ def available_context(goalkeeper_game_id):
 
 
 @login_required
-def context(request, goalkeeper_game_id, template_name="game/probability.html"):
+def context_tree(request, goalkeeper_game_id, template_name="game/probability.html"):
     """
     An instance of this class is a context with its probabilities
     :param request: request method
