@@ -244,10 +244,9 @@ class GetGameConfigs(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = GameConfig.objects.all()
-
         level_req = self.request.query_params.get('level', None)
+        level = Level.objects.get_or_create(name=level_req)[0].id if level_req else 1
 
-        level= Level.objects.get_or_create(name=level_req)[0].id if level_req else 1
         if level is not None:
             queryset = queryset.filter(level__lte=level)
 
