@@ -35,11 +35,11 @@ public class LoginMenu : BaseMenu {
     private string user;
     private string pass;
     private string titJanLogin;
-    private string labelinfoLog;
+    private string labelInfoLog;
     private string errorLogin;
     private string statusLog;
     private string enterButton;
-    private string newcadButton;
+    private string newCadButton;
     
     private const float LABEL_WIDTH = 110;
     private bool loggingIn = false;
@@ -58,11 +58,11 @@ public class LoginMenu : BaseMenu {
         user = translate.getLocalizedValue ("user");	
         pass = translate.getLocalizedValue ("pass");	
         titJanLogin = translate.getLocalizedValue ("titJanLogin");
-        labelinfoLog = translate.getLocalizedValue ("labelinfoLog");
+        labelInfoLog = translate.getLocalizedValue ("labelInfoLog");
         errorLogin = translate.getLocalizedValue ("errorLogin");
         statusLog = translate.getLocalizedValue ("statusLog");
         enterButton = translate.getLocalizedValue ("enterButton");
-        newcadButton = translate.getLocalizedValue ("newcadButton");
+        newCadButton = translate.getLocalizedValue ("newCadButton");
         
         backendManager.OnLoggedIn += OnLoggedIn;
         backendManager.OnLoginFailed += OnLoginFailed;
@@ -137,10 +137,10 @@ public class LoginMenu : BaseMenu {
         GUILayout.EndHorizontal();
 
 
-        GUILayout.Label(labelinfoLog);
+        GUILayout.Label(labelInfoLog);
      //   bool filledIn = (username != "" && password != "" && rememberMe.Equals(true) );
-        bool filledIn = (username != "" && password != "");
-        filledIn = true;
+     //   bool filledIn = (username != "" && password != "");
+        bool filledIn = true;
         /*
         GUILayout.BeginHorizontal(); 
         GUILayout.Label("      ");
@@ -185,7 +185,7 @@ public class LoginMenu : BaseMenu {
             DoLogin();
 
         }
-        if (GUILayout.Button(newcadButton)) {
+        if (GUILayout.Button((string) newCadButton)) {
             enabled = false;
             signupMenu.enabled = true;
         }

@@ -42,10 +42,10 @@ public class SignupMenu : BaseMenu {
     private string termAssigned;
     private string repeatSign;
     private string cadButton;
-    private string newsignButton;
+    private string cancelButton;
     private string statusSign;
     private string errorCad;
-    private string statusnewSign;
+    private string statusNewSign;
     
     private const float LABEL_WIDTH = 110;
 
@@ -68,25 +68,25 @@ public class SignupMenu : BaseMenu {
         labelinfoSign = translate.getLocalizedValue("labelinfoSign");
         termAssigned= translate.getLocalizedValue("termAssigned");
         cadButton= translate.getLocalizedValue("cadButton");
-        newsignButton= translate.getLocalizedValue("newsignButton");
+        cancelButton= translate.getLocalizedValue("cancelButton");
         statusSign= translate.getLocalizedValue("statusSign");
         errorCad= translate.getLocalizedValue("errorCad");
-        statusnewSign = translate.getLocalizedValue("statusnewSign");
-        
+        statusNewSign = translate.getLocalizedValue("statusNewSign");
         repeatSign= translate.getLocalizedValue("repeatSign");
+
         backendManager.OnSignupSuccess += OnSignupSuccess;
         backendManager.OnSignupFailed += OnSignupFailed;
     }
 
     private void OnSignupFailed(string error) {
 //        status = "Erro no cadastro: \n\n" + error;
-        status = errorCad + error;
+        status = errorCad;
         signingUp = false;
     }
 
     private void OnSignupSuccess() {
 //        status = "Signup successful!";
-        status = statusnewSign;
+        status = statusNewSign;
         signingUp = false;
 
         Invoke("FinishSignup", 1.5f);
@@ -155,7 +155,7 @@ public class SignupMenu : BaseMenu {
             DoSignup();
         }
         GUI.enabled = true;
-        if (GUILayout.Button(newsignButton)) {
+        if (GUILayout.Button(cancelButton)) {
             enabled = false;
             if (OnCancel != null) {
                 OnCancel();
