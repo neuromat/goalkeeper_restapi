@@ -101,7 +101,7 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
                 goalkeeper_game_form.save()
                 messages.success(request, _('Goalkeeper game updated successfully.'))
             else:
-                messages.warning(request, _('There is no changes to save.'))
+                messages.warning(request, _('There are no changes to save.'))
         else:
             messages.warning(request, _('Information not saved.'))
 
