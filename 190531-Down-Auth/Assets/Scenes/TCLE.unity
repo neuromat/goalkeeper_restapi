@@ -296,6 +296,46 @@ Prefab:
       propertyPath: tcleText
       value: 
       objectReference: {fileID: 105920052}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_Text
+      value: Voltar
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -36.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 85.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 29.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 38
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54b3c5d397aca44a78fd892b1992cb4a, type: 2}
   m_IsPrefabParent: 0

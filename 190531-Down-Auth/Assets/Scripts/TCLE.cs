@@ -143,6 +143,7 @@ public class TCLE: MonoBehaviour
 		tcleNotAgree.text = translate.getLocalizedValue ("tcleNotAgree");
 		tcleAgree.text = translate.getLocalizedValue ("tcleAgree");
 		txtTermo.text = translate.getLocalizedValue ("txtTermo");
+		txtVoltarIdioma.text = translate.getLocalizedValue ("txtVoltarIdioma");
 		Debug.Log ("Temo --> " + txtTermo);
 
         //180625 from UiText to TMPro
