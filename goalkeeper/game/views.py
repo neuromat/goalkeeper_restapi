@@ -42,11 +42,17 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
 
     if request.method == "POST" and request.POST['action'] == "save":
         if goalkeeper_game_form.is_valid():
-            game = goalkeeper_game_form.save(commit=False)
-            game.save()
+            game_phase_exist = GoalkeeperGame.objects.filter(config=request.POST['config'], phase=request.POST['phase'])
 
-            messages.success(request, _('Goalkeeper game created successfully.'))
-            redirect_url = reverse("goalkeeper_game_view", args=(game.id,))
+            if game_phase_exist:
+                messages.error(request, _("Goalkeeper game with this phase already exists."))
+                redirect_url = reverse("goalkeeper_game_new")
+            else:
+                game = goalkeeper_game_form.save(commit=False)
+                game.save()
+                messages.success(request, _('Goalkeeper game created successfully.'))
+                redirect_url = reverse("goalkeeper_game_view", args=(game.id,))
+
             return HttpResponseRedirect(redirect_url)
 
         else:
