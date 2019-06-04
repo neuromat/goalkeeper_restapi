@@ -71,13 +71,21 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
 
-    if request.method == "POST" and request.POST['action'] == "remove":
-        try:
-            game.delete()
-            messages.success(request, _('Game removed successfully.'))
-            return redirect('home')
-        except ProtectedError:
-            messages.error(request, _("Error trying to delete the game."))
+    if request.method == "POST":
+        if request.POST['action'] == "remove":
+            try:
+                game.delete()
+                messages.success(request, _('Game removed successfully.'))
+                return redirect('home')
+            except ProtectedError:
+                messages.error(request, _("Error trying to delete the game."))
+                redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
+                return HttpResponseRedirect(redirect_url)
+
+        if request.POST['action'][:12] == "remove_path-":
+            get_context = get_object_or_404(Context, pk=request.POST['action'][12:])
+            get_context.delete()
+            messages.success(request, _('Context removed successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
             return HttpResponseRedirect(redirect_url)
 
@@ -194,34 +202,43 @@ def context_tree(request, goalkeeper_game_id, template_name="game/probability.ht
     probability = {}
     total_prob = 0.0
 
-    if request.method == "POST" and request.POST['action'] == "save":
-        # Check the probability for each direction
-        for direction in range(game.number_of_directions):
-            prob = request.POST['context-'+str(direction)].replace(',', '.')
-            if prob:
-                probability[direction] = float(prob)
-                total_prob += float(prob)
+    if request.method == "POST":
+        if request.POST['action'] == "save":
+            # Check the probability for each direction
+            for direction in range(game.number_of_directions):
+                prob = request.POST['context-'+str(direction)].replace(',', '.')
+                if prob:
+                    probability[direction] = float(prob)
+                    total_prob += float(prob)
+                else:
+                    probability[direction] = 0.0
+
+            if total_prob == 1:
+                # If the sum of the probabilities is equal to 1, create the probabilities for the path
+                new_context = Context.objects.create(goalkeeper=game, path=request.POST['path'])
+                for key, value in probability.items():
+                    Probability.objects.create(context=new_context, direction=key, value=value)
+
+                context_available = available_context(goalkeeper_game_id)
+                if context_available:
+                    messages.success(request, _('Probability created successfully.'))
+                    redirect_url = reverse("context", args=(goalkeeper_game_id,))
+                else:
+                    messages.success(request, _('Context tree created successfully.'))
+                    redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
+
+                return HttpResponseRedirect(redirect_url)
+
             else:
-                probability[direction] = 0.0
+                messages.error(request, _('The sum of the probabilities must be equal to 1.'))
+                redirect_url = reverse("context", args=(game.id,))
+                return HttpResponseRedirect(redirect_url)
 
-        if total_prob == 1:
-            # If the sum of the probabilities is equal to 1, create the probabilities for the path
-            new_context = Context.objects.create(goalkeeper=game, path=request.POST['path'])
-            for key, value in probability.items():
-                Probability.objects.create(context=new_context, direction=key, value=value)
-
-            messages.success(request, _('Probability created successfully.'))
-            context_available = available_context(goalkeeper_game_id)
-            if context_available:
-                redirect_url = reverse("context", args=(goalkeeper_game_id,))
-            else:
-                redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
-
-            return HttpResponseRedirect(redirect_url)
-
-        else:
-            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
-            redirect_url = reverse("context", args=(game.id,))
+        if request.POST['action'][:12] == "remove_path-":
+            get_context = get_object_or_404(Context, pk=request.POST['action'][12:])
+            get_context.delete()
+            messages.success(request, _('Context removed successfully.'))
+            redirect_url = reverse("context", args=(goalkeeper_game_id,))
             return HttpResponseRedirect(redirect_url)
 
     context = {

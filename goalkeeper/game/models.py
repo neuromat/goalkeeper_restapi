@@ -100,7 +100,7 @@ class MemoryGame(Game):
 class GoalkeeperGame(Game):
     """ An instance of this class is a Goalkeeper game. """
     phase = models.IntegerField()
-    depth = models.IntegerField()
+    depth = models.IntegerField(blank=True, null=True)
     seq_step_det_or_prob = models.CharField(max_length=255, blank=True)
     show_history = models.BooleanField()
     send_markers_eeg = models.CharField(max_length=30, blank=True)
@@ -118,12 +118,12 @@ class GoalkeeperGame(Game):
 
 class Context(models.Model):
     """ An instance of this class is a context tree. """
-    goalkeeper = models.ForeignKey(GoalkeeperGame, on_delete=models.PROTECT)
+    goalkeeper = models.ForeignKey(GoalkeeperGame, on_delete=models.CASCADE)
     path = models.CharField(max_length=5)
 
 
 class Probability(models.Model):
     """ An instance of this class is the probability of a given direction in a given context.  """
-    context = models.ForeignKey(Context, on_delete=models.PROTECT)
+    context = models.ForeignKey(Context, on_delete=models.CASCADE)
     direction = models.IntegerField()
     value = models.FloatField()

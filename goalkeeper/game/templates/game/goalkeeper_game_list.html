@@ -32,7 +32,7 @@
                                 <tr>
                                     <td>{{ game.config }}</td>
                                     <td>{{ game.phase }}</td>
-                                    <td>{{ game.level }}</td>
+                                    <td>{{ game.config.level }}</td>
                                     <td><a class="btn btn-primary" href="{% url 'goalkeeper_game_view' game.pk %}"> {% trans "See data" %}</a></td>
                                 </tr>
                             {% empty %}
