@@ -28,7 +28,7 @@ class GoalkeeperGameForm(forms.ModelForm):
             'center_key': TextInput(attrs={'class': 'form-control'}),
             'right_key': TextInput(attrs={'class': 'form-control'}),
             'phase': NumberInput(attrs={'class': 'form-control'}),
-            'depth': NumberInput(attrs={'class': 'form-control'}),
+            'depth': NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'seq_step_det_or_prob': TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'show_history': CheckboxInput(attrs={'class': 'form-control'}),
             'send_markers_eeg': TextInput(attrs={'class': 'form-control'}),

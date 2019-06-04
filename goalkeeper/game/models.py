@@ -100,7 +100,7 @@ class MemoryGame(Game):
 class GoalkeeperGame(Game):
     """ An instance of this class is a Goalkeeper game. """
     phase = models.IntegerField()
-    depth = models.IntegerField()
+    depth = models.IntegerField(blank=True, null=True)
     seq_step_det_or_prob = models.CharField(max_length=255, blank=True)
     show_history = models.BooleanField()
     send_markers_eeg = models.CharField(max_length=30, blank=True)
