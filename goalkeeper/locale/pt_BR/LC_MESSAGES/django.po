@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-03 10:48-0300\n"
+"POT-Creation-Date: 2019-06-04 09:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr "Novo usuário"
 #: custom_user/templates/custom_user/register_users.html:25
 #: game/templates/game/game_data.html:239
 #: game/templates/game/game_data.html:242
-#: game/templates/game/probability.html:42
+#: game/templates/game/probability.html:43
 msgid "Save"
 msgstr "Salvar"
 
@@ -59,7 +59,7 @@ msgstr "Salvar"
 #: game/templates/game/game_data.html:240
 #: game/templates/game/game_data.html:246
 #: game/templates/game/game_data.html:249
-#: game/templates/game/probability.html:43
+#: game/templates/game/probability.html:44
 #: templates/login/password_reset.html:15
 #: templates/login/password_reset_done.html:11
 msgid "Back"
@@ -67,8 +67,9 @@ msgstr "Voltar"
 
 #: custom_user/templates/custom_user/register_users.html:27
 #: custom_user/templates/custom_user/register_users.html:41
-#: game/templates/game/game_data.html:247
+#: game/templates/game/context.html:68 game/templates/game/game_data.html:247
 #: game/templates/game/game_data.html:264
+#: game/templates/game/probability.html:94
 msgid "Delete"
 msgstr "Remover"
 
@@ -81,8 +82,9 @@ msgid "Are you sure you want to delete this user?"
 msgstr "Tem certeza de que deseja excluir este usuário?"
 
 #: custom_user/templates/custom_user/register_users.html:40
-#: game/templates/game/game_data.html:243
+#: game/templates/game/context.html:67 game/templates/game/game_data.html:243
 #: game/templates/game/game_data.html:263
+#: game/templates/game/probability.html:93
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -111,7 +113,9 @@ msgid "Superuser status"
 msgstr "Superusuário"
 
 #: custom_user/templates/custom_user/user_list.html:27
+#: game/templates/game/context.html:24
 #: game/templates/game/goalkeeper_game_list.html:27
+#: game/templates/game/probability.html:53
 msgid "Action"
 msgstr "Ação"
 
@@ -128,7 +132,7 @@ msgstr "Nenhum usuário encontrado!"
 msgid "User created successfully."
 msgstr "Usuário criado com sucesso."
 
-#: custom_user/views.py:38 game/views.py:50 game/views.py:106
+#: custom_user/views.py:38 game/views.py:53 game/views.py:117
 msgid "Information not saved."
 msgstr "Informação não gravada."
 
@@ -168,33 +172,44 @@ msgstr "Configuração do jogo"
 msgid "Game configurations"
 msgstr "Configurações do jogo"
 
-#: game/templates/game/context.html:5 game/templates/game/probability.html:13
-msgid "Context"
-msgstr "Contexto"
+#: game/templates/game/context.html:9
+msgid "Context tree"
+msgstr "Árvore de contexto"
 
-#: game/templates/game/context.html:7
+#: game/templates/game/context.html:11
 msgid "Create context"
 msgstr "Criar contexto"
 
-#: game/templates/game/context.html:7
+#: game/templates/game/context.html:11
 msgid "Add context"
 msgstr "Adicionar contexto"
 
-#: game/templates/game/context.html:9
-msgid "Create sequence"
-msgstr "Criar sequência"
-
-#: game/templates/game/context.html:9
+#: game/templates/game/context.html:13
 msgid "Add sequence"
-msgstr "Adicionar sequência"
+msgstr "Gerar sequência"
 
-#: game/templates/game/context.html:18 game/templates/game/probability.html:50
-msgid "Path"
-msgstr ""
+#: game/templates/game/context.html:22 game/templates/game/probability.html:14
+#: game/templates/game/probability.html:51
+msgid "Context"
+msgstr "Contexto"
 
-#: game/templates/game/context.html:19 game/templates/game/probability.html:51
+#: game/templates/game/context.html:23 game/templates/game/probability.html:52
 msgid "Probabilities"
 msgstr "Probabilidades"
+
+#: game/templates/game/context.html:40 game/templates/game/context.html:61
+#: game/templates/game/probability.html:69
+#: game/templates/game/probability.html:87
+msgid "Delete context"
+msgstr "Remover contexto"
+
+#: game/templates/game/context.html:43 game/templates/game/probability.html:72
+msgid "Edit context"
+msgstr "Editar contexto"
+
+#: game/templates/game/context.html:64 game/templates/game/probability.html:90
+msgid "Are you sure you want to delete this context?"
+msgstr "Tem certeza de que deseja excluir este contexto?"
 
 #: game/templates/game/game_data.html:7
 msgid "Opponent's name"
@@ -342,43 +357,51 @@ msgstr "Nível"
 msgid "No game found!"
 msgstr "Nenhum jogo encontrado!"
 
-#: game/templates/game/probability.html:12
+#: game/templates/game/probability.html:13
 msgid "Goalkeeper game"
 msgstr "Jogo do goleiro"
 
-#: game/templates/game/probability.html:20
-msgid "Select the path"
-msgstr ""
+#: game/templates/game/probability.html:21
+msgid "Select the context"
+msgstr "Selecione o contexto"
 
-#: game/templates/game/probability.html:34
+#: game/templates/game/probability.html:35
 msgid "Probability for"
 msgstr "Probabilidade para"
 
-#: game/views.py:45
+#: game/views.py:48
 msgid "Goalkeeper game created successfully."
 msgstr "Jogo do goleiro criado com sucesso."
 
-#: game/views.py:74
+#: game/views.py:78
 msgid "Game removed successfully."
 msgstr "Jogo removido com sucesso."
 
-#: game/views.py:77
+#: game/views.py:81
 msgid "Error trying to delete the game."
 msgstr "Erro ao tentar excluir o jogo."
 
-#: game/views.py:102
+#: game/views.py:88 game/views.py:240
+msgid "Context removed successfully."
+msgstr "Contexto removido com sucesso."
+
+#: game/views.py:113
 msgid "Goalkeeper game updated successfully."
 msgstr "Jogo do goleiro atualizado com sucesso."
 
-#: game/views.py:104
+#: game/views.py:115
 msgid "There are no changes to save."
 msgstr "Não há alterações para salvar."
 
-#: game/views.py:210
+#: game/views.py:224
 msgid "Probability created successfully."
 msgstr "Probabilidade criada com sucesso."
 
-#: game/views.py:220
+#: game/views.py:227
+msgid "Context tree created successfully."
+msgstr "Árvore de contexto criada com sucesso."
+
+#: game/views.py:233
 msgid "The sum of the probabilities must be equal to 1."
 msgstr "A soma das probabilidades deve ser igual a 1."
 
