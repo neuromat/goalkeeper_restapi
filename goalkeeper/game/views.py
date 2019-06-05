@@ -49,11 +49,11 @@ def goalkeeper_game_list(request, template_name="game/goalkeeper_game_list.html"
 
 @login_required
 def game_config_new(request, template_name="game/config.html"):
-    game_config_form = GameConfigForm(request.POST or None)
+    form = GameConfigForm(request.POST or None)
 
     if request.method == "POST" and request.POST['action'] == "save":
-        if game_config_form.is_valid():
-            config = game_config_form.save(commit=False)
+        if form.is_valid():
+            config = form.save(commit=False)
             config.created_by = request.user
             config.save()
             messages.success(request, _('New config created successfully.'))
@@ -63,7 +63,7 @@ def game_config_new(request, template_name="game/config.html"):
             messages.warning(request, _('Information not saved.'))
 
     context = {
-        "game_config_form": game_config_form,
+        "form": form,
         "creating": True
     }
 
@@ -73,10 +73,10 @@ def game_config_new(request, template_name="game/config.html"):
 @login_required
 def game_config_view(request, config_id, template_name="game/config.html"):
     config = get_object_or_404(GameConfig, pk=config_id)
-    game_config_form = GameConfigForm(request.POST or None, instance=config)
+    form = GameConfigForm(request.POST or None, instance=config)
 
-    for field in game_config_form.fields:
-        game_config_form.fields[field].widget.attrs['disabled'] = True
+    for field in form.fields:
+        form.fields[field].widget.attrs['disabled'] = True
 
     if request.method == "POST" and request.POST['action'] == "remove":
         if Game.objects.filter(config=config.id):
@@ -95,7 +95,7 @@ def game_config_view(request, config_id, template_name="game/config.html"):
 
     context = {
         "config": config,
-        "game_config_form": game_config_form,
+        "form": form,
         "viewing": True
     }
 
@@ -105,12 +105,12 @@ def game_config_view(request, config_id, template_name="game/config.html"):
 @login_required
 def game_config_update(request, config_id, template_name="game/config.html"):
     config = get_object_or_404(GameConfig, pk=config_id)
-    game_config_form = GameConfigForm(request.POST or None, instance=config)
+    form = GameConfigForm(request.POST or None, instance=config)
 
     if request.method == "POST" and request.POST['action'] == "save":
-        if game_config_form.is_valid():
-            if game_config_form.has_changed():
-                game_config_form.save()
+        if form.is_valid():
+            if form.has_changed():
+                form.save()
                 messages.success(request, _('Kicker updated successfully.'))
             else:
                 messages.warning(request, _('There are no changes to save.'))
@@ -122,7 +122,7 @@ def game_config_update(request, config_id, template_name="game/config.html"):
 
     context = {
         "config": config,
-        "game_config_form": game_config_form,
+        "form": form,
         "editing": True
     }
 

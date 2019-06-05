@@ -14,38 +14,7 @@
         </ol>
 
         <form role="form" method="post">{% csrf_token %}
-            <div class="row">
-                <div class="col-sm-6 col-12">
-                    <div class="form-group">
-                        <label class="control-label">{% trans "Level" %} <b style="color: red;">*</b></label>
-                        {{ game_config_form.level }}
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-12">
-                    <div class="form-group">
-                        <label class="control-label">{% trans "Code" %} <b style="color: red;">*</b></label>
-                        {{ game_config_form.code }}
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-12">
-                    <div class="form-group">
-                        <label class="control-label">{% trans "Name" %} <b style="color: red;">*</b></label>
-                        {{ game_config_form.name }}
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-12">
-                    <div class="form-group">
-                        <label class="control-label">{% trans "Is it public?" %}</label>
-                        {{ game_config_form.is_public }}
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-            </div>
+            {% include 'includes/forms.html' %}
 
             <br>
             {% if creating %}

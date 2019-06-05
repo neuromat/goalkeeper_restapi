@@ -10,9 +10,9 @@ class GameConfigForm(forms.ModelForm):
         exclude = ('created_by',)
 
         widgets = {
-            'level': Select(attrs={'class': 'form-control', 'required': ""}),
-            'code': TextInput(attrs={'class': 'form-control', 'required': ""}),
-            'name': TextInput(attrs={'class': 'form-control', 'required': ""}),
+            'level': Select(attrs={'class': 'form-control'}),
+            'code': TextInput(attrs={'class': 'form-control'}),
+            'name': TextInput(attrs={'class': 'form-control'}),
             'is_public': Select(attrs={'class': 'form-control'}),
         }
 
