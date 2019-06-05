@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-04 09:42-0300\n"
+"POT-Creation-Date: 2019-06-05 09:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,7 +132,7 @@ msgstr "Nenhum usuário encontrado!"
 msgid "User created successfully."
 msgstr "Usuário criado com sucesso."
 
-#: custom_user/views.py:38 game/views.py:53 game/views.py:117
+#: custom_user/views.py:38 game/views.py:59 game/views.py:123
 msgid "Information not saved."
 msgstr "Informação não gravada."
 
@@ -212,8 +212,8 @@ msgid "Are you sure you want to delete this context?"
 msgstr "Tem certeza de que deseja excluir este contexto?"
 
 #: game/templates/game/game_data.html:7
-msgid "Opponent's name"
-msgstr "Nome do adversário"
+msgid "Kicker"
+msgstr "Adversário"
 
 #: game/templates/game/game_data.html:14
 #: game/templates/game/goalkeeper_game_list.html:25
@@ -226,7 +226,7 @@ msgstr "Número de direções"
 
 #: game/templates/game/game_data.html:30
 msgid "Depth"
-msgstr "Profundidade"
+msgstr "Altura"
 
 #: game/templates/game/game_data.html:39
 msgid "Sequence"
@@ -370,38 +370,42 @@ msgid "Probability for"
 msgstr "Probabilidade para"
 
 #: game/views.py:48
-msgid "Goalkeeper game created successfully."
-msgstr "Jogo do goleiro criado com sucesso."
+msgid "This kicker already has this phase registered."
+msgstr "Este adversário já tem essa fase registrada."
 
-#: game/views.py:78
+#: game/views.py:53
+msgid "Game created successfully."
+msgstr "Jogo criado com sucesso."
+
+#: game/views.py:84
 msgid "Game removed successfully."
 msgstr "Jogo removido com sucesso."
 
-#: game/views.py:81
+#: game/views.py:87
 msgid "Error trying to delete the game."
 msgstr "Erro ao tentar excluir o jogo."
 
-#: game/views.py:88 game/views.py:240
+#: game/views.py:94 game/views.py:246
 msgid "Context removed successfully."
 msgstr "Contexto removido com sucesso."
 
-#: game/views.py:113
-msgid "Goalkeeper game updated successfully."
-msgstr "Jogo do goleiro atualizado com sucesso."
+#: game/views.py:119
+msgid "Game updated successfully."
+msgstr "Jogo atualizado com sucesso."
 
-#: game/views.py:115
+#: game/views.py:121
 msgid "There are no changes to save."
 msgstr "Não há alterações para salvar."
 
-#: game/views.py:224
+#: game/views.py:230
 msgid "Probability created successfully."
 msgstr "Probabilidade criada com sucesso."
 
-#: game/views.py:227
+#: game/views.py:233
 msgid "Context tree created successfully."
 msgstr "Árvore de contexto criada com sucesso."
 
-#: game/views.py:233
+#: game/views.py:239
 msgid "The sum of the probabilities must be equal to 1."
 msgstr "A soma das probabilidades deve ser igual a 1."
 
