@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-05 16:51-0300\n"
+"POT-Creation-Date: 2019-06-05 17:02-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,7 +140,7 @@ msgstr "Usuário criado com sucesso."
 #: custom_user/views.py:38 game/views.py:63 game/views.py:118 game/views.py:152
 #: game/views.py:216
 msgid "Information not saved."
-msgstr "Informação não gravada."
+msgstr "Não foi possível salvar esta informação."
 
 #: custom_user/views.py:60
 msgid "User updated successfully."
@@ -170,13 +170,30 @@ msgstr "Não"
 msgid "Yes"
 msgstr "Sim"
 
+#: game/models.py:29 game/templates/game/config_list.html:26
+#: game/templates/game/goalkeeper_game_list.html:26
+msgid "Level"
+msgstr "Nível"
+
+#: game/models.py:30 game/templates/game/config_list.html:25
+msgid "Code"
+msgstr "Código"
+
+#: game/models.py:31 game/templates/game/config_list.html:24
+msgid "Name"
+msgstr "Nome"
+
+#: game/models.py:32
+msgid "Is it public?"
+msgstr "É público?"
+
 #: game/models.py:39
-msgid "Game configuration"
-msgstr "Configuração do jogo"
+msgid "Configuration"
+msgstr "Configuração"
 
 #: game/models.py:40
-msgid "Game configurations"
-msgstr "Configurações do jogo"
+msgid "Configurations"
+msgstr "Configurações"
 
 #: game/templates/game/config.html:13
 msgid "New game config"
@@ -206,19 +223,6 @@ msgstr "Lista de adversários"
 #: game/templates/game/config_list.html:16
 msgid "Create kicker"
 msgstr "Criar adversário"
-
-#: game/templates/game/config_list.html:24
-msgid "Name"
-msgstr "Nome"
-
-#: game/templates/game/config_list.html:25
-msgid "Code"
-msgstr "Código"
-
-#: game/templates/game/config_list.html:26
-#: game/templates/game/goalkeeper_game_list.html:26
-msgid "Level"
-msgstr "Nível"
 
 #: game/templates/game/config_list.html:40
 msgid "No kicker found!"
@@ -421,7 +425,9 @@ msgstr "Novo config criado com sucesso."
 #: game/views.py:83
 msgid ""
 "This config can't be removed because there are games configured with it."
-msgstr "Esta configuração não pode ser removida porque existem jogos configurados com ela."
+msgstr ""
+"Esta configuração não pode ser removida porque existem jogos configurados "
+"com ela."
 
 #: game/views.py:89
 msgid "Kicker removed successfully."

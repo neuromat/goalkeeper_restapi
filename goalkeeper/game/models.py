@@ -26,18 +26,18 @@ class Level(models.Model):
 
 class GameConfig(models.Model):
     """ An instance of this class is an opponent. """
-    level = models.ForeignKey(Level, on_delete=models.PROTECT)
-    code = models.CharField(max_length=50, unique=True)
-    name = models.CharField(max_length=100, unique=True)
-    is_public = models.CharField(max_length=3, choices=YES_NO_ANSWER, default=NO)
+    level = models.ForeignKey(Level, verbose_name=_('Level'), on_delete=models.PROTECT)
+    code = models.CharField(_('Code'), max_length=50, unique=True)
+    name = models.CharField(_('Name'), max_length=100, unique=True)
+    is_public = models.CharField(_('Is it public?'), max_length=3, choices=YES_NO_ANSWER, default=NO)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = _('Game configuration')
-        verbose_name_plural = _('Game configurations')
+        verbose_name = _('Configuration')
+        verbose_name_plural = _('Configurations')
         ordering = ('name',)
 
 
