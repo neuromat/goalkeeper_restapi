@@ -25,6 +25,17 @@ def language_change(request, language_code):
 
 
 @login_required
+def game_config_list(request, template_name="game/config_list.html"):
+    configs = GameConfig.objects.all().order_by('name')
+
+    context = {
+        "configs": configs,
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
 def goalkeeper_game_list(request, template_name="game/goalkeeper_game_list.html"):
     games = GoalkeeperGame.objects.all().order_by('config', 'phase')
 

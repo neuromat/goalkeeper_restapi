@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import context_tree, game_config_new, goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, \
-    goalkeeper_game_list
+from .views import context_tree, game_config_new, game_config_list, goalkeeper_game_new, goalkeeper_game_view, \
+    goalkeeper_game_update, goalkeeper_game_list
 
 
 urlpatterns = [
     # Game config
+    path('config/list/', game_config_list, name='game_config_list'),
     path('config/new/', game_config_new, name='game_config_new'),
 
     # Goalkeeper game
