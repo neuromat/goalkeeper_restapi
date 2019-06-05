@@ -50,12 +50,12 @@
             <br>
             {% if creating %}
                 <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
-{#                <a href="{% url 'goalkeeper_game_list' %}" class="btn btn-secondary">{% trans "Back" %}</a>#}
-{#            {% elif editing %}#}
-{#                <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>#}
-{#                <a href="{% url 'goalkeeper_game_view' game.id %}" class="btn btn-secondary">{% trans "Cancel" %}</a>#}
+                <a href="{% url 'game_config_list' %}" class="btn btn-secondary">{% trans "Back" %}</a>
+            {% elif editing %}
+                <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
+                <a href="{% url 'game_config_view' config.id %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
             {% elif viewing %}
-{#                <a href="{% url 'goalkeeper_game_update' game.id %}" class="btn btn-primary" style="margin-left: 5px">{% trans "Edit" %}</a>#}
+                <a href="{% url 'game_config_update' config.id %}" class="btn btn-primary" style="margin-left: 5px">{% trans "Edit" %}</a>
                 <a href="{% url 'game_config_list' %}" class="btn btn-secondary">{% trans "Back" %}</a>
                 <button type="button" class="btn btn-danger float-right" onclick="showDialogAndEnableRemoveButton()">{% trans "Delete" %}</button>
             {% else %}

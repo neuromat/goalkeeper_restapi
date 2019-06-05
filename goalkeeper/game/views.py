@@ -82,8 +82,36 @@ def game_config_view(request, config_id, template_name="game/config.html"):
         pass
 
     context = {
+        "config": config,
         "game_config_form": game_config_form,
         "viewing": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def game_config_update(request, config_id, template_name="game/config.html"):
+    config = get_object_or_404(GameConfig, pk=config_id)
+    game_config_form = GameConfigForm(request.POST or None, instance=config)
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        if game_config_form.is_valid():
+            if game_config_form.has_changed():
+                game_config_form.save()
+                messages.success(request, _('Kicker updated successfully.'))
+            else:
+                messages.warning(request, _('There are no changes to save.'))
+        else:
+            messages.warning(request, _('Information not saved.'))
+
+        redirect_url = reverse("game_config_view", args=(config.id,))
+        return HttpResponseRedirect(redirect_url)
+
+    context = {
+        "config": config,
+        "game_config_form": game_config_form,
+        "editing": True
     }
 
     return render(request, template_name, context)
