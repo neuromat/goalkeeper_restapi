@@ -8,6 +8,13 @@ FINAL_SCORE = (
     ('none', _('None')),
 )
 
+NO = 'no'
+YES = 'yes'
+YES_NO_ANSWER = (
+    (NO, _('No')),
+    (YES, _('Yes')),
+)
+
 
 class Level(models.Model):
     """ An instance of this class is used to identify the level of a participant and also the level of the opponent. """
@@ -22,7 +29,7 @@ class GameConfig(models.Model):
     level = models.ForeignKey(Level, on_delete=models.PROTECT)
     code = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=100, unique=True)
-    is_public = models.BooleanField()
+    is_public = models.CharField(max_length=3, choices=YES_NO_ANSWER, default=NO)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
