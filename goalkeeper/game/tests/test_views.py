@@ -4,7 +4,7 @@ from django.urls import resolve, reverse
 from django.test import TestCase
 
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
-    context_tree, available_context, game_config_new, game_config_list
+    context_tree, available_context, game_config_new, game_config_list, game_config_view
 from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability
 
 USER_USERNAME = 'user'
@@ -64,6 +64,16 @@ class GameTest(TestCase):
     #     game = GameConfig.objects.filter(code='flecha')
     #     self.assertEqual(game.count(), 1)
     #     self.assertTrue(isinstance(game[0], GameConfig))
+
+    def test_game_config_view_status_code(self):
+        config = GameConfig.objects.first()
+        response = self.client.get(reverse("game_config_view", args=(config.id,)))
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'game/config.html')
+
+    def test_game_config_view_url_resolves_game_config_view_view(self):
+        view = resolve('/game/config/view/1/')
+        self.assertEquals(view.func, game_config_view)
 
     def test_goalkeeper_game_list_status_code(self):
         url = reverse('goalkeeper_game_list')

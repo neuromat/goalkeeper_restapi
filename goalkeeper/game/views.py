@@ -71,6 +71,25 @@ def game_config_new(request, template_name="game/config.html"):
 
 
 @login_required
+def game_config_view(request, config_id, template_name="game/config.html"):
+    config = get_object_or_404(GameConfig, pk=config_id)
+    game_config_form = GameConfigForm(request.POST or None, instance=config)
+
+    for field in game_config_form.fields:
+        game_config_form.fields[field].widget.attrs['disabled'] = True
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        pass
+
+    context = {
+        "game_config_form": game_config_form,
+        "viewing": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
 def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None)
 

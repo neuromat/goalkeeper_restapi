@@ -33,12 +33,11 @@
                                     <td>{{ config.name }}</td>
                                     <td>{{ config.code }}</td>
                                     <td>{{ config.level }}</td>
-                                    <td></td>
-{#                                    <td><a class="btn btn-primary" href="{% url 'game_config_view' config.pk %}"> {% trans "See data" %}</a></td>#}
+                                    <td><a class="btn btn-primary" href="{% url 'game_config_view' config.pk %}"> {% trans "See data" %}</a></td>
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="4" class="text-center">{% trans "No game found!" %}</td>
+                                    <td colspan="4" class="text-center">{% trans "No kicker found!" %}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
