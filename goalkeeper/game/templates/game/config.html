@@ -15,11 +15,12 @@
 
         <form role="form" method="post">{% csrf_token %}
             {% include 'includes/forms.html' %}
+            <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
 
             <br>
             {% if creating %}
                 <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
-                <a href="{% url 'game_config_list' %}" class="btn btn-secondary">{% trans "Back" %}</a>
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">{% trans "Back" %}</a>
             {% elif editing %}
                 <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
                 <a href="{% url 'game_config_view' config.id %}" class="btn btn-secondary">{% trans "Cancel" %}</a>

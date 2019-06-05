@@ -56,8 +56,13 @@ def game_config_new(request, template_name="game/config.html"):
             config = form.save(commit=False)
             config.created_by = request.user
             config.save()
-            messages.success(request, _('New config created successfully.'))
-            return HttpResponseRedirect(reverse("game_config_view", args=(config.id,)))
+            messages.success(request, _('New kicker created successfully.'))
+            redirect_to = request.POST.get('next')
+
+            if redirect_to and redirect_to.split('/')[-2] == 'new':
+                return HttpResponseRedirect(reverse("goalkeeper_game_new"))
+            else:
+                return HttpResponseRedirect(reverse("game_config_view", args=(config.id,)))
 
         else:
             messages.warning(request, _('Information not saved.'))
