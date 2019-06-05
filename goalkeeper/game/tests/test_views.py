@@ -4,7 +4,7 @@ from django.urls import resolve, reverse
 from django.test import TestCase
 
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
-    context_tree, available_context
+    context_tree, available_context, game_config_new
 from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability
 
 USER_USERNAME = 'user'
@@ -30,6 +30,29 @@ class GameTest(TestCase):
         GoalkeeperGame.objects.create(config=config, phase=0, depth=2, number_of_directions=3, plays_to_relax=0,
                                       player_time=1.0, celebration_time=1.0, read_seq=True, final_score_board='short',
                                       play_pause=True, score_board=True, show_history=True)
+
+    def test_game_config_new_status_code(self):
+        url = reverse('game_config_new')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'game/config.html')
+
+    def test_game_config_new_url_resolves_game_config_new_view(self):
+        view = resolve('/game/config/new/')
+        self.assertEquals(view.func, game_config_new)
+
+    def test_game_config_new(self):
+        url = reverse('game_config_new')
+        self.data = {
+            'config': 1,
+            'phase': 1,
+            'depth': 3,
+            'action': 'save'
+        }
+        self.client.post(url, self.data)
+        game = GoalkeeperGame.objects.filter(depth=3)
+        self.assertEqual(game.count(), 1)
+        self.assertTrue(isinstance(game[0], GoalkeeperGame))
 
     def test_goalkeeper_game_list_status_code(self):
         url = reverse('goalkeeper_game_list')

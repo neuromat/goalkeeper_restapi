@@ -8,7 +8,7 @@ from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as
 
 from rest_framework import generics, permissions
 
-from .forms import GoalkeeperGameForm
+from .forms import GameConfigForm, GoalkeeperGameForm
 from .models import Context, GoalkeeperGame, Probability, GameConfig, Level
 from .serializers import GameConfigSerializer
 
@@ -30,6 +30,29 @@ def goalkeeper_game_list(request, template_name="game/goalkeeper_game_list.html"
 
     context = {
         "games": games,
+        "creating": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def game_config_new(request, template_name="game/config.html"):
+    game_config_form = GameConfigForm(request.POST or None)
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        if game_config_form.is_valid():
+            config = game_config_form.save(commit=False)
+            config.created_by = request.user
+            config.save()
+            messages.success(request, _('New kicker created successfully.'))
+            return HttpResponseRedirect(reverse("home"))
+
+        else:
+            messages.warning(request, _('Information not saved.'))
+
+    context = {
+        "game_config_form": game_config_form,
         "creating": True
     }
 

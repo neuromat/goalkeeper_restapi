@@ -1,6 +1,20 @@
 from django import forms
 from django.forms import CheckboxInput, NumberInput, Select, TextInput
-from .models import GoalkeeperGame
+from .models import GameConfig, GoalkeeperGame
+
+
+class GameConfigForm(forms.ModelForm):
+
+    class Meta:
+        model = GameConfig
+        exclude = ('created_by',)
+
+        widgets = {
+            'level': Select(attrs={'class': 'form-control', 'required': ""}),
+            'code': TextInput(attrs={'class': 'form-control', 'required': ""}),
+            'name': TextInput(attrs={'class': 'form-control', 'required': ""}),
+            'is_public': Select(attrs={'class': 'form-control'}),
+        }
 
 
 class GoalkeeperGameForm(forms.ModelForm):
