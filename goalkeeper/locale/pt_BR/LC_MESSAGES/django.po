@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-05 17:02-0300\n"
+"POT-Creation-Date: 2019-06-05 18:15-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,19 +48,19 @@ msgstr "Novo usuário"
 
 #: custom_user/templates/custom_user/register_users.html:22
 #: custom_user/templates/custom_user/register_users.html:25
-#: game/templates/game/config.html:21 game/templates/game/config.html:24
-#: game/templates/game/game_data.html:239
+#: game/templates/game/config.html:22 game/templates/game/config.html:25
 #: game/templates/game/game_data.html:242
+#: game/templates/game/game_data.html:245
 #: game/templates/game/probability.html:43
 msgid "Save"
 msgstr "Salvar"
 
 #: custom_user/templates/custom_user/register_users.html:23
 #: custom_user/templates/custom_user/register_users.html:26
-#: game/templates/game/config.html:22 game/templates/game/config.html:28
-#: game/templates/game/config.html:31 game/templates/game/game_data.html:240
-#: game/templates/game/game_data.html:246
+#: game/templates/game/config.html:23 game/templates/game/config.html:29
+#: game/templates/game/config.html:32 game/templates/game/game_data.html:243
 #: game/templates/game/game_data.html:249
+#: game/templates/game/game_data.html:252
 #: game/templates/game/probability.html:44
 #: templates/login/password_reset.html:15
 #: templates/login/password_reset_done.html:11
@@ -69,9 +69,9 @@ msgstr "Voltar"
 
 #: custom_user/templates/custom_user/register_users.html:27
 #: custom_user/templates/custom_user/register_users.html:41
-#: game/templates/game/config.html:29 game/templates/game/config.html:45
-#: game/templates/game/context.html:68 game/templates/game/game_data.html:247
-#: game/templates/game/game_data.html:264
+#: game/templates/game/config.html:30 game/templates/game/config.html:46
+#: game/templates/game/context.html:68 game/templates/game/game_data.html:250
+#: game/templates/game/game_data.html:267
 #: game/templates/game/probability.html:94
 msgid "Delete"
 msgstr "Remover"
@@ -85,9 +85,9 @@ msgid "Are you sure you want to delete this user?"
 msgstr "Tem certeza de que deseja excluir este usuário?"
 
 #: custom_user/templates/custom_user/register_users.html:40
-#: game/templates/game/config.html:25 game/templates/game/config.html:44
-#: game/templates/game/context.html:67 game/templates/game/game_data.html:243
-#: game/templates/game/game_data.html:263
+#: game/templates/game/config.html:26 game/templates/game/config.html:45
+#: game/templates/game/context.html:67 game/templates/game/game_data.html:246
+#: game/templates/game/game_data.html:266
 #: game/templates/game/probability.html:93
 msgid "Cancel"
 msgstr "Cancelar"
@@ -137,8 +137,8 @@ msgstr "Nenhum usuário encontrado!"
 msgid "User created successfully."
 msgstr "Usuário criado com sucesso."
 
-#: custom_user/views.py:38 game/views.py:63 game/views.py:118 game/views.py:152
-#: game/views.py:216
+#: custom_user/views.py:38 game/views.py:68 game/views.py:123 game/views.py:157
+#: game/views.py:221
 msgid "Information not saved."
 msgstr "Não foi possível salvar esta informação."
 
@@ -199,15 +199,15 @@ msgstr "Configurações"
 msgid "New game config"
 msgstr "Nova configuração"
 
-#: game/templates/game/config.html:27 game/templates/game/game_data.html:245
+#: game/templates/game/config.html:28 game/templates/game/game_data.html:248
 msgid "Edit"
 msgstr "Editar"
 
-#: game/templates/game/config.html:38
+#: game/templates/game/config.html:39
 msgid "Delete kicker"
 msgstr "Remover adversário"
 
-#: game/templates/game/config.html:41
+#: game/templates/game/config.html:42
 msgid "Are you sure you want to delete this kicker?"
 msgstr "Tem certeza de que deseja excluir este adversário?"
 
@@ -220,7 +220,7 @@ msgstr "Adversários"
 msgid "List of kickers"
 msgstr "Lista de adversários"
 
-#: game/templates/game/config_list.html:16
+#: game/templates/game/config_list.html:16 game/templates/game/game_data.html:9
 msgid "Create kicker"
 msgstr "Criar adversário"
 
@@ -271,108 +271,108 @@ msgstr "Tem certeza de que deseja excluir este contexto?"
 msgid "Kicker"
 msgstr "Adversário"
 
-#: game/templates/game/game_data.html:14
+#: game/templates/game/game_data.html:17
 #: game/templates/game/goalkeeper_game_list.html:25
 msgid "Phase"
 msgstr "Fase"
 
-#: game/templates/game/game_data.html:23
+#: game/templates/game/game_data.html:26
 msgid "Number of directions"
 msgstr "Número de direções"
 
-#: game/templates/game/game_data.html:30
+#: game/templates/game/game_data.html:33
 msgid "Depth"
 msgstr "Altura"
 
-#: game/templates/game/game_data.html:39
+#: game/templates/game/game_data.html:42
 msgid "Sequence"
 msgstr "Sequência"
 
-#: game/templates/game/game_data.html:46
+#: game/templates/game/game_data.html:49
 msgid "Deterministic or probabilistic move"
 msgstr "Movimento deterministico ou probabilístico"
 
-#: game/templates/game/game_data.html:60
+#: game/templates/game/game_data.html:63
 msgid "Optional 1 - number of plays"
 msgstr "Opcional 1 - número de jogadas"
 
-#: game/templates/game/game_data.html:69
+#: game/templates/game/game_data.html:72
 msgid "Number of plays"
 msgstr "Número de jogadas"
 
-#: game/templates/game/game_data.html:76
+#: game/templates/game/game_data.html:79
 msgid "Minimum number of plays"
 msgstr "Número mínimo de jogadas"
 
-#: game/templates/game/game_data.html:85
+#: game/templates/game/game_data.html:88
 msgid "Minimum number of hits in sequence"
 msgstr "Número mínimo de acertos em sequência"
 
-#: game/templates/game/game_data.html:92
+#: game/templates/game/game_data.html:95
 msgid "Number of plays to have a break"
 msgstr "Número de jogadas para fazer uma pausa"
 
-#: game/templates/game/game_data.html:106
+#: game/templates/game/game_data.html:109
 msgid "Optional 2 - times"
 msgstr "Opcional 2 - tempos"
 
-#: game/templates/game/game_data.html:115
+#: game/templates/game/game_data.html:118
 msgid "Animation time after a kick"
 msgstr "Tempo de animação depois de um chute"
 
-#: game/templates/game/game_data.html:122
+#: game/templates/game/game_data.html:125
 msgid "Speed time for the opponent"
 msgstr "Tempo de animação para o adversário"
 
-#: game/templates/game/game_data.html:131
+#: game/templates/game/game_data.html:134
 msgid "Type of final score board"
 msgstr "Tipo de placar final"
 
-#: game/templates/game/game_data.html:145
+#: game/templates/game/game_data.html:148
 msgid "Optional 3 - show/hide options"
 msgstr "Opcional 3 - mostrar/ocultar opções"
 
-#: game/templates/game/game_data.html:154
+#: game/templates/game/game_data.html:157
 msgid "Show history"
 msgstr "Mostrar histórico"
 
-#: game/templates/game/game_data.html:161
+#: game/templates/game/game_data.html:164
 msgid "Read sequence"
 msgstr "Ler sequência"
 
-#: game/templates/game/game_data.html:168
+#: game/templates/game/game_data.html:171
 msgid "Show the score"
 msgstr "Mostrar a pontuação"
 
-#: game/templates/game/game_data.html:175
+#: game/templates/game/game_data.html:178
 msgid "Show play/pause button"
 msgstr "Mostrar botão play/pause"
 
-#: game/templates/game/game_data.html:189
+#: game/templates/game/game_data.html:192
 msgid "Optional 4 - buttons"
 msgstr "Opcional 4 - botões"
 
-#: game/templates/game/game_data.html:198
+#: game/templates/game/game_data.html:201
 msgid "Play/pause button"
 msgstr "Botão play/pause"
 
-#: game/templates/game/game_data.html:205
+#: game/templates/game/game_data.html:208
 msgid "Left button"
 msgstr "Botão esquerdo"
 
-#: game/templates/game/game_data.html:214
+#: game/templates/game/game_data.html:217
 msgid "Center button"
 msgstr "Botão central"
 
-#: game/templates/game/game_data.html:221
+#: game/templates/game/game_data.html:224
 msgid "Right button"
 msgstr "Botão direito"
 
-#: game/templates/game/game_data.html:257
+#: game/templates/game/game_data.html:260
 msgid "Delete goalkeeper game"
 msgstr "Remover jogo do goleiro"
 
-#: game/templates/game/game_data.html:260
+#: game/templates/game/game_data.html:263
 msgid "Are you sure you want to delete this game?"
 msgstr "Tem certeza que quer remover esse jogo?"
 
@@ -419,65 +419,65 @@ msgid "Probability for"
 msgstr "Probabilidade para"
 
 #: game/views.py:59
-msgid "New config created successfully."
-msgstr "Novo config criado com sucesso."
+msgid "New kicker created successfully."
+msgstr "Novo adversário criado com sucesso."
 
-#: game/views.py:83
+#: game/views.py:88
 msgid ""
 "This config can't be removed because there are games configured with it."
 msgstr ""
 "Esta configuração não pode ser removida porque existem jogos configurados "
 "com ela."
 
-#: game/views.py:89
+#: game/views.py:94
 msgid "Kicker removed successfully."
 msgstr "Adversário removido com sucesso."
 
-#: game/views.py:92
+#: game/views.py:97
 msgid "Error trying to delete this config."
 msgstr "Erro ao tentar excluir este config."
 
-#: game/views.py:114
+#: game/views.py:119
 msgid "Kicker updated successfully."
 msgstr "Adversário atualizado com sucesso."
 
-#: game/views.py:116 game/views.py:214
+#: game/views.py:121 game/views.py:219
 msgid "There are no changes to save."
 msgstr "Não há alterações para salvar."
 
-#: game/views.py:141
+#: game/views.py:146
 msgid "This kicker already has this phase registered."
 msgstr "Este adversário já tem essa fase registrada."
 
-#: game/views.py:146
+#: game/views.py:151
 msgid "Game created successfully."
 msgstr "Jogo criado com sucesso."
 
-#: game/views.py:177
+#: game/views.py:182
 msgid "Game removed successfully."
 msgstr "Jogo removido com sucesso."
 
-#: game/views.py:180
+#: game/views.py:185
 msgid "Error trying to delete the game."
 msgstr "Erro ao tentar excluir o jogo."
 
-#: game/views.py:187 game/views.py:339
+#: game/views.py:192 game/views.py:344
 msgid "Context removed successfully."
 msgstr "Contexto removido com sucesso."
 
-#: game/views.py:212
+#: game/views.py:217
 msgid "Game updated successfully."
 msgstr "Jogo atualizado com sucesso."
 
-#: game/views.py:323
+#: game/views.py:328
 msgid "Probability created successfully."
 msgstr "Probabilidade criada com sucesso."
 
-#: game/views.py:326
+#: game/views.py:331
 msgid "Context tree created successfully."
 msgstr "Árvore de contexto criada com sucesso."
 
-#: game/views.py:332
+#: game/views.py:337
 msgid "The sum of the probabilities must be equal to 1."
 msgstr "A soma das probabilidades deve ser igual a 1."
 
