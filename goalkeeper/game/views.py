@@ -9,7 +9,7 @@ from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as
 from rest_framework import generics, permissions
 
 from .forms import GameConfigForm, GoalkeeperGameForm
-from .models import Context, GoalkeeperGame, Probability, GameConfig, Level
+from .models import Context, Game, GoalkeeperGame, Probability, GameConfig, Level
 from .serializers import GameConfigSerializer
 
 
@@ -56,8 +56,8 @@ def game_config_new(request, template_name="game/config.html"):
             config = game_config_form.save(commit=False)
             config.created_by = request.user
             config.save()
-            messages.success(request, _('New kicker created successfully.'))
-            return HttpResponseRedirect(reverse("home"))
+            messages.success(request, _('New config created successfully.'))
+            return HttpResponseRedirect(reverse("game_config_view", args=(config.id,)))
 
         else:
             messages.warning(request, _('Information not saved.'))
@@ -78,8 +78,20 @@ def game_config_view(request, config_id, template_name="game/config.html"):
     for field in game_config_form.fields:
         game_config_form.fields[field].widget.attrs['disabled'] = True
 
-    if request.method == "POST" and request.POST['action'] == "save":
-        pass
+    if request.method == "POST" and request.POST['action'] == "remove":
+        if Game.objects.filter(config=config.id):
+            messages.error(request, _("This config can't be removed because there are games configured with it."))
+            redirect_url = reverse("game_config_view", args=(config_id,))
+            return HttpResponseRedirect(redirect_url)
+        else:
+            try:
+                config.delete()
+                messages.success(request, _('Kicker removed successfully.'))
+                return redirect('game_config_list')
+            except ProtectedError:
+                messages.error(request, _("Error trying to delete this config."))
+                redirect_url = reverse("game_config_view", args=(config_id,))
+                return HttpResponseRedirect(redirect_url)
 
     context = {
         "config": config,
