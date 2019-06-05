@@ -5,6 +5,9 @@
         <div class="col-sm-6 col-12">
             <div class="form-group">
                 <label class="control-label">{% trans "Kicker" %} <b style="color: red;">*</b></label>
+                <small class="float-right">
+                    <a class="" href="{% url 'game_config_new' %}"><i class="fa fa-fw fa-plus"></i> {% trans "Create kicker" %}</a>
+                </small>
                 {{ goalkeeper_game_form.config }}
                 <div class="help-block with-errors"></div>
             </div>
