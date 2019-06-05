@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -6,19 +7,6 @@ FINAL_SCORE = (
     ('short', _('Short')),
     ('none', _('None')),
 )
-
-
-class Institution(models.Model):
-    """ An instance of this class is an institution that uses the game to collect data for research. """
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('Institution')
-        verbose_name_plural = _('Institutions')
-        ordering = ('name',)
 
 
 class Level(models.Model):
@@ -31,11 +19,11 @@ class Level(models.Model):
 
 class GameConfig(models.Model):
     """ An instance of this class is an opponent. """
-    institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
     level = models.ForeignKey(Level, on_delete=models.PROTECT)
     code = models.CharField(max_length=50, unique=True)
-    is_public = models.BooleanField()
     name = models.CharField(max_length=100, unique=True)
+    is_public = models.BooleanField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
