@@ -182,11 +182,10 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
             try:
                 game.delete()
                 messages.success(request, _('Game removed successfully.'))
-                return redirect('home')
             except ProtectedError:
                 messages.error(request, _("Error trying to delete the game."))
-                redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
-                return HttpResponseRedirect(redirect_url)
+
+            return HttpResponseRedirect(reverse("goalkeeper_game_list"))
 
         if request.POST['action'][:12] == "remove_path-":
             get_context = get_object_or_404(Context, pk=request.POST['action'][12:])
