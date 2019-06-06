@@ -14,8 +14,8 @@
         </div>
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Phase" %} <b style="color: red;">*</b></label>
-                {{ goalkeeper_game_form.phase }}
+                <label class="control-label">{% trans "Number of directions" %} <b style="color: red;">*</b></label>
+                {{ goalkeeper_game_form.number_of_directions }}
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -23,8 +23,8 @@
     <div class="row">
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Number of directions" %} <b style="color: red;">*</b></label>
-                {{ goalkeeper_game_form.number_of_directions }}
+                <label for="id_phase" class="control-label">{% trans "Phase" %}</label>
+                <input type="number" name="phase" class="form-control" readonly="readonly" id="id_phase" {% if game %}value="{{ game.phase }}"{% endif %}>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
