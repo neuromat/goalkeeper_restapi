@@ -292,66 +292,31 @@ def available_context(goalkeeper_game_id):
 
 
 @login_required
-def context_tree(request, goalkeeper_game_id, template_name="game/probability.html"):
+def context_tree(request, goalkeeper_game_id, template_name="game/context.html"):
     """
-    An instance of this class is a context with its probabilities
+    An instance of this class is a node that may or may not be a context
     :param request: request method
     :param goalkeeper_game_id: ID of the game for which a context will be created
     :param template_name: template used to create the context
     :return: data available to create the context
     """
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
-    probabilities = Probability.objects.filter(context__goalkeeper=game)
-    context_used = Context.objects.filter(goalkeeper=game)
     context_list = available_context(goalkeeper_game_id)
-    probability = {}
-    total_prob = 0.0
 
-    if request.method == "POST":
-        if request.POST['action'] == "save":
-            # Check the probability for each direction
-            for direction in range(game.number_of_directions):
-                prob = request.POST['context-'+str(direction)].replace(',', '.')
-                if prob:
-                    probability[direction] = float(prob)
-                    total_prob += float(prob)
-                else:
-                    probability[direction] = 0.0
+    if request.method == "POST" and request.POST['action'] == "save":
+        context_to_save = {}
+        for num in context_list:
+            context_to_save[num] = request.POST.get(num)
 
-            if total_prob == 1:
-                # If the sum of the probabilities is equal to 1, create the probabilities for the path
-                new_context = Context.objects.create(goalkeeper=game, path=request.POST['path'])
-                for key, value in probability.items():
-                    Probability.objects.create(context=new_context, direction=key, value=value)
+        for key, value in context_to_save.items():
+            Context.objects.create(goalkeeper=game, path=key, is_context=value)
 
-                context_available = available_context(goalkeeper_game_id)
-                if context_available:
-                    messages.success(request, _('Probability created successfully.'))
-                    redirect_url = reverse("context", args=(goalkeeper_game_id,))
-                else:
-                    messages.success(request, _('Context tree created successfully.'))
-                    redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
-
-                return HttpResponseRedirect(redirect_url)
-
-            else:
-                messages.error(request, _('The sum of the probabilities must be equal to 1.'))
-                redirect_url = reverse("context", args=(game.id,))
-                return HttpResponseRedirect(redirect_url)
-
-        if request.POST['action'][:12] == "remove_path-":
-            get_context = get_object_or_404(Context, pk=request.POST['action'][12:])
-            get_context.delete()
-            messages.success(request, _('Context removed successfully.'))
-            redirect_url = reverse("context", args=(goalkeeper_game_id,))
-            return HttpResponseRedirect(redirect_url)
+        redirect_url = reverse("context", args=(goalkeeper_game_id,))
+        return HttpResponseRedirect(redirect_url)
 
     context = {
         "game": game,
-        "number_of_directions": range(game.number_of_directions),
         "context_list": context_list,
-        "probabilities": probabilities,
-        "context_used": context_used
     }
 
     return render(request, template_name, context)
