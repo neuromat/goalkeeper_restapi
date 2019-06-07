@@ -8,8 +8,8 @@ from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as
 
 from rest_framework import generics, permissions
 
-from .forms import GoalkeeperGameForm
-from .models import Context, GoalkeeperGame, Probability, GameConfig, Level
+from .forms import GameConfigForm, GoalkeeperGameForm
+from .models import Context, Game, GoalkeeperGame, Probability, GameConfig, Level
 from .serializers import GameConfigSerializer
 
 
@@ -25,6 +25,17 @@ def language_change(request, language_code):
 
 
 @login_required
+def game_config_list(request, template_name="game/config_list.html"):
+    configs = GameConfig.objects.all().order_by('name')
+
+    context = {
+        "configs": configs,
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
 def goalkeeper_game_list(request, template_name="game/goalkeeper_game_list.html"):
     games = GoalkeeperGame.objects.all().order_by('config', 'phase')
 
@@ -37,15 +48,110 @@ def goalkeeper_game_list(request, template_name="game/goalkeeper_game_list.html"
 
 
 @login_required
+def game_config_new(request, template_name="game/config.html"):
+    form = GameConfigForm(request.POST or None)
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        if form.is_valid():
+            config = form.save(commit=False)
+            config.created_by = request.user
+            config.save()
+            messages.success(request, _('New kicker created successfully.'))
+            redirect_to = request.POST.get('next')
+
+            if redirect_to and redirect_to.split('/')[-2] == 'new':
+                return HttpResponseRedirect(reverse("goalkeeper_game_new"))
+            else:
+                return HttpResponseRedirect(reverse("game_config_view", args=(config.id,)))
+
+        else:
+            messages.warning(request, _('Information not saved.'))
+
+    context = {
+        "form": form,
+        "creating": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def game_config_view(request, config_id, template_name="game/config.html"):
+    config = get_object_or_404(GameConfig, pk=config_id)
+    form = GameConfigForm(request.POST or None, instance=config)
+
+    for field in form.fields:
+        form.fields[field].widget.attrs['disabled'] = True
+
+    if request.method == "POST" and request.POST['action'] == "remove":
+        if Game.objects.filter(config=config.id):
+            messages.error(request, _("This config can't be removed because there are games configured with it."))
+            redirect_url = reverse("game_config_view", args=(config_id,))
+            return HttpResponseRedirect(redirect_url)
+        else:
+            try:
+                config.delete()
+                messages.success(request, _('Kicker removed successfully.'))
+                return redirect('game_config_list')
+            except ProtectedError:
+                messages.error(request, _("Error trying to delete this config."))
+                redirect_url = reverse("game_config_view", args=(config_id,))
+                return HttpResponseRedirect(redirect_url)
+
+    context = {
+        "config": config,
+        "form": form,
+        "viewing": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def game_config_update(request, config_id, template_name="game/config.html"):
+    config = get_object_or_404(GameConfig, pk=config_id)
+    form = GameConfigForm(request.POST or None, instance=config)
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        if form.is_valid():
+            if form.has_changed():
+                form.save()
+                messages.success(request, _('Kicker updated successfully.'))
+            else:
+                messages.warning(request, _('There are no changes to save.'))
+        else:
+            messages.warning(request, _('Information not saved.'))
+
+        redirect_url = reverse("game_config_view", args=(config.id,))
+        return HttpResponseRedirect(redirect_url)
+
+    context = {
+        "config": config,
+        "form": form,
+        "editing": True
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
 def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None)
 
     if request.method == "POST" and request.POST['action'] == "save":
         if goalkeeper_game_form.is_valid():
+            game_selected = GoalkeeperGame.objects.filter(config=request.POST['config']).order_by('phase')
+
+            if game_selected:
+                next_phase = game_selected.last().phase + 1
+            else:
+                next_phase = 0
+
             game = goalkeeper_game_form.save(commit=False)
+            game.phase = next_phase
             game.save()
 
-            messages.success(request, _('Goalkeeper game created successfully.'))
+            messages.success(request, _('Game created successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(game.id,))
             return HttpResponseRedirect(redirect_url)
 
@@ -76,11 +182,10 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
             try:
                 game.delete()
                 messages.success(request, _('Game removed successfully.'))
-                return redirect('home')
             except ProtectedError:
                 messages.error(request, _("Error trying to delete the game."))
-                redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
-                return HttpResponseRedirect(redirect_url)
+
+            return HttpResponseRedirect(reverse("goalkeeper_game_list"))
 
         if request.POST['action'][:12] == "remove_path-":
             get_context = get_object_or_404(Context, pk=request.POST['action'][12:])
@@ -110,7 +215,7 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
         if goalkeeper_game_form.is_valid():
             if goalkeeper_game_form.has_changed():
                 goalkeeper_game_form.save()
-                messages.success(request, _('Goalkeeper game updated successfully.'))
+                messages.success(request, _('Game updated successfully.'))
             else:
                 messages.warning(request, _('There are no changes to save.'))
         else:

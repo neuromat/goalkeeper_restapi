@@ -74,20 +74,17 @@ LightmapSettings:
     m_MixedBakeMode: 1
     m_BakeBackend: 0
     m_PVRSampling: 1
-    m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFilterTypeDirect: 0
-    m_PVRFilterTypeIndirect: 0
-    m_PVRFilterTypeAO: 0
+    m_PVRFiltering: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
-    m_PVRFilteringAtrousPositionSigmaIndirect: 2
-    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_PVRFilteringAtrousColorSigma: 1
+    m_PVRFilteringAtrousNormalSigma: 1
+    m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
   m_ShadowMaskMode: 2
 --- !u!196 &4
@@ -1100,6 +1097,52 @@ Prefab:
     - target: {fileID: 1684618966084798, guid: 6f1e6e0091903344d81872be703a8082, type: 2}
       propertyPath: m_Name
       value: credits
+      objectReference: {fileID: 0}
+    - target: {fileID: 114802002694927966, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114802002694927966, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114802002694927966, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114802002694927966, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 2ecf70f312ebb5941bf6ea736a59718b,
+        type: 3}
+    - target: {fileID: 224922218495567822, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -301.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224922218495567822, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 36.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734224287590662, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 493507199}
+    - target: {fileID: 114734224287590662, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: voltarTCLE
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734224287590662, guid: 6f1e6e0091903344d81872be703a8082,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6f1e6e0091903344d81872be703a8082, type: 2}

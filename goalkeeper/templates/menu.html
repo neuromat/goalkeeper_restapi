@@ -10,6 +10,12 @@
                 <span class="nav-link-text">{% trans "Home" %}</span>
             </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="{% trans "Kickers" %}">
+            <a class="nav-link" href="{% url 'game_config_list' %}">
+                <i class="fa fa-fw fa-user"></i>
+                <span class="nav-link-text">{% trans "Kickers" %}</span>
+            </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="{% trans "Games" %}">
             <a class="nav-link" href="{% url 'goalkeeper_game_list' %}">
                 <i class="fa fa-fw fa-soccer-ball-o"></i>
@@ -19,7 +25,7 @@
         {% if user.is_superuser %}
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="{% trans "Users" %}">
                 <a class="nav-link" href="{% url 'user_list' %}">
-                    <i class="fa fa-fw fa-user"></i>
+                    <i class="fa fa-fw fa-users"></i>
                     <span class="nav-link-text">{% trans "Users" %}</span>
                 </a>
             </li>

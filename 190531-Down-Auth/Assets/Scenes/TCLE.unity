@@ -279,9 +279,75 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: clickVoltar
       objectReference: {fileID: 0}
+    - target: {fileID: 114328836440046284, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 407795465}
+    - target: {fileID: 114328836440046284, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: irAbout
+      objectReference: {fileID: 0}
+    - target: {fileID: 114739385204539248, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_Text
+      value: Texto do termo
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374708188540210, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: tcleText
+      value: 
+      objectReference: {fileID: 105920052}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_Text
+      value: Voltar
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -36.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114127836789051456, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 85.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 29.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 224717155091708268, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 38
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54b3c5d397aca44a78fd892b1992cb4a, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &105920052 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114739385204539248, guid: 54b3c5d397aca44a78fd892b1992cb4a,
+    type: 2}
+  m_PrefabInternal: {fileID: 105920051}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &234108548
 GameObject:
   m_ObjectHideFlags: 0

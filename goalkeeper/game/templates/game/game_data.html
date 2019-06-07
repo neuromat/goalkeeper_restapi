@@ -4,15 +4,20 @@
     <div class="row">
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Opponent's name" %} <b style="color: red;">*</b></label>
+                <label class="control-label">{% trans "Kicker" %} <b style="color: red;">*</b></label>
+                {% if creating %}
+                    <small class="float-right">
+                        <a class="" href="{% url 'game_config_new' %}"><i class="fa fa-fw fa-plus"></i> {% trans "Create kicker" %}</a>
+                    </small>
+                {% endif %}
                 {{ goalkeeper_game_form.config }}
                 <div class="help-block with-errors"></div>
             </div>
         </div>
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Phase" %} <b style="color: red;">*</b></label>
-                {{ goalkeeper_game_form.phase }}
+                <label class="control-label">{% trans "Number of directions" %} <b style="color: red;">*</b></label>
+                {{ goalkeeper_game_form.number_of_directions }}
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -20,8 +25,8 @@
     <div class="row">
         <div class="col-sm-6 col-12">
             <div class="form-group">
-                <label class="control-label">{% trans "Number of directions" %} <b style="color: red;">*</b></label>
-                {{ goalkeeper_game_form.number_of_directions }}
+                <label for="id_phase" class="control-label">{% trans "Phase" %}</label>
+                <input type="number" name="phase" class="form-control" readonly="readonly" id="id_phase" {% if game %}value="{{ game.phase }}"{% endif %}>
                 <div class="help-block with-errors"></div>
             </div>
         </div>

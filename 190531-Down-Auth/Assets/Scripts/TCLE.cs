@@ -18,7 +18,7 @@ using TMPro;                        //171009 textMesh Pro (justified text and ma
 
 
 
-public class TCLE: MonoBehaviour 
+public class TCLE: MonoBehaviour
 {
 	//public GameObject userData;                 //@@@Josi: IntroScene(1)/Canvas/LogBox/MenuGameMode
 	public GameObject TCLEbox;	//@ale : para chamar a tela do termo;
@@ -30,21 +30,21 @@ public class TCLE: MonoBehaviour
 	// public Dropdown gender;                  //161205 pedir apenas nome
 	// public Dropdown education;               //161205 pedir apenas nome
 	// public Dropdown destro;
-    // public string gender;           
+    // public string gender;
 	// public string education;                 //Josi: 161205 pedir apenas nome
 	// public string destro;                    //Josi: 161205 pedir apenas nome
 
-	public Toggle agree;                        //170829 TCLE concorda 
+	public Toggle agree;                        //170829 TCLE concorda
 	public Toggle notAgree;                     //170830      ou não
 	public ColorBlock agreeOriginalColors;      //170926 guardar as cores originais (qdo user muda de decisao)
 	public ColorBlock notAgreeOriginalColors;   //170926 guardar as cores originais (qdo user muda de decisao)
 
-	public Text obrigaAlias;                    //Josi: para ligar msg apenas se apelido vazio 
+	public Text obrigaAlias;                    //Josi: para ligar msg apenas se apelido vazio
 	//@@private GameFlowManager gameFlowManager;    //Josi para continuar o jogo apos preencher dados
 
 	//Josi 170817
 	#if UNITY_ANDROID || UNITY_IOS
-	private TouchScreenKeyboard mobileKeyboard;     
+	private TouchScreenKeyboard mobileKeyboard;
 	#endif
 	public bool isKeyboardOpen = false;         //180220 start keyboard on mobile devices
 
@@ -64,7 +64,7 @@ public class TCLE: MonoBehaviour
 	//public Text tcleHeader;
 	public Text tcleNotAgree;
 	public Text tcleAgree;
-  //public GameObject tcleText;                //180625 now, a TMPro justified, not TextUI
+  public Text tcleText;                //180625 now, a TMPro justified, not TextUI
 
 
 
@@ -143,10 +143,11 @@ public class TCLE: MonoBehaviour
 		tcleNotAgree.text = translate.getLocalizedValue ("tcleNotAgree");
 		tcleAgree.text = translate.getLocalizedValue ("tcleAgree");
 		txtTermo.text = translate.getLocalizedValue ("txtTermo");
+		txtVoltarIdioma.text = translate.getLocalizedValue ("txtVoltarIdioma");
 		Debug.Log ("Temo --> " + txtTermo);
 
         //180625 from UiText to TMPro
-		//tcleText.text = translate.getLocalizedValue ("tcle").Replace("\\n","\n");
+		tcleText.text = translate.getLocalizedValue ("tcle").Replace("\\n","\n");
         //tcleText.text = translate.getLocalizedValue("tcle").Replace("\\n", "\n");
 
         //btnAvancar.text = translate.getLocalizedValue("avancar");
