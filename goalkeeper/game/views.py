@@ -237,7 +237,7 @@ def available_context(goalkeeper_game_id):
     """
     Function to create the list of available context
     :param goalkeeper_game_id: ID of the game for which a context will be created
-    :return: list with the available context
+    :return: list of available contexts and list of contexts not analyzed
     """
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     context_registered = Context.objects.filter(goalkeeper=game.pk).order_by('path')
