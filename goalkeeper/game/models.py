@@ -115,7 +115,8 @@ class Context(models.Model):
     """ An instance of this class is a context tree. """
     goalkeeper = models.ForeignKey(GoalkeeperGame, on_delete=models.CASCADE)
     path = models.CharField(max_length=5)
-    is_context = models.BooleanField(null=True)
+    is_context = models.CharField(max_length=5)
+    analyzed = models.BooleanField(default=False)
 
 
 class Probability(models.Model):

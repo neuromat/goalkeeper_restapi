@@ -240,55 +240,25 @@ def available_context(goalkeeper_game_id):
     :return: list with the available context
     """
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
-    context_used = Context.objects.filter(goalkeeper=game).order_by('path')
+    context_registered = Context.objects.filter(goalkeeper=game.pk).order_by('path')
     context_list = []
+    context_not_analyzed = []
 
-    if context_used:
-        # Start the list of available context with 0 until the number_of_directions
-        for direction in range(game.number_of_directions):
-            context_list.append(str(direction))
+    if context_registered:
+        context_not_analyzed = context_registered.filter(is_context=False, analyzed=False)
 
-        context_used_list = []
-        # For each context already registered, check the directions with a value greater than 0
-        for context in context_used:
-            path = context.path
-            context_used_list.append(path)
-            probabilities = Probability.objects.filter(context=context.pk, value__gt=0)
-
-            # For each direction with a value greater than 0, create a new context concatenating the path and the
-            # direction. Repeat this action slicing the path, eg: 201 -> 01 -> 1.
-            for item in probabilities:
-                new_path = path + str(item.direction)
-                context_list.append(new_path)
-                while len(new_path) > 0:
-                    new_path = new_path[1:]
-                    if new_path and new_path not in context_list:
-                        context_list.append(new_path)
-
-        # Remove the context already used
-        for context in context_used_list:
-            while len(context) > 0:
-                if context in context_list:
-                    context_list.remove(context)
-                context = context[1:]
-
-        # Remove the context already used but also slicing the context, eg: 201 -> 01 -> 1.
-        remove_this_context = []
-        for context in context_list:
-            context_aux = context
-            while len(context_aux) > 0:
-                if context_aux in context_used_list:
-                    remove_this_context.append(context)
-                context_aux = context_aux[1:]
-
-        context_list = sorted(list(set(context_list) - set(remove_this_context)))
+        # Concatenation of a node that is not context with each direction.
+        if context_not_analyzed:
+            for item in context_not_analyzed:
+                for direction in range(game.number_of_directions):
+                    context_list.append(str(item.path)+str(direction))
 
     else:
         # Start the list of available context with 0 until the number_of_directions
         for direction in range(game.number_of_directions):
             context_list.append(str(direction))
 
-    return context_list
+    return context_list, context_not_analyzed
 
 
 @login_required
@@ -301,7 +271,7 @@ def context_tree(request, goalkeeper_game_id, template_name="game/context.html")
     :return: data available to create the context
     """
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
-    context_list = available_context(goalkeeper_game_id)
+    context_list, context_not_analyzed = available_context(goalkeeper_game_id)
 
     if request.method == "POST" and request.POST['action'] == "save":
         context_to_save = {}
@@ -309,7 +279,14 @@ def context_tree(request, goalkeeper_game_id, template_name="game/context.html")
             context_to_save[num] = request.POST.get(num)
 
         for key, value in context_to_save.items():
-            Context.objects.create(goalkeeper=game, path=key, is_context=value)
+            if value == 'True':
+                Context.objects.create(goalkeeper=game, path=key, is_context=value, analyzed=True)
+            else:
+                Context.objects.create(goalkeeper=game, path=key, is_context=value)
+
+        for item in context_not_analyzed:
+            item.analyzed = True
+            item.save()
 
         redirect_url = reverse("context", args=(goalkeeper_game_id,))
         return HttpResponseRedirect(redirect_url)
