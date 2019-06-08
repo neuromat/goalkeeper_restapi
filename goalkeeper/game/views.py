@@ -288,12 +288,31 @@ def context_tree(request, goalkeeper_game_id, template_name="game/context.html")
             item.analyzed = True
             item.save()
 
-        redirect_url = reverse("context", args=(goalkeeper_game_id,))
+        context_list, context_not_analyzed = available_context(goalkeeper_game_id)
+        if context_list:
+            redirect_url = reverse("context", args=(goalkeeper_game_id,))
+        else:
+            redirect_url = reverse("probability", args=(goalkeeper_game_id,))
+
         return HttpResponseRedirect(redirect_url)
 
     context = {
         "game": game,
         "context_list": context_list,
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def probability(request, goalkeeper_game_id, template_name="game/probability.html"):
+    game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
+    list_of_contexts = Context.objects.filter(goalkeeper=goalkeeper_game_id)
+
+    context = {
+        "game": game,
+        "list_of_contexts": list_of_contexts,
+        "number_of_directions": range(game.number_of_directions)
     }
 
     return render(request, template_name, context)
