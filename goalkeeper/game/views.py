@@ -341,6 +341,10 @@ def probability(request, goalkeeper_game_id, template_name="game/probability.htm
             for key, value in probabilities.items():
                 Probability.objects.create(context=get_context, direction=key, value=value)
             messages.success(request, _('Probability created successfully.'))
+
+            # Update the depth of the context tree
+            game.depth = len(prob_for)
+            game.save()
         else:
             messages.error(request, _('The sum of the probabilities must be equal to 1.'))
 
