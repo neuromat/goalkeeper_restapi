@@ -8,7 +8,11 @@
     <div class="card-header">
         <div class="float-left"><h5 class="card-title">{% trans "Context tree" %}</h5></div>
         <div class="float-right">
-            <a href="{% url 'context' game.id %}" class="btn btn-primary{% if not context_list.0 %} disabled{% endif %}" style="color:white">{% trans "Add context" %}</a>
+            {% if context_list.0 %}
+                <a href="{% url 'context' game.id %}" class="btn btn-primary" style="color:white">{% trans "Add context" %}</a>
+            {% else %}
+                <a href="{% url 'probability' game.id %}" class="btn btn-primary{% if not context_without_probability %} disabled{% endif %}" style="color:white">{% trans "Add probabilities" %}</a>
+            {% endif %}
             {% if not context_list.0 %}
                 <a href="#" class="btn btn-primary" style="color:white">{% trans "Add sequence" %}</a>
             {% endif %}

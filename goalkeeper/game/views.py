@@ -173,6 +173,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     probabilities = Probability.objects.filter(context__goalkeeper=game)
     context_used = Context.objects.filter(goalkeeper=game, is_context=True)
     context_list = available_context(goalkeeper_game_id)
+    context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
 
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
@@ -200,6 +201,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         "probabilities": probabilities,
         "context_used": context_used,
         "context_list": context_list,
+        "context_without_probability": context_without_probability,
         "viewing": True
     }
 
