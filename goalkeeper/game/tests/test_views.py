@@ -190,5 +190,6 @@ class GameTest(TestCase):
 
     def test_available_context(self):
         game = GoalkeeperGame.objects.first()
-        available_contexts = available_context(game.id)
+        available_contexts, context_not_analyzed = available_context(game.id)
         self.assertListEqual(available_contexts, ['0', '1', '2'])
+        self.assertListEqual(context_not_analyzed, [])
