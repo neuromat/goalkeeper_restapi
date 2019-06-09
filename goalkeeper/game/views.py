@@ -171,7 +171,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None, instance=game)
     probabilities = Probability.objects.filter(context__goalkeeper=game)
-    context_used = Context.objects.filter(goalkeeper=game)
+    context_used = Context.objects.filter(goalkeeper=game, is_context=True)
     context_list = available_context(goalkeeper_game_id)
 
     for field in goalkeeper_game_form.fields:
@@ -304,14 +304,57 @@ def context_tree(request, goalkeeper_game_id, template_name="game/context.html")
     return render(request, template_name, context)
 
 
+def check_contexts_without_probability(goalkeeper_game_id):
+    list_of_contexts = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context=True)
+    contexts_without_probability = []
+    for item in list_of_contexts:
+        if not Probability.objects.filter(context=item.pk):
+            contexts_without_probability.append(item.path)
+
+    if contexts_without_probability:
+        return contexts_without_probability[0]
+    else:
+        return None
+
+
 @login_required
 def probability(request, goalkeeper_game_id, template_name="game/probability.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
-    list_of_contexts = Context.objects.filter(goalkeeper=goalkeeper_game_id)
+    path = check_contexts_without_probability(goalkeeper_game_id)
+    probabilities = {}
+    total_prob = 0.0
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        prob_for = request.POST['context']
+        # Check the probability for each direction
+        for direction in range(game.number_of_directions):
+            prob = request.POST['context-' + prob_for + '-' + str(direction)].replace(',', '.')
+            if prob:
+                probabilities[direction] = float(prob)
+                total_prob += float(prob)
+            else:
+                probabilities[direction] = 0.0
+
+        if total_prob == 1:
+            # If the sum of the probabilities is equal to 1, create the probabilities for the path
+            get_context = get_object_or_404(Context, goalkeeper=goalkeeper_game_id, path=prob_for)
+            for key, value in probabilities.items():
+                Probability.objects.create(context=get_context, direction=key, value=value)
+            messages.success(request, _('Probability created successfully.'))
+        else:
+            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
+
+        path = check_contexts_without_probability(goalkeeper_game_id)
+        if path:
+            redirect_url = reverse("probability", args=(game.id,))
+        else:
+            redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
+
+        return HttpResponseRedirect(redirect_url)
 
     context = {
         "game": game,
-        "list_of_contexts": list_of_contexts,
+        "path": path,
         "number_of_directions": range(game.number_of_directions)
     }
 
