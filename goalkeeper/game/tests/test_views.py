@@ -193,3 +193,12 @@ class GameTest(TestCase):
         available_contexts, context_not_analyzed = available_context(game.id)
         self.assertListEqual(available_contexts, ['0', '1', '2'])
         self.assertListEqual(context_not_analyzed, [])
+
+    def test_context_tree(self):
+        game = GoalkeeperGame.objects.first()
+        self.data = {'goalkeeper': game.id, '0': 'True', '1': 'True', '2': 'True', 'action': 'save'}
+        self.client.post(reverse("context", args=(game.id,)), self.data)
+        self.assertEqual(Context.objects.count(), 3)
+        context_list, context_not_analyzed = available_context(game.id)
+        self.assertListEqual(context_list, [])
+        self.assertFalse(context_not_analyzed.exists())
