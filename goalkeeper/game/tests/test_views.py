@@ -182,7 +182,7 @@ class GameTest(TestCase):
         game = GoalkeeperGame.objects.first()
         response = self.client.get(reverse("context", args=(game.id,)))
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'game/probability.html')
+        self.assertTemplateUsed(response, 'game/context.html')
 
     def test_context_tree_url_resolves_context_tree_view(self):
         view = resolve('/game/goalkeeper/context/1/')
@@ -190,108 +190,15 @@ class GameTest(TestCase):
 
     def test_available_context(self):
         game = GoalkeeperGame.objects.first()
-        available_contexts = available_context(game.id)
+        available_contexts, context_not_analyzed = available_context(game.id)
         self.assertListEqual(available_contexts, ['0', '1', '2'])
+        self.assertListEqual(context_not_analyzed, [])
 
-    def test_new_context_tree(self):
+    def test_context_tree(self):
         game = GoalkeeperGame.objects.first()
-        self.data = {
-            'goalkeeper': game.id,
-            'path': '0',
-            'context-0': 1,
-            'context-1': 0,
-            'context-2': 0,
-            'action': 'save'
-        }
-        response = self.client.post(reverse("context", args=(game.id,)), self.data)
-        self.assertEqual(response.status_code, 302)
-        new_context = Context.objects.filter(path='0')
-        self.assertEqual(new_context.count(), 1)
-        probabilities = Probability.objects.filter(context=new_context[0].id)
-        self.assertEqual(probabilities.count(), 3)
-
-    def test_context_tree_wrong_probabilities(self):
-        game = GoalkeeperGame.objects.first()
-        self.data = {
-            'goalkeeper': game.id,
-            'path': '0',
-            'context-0': .5,
-            'context-1': .5,
-            'context-2': .3,
-            'action': 'save'
-        }
-        response = self.client.post(reverse("context", args=(game.id,)), self.data)
-        message = list(get_messages(response.wsgi_request))
-        self.assertEqual(len(message), 1)
-        self.assertEqual(str(message[0]), 'The sum of the probabilities must be equal to 1.')
-
-    def test_context_tree_completed(self):
-        """
-        Testing the following full context tree:
-        2  - {0: 0.3, 1: 0.3 , 2: 0.4}
-        20 - {0: 1, 1: 0 , 2: 0}
-        00 - {0: 0, 1: 1 , 2: 0}
-        21 - {0: 0.5, 1: 0 , 2: 0.5}
-        01 - {0: 0, 1: 0 , 2: 1}
-        10 - {0: 0, 1: 0 , 2: 1}
-        """
-        game = GoalkeeperGame.objects.first()
-
-        self.data1 = {'goalkeeper': game.id, 'path': '2', 'context-0': 0.3, 'context-1': 0.3, 'context-2': 0.4,
-                      'action': 'save'}
-        self.client.post(reverse("context", args=(game.id,)), self.data1)
-        available_contexts = available_context(game.id)
-        self.assertListEqual(available_contexts, ['0', '1', '20', '21'])
-
-        self.data2 = {'goalkeeper': game.id, 'path': '20', 'context-0': 1, 'context-1': 0, 'context-2': 0,
-                      'action': 'save'}
-        self.client.post(reverse("context", args=(game.id,)), self.data2)
-        available_contexts = available_context(game.id)
-        self.assertListEqual(available_contexts, ['00', '1', '200', '21'])
-
-        self.data3 = {'goalkeeper': game.id, 'path': '00', 'context-0': 0, 'context-1': 1, 'context-2': 0,
-                      'action': 'save'}
-        self.client.post(reverse("context", args=(game.id,)), self.data3)
-        available_contexts = available_context(game.id)
-        self.assertListEqual(available_contexts, ['001', '01', '1', '21'])
-
-        self.data4 = {'goalkeeper': game.id, 'path': '21', 'context-0': .5, 'context-1': 0, 'context-2': .5,
-                      'action': 'save'}
-        self.client.post(reverse("context", args=(game.id,)), self.data4)
-        available_contexts = available_context(game.id)
-        self.assertListEqual(available_contexts, ['001', '01', '10', '210'])
-
-        self.data5 = {'goalkeeper': game.id, 'path': '01', 'context-0': 0, 'context-1': 0, 'context-2': 1,
-                      'action': 'save'}
-        self.client.post(reverse("context", args=(game.id,)), self.data5)
-        available_contexts = available_context(game.id)
-        self.assertListEqual(available_contexts, ['10', '210'])
-
-        self.data6 = {'goalkeeper': game.id, 'path': '10', 'context-0': 0, 'context-1': 0, 'context-2': 1,
-                      'action': 'save'}
-        response = self.client.post(reverse("context", args=(game.id,)), self.data6, follow=True)
-        self.assertRedirects(response, '/game/goalkeeper/view/1/')
-        available_contexts = available_context(game.id)
-        self.assertListEqual(available_contexts, [])
-
-    def test_remove_path_from_goalkeeper_game_view(self):
-        game = GoalkeeperGame.objects.first()
-        Context.objects.create(goalkeeper=game, path='0')
-        self.assertEqual(Context.objects.count(), 1)
-        self.data = {
-            'goalkeeper': game,
-            'action': 'remove_path-1'
-        }
-        self.client.post(reverse("goalkeeper_game_view", args=(game.id,)), self.data)
-        self.assertEqual(Context.objects.count(), 0)
-
-    def test_remove_path_from_context_tree(self):
-        game = GoalkeeperGame.objects.first()
-        Context.objects.create(goalkeeper=game, path='0')
-        self.assertEqual(Context.objects.count(), 1)
-        self.data = {
-            'goalkeeper': game,
-            'action': 'remove_path-1'
-        }
+        self.data = {'goalkeeper': game.id, '0': 'True', '1': 'True', '2': 'True', 'action': 'save'}
         self.client.post(reverse("context", args=(game.id,)), self.data)
-        self.assertEqual(Context.objects.count(), 0)
+        self.assertEqual(Context.objects.count(), 3)
+        context_list, context_not_analyzed = available_context(game.id)
+        self.assertListEqual(context_list, [])
+        self.assertFalse(context_not_analyzed.exists())

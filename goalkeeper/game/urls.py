@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import context_tree, game_config_new, game_config_list, game_config_view, game_config_update,  \
-    goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list
+    goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, probability
 
 
 urlpatterns = [
@@ -16,4 +16,5 @@ urlpatterns = [
     path('goalkeeper/update/<int:goalkeeper_game_id>/', goalkeeper_game_update, name='goalkeeper_game_update'),
     path('goalkeeper/list/', goalkeeper_game_list, name='goalkeeper_game_list'),
     path('goalkeeper/context/<int:goalkeeper_game_id>/', context_tree, name='context'),
+    path('goalkeeper/context/<int:goalkeeper_game_id>/probability/', probability, name='probability'),
 ]
