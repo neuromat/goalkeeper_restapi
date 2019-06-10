@@ -75,7 +75,7 @@ public class LoginMenu : BaseMenu {
     private float nextStatusChange;
     private string status = "";
     private string username = "", password = "";
-    private SignupMenu signupMenu;
+    //private SignupMenu signupMenu;
 
     public GameObject userLogin;
     public GameObject passwdLogin;
@@ -83,6 +83,8 @@ public class LoginMenu : BaseMenu {
     public GameObject passwdRegister;
     public GameObject confpasswdRegister;
     public GameObject email;
+    public GameObject labelNovaConta;
+    public GameObject labelConcordo;
 
     [SerializeField]
     private string Username = null;
@@ -100,6 +102,10 @@ public class LoginMenu : BaseMenu {
     private Toggle remember = null;
     [SerializeField]
     public Text Mensagem;
+    [SerializeField]
+    public Text txtTermo;
+    public Text txtAvancar;
+    public Text txtVoltarIdioma;
 
     private string form;
     private bool EmailValid=false;
@@ -122,7 +128,7 @@ public class LoginMenu : BaseMenu {
 
 
     private void Start() {
-        windowRect = new Rect(Screen.width /2 + 60 , Screen.height /2 - 25, 300, 200);
+        //windowRect = new Rect(Screen.width /2 + 60 , Screen.height /2 - 25, 300, 200);
 
         translate = LocalizationManager.instance;
         user = translate.getLocalizedValue ("user");	
@@ -136,11 +142,21 @@ public class LoginMenu : BaseMenu {
         
         //backendManager.OnLoggedIn += OnLoggedIn;
         //backendManager.OnLoginFailed += OnLoginFailed;
+        userLogin.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue ("user");
+        passwdLogin.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue ("pass");
+        userRegister.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue ("user");
+        passwdRegister.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue ("pass");
+        confpasswdRegister.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue("repeatSign");
+        labelNovaConta.GetComponent<Text>().text = translate.getLocalizedValue ("titJanSignup");
+        labelConcordo.GetComponent<Text>().text = translate.getLocalizedValue ("termAssigned");
+        txtTermo.GetComponent<Text>().text = translate.getLocalizedValue ("term");
         
-        signupMenu = gameObject.GetOrCreateComponent<SignupMenu>();
-        signupMenu.enabled = false;
-        signupMenu.OnCancel += OnSignupCancelOrSuccess;
-        signupMenu.OnSignedUp += OnSignupCancelOrSuccess;
+//        Debug.Log("fieldToken = " + labelNovaConta.GetComponent<Text>().text);
+
+//        signupMenu = gameObject.GetOrCreateComponent<SignupMenu>();
+//        signupMenu.enabled = false;
+//        signupMenu.OnCancel += OnSignupCancelOrSuccess;
+////        signupMenu.OnSignedUp += OnSignupCancelOrSuccess;
 
         if (PlayerPrefs.HasKey("x1")) {
             username = PlayerPrefs.GetString("x2").FromBase64();
@@ -230,9 +246,13 @@ public class LoginMenu : BaseMenu {
 //        }
         
         if (Username == "" && Password == "" && UsernameR != "" && PasswordR != "" && Email != "" && ConfPassword != ""){
-           Debug.Log("@Signup : Acessando a tela de cadastro...");
-           Signup(UsernameR, Email, PasswordR);
-           Debug.Log("@Signup : Passou pela tela de cadastro...");
+            if (PasswordR != ConfPassword)
+            { 
+                statusMsg("Senhas não combinam!!!"); 
+            }
+            Debug.Log("@Signup : Acessando a tela de cadastro...");
+            Signup(UsernameR, Email, PasswordR);
+            Debug.Log("@Signup : Passou pela tela de cadastro...");
         }
         else if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
                      ConfPassword == "")
@@ -241,8 +261,8 @@ public class LoginMenu : BaseMenu {
            Login(Username, Password);
            Debug.Log("@Login : Passou pela tela de login...");
         }
-        else
-           statusMsg("Defina sua opcao...");
+        else 
+           statusMsg("Opção não definida...");
     }
 
    
@@ -266,7 +286,7 @@ public class LoginMenu : BaseMenu {
             if (OnLoggedIn != null) {
                 OnLoggedIn(); 
                 
-            statusMsg("Conectado....");
+            statusMsg("Conectado, carregando o jogo....");
             
             SceneManager.LoadScene("Configurations");
             }
@@ -529,7 +549,7 @@ public class LoginMenu : BaseMenu {
         }
         if (GUILayout.Button((string) newCadButton)) {
             enabled = false;
-            signupMenu.enabled = true;
+            //signupMenu.enabled = true;
         }
         GUILayout.EndHorizontal();
 
@@ -538,7 +558,7 @@ public class LoginMenu : BaseMenu {
         GUILayout.EndVertical();
 
         if (!hasFocussed) {
-            GUI.FocusControl("usernameField");
+         //   GUI.FocusControl("usernameField");
             hasFocussed = true;
         }
     }

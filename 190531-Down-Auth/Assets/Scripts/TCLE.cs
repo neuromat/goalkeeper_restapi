@@ -64,7 +64,7 @@ public class TCLE: MonoBehaviour
 	//public Text tcleHeader;
 	public Text tcleNotAgree;
 	public Text tcleAgree;
-  public Text tcleText;                //180625 now, a TMPro justified, not TextUI
+    public Text tcleText;                //180625 now, a TMPro justified, not TextUI
 
 
 
