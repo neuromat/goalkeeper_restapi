@@ -83,7 +83,7 @@ public class LoginMenu : BaseMenu {
     public GameObject passwdRegister;
     public GameObject confpasswdRegister;
     public GameObject email;
-    
+
     [SerializeField]
     private string Username = null;
     [SerializeField]
@@ -98,6 +98,8 @@ public class LoginMenu : BaseMenu {
     private string Email = null;
     [SerializeField]
     private Toggle remember = null;
+    [SerializeField]
+    public Text Mensagem;
 
     private string form;
     private bool EmailValid=false;
@@ -214,33 +216,36 @@ public class LoginMenu : BaseMenu {
         PasswordR = passwdRegister.GetComponent<InputField> ().text;
         ConfPassword = confpasswdRegister.GetComponent<InputField> ().text;
         Email = email.GetComponent<InputField> ().text;
+        
         Debug.Log("Username = " + Username);
         Debug.Log("Password = " + Password);
         Debug.Log("UsernameR = " + UsernameR);
         Debug.Log("PasswordR = " + PasswordR);
         Debug.Log("ConfPassword = " + ConfPassword);
         Debug.Log("Email = " + Email);
-       
+
+//        if (remember.isOn)
+//        {
+//            
+//        }
         
-        
- //       if(Input.GetKeyDown(KeyCode.Return)){
-            if (Username == "" && Password == "" && UsernameR != "" && PasswordR != "" && Email != "" && ConfPassword != ""){
-                Debug.Log("@Signup : Acessando a tela de cadastro...");
-                Signup(UsernameR, Email, PasswordR);
-                Debug.Log("@Signup : Passou pela tela de cadastro...");
-            }
-            else if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
+        if (Username == "" && Password == "" && UsernameR != "" && PasswordR != "" && Email != "" && ConfPassword != ""){
+           Debug.Log("@Signup : Acessando a tela de cadastro...");
+           Signup(UsernameR, Email, PasswordR);
+           Debug.Log("@Signup : Passou pela tela de cadastro...");
+        }
+        else if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
                      ConfPassword == "")
-            {
-                Debug.Log("@Login : Acessando a tela de login...");
-                Login(Username, Password);
-                Debug.Log("@Login : Passou pela tela de login...");
-            }
-            else
-                Debug.Log("@Problemas : Defina sua opcao...");
- //       }
+        {
+           Debug.Log("@Login : Acessando a tela de login...");
+           Login(Username, Password);
+           Debug.Log("@Login : Passou pela tela de login...");
+        }
+        else
+           statusMsg("Defina sua opcao...");
     }
 
+   
     public void Login(string username, string password) {
         WWWForm form = new WWWForm();
         form.AddField("username", username);
@@ -259,15 +264,14 @@ public class LoginMenu : BaseMenu {
             authenticationToken = responseData.Value<string>("token");
             PlayerInfo.token = authenticationToken;
             if (OnLoggedIn != null) {
-                OnLoggedIn();
-
-                // Se o Login deu certo, entao :
-                // chama o proxima cena
-
-                SceneManager.LoadScene("Configurations");
-               
+                OnLoggedIn(); 
+                
+            statusMsg("Conectado....");
+            
+            SceneManager.LoadScene("Configurations");
             }
         } else if (responseType == ResponseType.ClientError) {
+            statusMsg("Problemas na identificacao....");
             if (OnLoginFailed != null) {
                 OnLoginFailed("@ale : nao pode acessar o servidor.");
 //                OnLoginFailed(errornoLogin); // responseType=ClientError
@@ -327,7 +331,22 @@ public class LoginMenu : BaseMenu {
         }
     }
     
-public void Send(RequestType type, string command, WWWForm wwwForm, RequestResponseDelegate onResponse = null, string authToken = "") {
+    private void statusMsg(string msg)
+    {
+        Mensagem.CrossFadeAlpha (100f, 0f, false);
+//        Mensagem.color = Color.green;
+        Mensagem.text = msg;
+        Mensagem.CrossFadeAlpha (0f, 2f, false);
+        SceneManager.LoadScene("TCLE");
+    }
+
+    public void OnBotaoVoltar()
+    {
+        Debug.Log("OnBotaoVoltar...");
+        SceneManager.LoadScene("Localization");
+    }
+
+    public void Send(RequestType type, string command, WWWForm wwwForm, RequestResponseDelegate onResponse = null, string authToken = "") {
         WWW request;
 #if UNITY_5_PLUS
         Dictionary<string, string> headers;
