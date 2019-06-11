@@ -31,7 +31,7 @@ public class BlockGame : BaseGame<BlockGameData> {
     protected override void Awake() {
         base.Awake();
         blockSpawner = FindObjectOfType<BlockSpawner>();
-        blockSpawner.enabled = false;
+//        blockSpawner.enabled = false;
     }
 
     protected override void Deserialize(BlockGameData data) {
