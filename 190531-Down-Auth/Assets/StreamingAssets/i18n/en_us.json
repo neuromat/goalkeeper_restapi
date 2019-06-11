@@ -104,6 +104,8 @@
 "repeatSign":"Repeat the password",
 "termAssigned":"I have read and accept the Term of Consent",
 "term":"Term of Consent",
+"buttForward":"Advance",
+"buttBackward":"Back to languages",
 "statusLog":"Logged",
 "errorLogin":"Login Error",
 "enterButton":"Enter",

@@ -128,7 +128,6 @@ public class LoginMenu : BaseMenu {
 
 
     private void Start() {
-        //windowRect = new Rect(Screen.width /2 + 60 , Screen.height /2 - 25, 300, 200);
 
         translate = LocalizationManager.instance;
         user = translate.getLocalizedValue ("user");	
@@ -150,14 +149,9 @@ public class LoginMenu : BaseMenu {
         labelNovaConta.GetComponent<Text>().text = translate.getLocalizedValue ("titJanSignup");
         labelConcordo.GetComponent<Text>().text = translate.getLocalizedValue ("termAssigned");
         txtTermo.GetComponent<Text>().text = translate.getLocalizedValue ("term");
+        txtAvancar.GetComponent<Text>().text = translate.getLocalizedValue ("buttForward");
+        txtVoltarIdioma.GetComponent<Text>().text = translate.getLocalizedValue ("buttBackward");
         
-//        Debug.Log("fieldToken = " + labelNovaConta.GetComponent<Text>().text);
-
-//        signupMenu = gameObject.GetOrCreateComponent<SignupMenu>();
-//        signupMenu.enabled = false;
-//        signupMenu.OnCancel += OnSignupCancelOrSuccess;
-////        signupMenu.OnSignedUp += OnSignupCancelOrSuccess;
-
         if (PlayerPrefs.HasKey("x1")) {
             username = PlayerPrefs.GetString("x2").FromBase64();
             password = PlayerPrefs.GetString("x1").FromBase64();
