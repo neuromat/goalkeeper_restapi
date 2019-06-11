@@ -189,8 +189,22 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
             return HttpResponseRedirect(reverse("goalkeeper_game_list"))
 
         if request.POST['action'][:12] == "remove_path-":
-            get_context = get_object_or_404(Context, pk=request.POST['action'][12:])
+            context_id = request.POST['action'][12:]
+            get_context = get_object_or_404(Context, pk=context_id)
+            path = get_context.path
             get_context.delete()
+
+            while path:
+                path = path[:-1]
+                try:
+                    update_context = Context.objects.get(goalkeeper=game, path=path)
+                    if update_context:
+                        update_context.analyzed = False
+                        update_context.save()
+                        break
+                except Context.DoesNotExist:
+                    pass
+
             messages.success(request, _('Context removed successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
             return HttpResponseRedirect(redirect_url)
@@ -253,8 +267,14 @@ def available_context(goalkeeper_game_id):
         if context_not_analyzed:
             for item in context_not_analyzed:
                 for direction in range(game.number_of_directions):
-                    context_list.append(str(item.path)+str(direction))
+                    # Verification required in case of context removal
+                    if not Context.objects.filter(goalkeeper=game, path=str(item.path)+str(direction)):
+                        context_list.append(str(item.path)+str(direction))
 
+        # Check if any height 1 context has been removed to add in the context_list
+        for direction in range(game.number_of_directions):
+            if not Context.objects.filter(goalkeeper=game, path=direction):
+                context_list.append(str(direction))
     else:
         # Start the list of available context with 0 until the number_of_directions
         for direction in range(game.number_of_directions):
