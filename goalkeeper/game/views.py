@@ -10,7 +10,7 @@ from rest_framework import generics, permissions
 
 from .forms import GoalkeeperGameForm
 from .models import Context, GoalkeeperGame, Probability, GameConfig, Level
-from .serializers import GameConfigSerializer
+from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer, ProbSerializer
 
 
 @login_required
@@ -268,3 +268,47 @@ class GetGameConfigs(generics.ListCreateAPIView):
             queryset = queryset.filter(level__lte=level)
 
         return queryset.order_by('id')
+
+
+class GetGames(generics.ListCreateAPIView):
+    serializer_class = GameSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        queryset = GoalkeeperGame.objects.filter(game_type="JG")
+        config_id = self.request.query_params.get('config_id', None)
+
+        if config_id is not None:
+            queryset = queryset.filter(config=config_id)
+
+        return queryset.order_by('phase')
+
+
+class GetContexts(generics.ListCreateAPIView):
+    serializer_class = ContextSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        game_id_req = self.request.query_params.get('game', None)
+        queryset = Context.objects.filter(goalkeeper=game_id_req) if game_id_req else None
+
+        return queryset.order_by('id')
+
+
+class GetProbs(generics.ListCreateAPIView):
+    serializer_class = ProbSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        context_id_req = self.request.query_params.get('context', None)
+        queryset = Probability.objects.filter(context=context_id_req) if context_tree else None
+
+        direction = self.request.query_params.get('direction', None)
+
+        if direction is not None:
+            queryset = queryset.filter(direction=direction)
+
+        return queryset.order_by('direction')
