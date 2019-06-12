@@ -237,7 +237,7 @@ public class TCLE: MonoBehaviour
 
 		//Canvas.SetActive (true);
 		TCLEbox.SetActive (true);
-		userData.SetActive (false);
+		userData.SetActive (true);
 		yield return new WaitForSeconds (2);
 
 	}
