@@ -104,8 +104,12 @@
 "repeatSign":"Repeat the password",
 "termAssigned":"I have read and accept the Term of Consent",
 "term":"Term of Consent",
-"buttForward":"Advance",
+"buttForward":"Next",
 "buttBackward":"Back to languages",
+"errornoLogin":"Error in user identification (e.g. No connection to server or user not registered)",
+"errorSigns":"Passwords do not match",
+"errorOnReadTerm":"Read and accept the Term of Consent",
+"errorOptAccess":"Choose an access option",  
 "statusLog":"Logged",
 "errorLogin":"Login Error",
 "enterButton":"Enter",
@@ -117,6 +121,5 @@
 "statusSign":"Registered",
 "statusNewSign":"Registered successfully",
 "errorCad":"Error in registration: Existing user or disconnected server.",
-"errornoLogin":"Error in user identification (e.g. No connection to server or user not registered)",
 "":""
 }

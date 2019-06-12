@@ -101,6 +101,10 @@
 "term":"Durée du consentement",
 "buttForward":"Suivant",
 "buttBackward":"Retour aux langues",
+"errornoLogin":"Erreur d'identification du client (par exemple, pas de connexion au serveur ou utilisateur non enregistré)",
+"errorSigns":"Les mots de passe ne correspondent pas",
+"errorOnReadTerm":"Lire et accepter la durée du consentement",
+"errorOptAccess":"Choisissez une option d'accès",
 "statusLog":"Se connecter",  
 "errorLogin":"Erreur de connexion",
 "enterButton":"Se connecter",
@@ -112,6 +116,5 @@
 "statusSign":"Annulation", 
 "statusNewSign":"Enregistré avec succès.",  
 "errorCad":"Erreur lors de l'enregistrement: utilisateur existant ou serveur déconnecté.",
-"errornoLogin":"Erreur d'identification du client (par exemple, pas de connexion au serveur ou utilisateur non enregistré)",
 "":""
 }

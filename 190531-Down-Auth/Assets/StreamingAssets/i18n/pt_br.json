@@ -119,8 +119,11 @@
 "term":"Termo de Consentimento",
 "buttForward":"Avançar",
 "buttBackward":"Voltar para idiomas",
+"errorLogin":"Erro na identificação do cliente (p.ex. Sem conexão com servidor ou usuário não cadastrado)",
+"errorSigns":"Senhas não combinam",
+"errorOnReadTerm":"Leia e aceite o Termo de Consentimento",
+"errorOptAccess":"Escolha uma opção de acesso",  
 "statusLog":"Logado",  
-"errorLogin":"Erro no login",
 "enterButton":"Entrar",
 "newCadButton":"Novo cadastro",
 "labelInfoLog":"Entre com seu usuário e senha",
@@ -130,6 +133,5 @@
 "statusSign":"Cadastrado", 
 "statusNewSign":"Cadastrado com sucesso.",  
 "errorCad":"Erro no cadastro: Usuário já existente ou servidor desconectado.",
-"errornoLogin":"Erro na identificação do cliente (p.ex. Sem conexão com servidor ou usuário não cadastrado)",
   "":""
 }
