@@ -40,7 +40,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.EventSystems;
 
 public class LoginMenu : BaseMenu {
     
@@ -49,6 +49,9 @@ public class LoginMenu : BaseMenu {
     public delegate void SignupSuccess();
 
     private LocalizationManager translate;
+    private EventSystem eventSystem;
+    public InputField nextField;
+    
     private string authenticationToken = "";
     
     public delegate void LoggedIn();
@@ -63,9 +66,11 @@ public class LoginMenu : BaseMenu {
     private string titJanLogin;
     private string labelInfoLog;
     private string errorLogin;
+    private string errorSigns;
+    private string errorOnReadTerm;
+    private string errorOptAccess;
     private string statusLog;
     private string enterButton;
-    private string newCadButton;
     
     private const float LABEL_WIDTH = 110;
     private bool loggingIn = false;
@@ -99,11 +104,14 @@ public class LoginMenu : BaseMenu {
     [SerializeField]
     private string Email = null;
     [SerializeField]
-    private Toggle remember = null;
-    [SerializeField]
     public Text Mensagem;
     [SerializeField]
     public Text txtTermo;
+    [SerializeField]
+    private Toggle remember = null;
+    [SerializeField]
+    private Toggle toggleC;
+    
     public Text txtAvancar;
     public Text txtVoltarIdioma;
 
@@ -130,17 +138,17 @@ public class LoginMenu : BaseMenu {
     private void Start() {
 
         translate = LocalizationManager.instance;
+        this.eventSystem = EventSystem.current;
+        
         user = translate.getLocalizedValue ("user");	
         pass = translate.getLocalizedValue ("pass");	
         titJanLogin = translate.getLocalizedValue ("titJanLogin");
         labelInfoLog = translate.getLocalizedValue ("labelInfoLog");
-        errorLogin = translate.getLocalizedValue ("errorLogin");
+     
         statusLog = translate.getLocalizedValue ("statusLog");
-        enterButton = translate.getLocalizedValue ("enterButton");
-        newCadButton = translate.getLocalizedValue ("newCadButton");
         
-        //backendManager.OnLoggedIn += OnLoggedIn;
-        //backendManager.OnLoginFailed += OnLoginFailed;
+     //   backendManager.OnLoggedIn += OnLoggedIn;
+     //   backendManager.OnLoginFailed += OnLoginFailed;
         userLogin.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue ("user");
         passwdLogin.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue ("pass");
         userRegister.GetComponent<InputField>().placeholder.GetComponent<Text>().text = translate.getLocalizedValue ("user");
@@ -151,7 +159,11 @@ public class LoginMenu : BaseMenu {
         txtTermo.GetComponent<Text>().text = translate.getLocalizedValue ("term");
         txtAvancar.GetComponent<Text>().text = translate.getLocalizedValue ("buttForward");
         txtVoltarIdioma.GetComponent<Text>().text = translate.getLocalizedValue ("buttBackward");
-        
+        errorLogin = translate.getLocalizedValue ("errorNoLogin");
+        Debug.Log("errorNoLogin = " + errorLogin);
+        errorOnReadTerm = translate.getLocalizedValue ("errorOnReadTerm");
+        errorOptAccess = translate.getLocalizedValue ("errorOptAccess");
+      
         if (PlayerPrefs.HasKey("x1")) {
             username = PlayerPrefs.GetString("x2").FromBase64();
             password = PlayerPrefs.GetString("x1").FromBase64();
@@ -173,38 +185,37 @@ public class LoginMenu : BaseMenu {
             PlayerPrefs.DeleteAll();
         }
     }
-
-//    private void OnLoginFailed(string error) {
+//   private void OnLoginFailed(string error) {
 ////        status = "Login error: " + error;
 ////        status = errorLogin + error;
 //        status = error;
 //        loggingIn = false;
-//    }
+//   }
 
 //    private void OnLoggedIn() {
 ////        status = "Logged in!";
-//        status = statusLog;
+//        StartCoroutine(statusMsg(statusLog));
 //        loggingIn = false;
 //
 //        if (rememberMe) {
 //            SaveCredentials();
-//        } else {
+//       } else {
 //            RemoveCredentials();
-//       }
-//
+//        }
+
 //        if (HasLoggedIn != null) {
 //            HasLoggedIn();
 //        }
 //    }
 
-
+ 
     public void DoLogin() {
         if (loggingIn) {
             Debug.LogWarning("Already logging in, returning.");
             return;
         }
         loggingIn = true;
-        
+
         if (Input.GetKeyDown(KeyCode.Tab)){
             if (userLogin.GetComponent<InputField> ().isFocused) {
                 passwdLogin.GetComponent<InputField> ().Select ();
@@ -227,6 +238,7 @@ public class LoginMenu : BaseMenu {
         ConfPassword = confpasswdRegister.GetComponent<InputField> ().text;
         Email = email.GetComponent<InputField> ().text;
         
+        
         Debug.Log("Username = " + Username);
         Debug.Log("Password = " + Password);
         Debug.Log("UsernameR = " + UsernameR);
@@ -234,29 +246,20 @@ public class LoginMenu : BaseMenu {
         Debug.Log("ConfPassword = " + ConfPassword);
         Debug.Log("Email = " + Email);
 
-//        if (remember.isOn)
-//        {
-//            
-//        }
-        
+       
         if (Username == "" && Password == "" && UsernameR != "" && PasswordR != "" && Email != "" && ConfPassword != ""){
             if (PasswordR != ConfPassword)
-            { 
-                statusMsg("Senhas não combinam!!!"); 
-            }
-            Debug.Log("@Signup : Acessando a tela de cadastro...");
-            Signup(UsernameR, Email, PasswordR);
-            Debug.Log("@Signup : Passou pela tela de cadastro...");
+                StartCoroutine(statusMsg(errorSigns));
+            else if (toggleC.GetComponent<Toggle>().isOn)
+                Signup(UsernameR, Email, PasswordR);
+            else    
+                StartCoroutine(statusMsg(errorOnReadTerm));
         }
         else if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
                      ConfPassword == "")
-        {
-           Debug.Log("@Login : Acessando a tela de login...");
-           Login(Username, Password);
-           Debug.Log("@Login : Passou pela tela de login...");
-        }
+            Login(Username, Password);
         else 
-           statusMsg("Opção não definida...");
+            StartCoroutine(statusMsg(errorOptAccess));
     }
 
    
@@ -280,15 +283,16 @@ public class LoginMenu : BaseMenu {
             if (OnLoggedIn != null) {
                 OnLoggedIn(); 
                 
-            statusMsg("Conectado, carregando o jogo....");
+            StartCoroutine(statusMsg("Conectado, carregando o jogo...."));
             
             SceneManager.LoadScene("Configurations");
             }
-        } else if (responseType == ResponseType.ClientError) {
-            statusMsg("Problemas na identificacao....");
+        } else if (responseType == ResponseType.ClientError)
+        {
+           StartCoroutine(statusMsg(errorLogin));
             if (OnLoginFailed != null) {
                 OnLoginFailed("@ale : nao pode acessar o servidor.");
-//                OnLoginFailed(errornoLogin); // responseType=ClientError
+//                 OnLoginFailed(errornoLogin); // responseType=ClientError
             }
         } else {
             JToken fieldToken = responseData["non_field_errors"];
@@ -345,12 +349,14 @@ public class LoginMenu : BaseMenu {
         }
     }
     
-    private void statusMsg(string msg)
+    private IEnumerator  statusMsg(string msg)
     {
-        Mensagem.CrossFadeAlpha (100f, 0f, false);
+//        Mensagem.CrossFadeAlpha (100f, 0f, false);
 //        Mensagem.color = Color.green;
+
         Mensagem.text = msg;
-        Mensagem.CrossFadeAlpha (0f, 2f, false);
+        yield return new WaitForSeconds (2.0f);
+//        Mensagem.CrossFadeAlpha (0f, 2f, false);
         SceneManager.LoadScene("TCLE");
     }
 
@@ -483,85 +489,50 @@ public class LoginMenu : BaseMenu {
     }
     
 
-    
-
-    private void ShowWindow(int id) {
-        GUILayout.BeginVertical();
-
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("    ");
-        GUILayout.EndHorizontal();
-
-
-        GUILayout.Label(labelInfoLog);
-     //   bool filledIn = (username != "" && password != "" && rememberMe.Equals(true) );
-     //   bool filledIn = (username != "" && password != "");
-        bool filledIn = true;
-        /*
-        GUILayout.BeginHorizontal(); 
-        GUILayout.Label("      ");
-        GUILayout.EndHorizontal();
-        */
-
-        GUILayout.BeginHorizontal();
-        GUI.SetNextControlName("usernameField");
-//       GUILayout.Label("Usuário", GUILayout.Width(LABEL_WIDTH));
-        GUILayout.Label(user, GUILayout.Width(LABEL_WIDTH));
-        username = GUILayout.TextField(username, 30);
-        GUILayout.EndHorizontal();
-        
-        GUILayout.BeginHorizontal();
-//        GUILayout.Label("Senha", GUILayout.Width(LABEL_WIDTH));
-        GUILayout.Label(pass, GUILayout.Width(LABEL_WIDTH));
-        password = GUILayout.PasswordField(password, '*', 30);
-        GUILayout.EndHorizontal();
-
-
- //       GUILayout.BeginHorizontal();
- //       GUILayout.Label("", GUILayout.Width(LABEL_WIDTH));
- //       rememberMe = GUILayout.Toggle(rememberMe, "Lembrar");
- //       GUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("      ");
-        GUILayout.EndHorizontal();
-
-
-        GUILayout.FlexibleSpace();
-        GUILayout.Label("Status: " + status);
-              
-        GUI.enabled = filledIn;
-        Event e = Event.current;
-        if (filledIn && e.isKey && e.keyCode == KeyCode.Return) {
-            DoLogin();
-        }
-
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button(enterButton)) {
-            DoLogin();
-
-        }
-        if (GUILayout.Button((string) newCadButton)) {
-            enabled = false;
-            //signupMenu.enabled = true;
-        }
-        GUILayout.EndHorizontal();
-
-        GUI.enabled = true;
-         
-        GUILayout.EndVertical();
-
-        if (!hasFocussed) {
-         //   GUI.FocusControl("usernameField");
-            hasFocussed = true;
-        }
-    }
-
-    private void Update() {
+  private void Update() {
+ 
         if(!loggingIn) {
             return;
         }
 
+        // When TAB is pressed, we should select the next selectable UI element
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            Selectable next = null;
+            Selectable current = null;
+ 
+            // Figure out if we have a valid current selected gameobject
+            if (eventSystem.currentSelectedGameObject != null) {
+                // Unity doesn't seem to "deselect" an object that is made inactive
+                if (eventSystem.currentSelectedGameObject.activeInHierarchy) {
+                    current = eventSystem.currentSelectedGameObject.GetComponent<Selectable>();
+                }
+            }
+             
+            if (current != null) {
+                // When SHIFT is held along with tab, go backwards instead of forwards
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+                    next = current.FindSelectableOnLeft();
+                    if (next == null) {
+                        next = current.FindSelectableOnUp();
+                    }
+                } else {
+                    next = current.FindSelectableOnRight();
+                    if (next == null) {
+                        next = current.FindSelectableOnDown();
+                    }
+                }
+            } else {
+                // If there is no current selected gameobject, select the first one
+                if (Selectable.allSelectables.Count > 0) {
+                    next = Selectable.allSelectables[0];
+                }
+            }
+             
+            if (next != null)  {
+                next.Select();
+            }
+        }
+        
         if (Time.time > nextStatusChange) {
             nextStatusChange = Time.time + 0.5f;
 //            status = "Logging in";

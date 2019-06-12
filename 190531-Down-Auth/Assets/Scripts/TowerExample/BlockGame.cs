@@ -53,10 +53,10 @@ public class BlockGame : BaseGame<BlockGameData> {
     }
 
     private void Update() {
-        if (isLoggedIn && CanClick()) {
-            blockSpawner.enabled = true;
-        } else {
-            blockSpawner.enabled = false;
-        }
+//        if (isLoggedIn && CanClick()) {
+//            blockSpawner.enabled = true;
+//        } else {
+//            blockSpawner.enabled = false;
+//        }
     }
 }
