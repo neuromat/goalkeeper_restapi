@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load i18n static %}
+{% load i18n static l10n %}
 
 {% block extrahead %}
 {% endblock %}
@@ -34,11 +34,19 @@
                             <tbody>
                                 <tr>
                                     <td>{{ path }}</td>
-                                    {% for num in number_of_directions %}
-                                        <td>
-                                            <input type="number" class="form-control" name="context-{{ path }}-{{ num }}" step="0.01">
-                                        </td>
-                                    {% endfor %}
+                                    {% if probabilities %}
+                                        {% for num in probabilities %}
+                                            <td>
+                                                <input type="number" class="form-control" name="context-{{ path }}-{{ num.direction }}" step="0.01" value="{{ num.value|unlocalize }}">
+                                            </td>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for num in number_of_directions %}
+                                            <td>
+                                                <input type="number" class="form-control" name="context-{{ path }}-{{ num }}" step="0.01">
+                                            </td>
+                                        {% endfor %}
+                                    {% endif %}
                                 </tr>
                             </tbody>
                         </table>

@@ -370,23 +370,37 @@ def check_contexts_without_probability(goalkeeper_game_id):
         return None
 
 
+def check_probabilities(request, number_of_directions):
+    """
+    Function to check the probability inserted in each direction
+    :param request: data sent by the user
+    :param number_of_directions: number of directions registered in the game
+    :return: dictionary with the probabilities and the sum of the probabilities
+    """
+    probabilities = {}
+    total_prob = 0.0
+    prob_for = request.POST['context']
+
+    # Check the probability for each direction
+    for direction in number_of_directions:
+        prob = request.POST['context-' + prob_for + '-' + str(direction)].replace(',', '.')
+        if prob:
+            probabilities[direction] = float(prob)
+            total_prob += float(prob)
+        else:
+            probabilities[direction] = 0.0
+
+    return probabilities, total_prob
+
+
 @login_required
 def probability(request, goalkeeper_game_id, template_name="game/probability.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     path = check_contexts_without_probability(goalkeeper_game_id)
-    probabilities = {}
-    total_prob = 0.0
 
     if request.method == "POST" and request.POST['action'] == "save":
         prob_for = request.POST['context']
-        # Check the probability for each direction
-        for direction in range(game.number_of_directions):
-            prob = request.POST['context-' + prob_for + '-' + str(direction)].replace(',', '.')
-            if prob:
-                probabilities[direction] = float(prob)
-                total_prob += float(prob)
-            else:
-                probabilities[direction] = 0.0
+        probabilities, total_prob = check_probabilities(request, range(game.number_of_directions))
 
         if total_prob == 1:
             # If the sum of the probabilities is equal to 1, create the probabilities for the path
@@ -414,6 +428,40 @@ def probability(request, goalkeeper_game_id, template_name="game/probability.htm
         "game": game,
         "path": path,
         "number_of_directions": range(game.number_of_directions)
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def probability_update(request, context_id, template_name="game/probability.html"):
+    path = get_object_or_404(Context, pk=context_id)
+    game = get_object_or_404(GoalkeeperGame, pk=path.goalkeeper)
+    probabilities = Probability.objects.filter(context=path).order_by('direction')
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        values, total_prob = check_probabilities(request, range(game.number_of_directions))
+
+        if total_prob == 1:
+            # If the sum of the probabilities is equal to 1, update the probabilities for the path
+            for key, value in values.items():
+                probability_to_update = Probability.objects.get(context=path, direction=key)
+                probability_to_update.value = value
+                probability_to_update.save()
+            messages.success(request, _('Probability updated successfully.'))
+            redirect_url = reverse("goalkeeper_game_view", args=(game.pk,))
+
+        else:
+            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
+            redirect_url = reverse("probability_update", args=(path.id,))
+
+        return HttpResponseRedirect(redirect_url)
+
+    context = {
+        "game": game,
+        "number_of_directions": range(game.number_of_directions),
+        "path": path.path,
+        "probabilities": probabilities,
     }
 
     return render(request, template_name, context)
