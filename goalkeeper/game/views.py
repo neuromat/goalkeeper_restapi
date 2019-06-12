@@ -179,6 +179,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
 
     if request.method == "POST":
+        # Remove a Goalkeeper Game
         if request.POST['action'] == "remove":
             try:
                 game.delete()
@@ -188,22 +189,40 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
 
             return HttpResponseRedirect(reverse("goalkeeper_game_list"))
 
+        # Remove a context from a game
         if request.POST['action'][:12] == "remove_path-":
             context_id = request.POST['action'][12:]
-            get_context = get_object_or_404(Context, pk=context_id)
-            path = get_context.path
-            get_context.delete()
+            try:
+                get_context = Context.objects.get(pk=context_id)
+            except Context.DoesNotExist:
+                get_context = None
 
-            while path:
-                path = path[:-1]
-                try:
-                    update_context = Context.objects.get(goalkeeper=game, path=path)
-                    if update_context:
-                        update_context.analyzed = False
-                        update_context.save()
-                        break
-                except Context.DoesNotExist:
-                    pass
+            if get_context:
+                path = get_context.path
+                get_context.delete()
+
+                # After removing the context, the user should be able to answer again whether this context
+                # is a real context or not.
+                while path:
+                    path = path[:-1]
+                    try:
+                        update_context = Context.objects.get(goalkeeper=game, path=path)
+                        if update_context:
+                            update_context.analyzed = False
+                            update_context.save()
+                            break
+                    except Context.DoesNotExist:
+                        pass
+
+                # Update the depth of the context tree
+                if context_used:
+                    depth = len(context_used.last().path)
+                    if game.depth != depth:
+                        game.depth = depth
+                        game.save()
+                else:
+                    game.depth = None
+                    game.save()
 
             messages.success(request, _('Context removed successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
@@ -365,8 +384,9 @@ def probability(request, goalkeeper_game_id, template_name="game/probability.htm
             messages.success(request, _('Probability created successfully.'))
 
             # Update the depth of the context tree
-            game.depth = len(prob_for)
-            game.save()
+            if game.depth != len(prob_for):
+                game.depth = len(prob_for)
+                game.save()
         else:
             messages.error(request, _('The sum of the probabilities must be equal to 1.'))
 
