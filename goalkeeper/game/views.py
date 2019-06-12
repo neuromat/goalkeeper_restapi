@@ -171,7 +171,8 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None, instance=game)
     probabilities = Probability.objects.filter(context__goalkeeper=game)
-    context_used = Context.objects.filter(goalkeeper=game, is_context=True)
+    context_registered = Context.objects.filter(goalkeeper=game)
+    context_used = context_registered.filter(is_context=True)
     context_list = available_context(goalkeeper_game_id)
     context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
 
@@ -201,8 +202,19 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
                 path = get_context.path
                 get_context.delete()
 
-                # After removing the context, the user should be able to answer again whether this context
-                # is a real context or not.
+                # After removing a context, check if there are others of the same depth that is not a context
+                # and remove them as well.
+                possible_context_to_remove = []
+                for item in context_registered:
+                    if len(item.path) == len(path) and item.is_context != 'True':
+                        possible_context_to_remove.append(item)
+
+                # Remove contexts with the same depth that is configured with is_context = False or Null.
+                if possible_context_to_remove:
+                    for context_to_remove in possible_context_to_remove:
+                        context_to_remove.delete()
+
+                # The user should be able to answer again whether a context is a real context or not.
                 while path:
                     path = path[:-1]
                     try:
