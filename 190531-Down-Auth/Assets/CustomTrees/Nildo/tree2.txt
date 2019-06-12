@@ -11,7 +11,7 @@
     { "path": "11", "probEvent0": "1", "probEvent1": "0"},
     { "path": "2", "probEvent0":  "1", "probEvent1": "0"}
     ],
- "minHitsInSequence":"0",
+ "minHitsInSequence":"5",
  "animationTypeJG":"short",
  "animationTypeOthers":"short",
  "scoreboard":"true",

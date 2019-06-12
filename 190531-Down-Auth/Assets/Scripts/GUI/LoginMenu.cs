@@ -68,9 +68,10 @@ public class LoginMenu : BaseMenu {
     private string errorLogin;
     private string errorSigns;
     private string errorOnReadTerm;
-    private string errorOptAccess;
+    public string errorOptAccess;
     private string statusLog;
     private string enterButton;
+    private string newCadButton;
     
     private const float LABEL_WIDTH = 110;
     private bool loggingIn = false;
@@ -136,7 +137,7 @@ public class LoginMenu : BaseMenu {
 
 
     private void Start() {
-
+        
         translate = LocalizationManager.instance;
         this.eventSystem = EventSystem.current;
         
@@ -146,6 +147,8 @@ public class LoginMenu : BaseMenu {
         labelInfoLog = translate.getLocalizedValue ("labelInfoLog");
      
         statusLog = translate.getLocalizedValue ("statusLog");
+        enterButton = translate.getLocalizedValue ("enterButton");
+        newCadButton = translate.getLocalizedValue ("newCadButton");
         
      //   backendManager.OnLoggedIn += OnLoggedIn;
      //   backendManager.OnLoginFailed += OnLoginFailed;
@@ -159,11 +162,11 @@ public class LoginMenu : BaseMenu {
         txtTermo.GetComponent<Text>().text = translate.getLocalizedValue ("term");
         txtAvancar.GetComponent<Text>().text = translate.getLocalizedValue ("buttForward");
         txtVoltarIdioma.GetComponent<Text>().text = translate.getLocalizedValue ("buttBackward");
-        errorLogin = translate.getLocalizedValue ("errorNoLogin");
-        Debug.Log("errorNoLogin = " + errorLogin);
+        errorLogin = translate.getLocalizedValue ("errorLogin");
         errorOnReadTerm = translate.getLocalizedValue ("errorOnReadTerm");
         errorOptAccess = translate.getLocalizedValue ("errorOptAccess");
-      
+        
+        Debug.Log("errorOptAccess = " + errorOptAccess);
         if (PlayerPrefs.HasKey("x1")) {
             username = PlayerPrefs.GetString("x2").FromBase64();
             password = PlayerPrefs.GetString("x1").FromBase64();
@@ -255,11 +258,18 @@ public class LoginMenu : BaseMenu {
             else    
                 StartCoroutine(statusMsg(errorOnReadTerm));
         }
-        else if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
-                     ConfPassword == "")
-            Login(Username, Password);
-        else 
-            StartCoroutine(statusMsg(errorOptAccess));
+        else
+        {
+            if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
+                ConfPassword == "")
+                Login(Username, Password);
+            else
+            {
+                Debug.Log("errorOptAccess1 = " + errorOptAccess);
+                StartCoroutine(statusMsg(errorOptAccess));
+            }
+            
+        }
     }
 
    
@@ -273,10 +283,14 @@ public class LoginMenu : BaseMenu {
         PlayerInfo.alias = username;
         Debug.Log("***********************************Playinfo.alias = " + PlayerInfo.alias);
         Debug.Log("***********************************Playinfo.token = " + PlayerInfo.token);
+
+        //@ale 190607
+        PlayerPrefs.SetString ("usuarioTemp", username);
+        Debug.Log ("LoginMenu.cs *********** usuarioTemp = " + PlayerPrefs.GetString("usuarioTemp"));
     }
 
     private void OnLoginResponse(ResponseType responseType, JToken responseData, string callee) {
-        
+        Debug.Log("ResponseType= " + responseType);
         if (responseType == ResponseType.Success) {
             authenticationToken = responseData.Value<string>("token");
             PlayerInfo.token = authenticationToken;
@@ -289,7 +303,8 @@ public class LoginMenu : BaseMenu {
             }
         } else if (responseType == ResponseType.ClientError)
         {
-           StartCoroutine(statusMsg(errorLogin));
+            Debug.Log("errorLogin 1= " + errorLogin);
+            StartCoroutine(statusMsg(errorLogin));
             if (OnLoginFailed != null) {
                 OnLoginFailed("@ale : nao pode acessar o servidor.");
 //                 OnLoginFailed(errornoLogin); // responseType=ClientError
@@ -311,7 +326,12 @@ public class LoginMenu : BaseMenu {
                     OnLoginFailed("@ale : Login Falhou " + errors);
                 }
             }
+            Debug.Log("errorLogin 2= " + errorLogin);
         }
+        loggingIn = true;
+        Debug.Log("@ale : Acessando a tela de login...");
+        backendManager.Login(username, password);
+        Debug.Log("@ale : Passou pela tela de login...");
     }
 
     

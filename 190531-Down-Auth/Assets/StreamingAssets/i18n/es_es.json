@@ -97,7 +97,7 @@
 "titJanLogin":"Acceso al juego del portero",
 "titJanSignup":"Menú de registro",
 "repeatSign":"Repita la contraseña",
-"termAssigned":"He leído y acepto el Término de Consentimiento", 
+"termAssigned":"Acepto el Término de Consentimiento", 
 "term":"Término de Consentimiento",
 "buttForward":"Avanzar",
 "buttBackward":"Volver a los idiomas",
@@ -116,5 +116,6 @@
 "statusSign":"Unido",
 "statusNewSign":"Catastrado con éxito.",
 "errorCad":"Error en el registro: Usuario ya existente o servidor desconectado.",
+"errornoLogin":"Error en la identificación del cliente (por ejemplo, sin conexión con servidor o usuario no registrado)",
 "":""
 }
