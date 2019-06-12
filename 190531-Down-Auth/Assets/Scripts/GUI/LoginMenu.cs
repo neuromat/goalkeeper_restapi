@@ -71,6 +71,7 @@ public class LoginMenu : BaseMenu {
     public string errorOptAccess;
     private string statusLog;
     private string enterButton;
+    private string newCadButton;
     
     private const float LABEL_WIDTH = 110;
     private bool loggingIn = false;
@@ -146,6 +147,8 @@ public class LoginMenu : BaseMenu {
         labelInfoLog = translate.getLocalizedValue ("labelInfoLog");
      
         statusLog = translate.getLocalizedValue ("statusLog");
+        enterButton = translate.getLocalizedValue ("enterButton");
+        newCadButton = translate.getLocalizedValue ("newCadButton");
         
      //   backendManager.OnLoggedIn += OnLoggedIn;
      //   backendManager.OnLoginFailed += OnLoginFailed;
@@ -325,6 +328,10 @@ public class LoginMenu : BaseMenu {
             }
             Debug.Log("errorLogin 2= " + errorLogin);
         }
+        loggingIn = true;
+        Debug.Log("@ale : Acessando a tela de login...");
+        backendManager.Login(username, password);
+        Debug.Log("@ale : Passou pela tela de login...");
     }
 
     

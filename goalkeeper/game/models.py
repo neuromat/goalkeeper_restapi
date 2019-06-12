@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -7,18 +8,12 @@ FINAL_SCORE = (
     ('none', _('None')),
 )
 
-
-class Institution(models.Model):
-    """ An instance of this class is an institution that uses the game to collect data for research. """
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('Institution')
-        verbose_name_plural = _('Institutions')
-        ordering = ('name',)
+NO = 'no'
+YES = 'yes'
+YES_NO_ANSWER = (
+    (NO, _('No')),
+    (YES, _('Yes')),
+)
 
 
 class Level(models.Model):
@@ -31,18 +26,18 @@ class Level(models.Model):
 
 class GameConfig(models.Model):
     """ An instance of this class is an opponent. """
-    institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
-    level = models.ForeignKey(Level, on_delete=models.PROTECT)
-    code = models.CharField(max_length=50, unique=True)
-    is_public = models.BooleanField()
-    name = models.CharField(max_length=100, unique=True)
+    level = models.ForeignKey(Level, verbose_name=_('Level'), on_delete=models.PROTECT)
+    code = models.CharField(_('Code'), max_length=50, unique=True)
+    name = models.CharField(_('Name'), max_length=100, unique=True)
+    is_public = models.CharField(_('Is it public?'), max_length=3, choices=YES_NO_ANSWER, default=NO)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = _('Game configuration')
-        verbose_name_plural = _('Game configurations')
+        verbose_name = _('Configuration')
+        verbose_name_plural = _('Configurations')
         ordering = ('name',)
 
 
@@ -120,6 +115,8 @@ class Context(models.Model):
     """ An instance of this class is a context tree. """
     goalkeeper = models.ForeignKey(GoalkeeperGame, on_delete=models.CASCADE)
     path = models.CharField(max_length=5)
+    is_context = models.CharField(max_length=5)
+    analyzed = models.BooleanField(default=False)
 
 
 class Probability(models.Model):

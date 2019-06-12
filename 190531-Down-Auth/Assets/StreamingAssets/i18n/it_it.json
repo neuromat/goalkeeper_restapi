@@ -97,7 +97,14 @@
 "titJanLogin":"Accesso al Portiere",
 "titJanSignup":"Menu di registrazione",
 "repeatSign":"Ripeti la password",
-"termAssigned":"Accetto il termine di consenso",
+"termAssigned":"Ho letto e accetto il termine di consenso",
+"term":"Termine di consenso",
+"buttForward":"Avanzare",
+"buttBackward":"Torna a lingue",
+"errornoLogin":"Errore nell'identificazione del cliente (es. Nessuna connessione al server o utente non registrato)",
+"errorSigns":"Le password non corrispondono",
+"errorOnReadTerm":"Leggi e accetta il Termine di Consenso",
+"errorOptAccess":"Scegli un'opzione di accesso",  
 "statusLog":"Accedi",  
 "errorLogin":"Errore di accesso",
 "enterButton":"Accedi",
@@ -109,6 +116,5 @@
 "statusSign":"Congiunto", 
 "statusNewSign":"Registrato con successo.",  
 "errorCad":"Errore nella registrazione: utente esistente o server disconnesso.",
-"errornoLogin":"Errore nell'identificazione del cliente (es. Nessuna connessione al server o utente non registrato)",
 "":""
 }

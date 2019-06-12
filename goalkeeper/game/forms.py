@@ -1,13 +1,27 @@
 from django import forms
 from django.forms import CheckboxInput, NumberInput, Select, TextInput
-from .models import GoalkeeperGame
+from .models import GameConfig, GoalkeeperGame
+
+
+class GameConfigForm(forms.ModelForm):
+
+    class Meta:
+        model = GameConfig
+        exclude = ('created_by',)
+
+        widgets = {
+            'level': Select(attrs={'class': 'form-control'}),
+            'code': TextInput(attrs={'class': 'form-control'}),
+            'name': TextInput(attrs={'class': 'form-control'}),
+            'is_public': Select(attrs={'class': 'form-control'}),
+        }
 
 
 class GoalkeeperGameForm(forms.ModelForm):
 
     class Meta:
         model = GoalkeeperGame
-        exclude = ('game_type',)
+        exclude = ('game_type', 'phase')
 
         widgets = {
             'config': Select(attrs={'class': 'form-control', 'required': ""}),
@@ -27,7 +41,6 @@ class GoalkeeperGameForm(forms.ModelForm):
             'left_key': TextInput(attrs={'class': 'form-control'}),
             'center_key': TextInput(attrs={'class': 'form-control'}),
             'right_key': TextInput(attrs={'class': 'form-control'}),
-            'phase': NumberInput(attrs={'class': 'form-control'}),
             'depth': NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'seq_step_det_or_prob': TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'show_history': CheckboxInput(attrs={'class': 'form-control'}),
