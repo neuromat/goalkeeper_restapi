@@ -173,7 +173,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     probabilities = Probability.objects.filter(context__goalkeeper=game)
     context_registered = Context.objects.filter(goalkeeper=game)
     context_used = context_registered.filter(is_context=True)
-    last_context = len(context_used.last().path)
+    last_context = len(context_used.last().path) if context_used else None
     context_list = available_context(goalkeeper_game_id)
     context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
 
@@ -229,7 +229,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
 
                 # Update the depth of the context tree
                 if context_used:
-                    depth = len(context_used.last().path)
+                    depth = len(context_used.last().path) if context_used.last() else None
                     if game.depth != depth:
                         game.depth = depth
                         game.save()
