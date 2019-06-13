@@ -112,8 +112,6 @@ public class LoginMenu : BaseMenu {
     private Toggle remember = null;
     [SerializeField]
     private Toggle toggleC;
-    [SerializeField]
-    private string errorOptAccess;
     
     public Text txtAvancar;
     public Text txtVoltarIdioma;
