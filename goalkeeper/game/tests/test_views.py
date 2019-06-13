@@ -201,7 +201,7 @@ class GameTest(TestCase):
         Context.objects.create(goalkeeper=game, path='1', is_context='False', analyzed=False)
         Context.objects.create(goalkeeper=game, path='2', is_context='True', analyzed=False)
         available_contexts, context_not_analyzed = available_context(game.id)
-        self.assertListEqual(available_contexts, ['10', '11', '12'])
+        self.assertListEqual(available_contexts, ['01', '11', '21'])
         self.assertEqual(context_not_analyzed.count(), 1)
 
     def test_context_tree(self):

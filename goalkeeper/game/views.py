@@ -216,7 +216,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
 
                 # The user should be able to answer again whether a context is a real context or not.
                 while path:
-                    path = path[:-1]
+                    path = path[1:]
                     try:
                         update_context = Context.objects.get(goalkeeper=game, path=path)
                         if update_context:
@@ -299,8 +299,8 @@ def available_context(goalkeeper_game_id):
             for item in context_not_analyzed:
                 for direction in range(game.number_of_directions):
                     # Verification required in case of context removal
-                    if not Context.objects.filter(goalkeeper=game, path=str(item.path)+str(direction)):
-                        context_list.append(str(item.path)+str(direction))
+                    if not Context.objects.filter(goalkeeper=game, path=str(direction)+str(item.path)):
+                        context_list.append(str(direction)+str(item.path))
 
         # Check if any height 1 context has been removed to add in the context_list
         for direction in range(game.number_of_directions):
