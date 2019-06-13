@@ -195,6 +195,15 @@ class GameTest(TestCase):
         self.assertListEqual(available_contexts, ['0', '1', '2'])
         self.assertListEqual(context_not_analyzed, [])
 
+    def test_available_context_with_context_registered(self):
+        game = GoalkeeperGame.objects.first()
+        Context.objects.create(goalkeeper=game, path='0', is_context='True', analyzed=False)
+        Context.objects.create(goalkeeper=game, path='1', is_context='False', analyzed=False)
+        Context.objects.create(goalkeeper=game, path='2', is_context='True', analyzed=False)
+        available_contexts, context_not_analyzed = available_context(game.id)
+        self.assertListEqual(available_contexts, ['10', '11', '12'])
+        self.assertEqual(context_not_analyzed.count(), 1)
+
     def test_context_tree(self):
         game = GoalkeeperGame.objects.first()
         self.data = {'goalkeeper': game.id, '0': 'True', '1': 'True', '2': 'True', 'action': 'save'}
