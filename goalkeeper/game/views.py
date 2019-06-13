@@ -173,6 +173,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     probabilities = Probability.objects.filter(context__goalkeeper=game)
     context_registered = Context.objects.filter(goalkeeper=game)
     context_used = context_registered.filter(is_context=True)
+    last_context = len(context_used.last().path)
     context_list = available_context(goalkeeper_game_id)
     context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
 
@@ -247,6 +248,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         "context_used": context_used,
         "context_list": context_list,
         "context_without_probability": context_without_probability,
+        "last_context": last_context,
         "viewing": True
     }
 
