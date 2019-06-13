@@ -43,7 +43,7 @@
                                 <a onclick="show_modal_remove_path({{ item.id }});" style="margin-right:1em" data-toggle="tooltip" data-placement="left" title="{% trans "Delete context and probabilities" %}">
                                     <em class="fa fa-lg fa-remove" style="color: red"></em>
                                 </a>
-                                <a href="#" data-toggle="tooltip" data-placement="left" title="{% trans "Edit probabilities" %}">
+                                <a href="{% url 'probability_update' item.id %}" data-toggle="tooltip" data-placement="left" title="{% trans "Edit probabilities" %}">
                                     <em class="fa fa-lg fa-edit" style="color: blue"></em>
                                 </a>
                             </td>

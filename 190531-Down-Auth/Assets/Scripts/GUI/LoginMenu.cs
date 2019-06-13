@@ -68,9 +68,10 @@ public class LoginMenu : BaseMenu {
     private string errorLogin;
     private string errorSigns;
     private string errorOnReadTerm;
-    //private string errorOptAccess;
+    public string errorOptAccess;
     private string statusLog;
     private string enterButton;
+    private string newCadButton;
     
     private const float LABEL_WIDTH = 110;
     private bool loggingIn = false;
@@ -136,7 +137,7 @@ public class LoginMenu : BaseMenu {
 
 
     private void Start() {
-
+        
         translate = LocalizationManager.instance;
         this.eventSystem = EventSystem.current;
         
@@ -146,6 +147,8 @@ public class LoginMenu : BaseMenu {
         labelInfoLog = translate.getLocalizedValue ("labelInfoLog");
      
         statusLog = translate.getLocalizedValue ("statusLog");
+        enterButton = translate.getLocalizedValue ("enterButton");
+        newCadButton = translate.getLocalizedValue ("newCadButton");
         
      //   backendManager.OnLoggedIn += OnLoggedIn;
      //   backendManager.OnLoginFailed += OnLoginFailed;
@@ -159,12 +162,12 @@ public class LoginMenu : BaseMenu {
         txtTermo.GetComponent<Text>().text = translate.getLocalizedValue ("term");
         txtAvancar.GetComponent<Text>().text = translate.getLocalizedValue ("buttForward");
         txtVoltarIdioma.GetComponent<Text>().text = translate.getLocalizedValue ("buttBackward");
-        errorLogin = translate.getLocalizedValue ("errorNoLogin");
+        errorLogin = translate.getLocalizedValue ("errorLogin");
         errorOnReadTerm = translate.getLocalizedValue ("errorOnReadTerm");
         errorOptAccess = translate.getLocalizedValue ("errorOptAccess");
+        
         Debug.Log("errorOptAccess = " + errorOptAccess);
 
-      
         if (PlayerPrefs.HasKey("x1")) {
 //            username = PlayerPrefs.GetString("x2").FromBase64();
 //            password = PlayerPrefs.GetString("x1").FromBase64();
@@ -282,6 +285,10 @@ public class LoginMenu : BaseMenu {
         PlayerInfo.alias = username;
         Debug.Log("***********************************Playinfo.alias = " + PlayerInfo.alias);
         Debug.Log("***********************************Playinfo.token = " + PlayerInfo.token);
+
+        //@ale 190607
+        PlayerPrefs.SetString ("usuarioTemp", username);
+        Debug.Log ("LoginMenu.cs *********** usuarioTemp = " + PlayerPrefs.GetString("usuarioTemp"));
     }
 
     private void OnLoginResponse(ResponseType responseType, JToken responseData, string callee) {
@@ -323,6 +330,10 @@ public class LoginMenu : BaseMenu {
             }
             Debug.Log("errorLogin 2= " + errorLogin);
         }
+        loggingIn = true;
+        Debug.Log("@ale : Acessando a tela de login...");
+        backendManager.Login(username, password);
+        Debug.Log("@ale : Passou pela tela de login...");
     }
 
     

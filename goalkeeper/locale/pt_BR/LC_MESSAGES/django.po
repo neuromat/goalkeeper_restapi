@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-11 12:11-0300\n"
+"POT-Creation-Date: 2019-06-12 17:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgstr "Novo usuário"
 #: game/templates/game/context.html:41
 #: game/templates/game/goalkeeper_game.html:257
 #: game/templates/game/goalkeeper_game.html:260
-#: game/templates/game/probability.html:49
+#: game/templates/game/probability.html:57
 msgid "Save"
 msgstr "Salvar"
 
@@ -63,7 +63,7 @@ msgstr "Salvar"
 #: game/templates/game/goalkeeper_game.html:258
 #: game/templates/game/goalkeeper_game.html:264
 #: game/templates/game/goalkeeper_game.html:267
-#: game/templates/game/probability.html:50
+#: game/templates/game/probability.html:58
 #: templates/login/password_reset.html:15
 #: templates/login/password_reset_done.html:11
 msgid "Back"
@@ -72,7 +72,7 @@ msgstr "Voltar"
 #: custom_user/templates/custom_user/register_users.html:27
 #: custom_user/templates/custom_user/register_users.html:41
 #: game/templates/game/config.html:30 game/templates/game/config.html:46
-#: game/templates/game/context_tree.html:71
+#: game/templates/game/context_tree.html:69
 #: game/templates/game/goalkeeper_game.html:265
 #: game/templates/game/goalkeeper_game.html:288
 msgid "Delete"
@@ -88,7 +88,7 @@ msgstr "Tem certeza de que deseja excluir este usuário?"
 
 #: custom_user/templates/custom_user/register_users.html:40
 #: game/templates/game/config.html:26 game/templates/game/config.html:45
-#: game/templates/game/context_tree.html:70
+#: game/templates/game/context_tree.html:68
 #: game/templates/game/goalkeeper_game.html:261
 #: game/templates/game/goalkeeper_game.html:287
 msgid "Cancel"
@@ -140,7 +140,7 @@ msgid "User created successfully."
 msgstr "Usuário criado com sucesso."
 
 #: custom_user/views.py:38 game/views.py:68 game/views.py:123 game/views.py:159
-#: game/views.py:224
+#: game/views.py:269
 msgid "Information not saved."
 msgstr "Não foi possível salvar esta informação."
 
@@ -272,16 +272,19 @@ msgstr "Gerar sequência"
 msgid "Probabilities"
 msgstr "Probabilidades"
 
-#: game/templates/game/context_tree.html:44
-#: game/templates/game/context_tree.html:64
+#: game/templates/game/context_tree.html:43
+msgid "Delete context and probabilities"
+msgstr "Remover contexto e probabilidades"
+
+#: game/templates/game/context_tree.html:46
+msgid "Edit probabilities"
+msgstr "Editar probabilidades"
+
+#: game/templates/game/context_tree.html:62
 msgid "Delete context"
 msgstr "Remover contexto"
 
-#: game/templates/game/context_tree.html:47
-msgid "Edit context"
-msgstr "Editar contexto"
-
-#: game/templates/game/context_tree.html:67
+#: game/templates/game/context_tree.html:65
 msgid "Are you sure you want to delete this context?"
 msgstr "Tem certeza de que deseja excluir este contexto?"
 
@@ -452,7 +455,7 @@ msgstr "Erro ao tentar excluir este config."
 msgid "Kicker updated successfully."
 msgstr "Adversário atualizado com sucesso."
 
-#: game/views.py:121 game/views.py:222
+#: game/views.py:121 game/views.py:267
 msgid "There are no changes to save."
 msgstr "Não há alterações para salvar."
 
@@ -460,29 +463,33 @@ msgstr "Não há alterações para salvar."
 msgid "Game created successfully."
 msgstr "Jogo criado com sucesso."
 
-#: game/views.py:185
+#: game/views.py:187
 msgid "Game removed successfully."
 msgstr "Jogo removido com sucesso."
 
-#: game/views.py:187
+#: game/views.py:189
 msgid "Error trying to delete the game."
 msgstr "Erro ao tentar excluir o jogo."
 
-#: game/views.py:194
+#: game/views.py:239
 msgid "Context removed successfully."
 msgstr "Contexto removido com sucesso."
 
-#: game/views.py:220
+#: game/views.py:265
 msgid "Game updated successfully."
 msgstr "Jogo atualizado com sucesso."
 
-#: game/views.py:345
+#: game/views.py:410
 msgid "Probability created successfully."
 msgstr "Probabilidade criada com sucesso."
 
-#: game/views.py:351
+#: game/views.py:417 game/views.py:455
 msgid "The sum of the probabilities must be equal to 1."
 msgstr "A soma das probabilidades deve ser igual a 1."
+
+#: game/views.py:451
+msgid "Probability updated successfully."
+msgstr "Probabilidade atualizada com sucesso."
 
 #: goalkeeper/settings.py:130
 msgid "Portuguese"

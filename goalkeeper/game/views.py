@@ -171,7 +171,8 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     goalkeeper_game_form = GoalkeeperGameForm(request.POST or None, instance=game)
     probabilities = Probability.objects.filter(context__goalkeeper=game)
-    context_used = Context.objects.filter(goalkeeper=game, is_context=True)
+    context_registered = Context.objects.filter(goalkeeper=game)
+    context_used = context_registered.filter(is_context=True)
     context_list = available_context(goalkeeper_game_id)
     context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
 
@@ -179,6 +180,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
 
     if request.method == "POST":
+        # Remove a Goalkeeper Game
         if request.POST['action'] == "remove":
             try:
                 game.delete()
@@ -188,22 +190,51 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
 
             return HttpResponseRedirect(reverse("goalkeeper_game_list"))
 
+        # Remove a context from a game
         if request.POST['action'][:12] == "remove_path-":
             context_id = request.POST['action'][12:]
-            get_context = get_object_or_404(Context, pk=context_id)
-            path = get_context.path
-            get_context.delete()
+            try:
+                get_context = Context.objects.get(pk=context_id)
+            except Context.DoesNotExist:
+                get_context = None
 
-            while path:
-                path = path[:-1]
-                try:
-                    update_context = Context.objects.get(goalkeeper=game, path=path)
-                    if update_context:
-                        update_context.analyzed = False
-                        update_context.save()
-                        break
-                except Context.DoesNotExist:
-                    pass
+            if get_context:
+                path = get_context.path
+                get_context.delete()
+
+                # After removing a context, check if there are others of the same depth that is not a context
+                # and remove them as well.
+                possible_context_to_remove = []
+                for item in context_registered:
+                    if len(item.path) == len(path) and item.is_context != 'True':
+                        possible_context_to_remove.append(item)
+
+                # Remove contexts with the same depth that is configured with is_context = False or Null.
+                if possible_context_to_remove:
+                    for context_to_remove in possible_context_to_remove:
+                        context_to_remove.delete()
+
+                # The user should be able to answer again whether a context is a real context or not.
+                while path:
+                    path = path[:-1]
+                    try:
+                        update_context = Context.objects.get(goalkeeper=game, path=path)
+                        if update_context:
+                            update_context.analyzed = False
+                            update_context.save()
+                            break
+                    except Context.DoesNotExist:
+                        pass
+
+                # Update the depth of the context tree
+                if context_used:
+                    depth = len(context_used.last().path)
+                    if game.depth != depth:
+                        game.depth = depth
+                        game.save()
+                else:
+                    game.depth = None
+                    game.save()
 
             messages.success(request, _('Context removed successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
@@ -339,23 +370,37 @@ def check_contexts_without_probability(goalkeeper_game_id):
         return None
 
 
+def check_probabilities(request, number_of_directions):
+    """
+    Function to check the probability inserted in each direction
+    :param request: data sent by the user
+    :param number_of_directions: number of directions registered in the game
+    :return: dictionary with the probabilities and the sum of the probabilities
+    """
+    probabilities = {}
+    total_prob = 0.0
+    prob_for = request.POST['context']
+
+    # Check the probability for each direction
+    for direction in number_of_directions:
+        prob = request.POST['context-' + prob_for + '-' + str(direction)].replace(',', '.')
+        if prob:
+            probabilities[direction] = float(prob)
+            total_prob += float(prob)
+        else:
+            probabilities[direction] = 0.0
+
+    return probabilities, total_prob
+
+
 @login_required
 def probability(request, goalkeeper_game_id, template_name="game/probability.html"):
     game = get_object_or_404(GoalkeeperGame, pk=goalkeeper_game_id)
     path = check_contexts_without_probability(goalkeeper_game_id)
-    probabilities = {}
-    total_prob = 0.0
 
     if request.method == "POST" and request.POST['action'] == "save":
         prob_for = request.POST['context']
-        # Check the probability for each direction
-        for direction in range(game.number_of_directions):
-            prob = request.POST['context-' + prob_for + '-' + str(direction)].replace(',', '.')
-            if prob:
-                probabilities[direction] = float(prob)
-                total_prob += float(prob)
-            else:
-                probabilities[direction] = 0.0
+        probabilities, total_prob = check_probabilities(request, range(game.number_of_directions))
 
         if total_prob == 1:
             # If the sum of the probabilities is equal to 1, create the probabilities for the path
@@ -365,8 +410,9 @@ def probability(request, goalkeeper_game_id, template_name="game/probability.htm
             messages.success(request, _('Probability created successfully.'))
 
             # Update the depth of the context tree
-            game.depth = len(prob_for)
-            game.save()
+            if game.depth != len(prob_for):
+                game.depth = len(prob_for)
+                game.save()
         else:
             messages.error(request, _('The sum of the probabilities must be equal to 1.'))
 
@@ -382,6 +428,40 @@ def probability(request, goalkeeper_game_id, template_name="game/probability.htm
         "game": game,
         "path": path,
         "number_of_directions": range(game.number_of_directions)
+    }
+
+    return render(request, template_name, context)
+
+
+@login_required
+def probability_update(request, context_id, template_name="game/probability.html"):
+    path = get_object_or_404(Context, pk=context_id)
+    game = get_object_or_404(GoalkeeperGame, pk=path.goalkeeper)
+    probabilities = Probability.objects.filter(context=path).order_by('direction')
+
+    if request.method == "POST" and request.POST['action'] == "save":
+        values, total_prob = check_probabilities(request, range(game.number_of_directions))
+
+        if total_prob == 1:
+            # If the sum of the probabilities is equal to 1, update the probabilities for the path
+            for key, value in values.items():
+                probability_to_update = Probability.objects.get(context=path, direction=key)
+                probability_to_update.value = value
+                probability_to_update.save()
+            messages.success(request, _('Probability updated successfully.'))
+            redirect_url = reverse("goalkeeper_game_view", args=(game.pk,))
+
+        else:
+            messages.error(request, _('The sum of the probabilities must be equal to 1.'))
+            redirect_url = reverse("probability_update", args=(path.id,))
+
+        return HttpResponseRedirect(redirect_url)
+
+    context = {
+        "game": game,
+        "number_of_directions": range(game.number_of_directions),
+        "path": path.path,
+        "probabilities": probabilities,
     }
 
     return render(request, template_name, context)
