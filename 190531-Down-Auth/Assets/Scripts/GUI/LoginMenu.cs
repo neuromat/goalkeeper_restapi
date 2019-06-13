@@ -48,7 +48,7 @@ public class LoginMenu : BaseMenu {
     public delegate void SignupFailed(string errorMsg);
     public delegate void SignupSuccess();
 
-    private LocalizationManager translate;
+    private LocalizationManager translate, translateAux;
     private EventSystem eventSystem;
     public InputField nextField;
     
@@ -68,7 +68,7 @@ public class LoginMenu : BaseMenu {
     private string errorLogin;
     private string errorSigns;
     private string errorOnReadTerm;
-    private string errorOptAccess;
+    //private string errorOptAccess;
     private string statusLog;
     private string enterButton;
     
@@ -111,6 +111,8 @@ public class LoginMenu : BaseMenu {
     private Toggle remember = null;
     [SerializeField]
     private Toggle toggleC;
+    [SerializeField]
+    private string errorOptAccess;
     
     public Text txtAvancar;
     public Text txtVoltarIdioma;
@@ -119,8 +121,6 @@ public class LoginMenu : BaseMenu {
     private bool EmailValid=false;
 
     public delegate void RequestResponseDelegate(ResponseType responseType, JToken jsonResponse, string callee);
-
-
     //---- Public Properties ----//
     public string BackendUrl {
         get {
@@ -160,13 +160,14 @@ public class LoginMenu : BaseMenu {
         txtAvancar.GetComponent<Text>().text = translate.getLocalizedValue ("buttForward");
         txtVoltarIdioma.GetComponent<Text>().text = translate.getLocalizedValue ("buttBackward");
         errorLogin = translate.getLocalizedValue ("errorNoLogin");
-        Debug.Log("errorNoLogin = " + errorLogin);
         errorOnReadTerm = translate.getLocalizedValue ("errorOnReadTerm");
         errorOptAccess = translate.getLocalizedValue ("errorOptAccess");
+        Debug.Log("errorOptAccess = " + errorOptAccess);
+
       
         if (PlayerPrefs.HasKey("x1")) {
-            username = PlayerPrefs.GetString("x2").FromBase64();
-            password = PlayerPrefs.GetString("x1").FromBase64();
+//            username = PlayerPrefs.GetString("x2").FromBase64();
+//            password = PlayerPrefs.GetString("x1").FromBase64();
             rememberMe = true;
         }
     }
@@ -176,14 +177,14 @@ public class LoginMenu : BaseMenu {
     }
     
     private void SaveCredentials() {
-        PlayerPrefs.SetString("x2", username.ToBase64());
-        PlayerPrefs.SetString("x1", password.ToBase64());
+ //       PlayerPrefs.SetString("x2", username.ToBase64());
+ //       PlayerPrefs.SetString("x1", password.ToBase64());
     }
 
     private void RemoveCredentials() {
-        if (PlayerPrefs.HasKey("x1")) {
-            PlayerPrefs.DeleteAll();
-        }
+ //       if (PlayerPrefs.HasKey("x1")) {
+ //           PlayerPrefs.DeleteAll();
+ //       }
     }
 //   private void OnLoginFailed(string error) {
 ////        status = "Login error: " + error;
@@ -212,6 +213,7 @@ public class LoginMenu : BaseMenu {
     public void DoLogin() {
         if (loggingIn) {
             Debug.LogWarning("Already logging in, returning.");
+            StartCoroutine(statusMsg("Already logging in, returning."));
             return;
         }
         loggingIn = true;
@@ -255,11 +257,18 @@ public class LoginMenu : BaseMenu {
             else    
                 StartCoroutine(statusMsg(errorOnReadTerm));
         }
-        else if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
-                     ConfPassword == "")
-            Login(Username, Password);
-        else 
-            StartCoroutine(statusMsg(errorOptAccess));
+        else
+        {
+            if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
+                ConfPassword == "")
+                Login(Username, Password);
+            else
+            {
+                Debug.Log("errorOptAccess1 = " + errorOptAccess);
+                StartCoroutine(statusMsg(errorOptAccess));
+
+            }
+        }
     }
 
    
@@ -276,7 +285,7 @@ public class LoginMenu : BaseMenu {
     }
 
     private void OnLoginResponse(ResponseType responseType, JToken responseData, string callee) {
-        
+        Debug.Log("ResponseType= " + responseType);
         if (responseType == ResponseType.Success) {
             authenticationToken = responseData.Value<string>("token");
             PlayerInfo.token = authenticationToken;
@@ -289,7 +298,8 @@ public class LoginMenu : BaseMenu {
             }
         } else if (responseType == ResponseType.ClientError)
         {
-           StartCoroutine(statusMsg(errorLogin));
+            Debug.Log("errorLogin 1= " + errorLogin);
+            StartCoroutine(statusMsg(errorLogin));
             if (OnLoginFailed != null) {
                 OnLoginFailed("@ale : nao pode acessar o servidor.");
 //                 OnLoginFailed(errornoLogin); // responseType=ClientError
@@ -311,6 +321,7 @@ public class LoginMenu : BaseMenu {
                     OnLoginFailed("@ale : Login Falhou " + errors);
                 }
             }
+            Debug.Log("errorLogin 2= " + errorLogin);
         }
     }
 
