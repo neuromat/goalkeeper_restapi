@@ -4,7 +4,8 @@ from django.urls import resolve, reverse
 from django.test import TestCase
 
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
-    context_tree, available_context, game_config_new, game_config_list, game_config_view, game_config_update
+    context_tree, available_context, game_config_new, game_config_list, game_config_view, game_config_update, \
+    check_contexts_without_probability
 from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability
 
 USER_USERNAME = 'user'
@@ -202,3 +203,15 @@ class GameTest(TestCase):
         context_list, context_not_analyzed = available_context(game.id)
         self.assertListEqual(context_list, [])
         self.assertFalse(context_not_analyzed.exists())
+
+    def test_check_contexts_without_probability(self):
+        game = GoalkeeperGame.objects.first()
+        Context.objects.create(goalkeeper=game, path='0', is_context='True', analyzed=False)
+        Context.objects.create(goalkeeper=game, path='1', is_context='True', analyzed=False)
+        response = check_contexts_without_probability(game.id)
+        self.assertEqual(response, '0')
+
+    def test_check_contexts_without_probability_none(self):
+        game = GoalkeeperGame.objects.first()
+        response = check_contexts_without_probability(game.id)
+        self.assertIsNone(response)
