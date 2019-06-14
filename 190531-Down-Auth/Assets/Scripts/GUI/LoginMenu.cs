@@ -48,8 +48,7 @@ public class LoginMenu : BaseMenu {
     public delegate void SignupFailed(string errorMsg);
     public delegate void SignupSuccess();
 
-    private LocalizationManager translate, translateAux;
-    private EventSystem eventSystem;
+    private LocalizationManager translate, translateError;
     public InputField nextField;
     
     private string authenticationToken = "";
@@ -69,7 +68,9 @@ public class LoginMenu : BaseMenu {
     private string errorSigns;
     private string errorOnReadTerm;
     private string errorOptAccess;
+    private string errorCad;
     private string statusLog;
+    private string statusNewSign;
     private string enterButton;
     private string vname;
     
@@ -139,7 +140,6 @@ public class LoginMenu : BaseMenu {
     private void Start() {
 
         translate = LocalizationManager.instance;
-        this.eventSystem = EventSystem.current;
         
         user = translate.getLocalizedValue ("user");	
         pass = translate.getLocalizedValue ("pass");	
@@ -160,10 +160,6 @@ public class LoginMenu : BaseMenu {
         txtTermo.GetComponent<Text>().text = translate.getLocalizedValue ("term");
         txtAvancar.GetComponent<Text>().text = translate.getLocalizedValue ("buttForward");
         txtVoltarIdioma.GetComponent<Text>().text = translate.getLocalizedValue ("buttBackward");
-        errorLogin = translate.getLocalizedValue ("errorNoLogin");
-        errorOnReadTerm = translate.getLocalizedValue ("errorOnReadTerm");
-        errorOptAccess = translate.getLocalizedValue ("errorOptAccess");
-        Debug.Log("errorOptAccess = " + errorOptAccess);
 
       
         if (PlayerPrefs.HasKey("x1")) {
@@ -212,6 +208,7 @@ public class LoginMenu : BaseMenu {
 
  
     public void DoLogin() {
+        translateError = LocalizationManager.instance;
         if (loggingIn) {
             Debug.LogWarning("Already logging in, returning.");
             StartCoroutine(statusMsg("Already logging in, returning."));
@@ -252,11 +249,19 @@ public class LoginMenu : BaseMenu {
        
         if (Username == "" && Password == "" && UsernameR != "" && PasswordR != "" && Email != "" && ConfPassword != ""){
             if (PasswordR != ConfPassword)
+            {
+                errorSigns = translateError.getLocalizedValue("errorSigns");
+                Debug.Log("errorSigns = " + errorSigns);
                 StartCoroutine(statusMsg(errorSigns));
+            }
             else if (toggleC.GetComponent<Toggle>().isOn)
                 Signup(UsernameR, Email, PasswordR);
-            else    
+            else
+            {
+                errorOnReadTerm = translateError.getLocalizedValue ("errorOnReadTerm");
+                Debug.Log("errorOnReadTerm = " + errorOnReadTerm);
                 StartCoroutine(statusMsg(errorOnReadTerm));
+            }
         }
         else
         {
@@ -265,6 +270,7 @@ public class LoginMenu : BaseMenu {
                 Login(Username, Password);
             else
             {
+                errorOptAccess = translateError.getLocalizedValue ("errorOptAccess");
                 Debug.Log("errorOptAccess1 = " + errorOptAccess);
                 StartCoroutine(statusMsg(errorOptAccess));
 
@@ -272,7 +278,7 @@ public class LoginMenu : BaseMenu {
         }
     }
 
-   
+  
     public void Login(string username, string password) {
         WWWForm form = new WWWForm();
         form.AddField("username", username);
@@ -286,7 +292,13 @@ public class LoginMenu : BaseMenu {
     }
 
     private void OnLoginResponse(ResponseType responseType, JToken responseData, string callee) {
+        translateError = LocalizationManager.instance;
+        errorLogin = translateError.getLocalizedValue ("errorLogin");
+        errorOnReadTerm = translateError.getLocalizedValue ("errorOnReadTerm");
+        errorOptAccess = translateError.getLocalizedValue ("errorOptAccess");
+
         Debug.Log("ResponseType= " + responseType);
+
         if (responseType == ResponseType.Success) {
             authenticationToken = responseData.Value<string>("token");
             PlayerInfo.token = authenticationToken;
@@ -301,10 +313,10 @@ public class LoginMenu : BaseMenu {
         {
             Debug.Log("errorLogin 1= " + errorLogin);
             StartCoroutine(statusMsg(errorLogin));
-            if (OnLoginFailed != null) {
-                OnLoginFailed("@ale : nao pode acessar o servidor.");
-//                 OnLoginFailed(errornoLogin); // responseType=ClientError
-            }
+//            if (OnLoginFailed != null) {
+//                OnLoginFailed("@ale : nao pode acessar o servidor.");
+////                 OnLoginFailed(errornoLogin); // responseType=ClientError
+//            }
         } else {
             JToken fieldToken = responseData["non_field_errors"];
             Debug.Log("fieldToken = " + fieldToken);
@@ -337,13 +349,21 @@ public class LoginMenu : BaseMenu {
     }
 
     private void OnSignupResponse(ResponseType responseType, JToken responseData, string callee) {
+
+        translateError = LocalizationManager.instance;
+ 
         if (responseType == ResponseType.Success) {
             if (OnSignupSuccess != null) {
                 OnSignupSuccess();
+                statusNewSign = translateError.getLocalizedValue ("statusNewSign");
+                StartCoroutine(statusMsg(statusNewSign));
             }
         } else if (responseType == ResponseType.ClientError) {
             if (OnSignupFailed != null) {
                 OnSignupFailed("Could not reach the server. Please try again later.");
+                errorCad = translateError.getLocalizedValue ("errorCad");
+                StartCoroutine(statusMsg(errorCad));
+                
             }
         } else if (responseType == ResponseType.RequestError) {
             string errors = "";
@@ -357,6 +377,7 @@ public class LoginMenu : BaseMenu {
             }
             if (OnSignupFailed != null) {
                 OnSignupFailed(errors);
+                StartCoroutine(statusMsg(errors));
             }
         }
     }
@@ -506,45 +527,7 @@ public class LoginMenu : BaseMenu {
         if(!loggingIn) {
             return;
         }
-
-        // When TAB is pressed, we should select the next selectable UI element
-        if (Input.GetKeyDown(KeyCode.Tab)) {
-            Selectable next = null;
-            Selectable current = null;
- 
-            // Figure out if we have a valid current selected gameobject
-            if (eventSystem.currentSelectedGameObject != null) {
-                // Unity doesn't seem to "deselect" an object that is made inactive
-                if (eventSystem.currentSelectedGameObject.activeInHierarchy) {
-                    current = eventSystem.currentSelectedGameObject.GetComponent<Selectable>();
-                }
-            }
-             
-            if (current != null) {
-                // When SHIFT is held along with tab, go backwards instead of forwards
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-                    next = current.FindSelectableOnLeft();
-                    if (next == null) {
-                        next = current.FindSelectableOnUp();
-                    }
-                } else {
-                    next = current.FindSelectableOnRight();
-                    if (next == null) {
-                        next = current.FindSelectableOnDown();
-                    }
-                }
-            } else {
-                // If there is no current selected gameobject, select the first one
-                if (Selectable.allSelectables.Count > 0) {
-                    next = Selectable.allSelectables[0];
-                }
-            }
-             
-            if (next != null)  {
-                next.Select();
-            }
-        }
-        
+       
         if (Time.time > nextStatusChange) {
             nextStatusChange = Time.time + 0.5f;
 //            status = "Logging in";
