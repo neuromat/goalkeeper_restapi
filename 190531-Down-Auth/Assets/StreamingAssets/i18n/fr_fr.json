@@ -116,5 +116,6 @@
 "statusSign":"Annulation", 
 "statusNewSign":"Enregistré avec succès.",  
 "errorCad":"Erreur lors de l'enregistrement: utilisateur existant ou serveur déconnecté.",
+"errorFields":"Remplissez les champs correctement",
 "":""
 }
