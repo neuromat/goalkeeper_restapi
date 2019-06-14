@@ -69,6 +69,7 @@ public class LoginMenu : BaseMenu {
     private string errorOnReadTerm;
     private string errorOptAccess;
     private string errorCad;
+    private string errorFields;
     private string statusLog;
     private string statusNewSign;
     private string enterButton;
@@ -208,7 +209,13 @@ public class LoginMenu : BaseMenu {
 
  
     public void DoLogin() {
+        List<string> listaL = new List<string>();
+        List<string> listaR = new List<string>();
+        int countLogin = 0;
+        int countRegister = 0;
+        
         translateError = LocalizationManager.instance;
+        
         if (loggingIn) {
             Debug.LogWarning("Already logging in, returning.");
             StartCoroutine(statusMsg("Already logging in, returning."));
@@ -237,48 +244,114 @@ public class LoginMenu : BaseMenu {
         PasswordR = passwdRegister.GetComponent<InputField> ().text;
         ConfPassword = confpasswdRegister.GetComponent<InputField> ().text;
         Email = email.GetComponent<InputField> ().text;
+
+        listaL.Add(Username);
+        listaL.Add(Password);
         
+//        listaL.ForEach(i => Debug.Log(i));
         
+        listaR.Add(UsernameR);
+        listaR.Add(PasswordR);
+        listaR.Add(ConfPassword);
+        listaR.Add(Email);
+
         Debug.Log("Username = " + Username);
         Debug.Log("Password = " + Password);
         Debug.Log("UsernameR = " + UsernameR);
         Debug.Log("PasswordR = " + PasswordR);
         Debug.Log("ConfPassword = " + ConfPassword);
         Debug.Log("Email = " + Email);
-
        
-        if (Username == "" && Password == "" && UsernameR != "" && PasswordR != "" && Email != "" && ConfPassword != ""){
-            if (PasswordR != ConfPassword)
-            {
-                errorSigns = translateError.getLocalizedValue("errorSigns");
-                Debug.Log("errorSigns = " + errorSigns);
-                StartCoroutine(statusMsg(errorSigns));
-            }
-            else if (toggleC.GetComponent<Toggle>().isOn)
-                Signup(UsernameR, Email, PasswordR);
-            else
-            {
-                errorOnReadTerm = translateError.getLocalizedValue ("errorOnReadTerm");
-                Debug.Log("errorOnReadTerm = " + errorOnReadTerm);
-                StartCoroutine(statusMsg(errorOnReadTerm));
-            }
-        }
-        else
+        foreach (var fieldsL in listaL)
         {
-            if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
-                ConfPassword == "")
-                Login(Username, Password);
-            else
+            switch (fieldsL)
             {
-                errorOptAccess = translateError.getLocalizedValue ("errorOptAccess");
-                Debug.Log("errorOptAccess1 = " + errorOptAccess);
-                StartCoroutine(statusMsg(errorOptAccess));
-
+                case "":
+                    countLogin++;
+                    break; 
             }
         }
+
+        switch (countLogin)
+        {
+            case 0:
+                Login(Username, Password);
+                break; // or consider return based on your requirements
+            case 1:
+                errorFields = translateError.getLocalizedValue ("errorFields");
+                Debug.Log("errorFields = " + errorFields);
+                StartCoroutine(statusMsg(errorFields));
+                break;
+            case 2:
+                foreach (var fieldsR in listaR)
+                {
+                    switch (fieldsR)
+                    {
+                        case "":
+                            countRegister++;
+                            break; 
+                    }
+                }
+                if (countRegister > 0) { 
+                 errorFields = translateError.getLocalizedValue ("errorFields");
+                 Debug.Log("errorFields = " + errorFields);
+                 StartCoroutine(statusMsg(errorFields));
+                }
+                else
+                {
+                    if (PasswordR != ConfPassword)
+                    {
+                        errorSigns = translateError.getLocalizedValue("errorSigns");
+                        Debug.Log("errorSigns = " + errorSigns);
+                        StartCoroutine(statusMsg(errorSigns));
+                    }
+                    else {
+//                          if(toggleC.GetComponent<Toggle>().isOn)
+//                          { 
+                              Signup(UsernameR, Email, PasswordR);
+//                          }
+//                          else
+//                          {
+//                              errorOnReadTerm = translateError.getLocalizedValue("errorOnReadTerm");
+//                              Debug.Log("errorOnReadTerm = " + errorOnReadTerm);
+//                              StartCoroutine(statusMsg(errorOnReadTerm));
+//                          }
+                    }
+                }
+                break;   
+        }
+        
+//        if (Username == "" && Password == "" && UsernameR != "" && PasswordR != "" && Email != "" && ConfPassword != ""){
+//            if (PasswordR != ConfPassword)
+//            {
+//                errorSigns = translateError.getLocalizedValue("errorSigns");
+//                Debug.Log("errorSigns = " + errorSigns);
+//                StartCoroutine(statusMsg(errorSigns));
+//            }
+//            else if (toggleC.GetComponent<Toggle>().isOn)
+//                Signup(UsernameR, Email, PasswordR);
+//            else
+//            {
+//                errorOnReadTerm = translateError.getLocalizedValue ("errorOnReadTerm");
+//                Debug.Log("errorOnReadTerm = " + errorOnReadTerm);
+//                StartCoroutine(statusMsg(errorOnReadTerm));
+//            }
+//        }
+//        else
+//        {
+//            if (Username != "" && Password != "" && UsernameR == "" && PasswordR == "" && Email == "" &&
+//                ConfPassword == "")
+//                Login(Username, Password);
+//            else
+//            {
+//                errorOptAccess = translateError.getLocalizedValue ("errorOptAccess");
+//                Debug.Log("errorOptAccess1 = " + errorOptAccess);
+//                StartCoroutine(statusMsg(errorOptAccess));
+//            }
+//        }
     }
 
-  
+   
     public void Login(string username, string password) {
         WWWForm form = new WWWForm();
         form.AddField("username", username);

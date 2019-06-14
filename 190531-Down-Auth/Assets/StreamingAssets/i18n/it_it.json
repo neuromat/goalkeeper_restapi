@@ -116,5 +116,6 @@
 "statusSign":"Congiunto", 
 "statusNewSign":"Registrato con successo.",  
 "errorCad":"Errore nella registrazione: utente esistente o server disconnesso.",
+"errorFields":"Compila i campi correttamente",
 "":""
 }
