@@ -146,7 +146,7 @@ public class LoginMenu : BaseMenu {
         titJanLogin = translate.getLocalizedValue ("titJanLogin");
         labelInfoLog = translate.getLocalizedValue ("labelInfoLog");
      
-        statusLog = translate.getLocalizedValue ("statusLog");
+     //   statusLog = translate.getLocalizedValue ("statusLog");
         
      //   backendManager.OnLoggedIn += OnLoggedIn;
      //   backendManager.OnLoginFailed += OnLoginFailed;
@@ -296,7 +296,8 @@ public class LoginMenu : BaseMenu {
         errorLogin = translateError.getLocalizedValue ("errorLogin");
         errorOnReadTerm = translateError.getLocalizedValue ("errorOnReadTerm");
         errorOptAccess = translateError.getLocalizedValue ("errorOptAccess");
-
+        statusLog = translateError.getLocalizedValue ("statusLog");
+        
         Debug.Log("ResponseType= " + responseType);
 
         if (responseType == ResponseType.Success) {
@@ -305,7 +306,7 @@ public class LoginMenu : BaseMenu {
             if (OnLoggedIn != null) {
                 OnLoggedIn(); 
                 
-            StartCoroutine(statusMsg("Conectado, carregando o jogo...."));
+//            StartCoroutine(statusMsg(statusLog));
             
             SceneManager.LoadScene("Configurations");
             }

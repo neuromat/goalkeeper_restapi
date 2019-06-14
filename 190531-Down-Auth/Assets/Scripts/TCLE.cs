@@ -140,24 +140,23 @@ public class TCLE: MonoBehaviour
 		//btnMenu.text = translate.getLocalizedValue ("btnMenu");
 		//placeholder.text = translate.getLocalizedValue ("placeholder");
 		//tcleHeader.text = translate.getLocalizedValue ("tcleHeader");
-		tcleNotAgree.text = translate.getLocalizedValue ("tcleNotAgree");
-		tcleAgree.text = translate.getLocalizedValue ("tcleAgree");
-		txtTermo.text = translate.getLocalizedValue ("txtTermo");
-		txtVoltarIdioma.text = translate.getLocalizedValue ("txtVoltarIdioma");
-		Debug.Log ("Temo --> " + txtTermo);
+//		tcleNotAgree.text = translate.getLocalizedValue ("tcleNotAgree");
+//		tcleAgree.text = translate.getLocalizedValue ("tcleAgree");
+//		txtTermo.text = translate.getLocalizedValue ("txtTermo");
+//		txtVoltarIdioma.text = translate.getLocalizedValue ("txtVoltarIdioma");
+//		Debug.Log ("Temo --> " + txtTermo);
 
         //180625 from UiText to TMPro
 		tcleText.text = translate.getLocalizedValue ("tcle").Replace("\\n","\n");
         //tcleText.text = translate.getLocalizedValue("tcle").Replace("\\n", "\n");
 
         //btnAvancar.text = translate.getLocalizedValue("avancar");
-
         //Josi: declare GameFlowManager to continue if data filled
         //@@gameFlowManager = GameFlowManager.instance;
 
         //170926 salvar as cores originais do toggle concorda/naoConcorda
-        agreeOriginalColors = agree.colors;
-		notAgreeOriginalColors = notAgree.colors;
+//        agreeOriginalColors = agree.colors;
+//		notAgreeOriginalColors = notAgree.colors;
 	}
 
 
