@@ -52,6 +52,13 @@
                         </tr>
                     {% endfor %}
                 </tbody>
+                {% if not context_list.0 %}
+                    {% if validate_context_tree %}
+                        <div class="alert alert-success" role="alert">{% trans "Valid context tree" %}</div>
+                    {% else %}
+                        <div class="alert alert-danger" role="alert">{% trans "Invalid context tree" %}</div>
+                    {% endif %}
+                {% endif %}
             </table>
         </div>
     </div>

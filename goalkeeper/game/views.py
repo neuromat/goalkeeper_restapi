@@ -176,6 +176,13 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     last_context = len(context_used.last().path) if context_used else None
     context_list = available_context(goalkeeper_game_id)
     context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
+    validate_context_tree = False
+
+    # If contexts and probabilities have already been created, check if the context tree is valid
+    if context_used and not context_without_probability:
+        validate_contexts = check_context_tree(goalkeeper_game_id)
+        if False not in validate_contexts.values():
+            validate_context_tree = True
 
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
@@ -249,6 +256,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         "context_list": context_list,
         "context_without_probability": context_without_probability,
         "last_context": last_context,
+        "validate_context_tree": validate_context_tree,
         "viewing": True
     }
 
@@ -467,6 +475,40 @@ def probability_update(request, context_id, template_name="game/probability.html
     }
 
     return render(request, template_name, context)
+
+
+def check_context_tree(goalkeeper_game_id):
+    """
+    Function to check if the context tree is valid
+    :param goalkeeper_game_id: ID of the game for which the context tree will be validated
+    :return: dictionary with contexts and whether they are valid or not
+    """
+    context_used = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context='True').order_by('-id')
+    valid_context_tree = {}
+
+    for item in context_used:
+        path = item.path
+
+        if len(path) > 1:
+            valid_context = []
+
+            while len(path) > 1:
+                suffix = path[-1]
+                path = path[:-1]
+
+                for context in context_used:
+                    if path[-1] == context.path[-1]:
+                        prob = Probability.objects.get(context=context, direction=suffix)
+                        if prob.value > 0:
+                            valid_context.append(True)
+                            break
+
+            if len(valid_context) == len(item.path) - 1:
+                valid_context_tree[item.path] = True
+            else:
+                valid_context_tree[item.path] = False
+
+    return valid_context_tree
 
 
 # Django Rest
