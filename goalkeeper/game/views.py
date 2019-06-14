@@ -173,6 +173,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     probabilities = Probability.objects.filter(context__goalkeeper=game)
     context_registered = Context.objects.filter(goalkeeper=game)
     context_used = context_registered.filter(is_context=True)
+    last_context = len(context_used.last().path) if context_used else None
     context_list = available_context(goalkeeper_game_id)
     context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
 
@@ -216,7 +217,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
 
                 # The user should be able to answer again whether a context is a real context or not.
                 while path:
-                    path = path[:-1]
+                    path = path[1:]
                     try:
                         update_context = Context.objects.get(goalkeeper=game, path=path)
                         if update_context:
@@ -228,7 +229,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
 
                 # Update the depth of the context tree
                 if context_used:
-                    depth = len(context_used.last().path)
+                    depth = len(context_used.last().path) if context_used.last() else None
                     if game.depth != depth:
                         game.depth = depth
                         game.save()
@@ -247,6 +248,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         "context_used": context_used,
         "context_list": context_list,
         "context_without_probability": context_without_probability,
+        "last_context": last_context,
         "viewing": True
     }
 
@@ -299,8 +301,8 @@ def available_context(goalkeeper_game_id):
             for item in context_not_analyzed:
                 for direction in range(game.number_of_directions):
                     # Verification required in case of context removal
-                    if not Context.objects.filter(goalkeeper=game, path=str(item.path)+str(direction)):
-                        context_list.append(str(item.path)+str(direction))
+                    if not Context.objects.filter(goalkeeper=game, path=str(direction)+str(item.path)):
+                        context_list.append(str(direction)+str(item.path))
 
         # Check if any height 1 context has been removed to add in the context_list
         for direction in range(game.number_of_directions):
