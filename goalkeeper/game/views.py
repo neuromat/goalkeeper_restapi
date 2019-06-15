@@ -501,7 +501,7 @@ def check_context_tree(goalkeeper_game_id):
                 for context in context_used:
                     if path[-1] == context.path[-1]:
                         prob = Probability.objects.get(context=context, direction=suffix)
-                        if path[-1] == suffix and prob.value == 1:
+                        if prob.context == item and path[-1] == suffix and prob.value == 1:
                             valid_context.append('Loop')
                             break
                         elif prob.value > 0:
