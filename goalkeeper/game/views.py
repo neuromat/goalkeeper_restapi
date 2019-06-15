@@ -176,13 +176,15 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
     last_context = len(context_used.last().path) if context_used else None
     context_list = available_context(goalkeeper_game_id)
     context_without_probability = check_contexts_without_probability(goalkeeper_game_id)
-    validate_context_tree = False
+    context_tree_status = 'Invalid'
 
     # If contexts and probabilities have already been created, check if the context tree is valid
     if context_used and not context_without_probability:
         validate_contexts = check_context_tree(goalkeeper_game_id)
-        if False not in validate_contexts.values():
-            validate_context_tree = True
+        if 'Loop' in validate_contexts.values():
+            context_tree_status = 'Loop'
+        elif 'Invalid' not in validate_contexts.values():
+            context_tree_status = 'Valid'
 
     for field in goalkeeper_game_form.fields:
         goalkeeper_game_form.fields[field].widget.attrs['disabled'] = True
@@ -256,7 +258,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         "context_list": context_list,
         "context_without_probability": context_without_probability,
         "last_context": last_context,
-        "validate_context_tree": validate_context_tree,
+        "context_tree_status": context_tree_status,
         "viewing": True
     }
 
@@ -499,14 +501,19 @@ def check_context_tree(goalkeeper_game_id):
                 for context in context_used:
                     if path[-1] == context.path[-1]:
                         prob = Probability.objects.get(context=context, direction=suffix)
-                        if prob.value > 0:
-                            valid_context.append(True)
+                        if path[-1] == suffix and prob.value == 1:
+                            valid_context.append('Loop')
+                            break
+                        elif prob.value > 0:
+                            valid_context.append('Valid')
                             break
 
-            if len(valid_context) == len(item.path) - 1:
-                valid_context_tree[item.path] = True
+            if len(valid_context) == len(item.path) - 1 and 'Loop' in valid_context:
+                valid_context_tree[item.path] = 'Loop'
+            elif len(valid_context) == len(item.path) - 1:
+                valid_context_tree[item.path] = 'Valid'
             else:
-                valid_context_tree[item.path] = False
+                valid_context_tree[item.path] = 'Invalid'
 
     return valid_context_tree
 
