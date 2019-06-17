@@ -14,7 +14,7 @@
                 <a href="{% url 'probability' game.id %}" class="btn btn-primary{% if not context_without_probability %} disabled{% endif %}" style="color:white">{% trans "Add probabilities" %}</a>
             {% endif %}
             {% if not context_list.0 %}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSequence">{% trans "Add sequence" %}</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSequence" {% if context_tree_status == 'Invalid' %}disabled{% endif %}>{% trans "Add sequence" %}</button>
             {% endif %}
         </div>
     </div>
