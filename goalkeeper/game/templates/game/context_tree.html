@@ -52,6 +52,15 @@
                         </tr>
                     {% endfor %}
                 </tbody>
+                {% if not context_list.0 %}
+                    {% if context_tree_status == 'Valid' %}
+                        <div class="alert alert-success" role="alert">{% trans "Valid context tree" %}</div>
+                    {% elif context_tree_status == 'Loop' %}
+                        <div class="alert alert-warning" role="alert">{% trans "Valid context tree, but you will have a loop" %}</div>
+                    {% elif context_tree_status == 'Invalid' %}
+                        <div class="alert alert-danger" role="alert">{% trans "Invalid context tree" %}</div>
+                    {% endif %}
+                {% endif %}
             </table>
         </div>
     </div>
