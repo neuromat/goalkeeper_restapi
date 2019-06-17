@@ -122,5 +122,6 @@
 "statusNewSign":"Registered successfully",
 "errorCad":"Error in registration: Existing user or disconnected server.",
 "errorFields":"Fill in the fields correctly",
+"errorEmail":"Invalid email",
 "":""
 }

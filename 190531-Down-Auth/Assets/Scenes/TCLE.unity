@@ -1152,6 +1152,7 @@ MonoBehaviour:
   email: {fileID: 668954480}
   labelNovaConta: {fileID: 668954491}
   labelConcordo: {fileID: 452935996}
+  toggleC: {fileID: 1887568616}
   Username: 
   Password: 
   UsernameR: 
@@ -1161,7 +1162,7 @@ MonoBehaviour:
   Mensagem: {fileID: 668954486}
   txtTermo: {fileID: 668954489}
   remember: {fileID: 0}
-  toggleC: {fileID: 0}
+  CheckIfRead: 0
   txtAvancar: {fileID: 668954488}
   txtVoltarIdioma: {fileID: 668954487}
   UseProduction: 0
@@ -3831,6 +3832,7 @@ MonoBehaviour:
   email: {fileID: 668954480}
   labelNovaConta: {fileID: 668954491}
   labelConcordo: {fileID: 452935996}
+  toggleC: {fileID: 1887568616}
   Username: 
   Password: 
   UsernameR: 
@@ -3840,7 +3842,7 @@ MonoBehaviour:
   Mensagem: {fileID: 668954486}
   txtTermo: {fileID: 668954489}
   remember: {fileID: 0}
-  toggleC: {fileID: 0}
+  CheckIfRead: 0
   txtAvancar: {fileID: 668954488}
   txtVoltarIdioma: {fileID: 668954487}
   UseProduction: 0

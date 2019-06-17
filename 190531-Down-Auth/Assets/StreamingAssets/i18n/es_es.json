@@ -117,5 +117,6 @@
 "statusNewSign":"Catastrado con éxito.",
 "errorCad":"Error en el registro: Usuario ya existente o servidor desconectado.",
 "errorFields":"Rellene los campos correctamente",
+"errorEmail":"Correo electrónico no válido",
 "":""
 }
