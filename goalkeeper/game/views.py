@@ -560,18 +560,18 @@ def create_sequence(goalkeeper_game_id, sequence_size):
     sequence = ''.join(random.sample(list_of_context_used, 1))
 
     # generate the rest of the sequence
-    number_aux = ''
+    next_sequence_number = ''
     while len(sequence) < int(sequence_size):
         for num in range(1,len(sequence)+1):
             suffix = sequence[-num:]
             if suffix in contexts_and_probabilities:
                 number_drawn = random.random()
-                number_aux = 0
+                next_sequence_number = 0
                 for prob in contexts_and_probabilities[suffix]:
                     if number_drawn <= prob:
                         break
-                    number_aux += 1
-        sequence += str(number_aux)
+                    next_sequence_number += 1
+        sequence += str(next_sequence_number)
 
     return sequence
 
