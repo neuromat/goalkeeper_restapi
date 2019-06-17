@@ -70,10 +70,9 @@ public class LoginMenu : BaseMenu {
     private string errorOptAccess;
     private string errorCad;
     private string errorFields;
+    private string errorEmail;
     private string statusLog;
     private string statusNewSign;
-    private string enterButton;
-    private string vname;
     
     private const float LABEL_WIDTH = 110;
     private bool loggingIn = false;
@@ -81,7 +80,6 @@ public class LoginMenu : BaseMenu {
     private bool hasFocussed = false;
     private int dotNumber = 1;
     private float nextStatusChange;
-    private string status = "";
     private string username = "", password = "";
     
     //private SignupMenu signupMenu;
@@ -94,7 +92,8 @@ public class LoginMenu : BaseMenu {
     public GameObject email;
     public GameObject labelNovaConta;
     public GameObject labelConcordo;
-
+    public GameObject toggleC;
+    
     [SerializeField]
     private string Username = null;
     [SerializeField]
@@ -114,14 +113,15 @@ public class LoginMenu : BaseMenu {
     [SerializeField]
     private Toggle remember = null;
     [SerializeField]
-    private Toggle toggleC;
+    private bool CheckIfRead;
     
     public Text txtAvancar;
     public Text txtVoltarIdioma;
 
     private string form;
     private bool EmailValid=false;
-
+    private string status;
+    
     public delegate void RequestResponseDelegate(ResponseType responseType, JToken jsonResponse, string callee);
 
     //---- Public Properties ----//
@@ -137,6 +137,11 @@ public class LoginMenu : BaseMenu {
     public string ProductionUrl = "http://foobar:8000/api/";
     public string DevelopmentUrl = "http://localhost:8000/api/";
 
+    public  const string MatchEmailPattern =
+        @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+        + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+        + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+        + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$";
 
     private void Start() {
 
@@ -244,7 +249,8 @@ public class LoginMenu : BaseMenu {
         PasswordR = passwdRegister.GetComponent<InputField> ().text;
         ConfPassword = confpasswdRegister.GetComponent<InputField> ().text;
         Email = email.GetComponent<InputField> ().text;
-
+        CheckIfRead = toggleC.GetComponent<Toggle>().isOn;
+        
         listaL.Add(Username);
         listaL.Add(Password);
         
@@ -254,7 +260,7 @@ public class LoginMenu : BaseMenu {
         listaR.Add(PasswordR);
         listaR.Add(ConfPassword);
         listaR.Add(Email);
-
+        
         Debug.Log("Username = " + Username);
         Debug.Log("Password = " + Password);
         Debug.Log("UsernameR = " + UsernameR);
@@ -305,17 +311,24 @@ public class LoginMenu : BaseMenu {
                         Debug.Log("errorSigns = " + errorSigns);
                         StartCoroutine(statusMsg(errorSigns));
                     }
+                    else if (!validateEmail (Email)){
+                        errorEmail = translateError.getLocalizedValue("errorEmail");
+                        Debug.Log("errorEmail = " + errorEmail);
+                        StartCoroutine(statusMsg(errorEmail));
+                    }
                     else {
-//                          if(toggleC.GetComponent<Toggle>().isOn)
-//                          { 
-                              Signup(UsernameR, Email, PasswordR);
-//                          }
-//                          else
-//                          {
-//                              errorOnReadTerm = translateError.getLocalizedValue("errorOnReadTerm");
-//                              Debug.Log("errorOnReadTerm = " + errorOnReadTerm);
-//                              StartCoroutine(statusMsg(errorOnReadTerm));
-//                          }
+                           Debug.Log("toggleC is On = "+ CheckIfRead);
+
+                           if(CheckIfRead == true)
+                           {
+                               Signup(UsernameR, Email, PasswordR);
+                           }    
+                           else
+                           {
+                               errorOnReadTerm = translateError.getLocalizedValue("errorOnReadTerm");
+                               Debug.Log("errorOnReadTerm = " + errorOnReadTerm);
+                               StartCoroutine(statusMsg(errorOnReadTerm));
+                           }
                     }
                 }
                 break;   
@@ -351,6 +364,13 @@ public class LoginMenu : BaseMenu {
 //        }
     }
 
+    public static bool validateEmail (string email)
+    {
+        if (email != null)
+            return Regex.IsMatch (email, MatchEmailPattern);
+        else
+            return false;
+    }
    
     public void Login(string username, string password) {
         WWWForm form = new WWWForm();
