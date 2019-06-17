@@ -1,3 +1,5 @@
+import random
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models.deletion import ProtectedError
@@ -199,7 +201,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
             return HttpResponseRedirect(reverse("goalkeeper_game_list"))
 
         # Remove a context from a game
-        if request.POST['action'][:12] == "remove_path-":
+        elif request.POST['action'][:12] == "remove_path-":
             context_id = request.POST['action'][12:]
             try:
                 get_context = Context.objects.get(pk=context_id)
@@ -245,6 +247,16 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
                     game.save()
 
             messages.success(request, _('Context removed successfully.'))
+            redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
+            return HttpResponseRedirect(redirect_url)
+
+        # Create the sequence for the game
+        elif request.POST['action'] == "sequence":
+            sequence_size = request.POST['sequence_size']
+            sequence = create_sequence(goalkeeper_game_id, sequence_size)
+            game.sequence = sequence
+            game.save()
+            messages.success(request, _('Sequence created successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
             return HttpResponseRedirect(redirect_url)
 
@@ -509,6 +521,52 @@ def check_context_tree(goalkeeper_game_id):
                 valid_context_tree[item.path] = False
 
     return valid_context_tree
+
+
+def create_sequence(goalkeeper_game_id, sequence_size):
+    """
+    Function to create the sequence that will be used for the goalkeeper game
+    :param goalkeeper_game_id: ID of the game for which the sequecence will be created
+    :param sequence_size: size of the sequence
+    :return: the sequence for the game
+    """
+    context_used = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context='True')
+
+    # transition matrix
+    contexts_and_probabilities = {}
+    for context in context_used:
+        probabilities = Probability.objects.filter(context=context).order_by('direction')
+        probabilities_list = []
+
+        for item in probabilities:
+            probabilities_list.append(item.value)
+
+        contexts_and_probabilities[context.path] = probabilities_list
+
+    # accumulated matrix
+    for item in contexts_and_probabilities.values():
+        for num in range(1, len(item)):
+            item[num] += item[num-1]
+
+    # draws the first context of the sequence
+    list_of_context_used = list(context_used.values_list('path', flat=True))
+    sequence = ''.join(random.sample(list_of_context_used, 1))
+
+    # generate the rest of the sequence
+    number_aux = ''
+    while len(sequence) < int(sequence_size):
+        for num in range(1,len(sequence)+1):
+            suffix = sequence[-num:]
+            if str(suffix) in contexts_and_probabilities:
+                number_drawn = random.random()
+                number_aux = 0
+                for prob in contexts_and_probabilities[suffix]:
+                    if number_drawn <= prob:
+                        break
+                    number_aux += 1
+        sequence += str(number_aux)
+
+    return sequence
 
 
 # Django Rest
