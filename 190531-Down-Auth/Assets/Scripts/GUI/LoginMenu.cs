@@ -216,7 +216,6 @@ public class LoginMenu : BaseMenu {
     public void DoLogin() {
         List<string> listaL = new List<string>();
         List<string> listaR = new List<string>();
-        int countArroba = 0;
         int countLogin = 0;
         int countRegister = 0;
         
@@ -261,7 +260,6 @@ public class LoginMenu : BaseMenu {
         listaR.Add(PasswordR);
         listaR.Add(ConfPassword);
         listaR.Add(Email);
-        countArroba = Email.Count(x => x == '@');
         
         Debug.Log("Username = " + Username);
         Debug.Log("Password = " + Password);
