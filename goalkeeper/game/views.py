@@ -564,7 +564,7 @@ def create_sequence(goalkeeper_game_id, sequence_size):
     while len(sequence) < int(sequence_size):
         for num in range(1,len(sequence)+1):
             suffix = sequence[-num:]
-            if str(suffix) in contexts_and_probabilities:
+            if suffix in contexts_and_probabilities:
                 number_drawn = random.random()
                 number_aux = 0
                 for prob in contexts_and_probabilities[suffix]:
