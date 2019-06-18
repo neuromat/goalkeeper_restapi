@@ -1,2 +1,0 @@
-/Users/celsovi/Documents/UNITY/Samples/testaLogin/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
-/Users/celsovi/Documents/UNITY/Samples/testaLogin/obj/Debug/Assembly-CSharp.csproj.CoreCompileInputs.cache
