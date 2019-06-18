@@ -223,11 +223,11 @@ public class SavegameMenu : BaseMenu {
 
     private void OnGUI() {
         GUI.skin = Skin;
-        if (isExpanded) {
-            windowRect.height = DefaultHeight;
-        } else {
-            windowRect.height = 50;
-        }
-        windowRect = GUILayout.Window(3, windowRect, ShowWindow, "Load/save menu");
+ //       if (isExpanded) {
+ //           windowRect.height = DefaultHeight;
+ //       } else {
+ //           windowRect.height = 50;
+ //       }
+ //       windowRect = GUILayout.Window(3, windowRect, ShowWindow, "Load/save menu");
     }
 }

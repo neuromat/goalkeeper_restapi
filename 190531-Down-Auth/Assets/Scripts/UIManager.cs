@@ -88,9 +88,13 @@ public class UIManager : MonoBehaviour
 	private ProbCalculator probs;
 	private GameFlowManager gameFlow;
 
-	public int success = 0;
-	public Text placar;              //muda do tipo string para StringBuilder (reserva espaco de antemao, sem garbage collection
-	public Text placarFirstScreen;   //170103 Base Memoria //170125 basta o placar.text
+    	public int success = 0;
+	public int faltaProximaFase;
+	// @ale
+	// successTotal : somatorio de todos os sucessos
+	public int successTotal = 0;
+    	public Text placar;              //muda do tipo string para StringBuilder (reserva espaco de antemao, sem garbage collection
+    	public Text placarFirstScreen;   //170103 Base Memoria //170125 basta o placar.text
 
 	public GameObject setaEsq;      //mainScene/gameScene/GameUICanvas/bmIndicaChute/chutaEsq
 	public GameObject setaDir;      //mainScene/gameScene/GameUICanvas/bmIndicaChute/chutaDir
@@ -299,6 +303,7 @@ public class UIManager : MonoBehaviour
 			if (input.Equals (dirEsq)) {
 				eLog.correct = true;
 				success++;
+				successTotal++;
 			} else {
 				eLog.correct = false;
 			}
@@ -968,6 +973,8 @@ public class UIManager : MonoBehaviour
 	{
 		placar.text = System.String.Empty;    //170216 Use System.String.Empty instead of "" when dealing with lots of strings;
 		if (probs.getCurrentScoreboard ()) {
+
+			/* Original Desktop
 			if (eventCount > 0) {
 				//180323 not reset the counter if error in sequence (Amparo request)
 				placar.text = success.ToString ().PadLeft (3) + " / " + probs.GetCurrentPlayLimit (gameSelected).ToString ();  //170216
@@ -992,6 +999,26 @@ public class UIManager : MonoBehaviour
 					}
 				}
 			}
+			*/
+
+			// @ale 190610 - inserido igual foi definido na versao mobile
+			if (eventCount > 0)
+			{
+					faltaProximaFase = (probs.getJGminHitsInSequence() - success);
+					placar.text = faltaProximaFase.ToString();
+					//Debug.Log ("UIManager.cs --> f:probs.getJGminHitsInSequence() = " + probs.getJGminHitsInSequence());
+					//Debug.Log ("UIManager.cs --> f:updateScore --> placar.text = " + placar.text);
+					//Debug.Log ("UIManager.cs --> f:updateScore --> probs.GetCurrentPlayLimit(gameSelected) = " + probs.GetCurrentPlayLimit(gameSelected));
+					//Debug.Log ("UIManager.cs --> f:updateScore --> success = " + success);
+			}
+			else
+			{
+				//190328 - Mostra so quanto falta (JGminHitsInSequence - sucess) para proxima fase
+				faltaProximaFase = (probs.getJGminHitsInSequence() - success);
+				placar.text = faltaProximaFase.ToString();
+				//Debug.Log ("&&&&&&&&&&&&&&&&&&&&&&&&&&& UIManager.cs --> f:probs.getJGminHitsInSequence() = " + probs.getJGminHitsInSequence());
+			}
+
 		}
 	}
 

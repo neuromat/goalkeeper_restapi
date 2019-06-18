@@ -11,10 +11,60 @@ using System.Collections;
 using System.Collections.Generic;  //170102 List
 using JsonFx.Json;
 
+//@ale Save Data
+using System.Collections.Generic;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 //---------------------------------------------------------------------------------------
 public class GameFlowManager : MonoBehaviour
 {
+	// @ale : Premios
+	public GameObject Premios;
+	//public GameObject Player;
+	public GameObject icon1on;
+	public GameObject icon2on;
+	public GameObject icon3on;
+	public GameObject icon4on;
+	public GameObject icon5on;
+	public GameObject icon6on;
+	public GameObject icon7on;
+	public GameObject icon8on;
+	public GameObject icon9on;
+
+	public GameObject icon1off;
+	public GameObject icon2off;
+	public GameObject icon3off;
+	public GameObject icon4off;
+	public GameObject icon5off;
+	public GameObject icon6off;
+	public GameObject icon7off;
+	public GameObject icon8off;
+	public GameObject icon9off;
+
+	public GameObject IndicaPremios;
+
+	// Quadro de Premios
+	public Text TextP1; // premio 1...
+	public Text TextP2;
+	public Text TextP3;
+	public Text TextP4;
+	public Text TextP5;
+	public Text TextP6;
+	public Text TextP7;
+	public Text TextP8;
+	public Text TextP9;
+	public Text QuadroPremios; // titulo quadro de premios
+	public Text SairQuadro;
+
+	public Text txtNumeroDefesas;
+	public Text TextHeaderPremios;
+	public Text txtPremioDefesas;
+	public Text txtPremioDefesasSeguidas;
+	public Text txtPremioFases;
+
+
     public GameObject game;
     public CanvasGroup gameCanvas;
     public GameObject betweenLevels;
@@ -112,11 +162,14 @@ public class GameFlowManager : MonoBehaviour
     public GameObject scrTutorial;        //180626 temporarily screen gameTutorial; will be changed for an Magara art
                                           //180626 TMP are called as gameObjects
     private LocalizationManager translate;    //171006 trazer script das rotinas de translation
-    public GameObject txtTut1;                //171006 elementos para traduzir na tela de Menu
+		/*
+		public GameObject txtTut1;                //171006 elementos para traduzir na tela de Menu
     public GameObject txtTut2;
     public GameObject txtTut3;
     public GameObject txtTut4;
-    public Text txtTut5;
+		*/
+		public Text txtTut5;
+
     public Text txtJogo;
     public Text txtMenu;
     public Text txtSair;
@@ -131,7 +184,46 @@ public class GameFlowManager : MonoBehaviour
     public string sequJMGiven;               //180418 to save the sequence given to the player in JM
 
 
-    //-------------------------------------------------------------------------------------
+	//@ale Save data =========================================================================
+
+	public bool icone1;
+	public bool icone2;
+	public bool icone3;
+	public bool icone4;
+	public bool icone5;
+	public bool icone6;
+	public bool icone7;
+	public bool icone8;
+	public bool icone9;
+
+
+	[Header("Configurações")]
+	public string DiretorioDoArquivo;
+	public string FormatoDoArquivo = "dat";
+	public string NomeDoArquivo;
+
+	[Header("Elementos da UI")]
+	public InputField Diretorio;
+
+	[Serializable] //Nessa parte nós meio que formatamos o nosso arquivo, criando uma classse para isso. Aqui criamos as variaveis que serão adicionadas ao arquivo, e vale notar que você pode repetir nome de variaveis, desde que uma delas esteja fora dessa classe.
+	class DadosDoPremio
+	{
+		public bool Bool1;
+		public bool Bool2;
+		public bool Bool3;
+		public bool Bool4;
+		public bool Bool5;
+		public bool Bool6;
+		public bool Bool7;
+		public bool Bool8;
+		public bool Bool9;
+	}
+
+	public int numeroFases = 0;
+	public int totalAcertos;
+
+	//=========================================================================================
+
     static private GameFlowManager _instance;
     static public GameFlowManager instance
     {
@@ -195,15 +287,15 @@ public class GameFlowManager : MonoBehaviour
                     relaxTime.SetActive(true);
                     uiManager.aguardandoTeclaPosRelax = true;
 
-                    //170412 
+                    //170412
                     //supor 20 numPlays e playsToRelax 5: precisa parar em 5, 10 e 15 jogadas - não em 20...
                     playsToRelax = playsToRelax + probCalculator.getPlaysToStartRelax();
                 }
             }
 
-            //----------------------------------------------------------------------------------
+
             if (numPlays > 0)
-            {
+            {							/* Versao Desktop
                 //170306 IMEjr nao gostou da estrategia de soh aumentar ao final do totalDeJogadas; como eram 5 x 1 mudei...
                 //       assim pode nao ficar claro que o aumento ocorreu porque ao fim das jogadas planejadas o min nao foi atingido
 
@@ -212,11 +304,14 @@ public class GameFlowManager : MonoBehaviour
                 //       onde não é possível determinar uma sequência, ou que o JG deve continuar independentemente de acertar/errar
                 if (PlayerPrefs.GetInt("gameSelected") == 2)
                 {
-                    //180628 gameOver comes only if numHitsInSequence is defined (assíntota)
-                    if ((uiManager.eventCount >= numPlays) && (probCalculator.getJGminHitsInSequence() > 0))  //180622
+                    //modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
+										// era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
+										if ( (uiManager.success  == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
                     {    //180402 extremes (>, not >=)
-                        gameOver(2);
+												ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
+                        //gameOver(2);
                     }
+										/*
                     else
                     {
                         if (probCalculator.getJGminHitsInSequence() > 0)
@@ -227,12 +322,414 @@ public class GameFlowManager : MonoBehaviour
                             }
                         }
                     }
-                }
+
+                	} */
+
+									  Debug.Log ("GameFlowManager.cs !!!!!!!!!!!!!!!! numPlays > 0 !!!!!!!!!!!!");
+										Debug.Log ("successTotal >>>>>>>>>>>>>" + uiManager.successTotal);
+										Debug.Log ("getJGminHitsInSequence >>>>>>>>>>>>>>>>>>>>>>>>" + probCalculator.getJGminHitsInSequence());
+										
+		                if (PlayerPrefs.GetInt("gameSelected") == 2)
+		                {
+											//modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
+											// era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
+											if ( (uiManager.success  == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
+											{    //180402 extremes (>, not >=)
+												Debug.Log ("############################################################################");
+												Debug.Log ("GameFlowManager.cs ****** f:uiManager.successTotal = " + uiManager.successTotal);
+												Debug.Log ("GameFlowManager.cs ****** f:minHitsInSequence = " + minHitsInSequence);
+												Debug.Log ("############################################################################");
+												//gameLover(PlayerPrefs.GetInt("gameSelected"));
+												ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
+											}
+
+		                }
+
+
+				// @ale - Premio 1 - Acertar 8 defesas em qualquer ordem
+				if (uiManager.successTotal == 8 || Load1() == true)
+				{
+					Debug.Log ("Total de Acertos = " +totalAcertos + "... ativa icone1 = "+icone1);
+					totalAcertos = uiManager.success + totalAcertos;
+
+					if (Load1 () == false) {
+						LigaDesligaIndicaPremios (true);
+					} else {
+						LigaDesligaIndicaPremios (false);
+					}
+
+					//Premios.SetActive (false);
+					icon1off.SetActive (false);
+					/*
+					icon2off.SetActive (true);
+					icon3off.SetActive (true);
+					icon4off.SetActive (true);
+					icon5off.SetActive (true);
+					icon6off.SetActive (true);
+					icon7off.SetActive (true);
+					icon8off.SetActive (true);
+					*/
+					icon1on.SetActive (true);
+					/*
+					icon2on.SetActive (false);
+					icon3on.SetActive (false);
+					icon4on.SetActive (false);
+					icon5on.SetActive (false);
+					icon6on.SetActive (false);
+					icon7on.SetActive (false);
+					icon8on.SetActive (false);
+					*/
+
+					if (!icone1 && Load2() == true) {
+						icone1 = true;
+						Save (true, true, false, false, false, false, false, false, false);
+					}
+
+					if (!icone1 && Load2() == false) {
+						icone1 = true;
+						Save (true, false, false, false, false, false, false, false, false);
+					}
+
+
+				}
+
+
+				// @ale - Premio 2 (32 Defesas)
+				if (uiManager.successTotal == 32 || Load2() == true)
+				{
+					//Debug.Log ("-----ativa icone1 = "+icone1);
+					totalAcertos = uiManager.success + totalAcertos;
+
+					if (Load2 () == false) {
+						LigaDesligaIndicaPremios (true);
+					} else {
+						LigaDesligaIndicaPremios (false);
+					}
+					icon2off.SetActive (false);
+					icon2on.SetActive (true);
+					if (!icone2 && Load1() == true) {
+						icone2 = true;
+						Save (true, true, false, false, false, false, false, false, false);
+					}
+					if (!icone2 && Load1() == false) {
+						icone2 = true;
+						Save (false, true, false, false, false, false, false, false, false);
+					}
+				}
+
+
+				// @ale - Premio 3 - Acertar 30 defesas em qualquer ordem
+				if (uiManager.successTotal == 64 || Load3() == true)
+				{
+					Debug.Log ("-----ativa icone3 = "+icone3);
+
+					totalAcertos = uiManager.success + totalAcertos;
+
+					if (Load3 () == false) {
+						LigaDesligaIndicaPremios (true);
+					} else {
+						LigaDesligaIndicaPremios (false);
+					}
+
+					icon3off.SetActive (false);
+					icon3on.SetActive (true);
+
+					if (!icone3 && Load2() == true) {
+						icone3 = true;
+						Save (true, true, true, false, false, false, false, false, false);
+					}
+					if (!icone3 && Load2() == false) {
+						icone3 = true;
+						Save (true, false, true, false, false, false, false, false, false);
+					}
+				}
+
+
+				// @ale - Premio 4 (5 Defesas em Sequencia)
+				if (minHitsInSequence == 5 || Load4() == true)
+				{
+					if (Load4 () == false) {
+						LigaDesligaIndicaPremios (true);
+					} else {
+						LigaDesligaIndicaPremios (false);
+					}
+					icon4off.SetActive (false);
+					icon4on.SetActive (true);
+
+					if (!icone4)
+					{
+						icone4 = true;
+						Save (false, false, false, true, false, false, false, false, false);
+					}
+					if (Load1() == true)
+					{
+						Save (true, false, false, true, false, false, false, false, false);
+					}
+					if (Load2() == true)
+					{
+						Save (true, true, false, true, false, false, false, false, false);
+					}
+					if (Load3() == true)
+					{
+						Save (true, true, true, true, false, false, false, false, false);
+					}
+					if (Load5() == true)
+					{
+						Save (true, true, true, true, true, false, false, false, false);
+					}
+
+				}
+
+
+				// @ale - Premio 5 (10 Defesas em Sequencia)
+				if (minHitsInSequence == 10 || Load5() == true)
+				{
+					if (Load5 () == false) {
+						LigaDesligaIndicaPremios (true);
+					} else {
+						LigaDesligaIndicaPremios (false);
+					}
+
+
+					icon5off.SetActive (false);
+					icon5on.SetActive (true);
+
+					if (!icone5)
+					{
+						icone5 = true;
+						Save (false, false, false, false, true, false, false, false, false);
+					}
+					if (Load1() == true)
+					{
+						Save (true, false, false, false, true, false, false, false, false);
+					}
+					if (Load2() == true)
+					{
+						Save (true, true, false, false, true, false, false, false, false);
+					}
+					if (Load3() == true)
+					{
+						Save (true, true, true, false, true, false, false, false, false);
+					}
+					if (Load4() == true)
+					{
+						Save (true, true, true, true, true, false, false, false, false);
+					}
+
+
+				}
+
+
+				// @ale - Premio 6 (15 Defesas em Sequencia)
+				if (minHitsInSequence == 15 || Load6() == true)
+				{
+					if (Load6 () == false) {
+						LigaDesligaIndicaPremios (true);
+					} else {
+						LigaDesligaIndicaPremios (false);
+					}
+
+					icon6off.SetActive (false);
+					icon6on.SetActive (true);
+
+					if (!icone6)
+					{
+						icone6 = true;
+						Save (false, false, false, false, false, true, false, false, false);
+					}
+					if (Load1() == true)
+					{
+						Save (true, false, false, false, false, true, false, false, false);
+					}
+					if (Load2() == true)
+					{
+						Save (true, true, false, false, false, true, false, false, false);
+					}
+					if (Load3() == true)
+					{
+						Save (true, true, true, false, false, true, false, false, false);
+					}
+					if (Load4() == true)
+					{
+						Save (true, true, true, true, false, true, false, false, false);
+					}
+					if (Load5() == true)
+					{
+						Save (true, true, true, true, true, true, false, false, false);
+					}
+
+				}
+
+
+
+
+
+				// @ale - Premio 7 (Finalizar 2 fases completas)
+				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load7() == true)
+				{
+					if (numeroFases < 2) {
+						numeroFases ++;
+						Debug.Log ("probCalculator.getJGminHitsInSequence --->>>>>>>>>> " + probCalculator.getJGminHitsInSequence());
+						Debug.Log ("uiManager.eventCount --->>>>>>>>>> " + uiManager.eventCount);
+						Debug.Log ("numPlays --->>>>>>>>>> " + numPlays);
+						Debug.Log ("Numero de FASES ate 2 --->>>>>>>>>> " + numeroFases);
+					}
+
+					if (numeroFases == 2) {
+
+						if (Load7 () == false) {
+							LigaDesligaIndicaPremios (true);
+						} else {
+							LigaDesligaIndicaPremios (false);
+						}
+
+
+						icon7off.SetActive (false);
+						icon7on.SetActive (true);
+
+						if (!icone7)
+						{
+							icone7 = true;
+							Save (false, false, false, false, false, false, true, false, false);
+						}
+						if (Load1() == true)
+						{
+							Save (true, false, false, false, false, false, true, false, false);
+						}
+						if (Load2() == true)
+						{
+							Save (true, true, false, false, false, false, true, false, false);
+						}
+						if (Load3() == true)
+						{
+							Save (true, true, true, false, false, false, true, false, false);
+						}
+						if (Load4() == true)
+						{
+							Save (true, true, true, true, false, false, true, false, false);
+						}
+						if (Load5() == true)
+						{
+							Save (true, true, true, true, true, false, true, false, false);
+						}
+						if (Load6() == true)
+						{
+							Save (true, true, true, true, true, true, true, false, false);
+						}
+
+					}
+
+				}
+
+
+				// @ale - Premio 8 (Finalizar 4 fases completas)
+				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load8() == true)
+				{
+					if (numeroFases > 2 && numeroFases < 4) {
+						numeroFases ++;
+						Debug.Log ("Numero de FASES de 2 ate 4 --->>>>>>>>>> " + numeroFases);
+					}
+
+					if (numeroFases == 4) {
+
+						if (Load8 () == false) {
+							LigaDesligaIndicaPremios (true);
+						} else {
+							LigaDesligaIndicaPremios (false);
+						}
+
+
+						icon8off.SetActive (false);
+						icon8on.SetActive (true);
+
+						if (!icone8)
+						{
+							icone8 = true;
+							Save (false, false, false, false, false, false, false, true, false);
+						}
+						if (Load1() == true)
+						{
+							Save (true, false, false, false, false, false, false, true, false);
+						}
+						if (Load2() == true)
+						{
+							Save (true, true, false, false, false, false, false, true, false);
+						}
+						if (Load3() == true)
+						{
+							Save (true, true, true, false, false, false, false, true, false);
+						}
+						if (Load4() == true)
+						{
+							Save (true, true, true, true, false, false, false, true, false);
+						}
+						if (Load5() == true)
+						{
+							Save (true, true, true, true, true, false, false, true, false);
+						}
+						if (Load6() == true)
+						{
+							Save (true, true, true, true, true, true, false, true, false);
+						}
+						if (Load7() == true)
+						{
+							Save (true, true, true, true, true, true, true, true, false);
+						}
+
+					}
+				}
+
+
+				// @ale - Premio 9 (Finalizar 8 fases completas)
+				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load9() == true)
+
+				{
+					if (numeroFases > 4 && numeroFases < 8) {
+						numeroFases ++;
+						Debug.Log ("Numero de FASES de 4 ate 8 --->>>>>>>>>> " + numeroFases);
+					}
+
+					if (numeroFases == 8) {
+
+						if (Load9 () == false) {
+							LigaDesligaIndicaPremios (true);
+						} else {
+							LigaDesligaIndicaPremios (false);
+						}
+
+
+						icon9off.SetActive (false);
+						icon9on.SetActive (true);
+
+						if (!icone9 && Load7() == true && Load8() == true) {
+							icone9 = true;
+							Save (true, true, true, true, true, true, true, true, true);
+						}
+
+						if (!icone9 && Load7() == false && Load8() == false) {
+							icone9 = true;
+							Save (true, true, true, true, true, true, false, false, true);
+						}
+
+						if (!icone9 && Load7() == false && Load8() == true) {
+							icone9 = true;
+							Save (true, true, true, true, true, false, false, true, true);
+						}
+
+						if (!icone9 && Load7() == true && Load8() == false) {
+							icone9 = true;
+							Save (true, true, true, true, true, true, true, false, true);
+						}
+					}
+				}
+
+
+
 
 
                 //170125 nos Base Motora, se nao atingido o num minimo de jogadas, aumentar as jogadas
                 //170126                  e posicionar proximo chute + atualizar placar
-                //170921 ver opcao de jogo: ou por numMinAcertos na jogada 
+                //170921 ver opcao de jogo: ou por numMinAcertos na jogada
                 //                          ou obrigar minHitsInSequence dentro de um maxPlays
                 if ((PlayerPrefs.GetInt("gameSelected") == 1) || (PlayerPrefs.GetInt("gameSelected") == 4))
                 {
@@ -339,7 +836,7 @@ public class GameFlowManager : MonoBehaviour
                             }
                             else
                             {
-                                //180327 when minHitsInSequ=0, old strategy: 
+                                //180327 when minHitsInSequ=0, old strategy:
                                 //       if the player hits 12 plays, but not necessarily in sequence, it is ok
                                 //12 is hit 3x the sequence of 4 symbols
                                 if (uiManager.success >= 12)
@@ -366,7 +863,7 @@ public class GameFlowManager : MonoBehaviour
                 }
                 //-------------------------------------------------------
 
-                //if(playing && uiManager.events.Count >= probCalculator.GetCurrentPlayLimit())    //Josi: era assim  
+                //if(playing && uiManager.events.Count >= probCalculator.GetCurrentPlayLimit())    //Josi: era assim
                 //				if (playing && uiManager.events.Count >= numPlays) {   //170106 events contem o log,que no caso do MD acumula os testes iniciais
                 //if (playing && (uiManager.eventCount >= numPlays)) {   //       eventCount contem o numero de jogadas de uma fase
                 if (playing && (uiManager.eventCount >= numPlays) && (PlayerPrefs.GetInt("gameSelected") != 5))
@@ -408,7 +905,7 @@ public class GameFlowManager : MonoBehaviour
         //180410 if parametrized, show "attention point" in middle screen
         if (probCalculator.attentionPointActive())
         {
-            uiManager.attentionPoint.SetActive(false);         //on Inspector first image is green (0), second is red (1)       
+            uiManager.attentionPoint.SetActive(false);         //on Inspector first image is green (0), second is red (1)
         }
     }
 
@@ -440,7 +937,7 @@ public class GameFlowManager : MonoBehaviour
         //180410 if parametrized, show "attention point" in middle screen
         if (probCalculator.attentionPointActive())
         {
-            uiManager.attentionPoint.SetActive(false);         //on Inspector first image is green (0), second is red (1)       
+            uiManager.attentionPoint.SetActive(false);         //on Inspector first image is green (0), second is red (1)
         }
     }
 
@@ -503,6 +1000,56 @@ public class GameFlowManager : MonoBehaviour
     }
 
 
+	// @ale -------------------------------- Painel de Premios ------------------------------------------
+
+	public void PainelPremios () {
+		StartCoroutine (PainelPremiosOn ());
+	}
+
+	IEnumerator PainelPremiosOn() {
+		Debug.Log ("ATIVAR JANELA DE PREMIOS");
+		LigaDesligaIndicaPremios (false);
+		Premios.SetActive (true);
+		Debug.Log ("Verifica .... Load1");
+		Load1();
+
+		yield return new WaitForSeconds (2);
+	}
+
+	public void SairPainelPremios () {
+		StartCoroutine (PainelPremiosOff ());
+	}
+
+	IEnumerator PainelPremiosOff() {
+		Premios.SetActive (false);
+		yield return new WaitForSeconds (2);
+	}
+	// ------------------------------------fim painel de premios------------------------------------------
+
+
+
+	// @ale -------------------------------- Painel Usuario ------------------------------------------
+  /*
+	public void PainelPlayer () {
+		StartCoroutine (PainelPlayerOn ());
+	}
+
+	IEnumerator PainelPlayerOn() {
+		Player.SetActive (true);
+		yield return new WaitForSeconds (2);
+	}
+
+	public void SairPainelPlayer () {
+		StartCoroutine (PainelPlayerOff ());
+	}
+
+	IEnumerator PainelPlayerOff() {
+		Player.SetActive (false);
+		yield return new WaitForSeconds (2);
+	}
+	*/
+	// ------------------------------------fim painel usuario------------------------------------------
+
     void Start()
     {
         probCalculator = ProbCalculator.instance;
@@ -531,25 +1078,46 @@ public class GameFlowManager : MonoBehaviour
         //txtTut4.text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
         //txtTut5.text = translate.getLocalizedValue("tut5").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
         //180627 from UiText to TMPro
+				/*
         txtTut1.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut1").Replace("\\n", "\n");
         txtTut2.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");
         txtTut3.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");
         txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");
-
+				*/
         txtJogo.text = translate.getLocalizedValue("jogo");
-        txtMenu.text = PlayerPrefs.GetString("teamSelected") + " : " + translate.getLocalizedValue("menu");
-        txtSair.text = translate.getLocalizedValue("sair1");
+	// original txtMenu.text = PlayerPrefs.GetString("teamSelected") + " : " + translate.getLocalizedValue("menu");
+        txtMenu.text = translate.getLocalizedValue("menu");
+        txtSair.text = translate.getLocalizedValue("sair");
         txtTeam.text = translate.getLocalizedValue("bckTeams");
 
         txtStartG.text = translate.getLocalizedValue("iniciaJ").Replace("\\n", "\n");  //180629 start game
         txtComP.text = translate.getLocalizedValue("comP");                            //180629 com pausa
         txtSemP.text = translate.getLocalizedValue("semP");                            //180629 sem pausa
+				txtNumeroDefesas.text = translate.getLocalizedValue("numeroDefesas");
 
-    //180612 new buttons
-    menuAbout.GetComponentInChildren<Text>().text = translate.getLocalizedValue("sobre");       //.Replace("\\n", "\n");
-    //@@menuCredits.GetComponentInChildren<Text>().text = translate.getLocalizedValue("creditos");  //.Replace("\\n", "\n");
-    menuPrizes.GetComponentInChildren<Text>().text = translate.getLocalizedValue("premios");    //.Replace("\\n", "\n");
-    menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("tutor");    //.Replace("\\n", "\n");
+
+        //180612 new buttons
+				/*
+        menuAbout.GetComponentInChildren<Text>().text = translate.getLocalizedValue("sobre");       //.Replace("\\n", "\n");                                                                                //@@menuCredits.GetComponentInChildren<Text>().text = translate.getLocalizedValue("creditos");  //.Replace("\\n", "\n");
+        menuPrizes.GetComponentInChildren<Text>().text = translate.getLocalizedValue("premios");    //.Replace("\\n", "\n");
+        menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("tutor");    //.Replace("\\n", "\n");
+				*/
+		// TRANSLATE DOS BOTOES DO QUADRO DE PREMIOS
+		TextP1.text = translate.getLocalizedValue("TextP1");
+		TextP2.text = translate.getLocalizedValue("TextP2");
+		TextP3.text = translate.getLocalizedValue("TextP3");
+		TextP4.text = translate.getLocalizedValue("TextP4");
+		TextP5.text = translate.getLocalizedValue("TextP5");
+		TextP6.text = translate.getLocalizedValue("TextP6");
+		TextP7.text = translate.getLocalizedValue("TextP7");
+		TextP8.text = translate.getLocalizedValue("TextP8");
+		TextP9.text = translate.getLocalizedValue("TextP9");
+		SairQuadro.text = translate.getLocalizedValue("TextSair");
+		QuadroPremios.text = translate.getLocalizedValue("TextHeaderPremios");
+		txtPremioDefesas.text = translate.getLocalizedValue("TextPremioDefesas");
+		txtPremioDefesasSeguidas.text = translate.getLocalizedValue("TextPremioDefesasSeguidas");
+		txtPremioFases.text = translate.getLocalizedValue("TextPremioFases");
+
 
         //170311 validar arq conf ======================================
         errorNumber = probCalculator.configValidation();
@@ -600,13 +1168,13 @@ public class GameFlowManager : MonoBehaviour
             //---
             if (errorNumber - 4 >= 0)
             {
-                //txtMessage.text = "- Faltam parâmetros de configuração: executável do Jogo incompatível com a definição dos times."; 
+                //txtMessage.text = "- Faltam parâmetros de configuração: executável do Jogo incompatível com a definição dos times.";
                 showErrorMessage("err02", 4);
             }
             //---
             if (errorNumber - 2 >= 0)
             {
-                //txtMessage.text = "- O envio de marcadores ao EEG através da porta paralela só está válido para ambientes Windows 32bits (parâmetro sendMarkersToEEG)."; 
+                //txtMessage.text = "- O envio de marcadores ao EEG através da porta paralela só está válido para ambientes Windows 32bits (parâmetro sendMarkersToEEG).";
                 showErrorMessage("err03", 2);
             }
             waitingKeyToExit = true;  //aparece o quadro de erros e aguarda tecla para sair;
@@ -623,7 +1191,7 @@ public class GameFlowManager : MonoBehaviour
         //Button btnThisLevel = thisLevel.GetComponent<Button>();
         //btnThisLevel.onClick.AddListener(Sair);
         //--
-        Button btnEndLevel = endLevel.GetComponent<Button>();      //Josi: 161212: ao haver mais jogos, 
+        Button btnEndLevel = endLevel.GetComponent<Button>();      //Josi: 161212: ao haver mais jogos,
         btnEndLevel.onClick.AddListener(GoToIntro);                //              terminar os niveis deve levar ao menu principal
 
         //Josi; onClick nao funciona no betweenLevels; ideia em https://docs.unity3d.com/ScriptReference/UI.Button-onClick.html
@@ -642,12 +1210,14 @@ public class GameFlowManager : MonoBehaviour
         btnExit.onClick.AddListener(() => uiManager.QuitGame(2));
 
         //180605 new buttons on old tutorial screen (together menu)
+				/*
         Button btnTutorial = menuTutorial.GetComponent<Button>();
         btnTutorial.onClick.AddListener(showTutorial);
         Button btnCredits = menuCredits.GetComponent<Button>();
         btnCredits.onClick.AddListener(showCredits);
         Button btnAbout = menuAbout.GetComponent<Button>();
         btnAbout.onClick.AddListener(showAbout);
+				*/
 
         //================
         //170302 definir MENU DE JOGOS com base no primeiro arquivo de configuracao
@@ -717,7 +1287,7 @@ public class GameFlowManager : MonoBehaviour
         //================
 
         //170818 definir texto da mensagem dependendo de ambiente;
-        //       para o AR (aquecto com tempo) e para a tela de relax  
+        //       para o AR (aquecto com tempo) e para a tela de relax
         //171122 iOS (iPad/iPhone)
         if ((Application.platform == RuntimePlatform.Android) ||
             (Application.platform == RuntimePlatform.IPhonePlayer) || (SystemInfo.deviceModel.Contains("iPad")))
@@ -768,7 +1338,7 @@ public class GameFlowManager : MonoBehaviour
         uiManager.jogadasFirstScreen = 0;
         jaPasseiPorFirstScreen = false;
         bmGameLover.SetActive(false);      //Amparo, when gameLover, goes out using "yes,abandon", and these screens stayed fixed; corrected!
-        bmGameOver.SetActive(false); 
+        bmGameOver.SetActive(false);
         uiManager.userAbandonModule = true; //to guarantee to save results
         GoToIntro();
     }
@@ -869,7 +1439,7 @@ public class GameFlowManager : MonoBehaviour
 
         if ((gameSelected == 1) || (gameSelected == 4))
         {              //BM ou BMcomTempo
-            probCalculator.defineBMSequ(true, 0);                     //sequ pronta ou gerada; 170126 parametros                    
+            probCalculator.defineBMSequ(true, 0);                     //sequ pronta ou gerada; 170126 parametros
         }
         else
         {
@@ -993,14 +1563,14 @@ public class GameFlowManager : MonoBehaviour
         //170223 carregar o num de jogadas para descanso
         playsToRelax = probCalculator.getPlaysToStartRelax();
 
-        uiManager.aguardandoTeclaBMcomTempo = false;   //170102 
+        uiManager.aguardandoTeclaBMcomTempo = false;   //170102
         uiManager.btnExit.SetActive(true);             //170311 fica falso nos casos onde há o "aperteTecla"
 
 
         //180410 if parametrized, show "attention point" in middle screen
         if (probCalculator.attentionPointActive())
         {
-            uiManager.attentionPointColor(0);        //on Inspector: 0: start, 1:correct, 2:wrong        
+            uiManager.attentionPointColor(0);        //on Inspector: 0: start, 1:correct, 2:wrong
         }
 
 
@@ -1056,7 +1626,7 @@ public class GameFlowManager : MonoBehaviour
                         uiManager.btnExit.SetActive(true);                   //170311 na tela dos simbolos vale o EXIT
                         uiManager.btnsAndQuestion.SetActive(true);
 
-                        uiManager.movementTimeA = Time.realtimeSinceStartup; //170309 para nao precisar descontar tempo das animacoes (impreciso)															
+                        uiManager.movementTimeA = Time.realtimeSinceStartup; //170309 para nao precisar descontar tempo das animacoes (impreciso)
                         mdFirstScreen.SetActive(false);               //MD inicio
                         firstScreen = false;                          //MD
                     }
@@ -1135,7 +1705,7 @@ public class GameFlowManager : MonoBehaviour
         //170217 para contar o tempo em que o experimentador selecionou Jogar ao inves de Mostrar Again;
         //       talvez seja melhor nao marcar este tempo... fica assim e se for necessario, melhoramos este trecho
         RandomEvent eLog = new RandomEvent();
-        eLog.decisionTime = uiManager.decisionTimeB - uiManager.decisionTimeA;  //170214: tempo desde que aparece a tela até que 
+        eLog.decisionTime = uiManager.decisionTimeB - uiManager.decisionTimeA;  //170214: tempo desde que aparece a tela até que
         eLog.time = Time.realtimeSinceStartup - uiManager.decisionTimeB;        //170214: tempo desde que apertou "aperte uma tecla quando pronto" até selecionar um botao "Mostrar de novo" ou "Jogar"
         uiManager._eventsFirstScreen.Add(eLog);
 
@@ -1189,7 +1759,7 @@ public class GameFlowManager : MonoBehaviour
         //170124 solicitado pelo Prof Andre Frazao manter apenas acertos/jogadas sem porcentual
         //placarFinal: xxx acertos em yyy jogadas (zzz.zz%)
         //placarFinal.text = uiManager.success.ToString ().PadLeft (3).Trim () + concordaAcerto
-        //	+ probCalculator.GetCurrentPlayLimit (gameSelected).ToString ().PadLeft (3).Trim () + concordaJogada 
+        //	+ probCalculator.GetCurrentPlayLimit (gameSelected).ToString ().PadLeft (3).Trim () + concordaJogada
         //	+ ((uiManager.success * 100f) / (float)probCalculator.GetCurrentPlayLimit (gameSelected)).ToString ("F2").Trim () + "%)";
         // 170412 refeito todo o trecho considerando o novo param finalScoreboard
         //placarFinal.text = uiManager.success.ToString ().PadLeft (3).Trim () + "/" +
@@ -1214,10 +1784,17 @@ public class GameFlowManager : MonoBehaviour
                 concordaJogada = translate.getLocalizedValue("concordaJogada");
             }
 
-            //placarFinal: xxx acertos em yyy jogadas (zzz.zz%)
+            /*original : placarFinal: xxx acertos em yyy jogadas (zzz.zz%)
             placarFinal.text = uiManager.success.ToString().PadLeft(3).Trim() + concordaAcerto
                 + probCalculator.GetCurrentPlayLimit(gameSelected).ToString().PadLeft(3).Trim() + concordaJogada
                 + ((uiManager.success * 100f) / (float)probCalculator.GetCurrentPlayLimit(gameSelected)).ToString("F2").Trim() + "%)";
+			*/
+
+			//modificado versao mobile para nao indicar o % ja que depende no.min de acertos estabelecidos e nao do
+			// do total de jogadas: placarFinal: xxx acertos em yyy jogadas
+			placarFinal.text = "";
+
+			//Debug.Log ("GameFlowManager.cs *********** f:ShowInBetewwen --> placarFinal.text = " + placarFinal.text);
         }
         else
         {
@@ -1387,6 +1964,21 @@ public class GameFlowManager : MonoBehaviour
     public bool playing = false;  //180402 public now: needed to avoid capture keys when gameOver/gameLover active
     public void Update()
     {
+
+		// original quando ainda pegava o Apelido
+		//NomeDoArquivo = "salvaPremios-" + PlayerPrefs.GetString("nomePerfil");
+
+		// 190610 - @ale : Usado temporariamente na versao de demonstracao
+		NomeDoArquivo = "salvaPremios-" + PlayerPrefs.GetString("usuarioTemp");
+		Debug.Log ("NomeDoArquivo = " + NomeDoArquivo);
+
+		// @ale Save Data ========================================================
+		DiretorioDoArquivo = Application.persistentDataPath + "/" + NomeDoArquivo + "." + FormatoDoArquivo; //Aqui é definido o local de save, para o jogo.
+ 		Debug.Log ("DiretorioDoArquivo = " + DiretorioDoArquivo);
+		//Detalhe: "Application.persistentDataPath" é o local base onde o arquivo é salvo. Ele varia de plataforma para plataforma e de dispositivo para dispositivo. A unica coisa que não muda é o nome e formato do arquivo do seu save.
+		//========================================================================
+
+
         //Josi: outra maneira de Sair, sem clicar no botão: apertar a tecla ESCAPE
         //      https://docs.unity3d.com/ScriptReference/Application.Quit.html
         //
@@ -1589,5 +2181,162 @@ public class GameFlowManager : MonoBehaviour
         PlayerPrefs.SetInt("startPaused", startPaused ? 1 : 0); //menu "Jogar com pausa" selecionado
     }
 
+	//@ale Save Data =============================================================================================
+
+	public void Save(bool icone1, bool icone2, bool icone3, bool icone4, bool icone5, bool icone6, bool icone7, bool icone8, bool icone9) //Void que salva
+	{
+		Debug.Log ("GameFlowManager.cs --> f:Save () : ENTROU");
+		Debug.Log ("GameFlowManager.cs --> f:Save () --> DiretorioDoArquivo =  "+DiretorioDoArquivo);
+
+		BinaryFormatter binario = new BinaryFormatter();
+		FileStream arquivo = File.Create(DiretorioDoArquivo); //Aqui, criamos o arquivo
+
+		DadosDoPremio dadosPremio = new DadosDoPremio(); //"DadosDoJogo" é o nome da classe que iremos acessar, ao qual criamos anteriormente
+		//dados.Int = VariavelInteira; //"dados.Int", é assim que acessamos uma variavel da nossa classe, para setar o valor dela, daí é só pegar e igualar com uma variavel do seu script.
+		//dados.Float = VariavelDecimal;
+		//dados.String = VariavelTexto;
+		dadosPremio.Bool1 = icone1;
+		dadosPremio.Bool2 = icone2;
+		dadosPremio.Bool3 = icone3;
+		dadosPremio.Bool4 = icone4;
+		dadosPremio.Bool5 = icone5;
+		dadosPremio.Bool6 = icone6;
+		dadosPremio.Bool7 = icone7;
+		dadosPremio.Bool8 = icone8;
+		dadosPremio.Bool9 = icone9;
+		Debug.Log ("GameFlowManager.cs --> f:Save () --> dadosPremio.Bool =  "+dadosPremio.Bool1+dadosPremio.Bool2+dadosPremio.Bool3+dadosPremio.Bool4);
+
+		binario.Serialize(arquivo, dadosPremio);
+		arquivo.Close(); //Aqui terminamos a leitura do arquivo.
+	}
+
+	public bool Load1() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone1 = dadosPremio.Bool1;
+			Debug.Log ("Arquivo de dados existe --> f:Load1 () --> icone1 =  "+icone1);
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone1;
+	}
+
+	public bool Load2() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone2 = dadosPremio.Bool2;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone2;
+	}
+
+	public bool Load3() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone3 = dadosPremio.Bool3;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone3;
+	}
+
+
+	public bool Load4() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone4 = dadosPremio.Bool4;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone4;
+	}
+
+	public bool Load5() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone5 = dadosPremio.Bool5;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone5;
+	}
+
+	public bool Load6() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone6 = dadosPremio.Bool6;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone6;
+	}
+
+	public bool Load7() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone7 = dadosPremio.Bool7;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone7;
+	}
+
+	public bool Load8() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone8 = dadosPremio.Bool8;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone8;
+	}
+
+	public bool Load9() // Void que carrega
+	{
+		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+		{
+			BinaryFormatter binario = new BinaryFormatter();
+			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+			icone9 = dadosPremio.Bool9;
+			arquivo.Close(); //Aqui fechamos a leitura
+		}
+		return icone9;
+	}
+
+
+	public void LigaDesligaIndicaPremios(bool chave)
+	{
+		IndicaPremios.SetActive (chave);
+	}
+
+
+	// ================================= fim do Save Data ===================================================
 
 }

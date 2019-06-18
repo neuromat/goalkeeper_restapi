@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from game.forms import GoalkeeperGameForm
-from game.models import GameConfig, GoalkeeperGame, Institution, Level
+from game.models import GameConfig, GoalkeeperGame, Level
 
 USER_USERNAME = 'user'
 USER_PWD = 'mypassword'
@@ -24,9 +24,8 @@ class GameTest(TestCase):
         logged = self.client.login(username=USER_USERNAME, password=USER_PWD)
         self.assertEqual(logged, True)
 
-        institution = Institution.objects.create(name='NeuroMat')
         level = Level.objects.create(name=0)
-        config = GameConfig.objects.create(institution=institution, level=level, code='bla', is_public=True, name='Bla')
+        config = GameConfig.objects.create(level=level, code='bla', is_public=True, name='Bla', created_by=self.user)
         GoalkeeperGame.objects.create(config=config, phase=0, depth=2, number_of_directions=3, plays_to_relax=0,
                                       player_time=1.0, celebration_time=1.0, read_seq=True, final_score_board='short',
                                       play_pause=True, score_board=True, show_history=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Institution, GameConfig, MemoryGame, WarmUp, Level
+from .models import GameConfig, MemoryGame, WarmUp, Level
 
 
 class MemoryGameAdmin(admin.ModelAdmin):
@@ -14,7 +14,6 @@ class WarmUpAdmin(admin.ModelAdmin):
     exclude = ('game_type',)
 
 
-admin.site.register(Institution)
 admin.site.register(GameConfig)
 admin.site.register(Level)
 admin.site.register(MemoryGame, MemoryGameAdmin)
