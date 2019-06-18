@@ -814,6 +814,9 @@ public class LoadStages : MonoBehaviour
         [JsonProperty(PropertyName = "name")]
         public string name { get; set; }
 
+        [JsonProperty(PropertyName = "code")]
+        public string groupCode { get; set; }
+
         [JsonProperty(PropertyName = "id")]
         public int id { get; set; }
     }
@@ -854,7 +857,7 @@ public class LoadStages : MonoBehaviour
         public string play_pause_key { get; set; }
 
         [JsonProperty(PropertyName = "player_time")]
-        public float player_time { get; set; }
+        public float speedGKAnim { get; set; }
 
         [JsonProperty(PropertyName = "celebration_time")]
         public float celebration_time { get; set; }
@@ -1057,18 +1060,18 @@ public class LoadStages : MonoBehaviour
         tree.id = config.name;
         tree.limitPlays = game.number_of_plays;
         tree.choices = game.number_of_directions;
-        tree.depth = game.depth;//game.depth;
+        tree.depth = game.depth;
         tree.readSequ = game.read_seq;
         tree.sequ = game.sequence;
-        tree.sequR = "";
+        tree.sequR = game.seq_step_det_or_prob;
         tree.minHitsInSequence = game.min_hits_in_seq;
-        tree.animationTypeJG = "short";
-        tree.animationTypeOthers = "short";
+        tree.animationTypeJG = game.celebration_time;
+        tree.animationTypeOthers = game.celebration_time;
         tree.scoreboard = game.score_board;
         tree.finalScoreboard = game.final_score_board;
         tree.playsToRelax = game.plays_to_relax;
         tree.showHistory = game.show_history;
-        tree.speedGKAnim = 1.0;
+        tree.speedGKAnim = game.speedGKAnim;
 
         tree.states = CreateStates(contexts);
 
@@ -1085,7 +1088,7 @@ public class LoadStages : MonoBehaviour
         tree.attentionColorStart = "#FFF";
         tree.attentionColorCorrect = "#00F";
         tree.attentionColorWrong = "#333";
-        tree.groupCode = "JG-T1";
+        tree.groupCode = config.groupCode;
 
         var menu = new List<MenuJson>();
         menu.Add(new MenuJson { game = 1, title = "Aquecimento", sequMenu = "0" }); // Adicionando dois tipos de jogo pois a tela de tutorial não exibe quando só tem um tipo
@@ -1105,15 +1108,15 @@ public class LoadStages : MonoBehaviour
         tree.depth = game.depth;
         tree.readSequ = game.read_seq;
         tree.sequ = game.sequence;
-        tree.sequR = "";
+        tree.sequR = game.seq_step_det_or_prob;
         tree.minHitsInSequence = game.min_hits_in_seq;
-        tree.animationTypeJG = "short";
-        tree.animationTypeOthers = "short";
+        tree.animationTypeJG = game.celebration_time;
+        tree.animationTypeOthers = game.celebration_time;
         tree.scoreboard = game.score_board;
         tree.finalScoreboard = game.final_score_board;
         tree.playsToRelax = game.plays_to_relax;
         tree.showHistory = game.show_history;
-        tree.speedGKAnim = 1.0;
+        tree.speedGKAnim = game.speedGKAnim;
 
         tree.states = CreateStates(contexts);
 
