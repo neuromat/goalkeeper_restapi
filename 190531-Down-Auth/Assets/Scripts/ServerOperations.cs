@@ -87,10 +87,10 @@ public class ServerOperations
 
 
     // Função que registra a jogada (cada 
-    public void RegistrarJogada (int move, RandomEvent evento)
+    public void RegistrarJogada (int phase, int move, RandomEvent evento)
     {
         Dictionary<string, object> dictObj = new Dictionary<string, object>();
-        dictObj.Add("game_phase", 1);
+        dictObj.Add("game_phase", phase);
         dictObj.Add("move", move);
         dictObj.Add("waited_result", evento.resultInt);
         dictObj.Add("is_random", evento.ehRandom);
@@ -101,7 +101,10 @@ public class ServerOperations
         dictObj.Add("pause_time", evento.pauseTime);
 
         string jsonObj = JsonConvert.SerializeObject(dictObj);
-        var encoding = new System.Text.UTF8Encoding();         Dictionary<string, string> postHeader = new Dictionary<string, string>();         postHeader.Add("Content-Type", "application/json");         postHeader.Add("Authorization", "Token " + PlayerInfo.token);          var request = new WWW("localhost:8000/api/results/", encoding.GetBytes(jsonObj), postHeader);         Debug.Log(request.text); 
+        var encoding = new System.Text.UTF8Encoding();         Dictionary<string, string> postHeader = new Dictionary<string, string>();         postHeader.Add("Content-Type", "application/json");         postHeader.Add("Authorization", "Token " + PlayerInfo.token);          var request = new WWW("localhost:8000/api/results/", encoding.GetBytes(jsonObj), postHeader);
+        //StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+        Debug.Log(request.text); 
     }
 
 

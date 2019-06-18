@@ -201,12 +201,16 @@ public class ProbCalculator : MonoBehaviour
 		s.groupCode = input.groupCode;                      //180403: NES synchronyzation; 170629: to identify registries from an experiment (old researchGroup)
 
 		s.showPlayPauseButton = input.showPlayPauseButton;  //170918: iniciar ou não, com o jogo em Pausa, para explicações do experimentador ao jogador
-		                                                    //        virou o botão "Continuar com pausa" além do Continuar, no cataApelido
+                                                            //        virou o botão "Continuar com pausa" além do Continuar, no cataApelido
 
-		s.leftInputKey = input.leftInputKey;                //180328 in addition to the mouse and the arrow keys, use this key for left defense
-		s.centerInputKey = input.centerInputKey;            //180328 in addition to the mouse and the arrow keys, use this key for center defense
-		s.rightInputKey = input.rightInputKey;              //180328 in addition to the mouse and the arrow keys, use this key for right defense
-		s.pausePlayInputKey = input.pausePlayInputKey;	    //180403 internal control (same as playPause button for the experimenter)
+        s.leftInputKey = "None";
+        s.centerInputKey = "None";
+        s.rightInputKey = "None";
+        s.pausePlayInputKey = "None";
+        if (input.leftInputKey != null) { s.leftInputKey = input.leftInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for left defense
+        if (input.centerInputKey != null) { s.centerInputKey = input.centerInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for center defense
+        if (input.rightInputKey != null) { s.rightInputKey = input.rightInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for right defense
+        if (input.pausePlayInputKey != null) { s.pausePlayInputKey = input.pausePlayInputKey; } //180403 internal control (same as playPause button for the experimenter)
 
 		s.institution = input.institution;                  //180403 NES integration: to unique identify institution+groupCode+soccerTeam+game+phase+playerAlias
 		s.attentionPoint = input.attentionPoint;            //180410 to show or not an attention point (EEG experiments)

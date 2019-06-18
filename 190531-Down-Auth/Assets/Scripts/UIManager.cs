@@ -224,7 +224,7 @@ public class UIManager : MonoBehaviour
 
 
 			//170320 trocado para ca para tentar isolar a diferenca entre o tempo total de jogo e o tempo de movimento menos animacoes
-			RandomEvent eLog = new RandomEvent ();
+			RandomEvent eLog = new RandomEvent (); 
 
 			//170309 acertar tempo no JG descontando o tempo das animacoes e o tempo de relax se houver (senao valem zero)
 			//eLog.time = Time.realtimeSinceStartup - movementTimeA -  (gameFlow.endRelaxTime - gameFlow.startRelaxTime);
@@ -553,9 +553,6 @@ public class UIManager : MonoBehaviour
             //SendEventsToServerMini(PlayerPrefs.GetInt("gameSelected"));
             SendPlaytoServer(eventCount, eLog);
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> SENDEVENTSTOSERVER ATIVADO = ");
-
-
-
 		}
 	}
 
@@ -679,10 +676,13 @@ public class UIManager : MonoBehaviour
     public void SendPlaytoServer(int move, RandomEvent jogada)
     {
         Debug.Log("Dando início ao salvamento da jogada");
-        ServerOperations.instance.RegistrarJogada(move, jogada);
+        var team = PlayerPrefs.GetString("teamSelected");
+        var phase_id = PlayerPrefs.GetInt(team+probs.GetCurrMachineIndex().ToString());
+        ServerOperations.instance.RegistrarJogada(phase_id, move, jogada);
 
     }
 
+    public int GetPhaseId;
 
 	public void SendEventsToServerMini(int gameSelected)
 	{
@@ -1370,11 +1370,11 @@ public class UIManager : MonoBehaviour
 		if (!pausePressed) {
 			//============================================================================
 			//180402 accept pausePlay key (on/off), but only when permitted
-			if (Input.GetKeyDown (probs.playPauseKey())) {
-				if (probs.getShowPlayPauseButton() && !gameFlow.firstScreen && buttonPause.activeSelf) {
-					clickPausePlay ();
-				}
-			}
+			//if (Input.GetKeyDown (probs.playPauseKey())) {
+			//	if (probs.getShowPlayPauseButton() && !gameFlow.firstScreen && buttonPause.activeSelf) {
+			//		clickPausePlay ();
+			//	}
+			//}
 
 
 			//============================================================================

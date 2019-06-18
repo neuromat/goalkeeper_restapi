@@ -263,9 +263,13 @@ class GetGameConfigs(generics.ListCreateAPIView):
         queryset = GameConfig.objects.all()
         level_req = self.request.query_params.get('level', None)
         level = Level.objects.get_or_create(name=level_req)[0].id if level_req else 1
+        name_req = self.request.query_params.get('name', None)
 
         if level is not None:
             queryset = queryset.filter(level__lte=level)
+
+        if name_req is not None:
+            queryset = queryset.filter(name=name_req)
 
         return queryset.order_by('id')
 
@@ -276,13 +280,14 @@ class GetGames(generics.ListCreateAPIView):
     http_method_names = ['get', 'head']
 
     def get_queryset(self):
-        queryset = GoalkeeperGame.objects.filter(game_type="JG")
         config_id = self.request.query_params.get('config_id', None)
+        queryset = GoalkeeperGame.objects.filter(game_type="JG", config=config_id)
+        phase = self.request.query_params.get('phase', None)
 
-        if config_id is not None:
-            queryset = queryset.filter(config=config_id)
+        if phase is not None:
+            queryset = queryset.filter(phase=phase)
 
-        return queryset.order_by('phase')
+        return queryset.order_by("phase")
 
 
 class GetContexts(generics.ListCreateAPIView):

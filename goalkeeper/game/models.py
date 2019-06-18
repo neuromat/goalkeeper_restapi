@@ -62,9 +62,9 @@ class Game(models.Model):
     score_board = models.BooleanField()
     final_score_board = models.CharField(max_length=5, choices=FINAL_SCORE, default='short')
     game_type = models.CharField(max_length=2)
-    left_key = models.CharField(max_length=20, blank=True)
-    center_key = models.CharField(max_length=20, blank=True)
-    right_key = models.CharField(max_length=20, blank=True)
+    left_key = models.CharField(max_length=20, null=True)
+    center_key = models.CharField(max_length=20, null=True)
+    right_key = models.CharField(max_length=20, null=True)
 
     def __str__(self):
         return self.config.name + ' - ' + self.game_type
