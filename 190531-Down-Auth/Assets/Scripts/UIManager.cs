@@ -1397,11 +1397,11 @@ public class UIManager : MonoBehaviour
 		if (!pausePressed) {
 			//============================================================================
 			//180402 accept pausePlay key (on/off), but only when permitted
-			//if (Input.GetKeyDown (probs.playPauseKey())) {
-			//	if (probs.getShowPlayPauseButton() && !gameFlow.firstScreen && buttonPause.activeSelf) {
-			//		clickPausePlay ();
-			//	}
-			//}
+			if (Input.GetKeyDown (probs.playPauseKey())) {
+				if (probs.getShowPlayPauseButton() && !gameFlow.firstScreen && buttonPause.activeSelf) {
+					clickPausePlay ();
+				}
+			}
 
 
 			//============================================================================

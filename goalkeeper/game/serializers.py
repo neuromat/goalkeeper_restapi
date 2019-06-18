@@ -6,7 +6,7 @@ class GameConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameConfig
 
-        fields = ('id', 'institution', 'level', 'code', 'is_public', 'name')
+        fields = ('id', 'created_by', 'level', 'code', 'is_public', 'name')
 
 
 class GameSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class ContextSerializer(serializers.ModelSerializer):
     class Meta:
         model = Context
 
-        fields = ('id', 'path', 'goalkeeper')
+        fields = ('id', 'path', 'goalkeeper', 'is_context')
 
 
 class ProbSerializer(serializers.ModelSerializer):

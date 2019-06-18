@@ -207,10 +207,10 @@ public class ProbCalculator : MonoBehaviour
         s.centerInputKey = "None";
         s.rightInputKey = "None";
         s.pausePlayInputKey = "None";
-        if (input.leftInputKey != null) { s.leftInputKey = input.leftInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for left defense
-        if (input.centerInputKey != null) { s.centerInputKey = input.centerInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for center defense
-        if (input.rightInputKey != null) { s.rightInputKey = input.rightInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for right defense
-        if (input.pausePlayInputKey != null) { s.pausePlayInputKey = input.pausePlayInputKey; } //180403 internal control (same as playPause button for the experimenter)
+        if (input.leftInputKey != "") { s.leftInputKey = input.leftInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for left defense
+        if (input.centerInputKey != "") { s.centerInputKey = input.centerInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for center defense
+        if (input.rightInputKey != "") { s.rightInputKey = input.rightInputKey; } //180328 in addition to the mouse and the arrow keys, use this key for right defense
+        if (input.pausePlayInputKey != "") { s.pausePlayInputKey = input.pausePlayInputKey; } //180403 internal control (same as playPause button for the experimenter)
 
 		s.institution = input.institution;                  //180403 NES integration: to unique identify institution+groupCode+soccerTeam+game+phase+playerAlias
 		s.attentionPoint = input.attentionPoint;            //180410 to show or not an attention point (EEG experiments)

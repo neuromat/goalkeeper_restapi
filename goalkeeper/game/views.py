@@ -626,7 +626,7 @@ class GetContexts(generics.ListCreateAPIView):
 
     def get_queryset(self):
         game_id_req = self.request.query_params.get('game', None)
-        queryset = Context.objects.filter(goalkeeper=game_id_req) if game_id_req else None
+        queryset = Context.objects.filter(goalkeeper=game_id_req, is_context=True) if game_id_req else None
 
         return queryset.order_by('id')
 

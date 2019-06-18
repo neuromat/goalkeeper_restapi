@@ -1057,7 +1057,7 @@ public class LoadStages : MonoBehaviour
         tree.id = config.name;
         tree.limitPlays = game.number_of_plays;
         tree.choices = game.number_of_directions;
-        tree.depth = 1;//game.depth;
+        tree.depth = game.depth;//game.depth;
         tree.readSequ = game.read_seq;
         tree.sequ = game.sequence;
         tree.sequR = "";
@@ -1078,6 +1078,7 @@ public class LoadStages : MonoBehaviour
         tree.leftInputKey = game.left_key;
         tree.centerInputKey = game.center_key;
         tree.rightInputKey = game.right_key;
+        tree.pausePlayInputKey = game.play_pause_key;
         tree.institution = "neuromat";
         tree.attentionPoint = false;
         tree.attentionDiameter = 0.8;
@@ -1085,7 +1086,6 @@ public class LoadStages : MonoBehaviour
         tree.attentionColorCorrect = "#00F";
         tree.attentionColorWrong = "#333";
         tree.groupCode = "JG-T1";
-        tree.pausePlaynputKey = "";
 
         var menu = new List<MenuJson>();
         menu.Add(new MenuJson { game = 1, title = "Aquecimento", sequMenu = "0" }); // Adicionando dois tipos de jogo pois a tela de tutorial não exibe quando só tem um tipo
@@ -1152,6 +1152,11 @@ public class LoadStages : MonoBehaviour
 
         if (!Directory.Exists(c_trees))
         {
+            Directory.CreateDirectory(c_trees);
+        }
+        else
+        {
+            Directory.Delete(c_trees, true);
             Directory.CreateDirectory(c_trees);
         }
 

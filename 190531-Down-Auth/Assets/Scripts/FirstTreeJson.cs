@@ -23,7 +23,7 @@ public class FirstTreeJson
     public string sendMarkersToEEG { get; set; }
     public string portalEEGserial { get; set; }
     public bool showPlayPauseButton { get; set; }
-    public string pausePlaynputKey { get; set; }
+    public string pausePlayInputKey { get; set; }
     public string leftInputKey { get; set; }
     public string centerInputKey { get; set; }
     public string rightInputKey { get; set; }

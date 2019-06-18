@@ -1970,11 +1970,11 @@ public class GameFlowManager : MonoBehaviour
 
 		// 190610 - @ale : Usado temporariamente na versao de demonstracao
 		NomeDoArquivo = "salvaPremios-" + PlayerPrefs.GetString("usuarioTemp");
-		Debug.Log ("NomeDoArquivo = " + NomeDoArquivo);
+		//Debug.Log ("NomeDoArquivo = " + NomeDoArquivo);
 
 		// @ale Save Data ========================================================
 		DiretorioDoArquivo = Application.persistentDataPath + "/" + NomeDoArquivo + "." + FormatoDoArquivo; //Aqui é definido o local de save, para o jogo.
- 		Debug.Log ("DiretorioDoArquivo = " + DiretorioDoArquivo);
+ 		//Debug.Log ("DiretorioDoArquivo = " + DiretorioDoArquivo);
 		//Detalhe: "Application.persistentDataPath" é o local base onde o arquivo é salvo. Ele varia de plataforma para plataforma e de dispositivo para dispositivo. A unica coisa que não muda é o nome e formato do arquivo do seu save.
 		//========================================================================
 

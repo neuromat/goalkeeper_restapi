@@ -44,7 +44,7 @@ class GameConfig(models.Model):
 class Game(models.Model):
     config = models.ForeignKey(GameConfig, on_delete=models.PROTECT)
     number_of_directions = models.IntegerField(default=3)
-    number_of_plays = models.IntegerField(blank=True, null=True)
+    number_of_plays = models.IntegerField(default=1)
     min_plays = models.IntegerField(blank=True, null=True)
     min_hits_in_seq = models.IntegerField(blank=True, null=True)
     sequence = models.CharField(max_length=255, blank=True)
@@ -57,9 +57,9 @@ class Game(models.Model):
     score_board = models.BooleanField()
     final_score_board = models.CharField(max_length=5, choices=FINAL_SCORE, default='short')
     game_type = models.CharField(max_length=2)
-    left_key = models.CharField(max_length=20, null=True)
-    center_key = models.CharField(max_length=20, null=True)
-    right_key = models.CharField(max_length=20, null=True)
+    left_key = models.CharField(max_length=20, blank=True)
+    center_key = models.CharField(max_length=20, blank=True)
+    right_key = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
         return self.config.name + ' - ' + self.game_type
