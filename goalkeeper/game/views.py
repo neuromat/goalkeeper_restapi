@@ -382,6 +382,11 @@ def context_tree(request, goalkeeper_game_id, template_name="game/context.html")
 
 
 def check_contexts_without_probability(goalkeeper_game_id):
+    """
+    Function to check contexts without probability
+    :param goalkeeper_game_id: ID of the game for which the context will be analyzed
+    :return: first context without probability
+    """
     list_of_contexts = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context=True)
     contexts_without_probability = []
     for item in list_of_contexts:
