@@ -126,9 +126,22 @@ public class BetweenLevelsController : MonoBehaviour
             List<LoadStages.LevelJson> new_level = GetLevel(level_name:player_level_name);
             if (new_level.Count > 0)
             {
+                // Atualizar o nível dentro do jogo
                 PlayerInfo.level = new_level[0].id;
+
+                // Atualizar o n[ivel dentro da base
+                UpdatePlayerLevelinDB();
             }
         }
+    }
+
+    public void UpdatePlayerLevelinDB()
+    {
+        string address = string.Format("localhost:8000/api/setplayerlevel?format=json&token={0}", PlayerInfo.token);
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
     }
 
     public List<LoadStages.LevelJson> GetLevel(int? level_id = null, int? level_name = null)

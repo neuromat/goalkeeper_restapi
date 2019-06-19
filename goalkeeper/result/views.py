@@ -45,4 +45,6 @@ class GetAuthToken(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+
+        # Criar também o profile do usuário:
         return Response({'token': token.key})

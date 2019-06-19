@@ -12,8 +12,11 @@ from rest_framework import generics, permissions
 
 from .forms import GameConfigForm, GoalkeeperGameForm
 from .models import Context, Game, GoalkeeperGame, Probability, GameConfig, Level
-from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer, ProbSerializer, LevelSerializer
-
+from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer, ProbSerializer, LevelSerializer, \
+    PlayerLevelSerializer
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
+from custom_user.models import Profile
 
 @login_required
 def home(request, template_name="game/home.html"):
@@ -582,6 +585,65 @@ def create_sequence(goalkeeper_game_id, sequence_size):
 
 
 # Django Rest
+class GetPlayerLevel(generics.ListAPIView):
+    serializer_class = PlayerLevelSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        queryset = Profile.objects.all()
+        token_req = self.request.query_params.get('token', None)
+        token = Token.objects.filter(key=token_req).first()
+
+        if token is not None:
+            queryset = queryset.filter(user=token.user)
+
+        return queryset
+
+
+class UpdatePlayerLevel(generics.ListAPIView):
+    serializer_class = PlayerLevelSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        queryset = Profile.objects.all()
+        token_req = self.request.query_params.get('token', None)
+        token = Token.objects.filter(key=token_req).first()
+
+        if token is not None:
+            profile = Profile.objects.get(user=token.user)
+            new_level = Level.objects.filter(name=profile.level.name + 1).first()
+
+            if new_level is not None:
+                profile.level = new_level
+                profile.save()
+                queryset = queryset.filter(id=profile.id)
+        return queryset
+
+#
+# class UpdatePlayerLevel(generics.UpdateAPIView):
+#     serializer_class = PlayerLevelSerializer
+#     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+#     # lookup_field = 'level'
+#
+#     def get_object(self):
+#         queryset = Profile.objects.all()
+#         token_req = self.request.query_params.get('token', None)
+#         token = Token.objects.filter(key=token_req).first()
+#
+#         if token is not None:
+#             queryset = queryset.filter(user=token.user)
+#
+#             if queryset.count() > 0:
+#                 new_level = Level.objects.filter(name=queryset[0].level.name + 1).first()
+#
+#                 if new_level is not None:
+#                     queryset[0].level = new_level
+#
+#             return queryset.get(pk=queryset[0].id)
+
+
 class GetLevel(generics.ListCreateAPIView):
     serializer_class = LevelSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

@@ -80,7 +80,7 @@ public class LoadStages : MonoBehaviour
        "tree8"
     };
 
-    public int level = PlayerInfo.level;
+    public int level;
 
     public Dictionary<string, int> games_ids = new Dictionary<string, int>();
 
@@ -179,6 +179,10 @@ public class LoadStages : MonoBehaviour
     {
         // Apaga e cria o diretório Custom Trees (ou equivalente)
         var path = CreateCustomTreesDirectory();
+
+        // define o nível do jogador
+        level = GetPlayerLevel();
+
         var gamesconfigs = GetGamesConfig(level);
 
         // Salva a lista de times no arquivo index.info
@@ -818,6 +822,15 @@ public class LoadStages : MonoBehaviour
         }
     }
 
+    public class ProfileLevelJson
+    {
+        [JsonProperty(PropertyName = "user")]
+        public int user { get; set; }
+
+        [JsonProperty(PropertyName = "level")]
+        public int level { get; set; }
+    }
+
     public class LevelJson
     {
         [JsonProperty(PropertyName = "name")]
@@ -945,6 +958,21 @@ public class LoadStages : MonoBehaviour
 
         [JsonProperty(PropertyName = "value")]
         public float value { get; set; }
+    }
+
+    public int GetPlayerLevel()
+    {
+        string address = string.Format("localhost:8000/api/getplayerlevel?format=json&token={0}", PlayerInfo.token);
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+
+        var ObjList = new List<ProfileLevelJson>();
+        ObjList = JsonConvert.DeserializeObject<List<ProfileLevelJson>>(request.text);
+
+        PlayerInfo.level = ObjList[0].level;
+        return PlayerInfo.level;
     }
 
     // Pega o objeto nível de acordo com o id (que é gravado no custom_user e na

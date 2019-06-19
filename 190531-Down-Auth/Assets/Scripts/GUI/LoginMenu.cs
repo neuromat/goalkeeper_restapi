@@ -493,26 +493,31 @@ public class LoginMenu : BaseMenu {
         SceneManager.LoadScene("Localization");
     }
 
-    public void Send(RequestType type, string command, WWWForm wwwForm, RequestResponseDelegate onResponse = null, string authToken = "") {
+    public void Send(RequestType type, string command, WWWForm wwwForm, RequestResponseDelegate onResponse = null, string authToken = "")
+    {
         WWW request;
-#if UNITY_5_PLUS
-        Dictionary<string, string> headers;
-#else
-        Hashtable headers;
-#endif
+        #if UNITY_5_PLUS
+            Dictionary<string, string> headers;
+        #else
+            Hashtable headers;
+        #endif
         byte[] postData;
         string url = BackendUrl + command;
         Debug.Log("url..." + url);
-        
-        if (Secure) {
+
+        if (Secure)
+        {
             url = url.Replace("http", "https");
         }
 
-        if (wwwForm == null) {
+        if (wwwForm == null)
+        {
             wwwForm = new WWWForm();
             postData = new byte[] { 1 };
 
-        } else {
+        }
+        else
+        {
             postData = wwwForm.data;
 
         }
@@ -527,7 +532,8 @@ public class LoginMenu : BaseMenu {
         headers.Add("X-UNITY-METHOD", type.ToString().ToUpper());
 
         //also, add the authentication token, if we have one
-        if (authToken != "") {
+        if (authToken != "")
+        {
             //for more information about token authentication, see: http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication
             headers.Add("Authorization", "Token " + authToken);
         }
