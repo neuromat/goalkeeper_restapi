@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from .models import GameConfig, GoalkeeperGame, Context, Probability
+from .models import GameConfig, GoalkeeperGame, Context, Probability, Level
+
+
+class LevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Level
+
+        fields = ('id', 'name')
 
 
 class GameConfigSerializer(serializers.ModelSerializer):

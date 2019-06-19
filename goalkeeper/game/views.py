@@ -12,7 +12,7 @@ from rest_framework import generics, permissions
 
 from .forms import GameConfigForm, GoalkeeperGameForm
 from .models import Context, Game, GoalkeeperGame, Probability, GameConfig, Level
-from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer, ProbSerializer
+from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer, ProbSerializer, LevelSerializer
 
 
 @login_required
@@ -582,6 +582,24 @@ def create_sequence(goalkeeper_game_id, sequence_size):
 
 
 # Django Rest
+class GetLevel(generics.ListCreateAPIView):
+    serializer_class = LevelSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    http_method_names = ['get', 'head']
+
+    def get_queryset(self):
+        queryset = Level.objects.all()
+        id_req = self.request.query_params.get('id', None)
+        name_req = self.request.query_params.get('name', None)
+
+        if id_req is not None:
+            queryset = queryset.filter(id=id_req)
+
+        if name_req is not None:
+            queryset = queryset.filter(name=name_req)
+
+        return queryset.order_by('id')
+
 # With ?level=<int:level X> at the URL we can filter only games of level X
 class GetGameConfigs(generics.ListCreateAPIView):
     serializer_class = GameConfigSerializer
@@ -590,15 +608,16 @@ class GetGameConfigs(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = GameConfig.objects.all()
-        level_req = self.request.query_params.get('level', None)
-        level = Level.objects.get_or_create(name=level_req)[0].id if level_req else 1
-        name_req = self.request.query_params.get('name', None)
+        level_id_req = self.request.query_params.get('level', None)
+        level_name = Level.objects.get(id=level_id_req).name if level_id_req else None
+        # Get all the levels below the
+        if level_name is not None:
+            levels = Level.objects.filter(name__lte=level_name)
+            queryset = queryset.filter(level__in=levels)
 
-        if level is not None:
-            queryset = queryset.filter(level__lte=level)
-
-        if name_req is not None:
-            queryset = queryset.filter(name=name_req)
+        config_name_req = self.request.query_params.get('name', None)
+        if config_name_req is not None:
+            queryset = queryset.filter(name=config_name_req)
 
         return queryset.order_by('id')
 

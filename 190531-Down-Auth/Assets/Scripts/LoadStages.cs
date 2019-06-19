@@ -503,6 +503,9 @@ public class LoadStages : MonoBehaviour
                             // Salva as fases do jogo escolhido nas preferências do usuário
                             SavePhasestoPlayPrefs(f);
 
+                            // Salva o level do jogo escolhido nas preferências do usuário
+                            SaveConfigLeveltoPlayPrefs(f);
+
                             i++;
                         }
                     }
@@ -593,6 +596,12 @@ public class LoadStages : MonoBehaviour
             //packetSelected = LoadedPackage.packages[url].name.ToString();  //170310 salvar nome do pacote selecionado pelo user
             //170310 salvar nome do pacote selecionado pelo user em PlayerPrefs
             PlayerPrefs.SetString("teamSelected", LoadedPackage.packages[url].name);
+
+            // Salva as fases do jogo escolhido nas preferências do usuário
+            SavePhasestoPlayPrefs(LoadedPackage.packages[url].name);
+
+            // Salva o level do jogo escolhido nas preferências do usuário
+            SaveConfigLeveltoPlayPrefs(LoadedPackage.packages[url].name);
 
 
             //170921 destacar o time selecionado
@@ -809,6 +818,15 @@ public class LoadStages : MonoBehaviour
         }
     }
 
+    public class LevelJson
+    {
+        [JsonProperty(PropertyName = "name")]
+        public int name { get; set; }
+
+        [JsonProperty(PropertyName = "id")]
+        public int id { get; set; }
+    }
+
     public class GameConfigJson
     {
         [JsonProperty(PropertyName = "name")]
@@ -819,6 +837,9 @@ public class LoadStages : MonoBehaviour
 
         [JsonProperty(PropertyName = "id")]
         public int id { get; set; }
+
+        [JsonProperty(PropertyName = "level")]
+        public int level { get; set; }
     }
 
     public class GameJson
@@ -926,6 +947,31 @@ public class LoadStages : MonoBehaviour
         public float value { get; set; }
     }
 
+    // Pega o objeto nível de acordo com o id (que é gravado no custom_user e na
+    // configuração de um jogo) e/ou com o nome do nível. Nível não está relacionado
+    // com a fase e sim com a dificuldade de um adversário.
+    public List<LevelJson> GetLevel(int? level_id = null, int? level_name = null)
+    {
+        string address = "localhost:8000/api/getlevel?format=json";
+        if (level_id != null)
+        {
+            address = address + string.Format("&id={0}", level_id);
+        }
+        if (level_name != null)
+        {
+            address = address + string.Format("&name={0}", level_name);
+        }
+
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+
+        var ObjList = new List<LevelJson>();
+        ObjList = JsonConvert.DeserializeObject<List<LevelJson>>(request.text);
+        return ObjList;
+    }
+
     // Pega todas as configurações de jogos (tabela game.gameconfig) com level
     // menor ou igual ao level do jogador.
     public List<GameConfigJson> GetGamesConfig(int level=0, string name = null)
@@ -971,6 +1017,7 @@ public class LoadStages : MonoBehaviour
 
     void SavePhasestoPlayPrefs(string config_name)
     {
+
         var i = 0;
 
         // Para cada valor gravado na lista de ids de fases de jogos, verifique
@@ -983,6 +1030,13 @@ public class LoadStages : MonoBehaviour
                 i++;
             }
         }
+    }
+
+    void SaveConfigLeveltoPlayPrefs(string config_name)
+    { 
+        var game_config = GetGamesConfig(name: config_name);
+        var level = GetLevel(game_config[0].level);
+        PlayerPrefs.SetInt("game_level_name", level[0].name); // Salva o nome, que é o valor sequencial do level
     }
 
     void SaveIndexInfo(string path, List<GameConfigJson> games)
@@ -1065,8 +1119,8 @@ public class LoadStages : MonoBehaviour
         tree.sequ = game.sequence;
         tree.sequR = game.seq_step_det_or_prob;
         tree.minHitsInSequence = game.min_hits_in_seq;
-        tree.animationTypeJG = game.celebration_time;
-        tree.animationTypeOthers = game.celebration_time;
+        tree.animationTypeJG = "short";//game.celebration_time;
+        tree.animationTypeOthers = "short";//game.celebration_time;
         tree.scoreboard = game.score_board;
         tree.finalScoreboard = game.final_score_board;
         tree.playsToRelax = game.plays_to_relax;
@@ -1110,8 +1164,8 @@ public class LoadStages : MonoBehaviour
         tree.sequ = game.sequence;
         tree.sequR = game.seq_step_det_or_prob;
         tree.minHitsInSequence = game.min_hits_in_seq;
-        tree.animationTypeJG = game.celebration_time;
-        tree.animationTypeOthers = game.celebration_time;
+        tree.animationTypeJG = "short"; //game.celebration_time;
+        tree.animationTypeOthers = "short"; //game.celebration_time;
         tree.scoreboard = game.score_board;
         tree.finalScoreboard = game.final_score_board;
         tree.playsToRelax = game.plays_to_relax;
