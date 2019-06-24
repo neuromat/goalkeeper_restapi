@@ -506,6 +506,7 @@ def check_context_tree(goalkeeper_game_id):
     :return: dictionary with contexts and whether they are valid or not
     """
     context_used = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context='True').order_by('-id')
+    contexts_checked = []
     valid_context_tree = {}
 
     for item in context_used:
@@ -513,27 +514,44 @@ def check_context_tree(goalkeeper_game_id):
 
         if len(path) > 1:
             valid_context = []
+            context_with_equal_numbers = True
 
-            while len(path) > 1:
-                suffix = path[-1]
-                path = path[:-1]
+            for num in path:
+                if num != path[-1]:
+                    context_with_equal_numbers = False
+                    break
 
-                for context in context_used:
-                    if path[-1] == context.path[-1]:
-                        prob = Probability.objects.get(context=context, direction=suffix)
-                        if prob.context == item and path[-1] == suffix and prob.value == 1:
-                            valid_context.append('Loop')
-                            break
-                        elif prob.value > 0:
-                            valid_context.append('Valid')
-                            break
+            # In contexts like 00, 11, 22, 000, 111, 222 and so on, the next step should be a different number,
+            # otherwise, a loop occurs.
+            if context_with_equal_numbers:
+                get_context = Context.objects.get(goalkeeper=goalkeeper_game_id, path=path)
+                prob = Probability.objects.get(context=get_context, direction=path[-1])
 
-            if len(valid_context) == len(item.path) - 1 and 'Loop' in valid_context:
-                valid_context_tree[item.path] = 'Loop'
-            elif len(valid_context) == len(item.path) - 1:
-                valid_context_tree[item.path] = 'Valid'
+                if prob.value == 1:
+                    valid_context_tree[item.path] = 'Loop'
+                else:
+                    valid_context_tree[item.path] = 'Valid'
+
+                contexts_checked.append(path)
+
+            # For other contexts, slice and check if a route exists. For example, context 201 should have a route
+            # from 0 to 1 and a route from 2 to 0.
             else:
-                valid_context_tree[item.path] = 'Invalid'
+                while len(path) > 1:
+                    suffix = path[-1]
+                    path = path[:-1]
+
+                    for context in context_used:
+                        if path[-1] == context.path[-1] and context.path not in contexts_checked:
+                            prob = Probability.objects.get(context=context, direction=suffix)
+                            if prob.value > 0:
+                                valid_context.append('Valid')
+                                break
+
+                if len(valid_context) == len(item.path) - 1:
+                    valid_context_tree[item.path] = 'Valid'
+                else:
+                    valid_context_tree[item.path] = 'Invalid'
 
     return valid_context_tree
 
