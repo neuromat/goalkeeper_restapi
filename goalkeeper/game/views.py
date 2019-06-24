@@ -15,8 +15,8 @@ from .models import Context, Game, GoalkeeperGame, Probability, GameConfig, Leve
 from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer, ProbSerializer, LevelSerializer, \
     PlayerLevelSerializer
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
 from custom_user.models import Profile
+
 
 @login_required
 def home(request, template_name="game/home.html"):
@@ -588,7 +588,7 @@ def create_sequence(goalkeeper_game_id, sequence_size):
     # generate the rest of the sequence
     next_sequence_number = ''
     while len(sequence) < int(sequence_size):
-        for num in range(1,len(sequence)+1):
+        for num in range(1, len(sequence)+1):
             suffix = sequence[-num:]
             if suffix in contexts_and_probabilities:
                 number_drawn = random.random()
@@ -679,6 +679,7 @@ class GetLevel(generics.ListCreateAPIView):
             queryset = queryset.filter(name=name_req)
 
         return queryset.order_by('id')
+
 
 # With ?level=<int:level X> at the URL we can filter only games of level X
 class GetGameConfigs(generics.ListCreateAPIView):
