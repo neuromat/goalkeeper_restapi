@@ -37,6 +37,7 @@ class GameTest(TestCase):
             'phase': 1,
             'depth': 3,
             'number_of_directions': 3,
+            'number_of_plays': 10,
             'plays_to_relax': 0,
             'player_time': 1.0,
             'celebration_time': 1.0,
