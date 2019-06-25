@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-18 09:10-0300\n"
+"POT-Creation-Date: 2019-06-25 14:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,8 +140,8 @@ msgstr "Nenhum usuário encontrado!"
 msgid "User created successfully."
 msgstr "Usuário criado com sucesso."
 
-#: custom_user/views.py:38 game/views.py:70 game/views.py:125 game/views.py:161
-#: game/views.py:293
+#: custom_user/views.py:38 game/views.py:73 game/views.py:128 game/views.py:164
+#: game/views.py:295
 msgid "Information not saved."
 msgstr "Não foi possível salvar esta informação."
 
@@ -173,28 +173,36 @@ msgstr "Não"
 msgid "Yes"
 msgstr "Sim"
 
-#: game/models.py:29 game/templates/game/config_list.html:26
+#: game/models.py:21
+msgid "2 - left and right"
+msgstr "2 - esquerda e direita"
+
+#: game/models.py:22
+msgid "3 - left, center and right"
+msgstr "3 - esquerda, centro e direita"
+
+#: game/models.py:36 game/templates/game/config_list.html:26
 #: game/templates/game/goalkeeper_game_list.html:26
 msgid "Level"
 msgstr "Nível"
 
-#: game/models.py:30 game/templates/game/config_list.html:25
+#: game/models.py:37 game/templates/game/config_list.html:25
 msgid "Code"
 msgstr "Código"
 
-#: game/models.py:31 game/templates/game/config_list.html:24
+#: game/models.py:38 game/templates/game/config_list.html:24
 msgid "Name"
 msgstr "Nome"
 
-#: game/models.py:32
+#: game/models.py:39
 msgid "Is it public?"
 msgstr "É público?"
 
-#: game/models.py:39
+#: game/models.py:46
 msgid "Configuration"
 msgstr "Configuração"
 
-#: game/models.py:40
+#: game/models.py:47
 msgid "Configurations"
 msgstr "Configurações"
 
@@ -446,66 +454,66 @@ msgstr "Nenhum jogo encontrado!"
 msgid "Probability for"
 msgstr "Probabilidade para"
 
-#: game/views.py:61
+#: game/views.py:64
 msgid "New kicker created successfully."
 msgstr "Novo adversário criado com sucesso."
 
-#: game/views.py:90
+#: game/views.py:93
 msgid ""
 "This config can't be removed because there are games configured with it."
 msgstr ""
 "Esta configuração não pode ser removida porque existem jogos configurados "
 "com ela."
 
-#: game/views.py:96
+#: game/views.py:99
 msgid "Kicker removed successfully."
 msgstr "Adversário removido com sucesso."
 
-#: game/views.py:99
+#: game/views.py:102
 msgid "Error trying to delete this config."
 msgstr "Erro ao tentar excluir este config."
 
-#: game/views.py:121
+#: game/views.py:124
 msgid "Kicker updated successfully."
 msgstr "Adversário atualizado com sucesso."
 
-#: game/views.py:123 game/views.py:291
+#: game/views.py:126 game/views.py:293
 msgid "There are no changes to save."
 msgstr "Não há alterações para salvar."
 
-#: game/views.py:156
+#: game/views.py:159
 msgid "Game created successfully."
 msgstr "Jogo criado com sucesso."
 
-#: game/views.py:199
+#: game/views.py:202
 msgid "Game removed successfully."
 msgstr "Jogo removido com sucesso."
 
-#: game/views.py:201
+#: game/views.py:204
 msgid "Error trying to delete the game."
 msgstr "Erro ao tentar excluir o jogo."
 
-#: game/views.py:251
+#: game/views.py:253
 msgid "Context removed successfully."
 msgstr "Contexto removido com sucesso."
 
-#: game/views.py:261
+#: game/views.py:263
 msgid "Sequence created successfully."
 msgstr "Sequência criada com sucesso."
 
-#: game/views.py:289
+#: game/views.py:291
 msgid "Game updated successfully."
 msgstr "Jogo atualizado com sucesso."
 
-#: game/views.py:434
+#: game/views.py:442
 msgid "Probability created successfully."
 msgstr "Probabilidade criada com sucesso."
 
-#: game/views.py:441 game/views.py:479
+#: game/views.py:449 game/views.py:487
 msgid "The sum of the probabilities must be equal to 1."
 msgstr "A soma das probabilidades deve ser igual a 1."
 
-#: game/views.py:475
+#: game/views.py:483
 msgid "Probability updated successfully."
 msgstr "Probabilidade atualizada com sucesso."
 
