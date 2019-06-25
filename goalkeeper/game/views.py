@@ -257,8 +257,9 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         # Create the sequence for the game
         elif request.POST['action'] == "sequence":
             sequence_size = request.POST['sequence_size']
-            sequence = create_sequence(goalkeeper_game_id, sequence_size)
+            sequence, sequence_step_det_or_prob = create_sequence(goalkeeper_game_id, sequence_size)
             game.sequence = sequence
+            game.seq_step_det_or_prob = sequence_step_det_or_prob
             game.save()
             messages.success(request, _('Sequence created successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
@@ -585,6 +586,7 @@ def create_sequence(goalkeeper_game_id, sequence_size):
     # draws the first context of the sequence
     list_of_context_used = list(context_used.values_list('path', flat=True))
     sequence = ''.join(random.sample(list_of_context_used, 1))
+    sequence_step_det_or_prob = 'n' * len(sequence)
 
     # generate the rest of the sequence
     next_sequence_number = ''
@@ -596,11 +598,12 @@ def create_sequence(goalkeeper_game_id, sequence_size):
                 next_sequence_number = 0
                 for prob in contexts_and_probabilities[suffix]:
                     if number_drawn <= prob:
+                        sequence_step_det_or_prob += 'n' if prob == 1 else 'Y'
                         break
                     next_sequence_number += 1
         sequence += str(next_sequence_number)
 
-    return sequence
+    return sequence, sequence_step_det_or_prob
 
 
 # Django Rest
