@@ -15,6 +15,13 @@ YES_NO_ANSWER = (
     (YES, _('Yes')),
 )
 
+TWO = 2
+THREE = 3
+DIRECTIONS_CHOICES = (
+    (TWO, _('2 - left and right')),
+    (THREE, _('3 - left, center and right')),
+)
+
 
 class Level(models.Model):
     """ An instance of this class is used to identify the level of a participant and also the level of the opponent. """
@@ -43,7 +50,7 @@ class GameConfig(models.Model):
 
 class Game(models.Model):
     config = models.ForeignKey(GameConfig, on_delete=models.PROTECT)
-    number_of_directions = models.IntegerField(default=3)
+    number_of_directions = models.IntegerField(choices=DIRECTIONS_CHOICES, default=THREE)
     number_of_plays = models.IntegerField(default=1)
     min_plays = models.IntegerField(blank=True, null=True)
     min_hits_in_seq = models.IntegerField(blank=True, null=True)

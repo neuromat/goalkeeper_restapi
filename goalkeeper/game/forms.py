@@ -24,8 +24,8 @@ class GoalkeeperGameForm(forms.ModelForm):
         exclude = ('game_type', 'phase')
 
         widgets = {
-            'config': Select(attrs={'class': 'form-control', 'required': ""}),
-            'number_of_directions': NumberInput(attrs={'class': 'form-control'}),
+            'config': Select(attrs={'class': 'form-control'}),
+            'number_of_directions': Select(attrs={'class': 'form-control'}),
             'number_of_plays': NumberInput(attrs={'class': 'form-control'}),
             'min_plays': NumberInput(attrs={'class': 'form-control'}),
             'min_hits_in_seq': NumberInput(attrs={'class': 'form-control'}),
