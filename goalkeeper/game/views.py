@@ -217,8 +217,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
                 path = get_context.path
                 get_context.delete()
 
-                # After removing a context, check if there are others of the same depth that is not a context
-                # and remove them as well.
+                # After removing a context, check if there are others of the same depth that is not a context.
                 possible_context_to_remove = []
                 for item in context_registered:
                     if len(item.path) == len(path) and item.is_context != 'True':
@@ -396,6 +395,7 @@ def check_contexts_without_probability(goalkeeper_game_id):
         if not Probability.objects.filter(context=item.pk):
             contexts_without_probability.append(item.path)
 
+    # Add probabilities to one context at a time, so return the first context
     if contexts_without_probability:
         return contexts_without_probability[0]
     else:
@@ -512,6 +512,7 @@ def check_context_tree(goalkeeper_game_id):
     for item in context_used:
         path = item.path
 
+        # Only contexts larger than 1 are checked
         if len(path) > 1:
             valid_context = []
             context_with_equal_numbers = True
@@ -521,8 +522,8 @@ def check_context_tree(goalkeeper_game_id):
                     context_with_equal_numbers = False
                     break
 
-            # In contexts like 00, 11, 22, 000, 111, 222 and so on, the next step should be a different number,
-            # otherwise, a loop occurs.
+            # In contexts like 00, 11, 22, 000, 111, 222 and so on, the next step can not be the same number
+            # with probability equal to 1, otherwise a loop occurs.
             if context_with_equal_numbers:
                 get_context = Context.objects.get(goalkeeper=goalkeeper_game_id, path=path)
                 prob = Probability.objects.get(context=get_context, direction=path[-1])
