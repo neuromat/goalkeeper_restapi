@@ -565,7 +565,7 @@ def create_sequence(goalkeeper_game_id, sequence_size):
     :param sequence_size: size of the sequence
     :return: the sequence for the game
     """
-    context_used = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context='True')
+    context_used = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context='True').order_by('id')
 
     # transition matrix
     contexts_and_probabilities = {}
@@ -583,9 +583,16 @@ def create_sequence(goalkeeper_game_id, sequence_size):
         for num in range(1, len(item)):
             item[num] += item[num-1]
 
-    # draws the first context of the sequence
+    # draws the first context of the sequence. Check the size of the largest context and choose one of the greatest
     list_of_context_used = list(context_used.values_list('path', flat=True))
-    sequence = ''.join(random.sample(list_of_context_used, 1))
+    context_max_size = len(list_of_context_used[-1])
+    greatest_contexts_list = []
+
+    for context in list_of_context_used:
+        if len(context) == context_max_size:
+            greatest_contexts_list.append(context)
+
+    sequence = ''.join(random.sample(greatest_contexts_list, 1))
     sequence_step_det_or_prob = 'n' * len(sequence)
 
     # generate the rest of the sequence
