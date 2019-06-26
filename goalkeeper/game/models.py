@@ -51,8 +51,8 @@ class GameConfig(models.Model):
 class Game(models.Model):
     config = models.ForeignKey(GameConfig, on_delete=models.PROTECT)
     number_of_directions = models.IntegerField(choices=DIRECTIONS_CHOICES, default=THREE)
-    number_of_plays = models.IntegerField(default=1)
-    min_plays = models.IntegerField(blank=True, null=True)
+    number_of_plays = models.IntegerField()
+    min_hits = models.IntegerField(blank=True, null=True)
     min_hits_in_seq = models.IntegerField(blank=True, null=True)
     sequence = models.CharField(max_length=255, blank=True)
     read_seq = models.BooleanField()
@@ -104,6 +104,7 @@ class GoalkeeperGame(Game):
     phase = models.IntegerField()
     depth = models.IntegerField(blank=True, null=True)
     seq_step_det_or_prob = models.CharField(max_length=255, blank=True)
+    create_seq_manually = models.CharField(max_length=3, choices=YES_NO_ANSWER, default=NO)
     show_history = models.BooleanField()
     send_markers_eeg = models.CharField(max_length=30, blank=True)
     port_eeg_serial = models.CharField(max_length=30, blank=True)
