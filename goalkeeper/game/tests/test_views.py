@@ -26,9 +26,8 @@ class GameTest(TestCase):
         self.assertEqual(logged, True)
 
         level = Level.objects.create(name=0)
-        self.config = GameConfig.objects.create(level=level, code='bla', is_public='yes', name='Bla',
-                                                created_by=self.user)
-        GoalkeeperGame.objects.create(config=self.config, phase=0, depth=2, number_of_directions=3, number_of_plays=10,
+        config = GameConfig.objects.create(level=level, code='bla', is_public='yes', name='Bla', created_by=self.user)
+        GoalkeeperGame.objects.create(config=config, phase=0, depth=2, number_of_directions=3, number_of_plays=10,
                                       plays_to_relax=0, player_time=1.0, celebration_time=1.0, read_seq=True,
                                       final_score_board='short', play_pause=True, score_board=True, show_history=True)
 
@@ -52,19 +51,21 @@ class GameTest(TestCase):
         view = resolve('/game/config/new/')
         self.assertEquals(view.func, game_config_new)
 
-    # Review this test!
-    # def test_game_config_new(self):
-    #     url = reverse('game_config_new')
-    #     self.data = {
-    #         'level': 1,
-    #         'code': 'flecha',
-    #         'name': 'Flecha Loira',
-    #         'action': 'save'
-    #     }
-    #     self.client.post(url, self.data)
-    #     game = GameConfig.objects.filter(code='flecha')
-    #     self.assertEqual(game.count(), 1)
-    #     self.assertTrue(isinstance(game[0], GameConfig))
+    def test_game_config_new(self):
+        level = Level.objects.first()
+        url = reverse('game_config_new')
+        self.data = {
+            'level': level.pk,
+            'code': 'flecha',
+            'name': 'Flecha Loira',
+            'is_public': 'no',
+            'created_by': self.user,
+            'action': 'save'
+        }
+        self.client.post(url, self.data)
+        game = GameConfig.objects.filter(code='flecha')
+        self.assertEqual(game.count(), 1)
+        self.assertTrue(isinstance(game[0], GameConfig))
 
     def test_game_config_view_status_code(self):
         config = GameConfig.objects.first()
@@ -107,9 +108,10 @@ class GameTest(TestCase):
         self.assertEquals(view.func, goalkeeper_game_new)
 
     def test_goalkeeper_game_new(self):
+        config = GameConfig.objects.first()
         url = reverse('goalkeeper_game_new')
         self.data = {
-            'config': self.config.pk,
+            'config': config.pk,
             'phase': 1,
             'sequence': '',
             'depth': 3,
@@ -161,9 +163,10 @@ class GameTest(TestCase):
         self.assertEquals(view.func, goalkeeper_game_update)
 
     def test_goalkeeper_game_update(self):
+        config = GameConfig.objects.first()
         game = GoalkeeperGame.objects.first()
         self.data = {
-            'config': self.config.pk,
+            'config': config.pk,
             'phase': 1,
             'sequence': '',
             'depth': 4,
