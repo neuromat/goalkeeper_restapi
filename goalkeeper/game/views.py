@@ -154,6 +154,7 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
 
             game = goalkeeper_game_form.save(commit=False)
             game.phase = next_phase
+            game.read_seq = True if request.POST['sequence'] else False
             game.save()
 
             messages.success(request, _('Game created successfully.'))
@@ -260,6 +261,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
             sequence, sequence_step_det_or_prob = create_sequence(goalkeeper_game_id, sequence_size)
             game.sequence = sequence
             game.seq_step_det_or_prob = sequence_step_det_or_prob
+            game.read_seq = True if game.sequence else False
             game.save()
             messages.success(request, _('Sequence created successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
@@ -288,7 +290,9 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
     if request.method == "POST" and request.POST['action'] == "save":
         if goalkeeper_game_form.is_valid():
             if goalkeeper_game_form.has_changed():
-                goalkeeper_game_form.save()
+                game = goalkeeper_game_form.save(commit=False)
+                game.read_seq = True if request.POST['sequence'] else False
+                game.save()
                 messages.success(request, _('Game updated successfully.'))
             else:
                 messages.warning(request, _('There are no changes to save.'))

@@ -21,7 +21,7 @@ class GoalkeeperGameForm(forms.ModelForm):
 
     class Meta:
         model = GoalkeeperGame
-        exclude = ('game_type', 'phase')
+        exclude = ('game_type', 'phase', 'read_seq')
 
         widgets = {
             'config': Select(attrs={'class': 'form-control'}),
@@ -30,7 +30,6 @@ class GoalkeeperGameForm(forms.ModelForm):
             'min_hits': NumberInput(attrs={'class': 'form-control'}),
             'min_hits_in_seq': NumberInput(attrs={'class': 'form-control'}),
             'sequence': TextInput(attrs={'class': 'form-control'}),
-            'read_seq': CheckboxInput(attrs={'class': 'form-control'}),
             'plays_to_relax': NumberInput(attrs={'class': 'form-control'}),
             'play_pause': CheckboxInput(attrs={'class': 'form-control'}),
             'play_pause_key': TextInput(attrs={'class': 'form-control'}),
