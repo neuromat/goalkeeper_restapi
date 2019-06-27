@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from django.urls import resolve, reverse
 from django.test import TestCase
 
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
     context_tree, available_context, game_config_new, game_config_list, game_config_view, game_config_update, \
-    check_contexts_without_probability
+    check_contexts_without_probability, home
 from game.models import Context, GameConfig, GoalkeeperGame, Level
 
 USER_USERNAME = 'user'
@@ -30,6 +31,11 @@ class GameTest(TestCase):
         GoalkeeperGame.objects.create(config=config, phase=0, depth=2, number_of_directions=3, number_of_plays=10,
                                       plays_to_relax=0, player_time=1.0, celebration_time=1.0, read_seq=True,
                                       final_score_board='short', play_pause=True, score_board=True, show_history=True)
+
+    def test_home_status_code(self):
+        url = reverse('home')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
 
     def test_game_config_list_status_code(self):
         url = reverse('game_config_list')
@@ -77,6 +83,28 @@ class GameTest(TestCase):
         view = resolve('/game/config/view/1/')
         self.assertEquals(view.func, game_config_view)
 
+    def test_game_config_view_can_not_remove_config_if_there_is_a_game_using_it(self):
+        config = GameConfig.objects.first()
+        self.data = {
+            'action': 'remove'
+        }
+        response = self.client.post(reverse("game_config_view", args=(config.id,)), self.data)
+        message = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(message), 1)
+        self.assertEqual(str(message[0]), "This config can't be removed because there are games configured with it.")
+
+    def test_game_config_view_remove_config(self):
+        config = GameConfig.objects.first()
+        GoalkeeperGame.objects.filter(config=config).delete()
+        self.data = {
+            'action': 'remove'
+        }
+        response = self.client.post(reverse("game_config_view", args=(config.id,)), self.data)
+        message = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(message), 1)
+        self.assertEqual(str(message[0]), "Kicker removed successfully.")
+        self.assertEqual(len(GoalkeeperGame.objects.all()), 0)
+
     def test_game_config_update_status_code(self):
         config = GameConfig.objects.first()
         response = self.client.get(reverse("game_config_update", args=(config.id,)))
@@ -86,6 +114,38 @@ class GameTest(TestCase):
     def test_game_config_update_url_resolves_game_config_update_view(self):
         view = resolve('/game/config/update/1/')
         self.assertEquals(view.func, game_config_update)
+
+    def test_game_config_update(self):
+        config = GameConfig.objects.first()
+        level = Level.objects.first()
+        self.data = {
+            'level': level.pk,
+            'code': 'cambalhota',
+            'name': 'cambalhota',
+            'is_public': 'no',
+            'created_by': self.user,
+            'action': 'save'
+        }
+        response = self.client.post(reverse("game_config_update", args=(config.id,)), self.data)
+        self.assertEqual(response.status_code, 302)
+        config_update = GameConfig.objects.filter(code='cambalhota')
+        self.assertEqual(config_update.count(), 1)
+
+    def test_game_config_update_no_changes(self):
+        config = GameConfig.objects.first()
+        level = Level.objects.first()
+        self.data = {
+            'level': level.pk,
+            'code': 'bla',
+            'name': 'Bla',
+            'is_public': 'yes',
+            'created_by': self.user,
+            'action': 'save'
+        }
+        response = self.client.post(reverse("game_config_update", args=(config.id,)), self.data)
+        message = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(message), 1)
+        self.assertEqual(str(message[0]), "There are no changes to save.")
 
     def test_goalkeeper_game_list_status_code(self):
         url = reverse('goalkeeper_game_list')
