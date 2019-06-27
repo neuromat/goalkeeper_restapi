@@ -1,12 +1,11 @@
 from django.contrib.auth.models import User
-from django.contrib.messages import get_messages
 from django.urls import resolve, reverse
 from django.test import TestCase
 
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
     context_tree, available_context, game_config_new, game_config_list, game_config_view, game_config_update, \
     check_contexts_without_probability
-from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability
+from game.models import Context, GameConfig, GoalkeeperGame, Level
 
 USER_USERNAME = 'user'
 USER_PWD = 'mypassword'
