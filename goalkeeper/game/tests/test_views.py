@@ -112,6 +112,7 @@ class GameTest(TestCase):
         self.data = {
             'config': self.config.pk,
             'phase': 1,
+            'sequence': '',
             'depth': 3,
             'number_of_directions': 3,
             'number_of_plays': 10,
@@ -165,6 +166,7 @@ class GameTest(TestCase):
         self.data = {
             'config': self.config.pk,
             'phase': 1,
+            'sequence': '',
             'depth': 4,
             'number_of_directions': 3,
             'number_of_plays': 10,
