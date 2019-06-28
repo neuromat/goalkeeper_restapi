@@ -251,7 +251,10 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
                     game.depth = None
                     game.save()
 
-            messages.success(request, _('Context removed successfully.'))
+                messages.success(request, _('Context removed successfully.'))
+            else:
+                messages.error(request, _("Error trying to delete this context."))
+
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
             return HttpResponseRedirect(redirect_url)
 
