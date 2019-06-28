@@ -110,12 +110,12 @@ public class SendOfflineToServer : MonoBehaviour
                 PlayerInfo.level = new_level[0].id;
 
                 // Atualizar o n[ivel dentro da base
-                UpdatePlayerLevelinDB(new_level[0].id, token);
+                UpdatePlayerLevelinDB(token, new_level[0].id);
             }
         }
     }
 
-    public void UpdatePlayerLevelinDB(int nivel_player, string token)
+    public void UpdatePlayerLevelinDB(string token, int nivel_player)
     {
         string address = string.Format("localhost:8000/api/setplayerlevel?format=json&token={0}&nivel={1}", token, nivel_player);
         var request = new WWW(address);
