@@ -87,7 +87,7 @@ public class ServerOperations
 
 
     // Função que registra a jogada (cada 
-    public void RegistrarJogada (int phase, int move, RandomEvent evento)
+    public bool RegistrarJogada (int phase, int move, RandomEvent evento)
     {
         Dictionary<string, object> dictObj = new Dictionary<string, object>();
         dictObj.Add("game_phase", phase);
@@ -104,7 +104,7 @@ public class ServerOperations
         var encoding = new System.Text.UTF8Encoding();         Dictionary<string, string> postHeader = new Dictionary<string, string>();         postHeader.Add("Content-Type", "application/json");         postHeader.Add("Authorization", "Token " + PlayerInfo.token);          var request = new WWW("localhost:8000/api/results/", encoding.GetBytes(jsonObj), postHeader);
         //StartCoroutine(WaitForWWW(request));
         while (!request.isDone) { }
-        Debug.Log(request.text); 
+        return request.responseHeaders.ContainsKey("STATUS");
     }
 
 
@@ -854,7 +854,7 @@ public class ServerOperations
       } else {
         if (!casoEspecialInterruptedOnFirstScreen) {   //170223 if INTERRUPT on firstScreen do not generate header for game lines
           //170712
-          sr.WriteLine ("move,waitedResult,ehRandom,optionChosen,correct,movementTime,pauseTime,timeRunning");
+          sr.WriteLine ("move,waitedResult,ehRandom,optionChosen,correct,movementTime,pauseTime,timeRunning, sendedToDB");
         }
       }
 
@@ -862,12 +862,12 @@ public class ServerOperations
       // -----
       line = 0;
       foreach (RandomEvent l in log) {
-        //170713 some machines generate decimal with commas (locale?)
-        //170217 capitalize FALSE    //(l.correct ? "TRUE" : "false")
-        //170919 pauseTime of the play
-        tmp = l.resultInt.ToString () + "," + l.ehRandom + "," + l.optionChosenInt.ToString () + "," + (l.correct ? "TRUE" : "false")
-        + "," + l.time.ToString ("f6").Replace (",", ".") + "," + l.pauseTime.ToString ("f6").Replace (",", ".")
-        + "," + l.realTime.ToString ("f6").Replace (",", ".");
+                //170713 some machines generate decimal with commas (locale?)
+                //170217 capitalize FALSE    //(l.correct ? "TRUE" : "false")
+                //170919 pauseTime of the play
+                tmp = l.resultInt.ToString() + "," + l.ehRandom + "," + l.optionChosenInt.ToString() + "," + (l.correct ? "TRUE" : "false")
+                + "," + l.time.ToString("f6").Replace(",", ".") + "," + l.pauseTime.ToString("f6").Replace(",", ".")
+                + "," + l.realTime.ToString("f6").Replace(",", ".") + "," + l.sendedToDB;
 
         if (gameSelected != 4) {
           //170712 agora comeca o registro das jogadas (moves) no JM; este continua num bloco; parte 2: jogadas
@@ -929,6 +929,218 @@ public class ServerOperations
 
 
 
+    public void RegisterPlay2(MonoBehaviour mb, List<RandomEvent> log, string stageID, int phase_id, int nivel = 0)
+    {
+        //170123 Garantir que existe o diretório de backup dos resultados
+        //       http://answers.unity3d.com/questions/528641/how-do-you-create-a-folder-in-c.html
+        //       backupResults = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "/backupResults";
+        //170608 if WEB do not create directory
+        //170622 mais seguro perguntar desta maneira, sem diretivas de compilacao
+        //170818 if Android do not save in a local directory
+        //171123 if iOS do not save in a local directory
+        if ((Application.platform != RuntimePlatform.WebGLPlayer) && (Application.platform != RuntimePlatform.Android) &&
+          (Application.platform != RuntimePlatform.IPhonePlayer) && (!SystemInfo.deviceModel.Contains("iPad")))
+        {
+            //170622 concentrate resultsBk here
+            backupResults = Application.dataPath + "/ResultsBk";
+
+            try
+            {
+                if (!Directory.Exists(backupResults))
+                {
+                    Directory.CreateDirectory(backupResults);
+                }
+            }
+            catch (IOException ex)
+            {
+                //171011 to see in output.txt
+                Debug.Log("Error creating Results Backup directory (ResultsBk): " + ex.Message);
+            }
+        }
+
+
+
+        //Josi: using StringBuilder; based https://forum.unity3d/threads/how-to-write-a-file.8864
+        //      caminhoLocal/Plays_grupo1-v1_HP-HP_YYMMDD_HHMMSS_fff.csv
+        //      string x stringBuilder: em https://msdn.microsoft.com/en-us/library/system.text.stringbuilder(v=vs.110).aspx
+        int gameSelected = PlayerPrefs.GetInt("gameSelected");
+
+
+        gamePlayed.Length = 0;                        //mantem a capacity, LogGame="" e apontador comeca do zero
+        switch (gameSelected)
+        {                       //Josi: 161212: indicar no server, arquivo (nome e conteudo), o jogo jogado
+            case 1:
+                gamePlayed.Append("_AQ_");   //Base Motora: Aquecimento
+                break;
+            case 2:
+                gamePlayed.Append("_JG_");   //Jogo do Goleiro
+                break;
+            case 3:
+                gamePlayed.Append("_MD_");   //Base memória (memória declarativa): reconhece sequ por teclado
+                break;
+            case 4:
+                gamePlayed.Append("_AR_");   //Base motora com Tempo: Aquecimento com relogio
+                break;
+            case 5:
+                gamePlayed.Append("_JM_");   //Jogo da Memória (MD sem input por teclado; jogador fala para o experimentador)
+                break;
+        }
+
+
+        //170607 playerMachine not valid for build webGL; using directives
+        //       https://docs.unity3d.com/Manual/PlatformDependentCompilation.html
+        string playerMachine;
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            playerMachine = "WEBGL";
+        }
+        else
+        {
+            //170818 do not have device name; ​​SystemInfo.deviceUniqueIdentifier? Android is androidID
+            //171123 iOS
+            if ((Application.platform == RuntimePlatform.Android) ||
+              (Application.platform == RuntimePlatform.IPhonePlayer) || (SystemInfo.deviceModel.Contains("iPad")))
+            {
+                playerMachine = SystemInfo.deviceUniqueIdentifier;
+
+                //170830 identifierID comes as MD5, easy to open, then,
+                //       let's encebol with a hash512, fast and unbreakable until now... just large... 128 bytes...
+                string hash = GetHash(playerMachine);
+                playerMachine = hash;
+
+            }
+            else
+            {
+                playerMachine = System.Net.Dns.GetHostName().Trim();
+            }
+        }
+
+        tmp = (1000 + UnityEngine.Random.Range(0, 1000)).ToString().Substring(1, 3);  //170126: a random between 000 e 999
+        LogGame.Length = 0;                                           //keeps capacity, LogGame="" and pointer starts at zero
+
+        //170608 if webGL needs to save in an free area
+        //170622 without using directives
+        //170818 where to save in Android
+        //171122 iOS (iPad/iPhone)
+        if ((Application.platform == RuntimePlatform.WebGLPlayer) || (Application.platform == RuntimePlatform.Android) ||
+          (Application.platform == RuntimePlatform.IPhonePlayer) || (SystemInfo.deviceModel.Contains("iPad")))
+        {
+            LogGame.Append(Application.persistentDataPath);             //web IndexedDB or where the local browser permits write
+        }
+        else
+        {
+            LogGame.Append(Application.dataPath);                   //local path
+        }
+        LogGame.Append("/Plays");                                     //start file name, Plays_ - CAI O UNDERSCORE!
+        LogGame.Append(gamePlayed);                                   //161212game played
+        LogGame.Append(stageID.Trim());                               //game phase
+        LogGame.Append("_");                                          //separator
+
+        //170607 nomeDaMaquina is environment dependent
+        //LogGame.Append(System.Net.Dns.GetHostName().Trim());        //nome do host: not valid in all environments
+        LogGame.Append(playerMachine);                                //nome do host
+
+        LogGame.Append("_");                                          //sep
+        LogGame.Append(DateTime.Now.ToString("yyMMdd_HHmmss_"));      //170116: data (6)_hour(6)_
+        LogGame.Append(tmp);                                          //170126: random between 000 e 999
+
+        //Josi: open/write/close file
+        if (!File.Exists(LogGame.ToString() + ".csv"))
+        {            //Josi: no more StringBuilder...
+            line = 0;                                                 //inicialize line counter at each new result file
+            casoEspecialInterruptedOnFirstScreen = false;             //170223 inicializar a cada gravacao
+
+            var sr = File.CreateText(LogGame.ToString());
+
+            // Gravar no csv o token do jogador para que seja gravado na base corretamente
+            sr.WriteLine("player_token,{0}", PlayerInfo.token);
+
+            // Gravar no csv o id da fase que as jogadas pertencem
+            sr.WriteLine("phase,{0}", phase_id);
+
+            // Gravar no csv se é para atualizar ou não o nível do jogador
+            sr.WriteLine("nivel,{0}", nivel);
+
+            if (!casoEspecialInterruptedOnFirstScreen)
+            {   //170223 if INTERRUPT on firstScreen do not generate header for game lines
+                //170712
+                sr.WriteLine("move,waitedResult,ehRandom,optionChosen,correct,movementTime,pauseTime,timeRunning, sendedToDB");
+            }
+
+
+            // -----
+            line = 0;
+            foreach (RandomEvent l in log)
+            {
+                //170713 some machines generate decimal with commas (locale?)
+                //170217 capitalize FALSE    //(l.correct ? "TRUE" : "false")
+                //170919 pauseTime of the play
+                tmp = l.resultInt.ToString() + "," + l.ehRandom + "," + l.optionChosenInt.ToString() + "," + (l.correct ? "TRUE" : "false")
+                + "," + l.time.ToString("f6").Replace(",", ".") + "," + l.pauseTime.ToString("f6").Replace(",", ".")
+                + "," + l.realTime.ToString("f6").Replace(",", ".") + "," + l.sendedToDB;
+
+                if (gameSelected != 4)
+                {
+                    //170712 agora comeca o registro das jogadas (moves) no JM; este continua num bloco; parte 2: jogadas
+                    //sr.WriteLine ("{0},{1},{2}", gameCommonData, ++line, tmp);      //170217 header+commonData; tempo de movimento - jogador entra com a direcao
+                    sr.WriteLine("{0},{1}", ++line, tmp);
+                }
+                else
+                {
+                    //170712 agora comeca o registro das jogadas (moves) no JM; este continua num bloco; parte 2: jogadas
+                    //sr.WriteLine ("{0},{1},{2},{3}", gameCommonData, ++line, tmp,   // tempo de movimento - jogador entra com a direcao
+                    //    l.decisionTime.ToString());               //170217 header+commonData; 170113 tempo de decisao - enquanto jogador fica pensando
+                    sr.WriteLine("{0},{1},{2}", ++line, tmp, l.decisionTime.ToString("f6").Replace(",", "."));
+                }
+            }
+            sr.Close();
+
+
+            //171122 iOS (iPad/iPhone)
+            if ((Application.platform == RuntimePlatform.WebGLPlayer) || (Application.platform == RuntimePlatform.Android) ||
+              (Application.platform == RuntimePlatform.IPhonePlayer) || (SystemInfo.deviceModel.Contains("iPad")))
+            {
+                //SyncFiles();                                        //170622 fast refresh
+                Application.ExternalEval("_JS_FileSystem_Sync();");
+
+                //170620 ter o nome do arquivo de resultados e abrir todo o arquivo para coletar o conteúdo, para enviar por formWeb
+                //170622 reler o arquivo só eh necessario se eh WEBGL
+                int i = LogGame.ToString().IndexOf("/Plays");
+                resultsFileName = LogGame.ToString().Substring(i, LogGame.Length - i);
+
+                resultsFileContent = System.IO.File.ReadAllText(LogGame.ToString());
+            }
+
+            //170612 se webGL estes comandos dao erro win32 IO already exists...
+            //170622 sem usar diretiva de compilacao
+            //171122 iOS (iPad/iPhone)
+            if ((Application.platform != RuntimePlatform.WebGLPlayer) && (Application.platform != RuntimePlatform.Android) &&
+              (Application.platform != RuntimePlatform.IPhonePlayer) && (!SystemInfo.deviceModel.Contains("iPad")))
+            {
+                //170123 copiar arquivo para o backup e renomear com a extensao .csv
+                tmp = LogGame.ToString();
+                tmp = tmp.Substring(tmp.IndexOf("Plays_") - 1) + ".csv";
+                //  Using System.IO
+                File.Copy(LogGame.ToString(), backupResults + tmp);       // copiar sem ext para backupResults com ext
+                File.Move(LogGame.ToString(), LogGame.ToString() + ".csv"); // mover sem ext para com ext, em assets
+                File.Delete(Application.dataPath + tmp + ".meta");        // deletar os .meta criados pelo unity3d
+            }
+
+
+
+            //170818 trying to save result files for mobile devices in Android
+            //171122 iOS (iPad/iPhone)
+            // ==============================================================================
+            if ((Application.platform == RuntimePlatform.WebGLPlayer) || (Application.platform == RuntimePlatform.Android) ||
+              (Application.platform == RuntimePlatform.IPhonePlayer) || (SystemInfo.deviceModel.Contains("iPad")))
+            {
+                //estudar isto... nao permite chamar um IEnumerator declarado aqui... não é MonoBehavior...
+                mb.StartCoroutine(uploadFile(resultsFileName, resultsFileContent));
+            }
+            // ==============================================================================
+
+        }   //if (!File.Exists
+    }       //public void RegisterPlay2
 
 
 
@@ -936,10 +1148,9 @@ public class ServerOperations
 
 
 
-
-	// --------------------------------------------------------------------------------------
-	//170612
-	IEnumerator uploadFile(string fileName, string contentFile)
+    // --------------------------------------------------------------------------------------
+    //170612
+    IEnumerator uploadFile(string fileName, string contentFile)
 	{
 		//converting text to bytes to be ready for upload (really necessary?)
 		byte[] fileData = Encoding.UTF8.GetBytes (contentFile);

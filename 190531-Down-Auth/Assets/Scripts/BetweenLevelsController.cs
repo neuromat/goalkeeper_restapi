@@ -116,21 +116,25 @@ public class BetweenLevelsController : MonoBehaviour
 
     public void UpdateLevelofPlayer()
     {
-        int player_level_name = GetLevel(PlayerInfo.level)[0].name;
-        int game_level_name = PlayerPrefs.GetInt("game_level_name");
-
-        if (game_level_name == player_level_name)
+        List<LoadStages.LevelJson> player_level = GetLevel(PlayerInfo.level);
+        if (player_level != null)
         {
-            player_level_name += 1;
+            var player_level_name = player_level[0].name;
+            int game_level_name = PlayerPrefs.GetInt("game_level_name");
 
-            List<LoadStages.LevelJson> new_level = GetLevel(level_name:player_level_name);
-            if (new_level.Count > 0)
+            if (game_level_name == player_level_name)
             {
-                // Atualizar o nível dentro do jogo
-                PlayerInfo.level = new_level[0].id;
+                player_level_name += 1;
 
-                // Atualizar o n[ivel dentro da base
-                UpdatePlayerLevelinDB();
+                List<LoadStages.LevelJson> new_level = GetLevel(level_name: player_level_name);
+                if (new_level.Count > 0)
+                {
+                    // Atualizar o nível dentro do jogo
+                    PlayerInfo.level = new_level[0].id;
+
+                    // Atualizar o n[ivel dentro da base
+                    UpdatePlayerLevelinDB();
+                }
             }
         }
     }
@@ -146,6 +150,8 @@ public class BetweenLevelsController : MonoBehaviour
 
     public List<LoadStages.LevelJson> GetLevel(int? level_id = null, int? level_name = null)
     {
+        Debug.Log("id:" + level_id);
+        Debug.Log("name:" + level_name);
         string address = "localhost:8000/api/getlevel?format=json";
         if (level_id != null)
         {
@@ -163,7 +169,9 @@ public class BetweenLevelsController : MonoBehaviour
 
         var ObjList = new List<LoadStages.LevelJson>();
         ObjList = JsonConvert.DeserializeObject<List<LoadStages.LevelJson>>(request.text);
+        Debug.Log(ObjList);
         return ObjList;
+
     }
 
     IEnumerator WaitForWWW(WWW www)
