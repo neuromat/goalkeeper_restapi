@@ -213,6 +213,30 @@ class GameTest(TestCase):
         self.assertEqual(game.count(), 1)
         self.assertTrue(isinstance(game[0], GoalkeeperGame))
 
+    def test_goalkeeper_game_new_phase_zero(self):
+        level = Level.objects.first()
+        config = GameConfig.objects.create(level=level, code='ops', is_public='yes', name='Ops', created_by=self.user)
+        url = reverse('goalkeeper_game_new')
+        self.data = {
+            'config': config.pk,
+            'sequence': '',
+            'number_of_directions': 3,
+            'number_of_plays': 10,
+            'plays_to_relax': 0,
+            'player_time': 1.0,
+            'celebration_time': 1.0,
+            'final_score_board': 'short',
+            'read_seq': True,
+            'play_pause': True,
+            'score_board': True,
+            'show_history': True,
+            'create_seq_manually': 'no',
+            'action': 'save'
+        }
+        self.client.post(url, self.data)
+        game = GoalkeeperGame.objects.filter(config=config, phase=0)
+        self.assertEqual(game.count(), 1)
+
     ######################
     # View goalkeeper game
     ######################
@@ -254,6 +278,17 @@ class GameTest(TestCase):
         message = list(get_messages(response.wsgi_request))
         self.assertEqual(len(message), 1)
         self.assertEqual(str(message[0]), "Error trying to delete this context.")
+
+    def test_goalkeeper_game_view_remove_context_with_is_context_not_true(self):
+        game = GoalkeeperGame.objects.first()
+        Context.objects.create(goalkeeper=game, path='0', is_context='Null', analyzed=False)
+        Context.objects.create(goalkeeper=game, path='1', is_context='False', analyzed=False)
+        context = Context.objects.create(goalkeeper=game, path='2', is_context='True', analyzed=False)
+        self.data = {
+            'action': 'remove_path-' + str(context.pk)
+        }
+        self.client.post(reverse("goalkeeper_game_view", args=(game.id,)), self.data)
+        self.assertEqual(Context.objects.count(), 0)
 
     ########################
     # Update goalkeeper game
