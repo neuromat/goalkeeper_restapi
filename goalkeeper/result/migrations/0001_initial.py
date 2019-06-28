@@ -28,7 +28,8 @@ class Migration(migrations.Migration):
                 ('pause_time', models.FloatField()),
                 ('time_running', models.FloatField()),
                 ('game_phase', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='game.Game')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='game_results', to=settings.AUTH_USER_MODEL)),
+                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='game_results',
+                                            to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
