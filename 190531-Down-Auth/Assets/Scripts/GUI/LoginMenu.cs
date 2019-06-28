@@ -143,6 +143,8 @@ public class LoginMenu : BaseMenu {
         + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
         + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$";
 
+    private EventSystem myEventSystem;
+
     private void Start() {
 
         translate = LocalizationManager.instance;
@@ -173,6 +175,8 @@ public class LoginMenu : BaseMenu {
             password = PlayerPrefs.GetString("x1").FromBase64();
             rememberMe = true;
         }
+
+        myEventSystem = EventSystem.current;
     }
 
     private void OnSignupCancelOrSuccess() {
@@ -620,22 +624,53 @@ public class LoginMenu : BaseMenu {
             SceneManager.LoadScene("Configurations");
             
     }
-    
 
-  private void Update() {
- 
-        if(!loggingIn) {
+    private void SetCurrentTabObject()
+    {
+        string current = myEventSystem.currentSelectedGameObject.GetComponent<Selectable>().name;
+
+        switch (current)
+        {
+            case "userLogin":
+                myEventSystem.SetSelectedGameObject(GameObject.Find("passwdLogin"), new BaseEventData(myEventSystem));
+                break;
+            case "passwdLogin":
+                myEventSystem.SetSelectedGameObject(GameObject.Find("userLogin"), new BaseEventData(myEventSystem));
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        // Ao apertar tab, ir para próximo campo de input
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            myEventSystem = EventSystem.current;
+            SetCurrentTabObject();
+        }
+
+        // Ao apertar enter, executar ação do botão de avançar
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            DoLogin();
+        }
+
+        if (!loggingIn)
+        {
             return;
         }
-       
-        if (Time.time > nextStatusChange) {
+
+        if (Time.time > nextStatusChange)
+        {
             nextStatusChange = Time.time + 0.5f;
-//            status = "Logging in";
+            // status = "Logging in";
             status = statusLog;
-            for (int i = 0; i < dotNumber; i++) {
+            for (int i = 0; i < dotNumber; i++)
+            {
                 status += ".";
             }
-            if (++dotNumber > 3) {
+            if (++dotNumber > 3)
+            {
                 dotNumber = 1;
             }
         }

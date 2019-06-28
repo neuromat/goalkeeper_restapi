@@ -34,6 +34,7 @@ public class RandomEvent            //Josi: result matrix to save experiment res
 	public float decisionTime;       //170113 tempo de decisao
 	public float pauseTime;          //170919 tempo em pausa (do Play/Pause) nesta jogada
 	public float realTime;           //180418 tempo corrido (para analisar com os marcadores)
+    public bool sendedToDB;          //190625 true ou false se resultado foi ou não enviado à base
 }
 
 
@@ -556,7 +557,7 @@ public class UIManager : MonoBehaviour
 
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> INPUT PRESSIONADO = "+input);
             //SendEventsToServerMini(PlayerPrefs.GetInt("gameSelected"));
-            SendPlaytoServer(eventCount, eLog);
+            _events[eventCount - 1].sendedToDB = SendPlaytoServer(eventCount, eLog);
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> SENDEVENTSTOSERVER ATIVADO = ");
 		}
 	}
@@ -566,7 +567,7 @@ public class UIManager : MonoBehaviour
 	//--------------------------------------------------------------------------------------------------------
 	//Josi: ao trocar de nivel, envia os dados do experimento para arquivo local (a thread se encarrega de enviar o arquivo para o server)
 	//170109 nasce jogoJogado como parametro
-	public void SendEventsToServer(int gameSelected)
+	public void SendEventsToServer(int gameSelected, int nivel = 0)
 	{
 		Debug.Log ("UIManager.cs ----------------- f:SendEventsToServer ----- Verifica Condicao---------");
 
@@ -627,50 +628,57 @@ public class UIManager : MonoBehaviour
 				string treeContextsAndProbabilities = probs.stringTree ();
 
 
-				//170126 getCurrentReadSequ(do jogo selecionado) + param numHits (num minimo de jogadas corretas)
-				//170216 gameMode lido do arq config, excepto na phase0 do JG onde o jogo lê a sequ dada, espelhada entre grupo1-v1 e grupo2-v1
-				//ServerOperations.instance.RegisterPlay (GameFlowManager.instance, probs.CurrentMachineID (), probs.getCurrentReadSequ (gameSelected), jogadas, acertos, successRate, probs.getMinHits(), _events, interrupted, _eventsFirstScreen);
-				//170310 enviar phaseNumber
-				//170413 enviar machines[currentState] para gravar animationType, scoreboard, finalScoreboard, playsToRelax
-				//170417 enviar tree no formato (["context"; "prob0"; "prob1"] ... ["context"; "prob0"; "prob1"])
-				//170622 enviar showHistory
-				//171025 enviar choices (até agora 3 mas poderá ser 2) e showPlaypauseButton
-				//180105 send new parameter getPortEEGserial()
-				//180117 send locale selected by player
-				//180326 new parameters: minHitsInSequenceForJG, ForJM, mdMaxPlays
-				//180417 send speedAnim
-				//180418 keyboard markers
-				ServerOperations.instance.RegisterPlay (GameFlowManager.instance, locale, endSessionTime, probs.CurrentMachineID (),
-					gameMode, phaseNumber, jogadas, acertos, successRate,
-					probs.getMinHits (), ProbCalculator.machines [0].bmMaxPlays, ProbCalculator.machines [0].bmMinHitsInSequence,
-					_events, userAbandonModule,
-					_eventsFirstScreen, animationType,
-					ProbCalculator.machines [probs.currentStateMachineIndex].playsToRelax,
-					ProbCalculator.machines [probs.currentStateMachineIndex].showHistory,
-					probs.getSendMarkersToEEG (),
-					probs.getPortEEGserial(),
-					ProbCalculator.machines [0].groupCode,
-					ProbCalculator.machines [probs.currentStateMachineIndex].scoreboard,
-					ProbCalculator.machines [probs.currentStateMachineIndex].finalScoreboard,
-					treeContextsAndProbabilities,
-					ProbCalculator.machines [0].choices,
-					ProbCalculator.machines [0].showPlayPauseButton,
-					ProbCalculator.machines [probs.currentStateMachineIndex].minHitsInSequence,
-					ProbCalculator.machines [0].mdMinHitsInSequence,
-					ProbCalculator.machines [0].mdMaxPlays,
-					ProbCalculator.machines [0].institution,
-					ProbCalculator.machines [0].attentionPoint,
-					ProbCalculator.machines [0].attentionDiameter,
-					ProbCalculator.machines [0].attentionColorStart,
-					ProbCalculator.machines [0].attentionColorCorrect,
-					ProbCalculator.machines [0].attentionColorWrong,
-					ProbCalculator.machines [probs.currentStateMachineIndex].speedGKAnim,
-					keyboardTimeMarkers
-				);
+            //170126 getCurrentReadSequ(do jogo selecionado) + param numHits (num minimo de jogadas corretas)
+            //170216 gameMode lido do arq config, excepto na phase0 do JG onde o jogo lê a sequ dada, espelhada entre grupo1-v1 e grupo2-v1
+            //ServerOperations.instance.RegisterPlay (GameFlowManager.instance, probs.CurrentMachineID (), probs.getCurrentReadSequ (gameSelected), jogadas, acertos, successRate, probs.getMinHits(), _events, interrupted, _eventsFirstScreen);
+            //170310 enviar phaseNumber
+            //170413 enviar machines[currentState] para gravar animationType, scoreboard, finalScoreboard, playsToRelax
+            //170417 enviar tree no formato (["context"; "prob0"; "prob1"] ... ["context"; "prob0"; "prob1"])
+            //170622 enviar showHistory
+            //171025 enviar choices (até agora 3 mas poderá ser 2) e showPlaypauseButton
+            //180105 send new parameter getPortEEGserial()
+            //180117 send locale selected by player
+            //180326 new parameters: minHitsInSequenceForJG, ForJM, mdMaxPlays
+            //180417 send speedAnim
+            //180418 keyboard markers
+            //ServerOperations.instance.RegisterPlay (GameFlowManager.instance, locale, endSessionTime, probs.CurrentMachineID (),
+            //	gameMode, phaseNumber, jogadas, acertos, successRate,
+            //	probs.getMinHits (), ProbCalculator.machines [0].bmMaxPlays, ProbCalculator.machines [0].bmMinHitsInSequence,
+            //	_events, userAbandonModule,
+            //	_eventsFirstScreen, animationType,
+            //	ProbCalculator.machines [probs.currentStateMachineIndex].playsToRelax,
+            //	ProbCalculator.machines [probs.currentStateMachineIndex].showHistory,
+            //	probs.getSendMarkersToEEG (),
+            //	probs.getPortEEGserial(),
+            //	ProbCalculator.machines [0].groupCode,
+            //	ProbCalculator.machines [probs.currentStateMachineIndex].scoreboard,
+            //	ProbCalculator.machines [probs.currentStateMachineIndex].finalScoreboard,
+            //	treeContextsAndProbabilities,
+            //	ProbCalculator.machines [0].choices,
+            //	ProbCalculator.machines [0].showPlayPauseButton,
+            //	ProbCalculator.machines [probs.currentStateMachineIndex].minHitsInSequence,
+            //	ProbCalculator.machines [0].mdMinHitsInSequence,
+            //	ProbCalculator.machines [0].mdMaxPlays,
+            //	ProbCalculator.machines [0].institution,
+            //	ProbCalculator.machines [0].attentionPoint,
+            //	ProbCalculator.machines [0].attentionDiameter,
+            //	ProbCalculator.machines [0].attentionColorStart,
+            //	ProbCalculator.machines [0].attentionColorCorrect,
+            //	ProbCalculator.machines [0].attentionColorWrong,
+            //	ProbCalculator.machines [probs.currentStateMachineIndex].speedGKAnim,
+            //	keyboardTimeMarkers
+            //);
 
-				//170306 zerar a lista para não entrar aqui pelo GoToIntro e gerar dois arquivos de resultados para o mesmo JM (sendo um vazio)
-				//170311 e voltar aos contadores
-				if (gameSelected == 5) {
+            ServerOperations.instance.RegisterPlay2(
+                GameFlowManager.instance,
+                _events,
+                probs.CurrentMachineID(),
+                PlayerPrefs.GetInt(PlayerPrefs.GetString("teamSelected") + probs.GetCurrMachineIndex().ToString()),
+                PlayerPrefs.GetInt("game_level_name"));
+
+            //170306 zerar a lista para não entrar aqui pelo GoToIntro e gerar dois arquivos de resultados para o mesmo JM (sendo um vazio)
+            //170311 e voltar aos contadores
+            if (gameSelected == 5) {
 					_eventsFirstScreen.Clear ();
 				}
 			//} //170830 só vai para gravar o arquivo se aprovada a participação na pesquisa...
@@ -678,12 +686,12 @@ public class UIManager : MonoBehaviour
 	}
 
 
-    public void SendPlaytoServer(int move, RandomEvent jogada)
+    public bool SendPlaytoServer(int move, RandomEvent jogada)
     {
         Debug.Log("Dando início ao salvamento da jogada");
         var team = PlayerPrefs.GetString("teamSelected");
         var phase_id = PlayerPrefs.GetInt(team+probs.GetCurrMachineIndex().ToString());
-        ServerOperations.instance.RegistrarJogada(phase_id, move, jogada);
+        return ServerOperations.instance.RegistrarJogada(phase_id, move, jogada);
 
     }
 

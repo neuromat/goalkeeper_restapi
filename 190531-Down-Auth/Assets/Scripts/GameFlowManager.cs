@@ -1851,14 +1851,14 @@ public class GameFlowManager : MonoBehaviour
             gameCanvas.interactable = false;
 
             //161207: passa a gravar ao chegar na tela betweenLevels, nao ao Avancar
-            uiManager.SendEventsToServer(gameSelected);  //170109
+            uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));  //170109
 
         }
         else
         {
 
             //Josi: 161207: passa a gravar ao chegar na tela betweenLevels, nao ao Avancar; ultimo nivel eh um caso especial
-            uiManager.SendEventsToServer(gameSelected);   //170109
+            uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));   //170109
 
             uiManager.ResetEventList(gameSelected);
             game.SetActive(true);

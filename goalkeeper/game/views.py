@@ -647,9 +647,16 @@ class UpdatePlayerLevel(generics.ListAPIView):
         token_req = self.request.query_params.get('token', None)
         token = Token.objects.filter(key=token_req).first()
 
+        level_req = self.request.query_params.get('nivel', None)
+        level = Level.objects.filter(id=level_req).first()
+
         if token is not None:
             profile = Profile.objects.get(user=token.user)
-            new_level = Level.objects.filter(name=profile.level.name + 1).first()
+
+            if level is not None:
+                new_level = level
+            else:
+                new_level = Level.objects.filter(name=profile.level.name + 1).first()
 
             if new_level is not None:
                 profile.level = new_level

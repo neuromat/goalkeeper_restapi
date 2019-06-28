@@ -121,7 +121,8 @@
 "statusSign":"Registered",
 "statusNewSign":"Registered successfully",
 "errorCad":"Error in registration: Existing user or disconnected server.",
-"errorFields":"Fill in the fields correctly",
+"errorFields":"Please, fill in the fields",
 "errorEmail":"Invalid email",
+"errorConnection":"Unavailable server. Please check your connection",
 "":""
 }
