@@ -154,6 +154,7 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
 
             game = goalkeeper_game_form.save(commit=False)
             game.phase = next_phase
+            game.read_seq = True if request.POST['sequence'] else False
             game.save()
 
             messages.success(request, _('Game created successfully.'))
@@ -217,8 +218,7 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
                 path = get_context.path
                 get_context.delete()
 
-                # After removing a context, check if there are others of the same depth that is not a context
-                # and remove them as well.
+                # After removing a context, check if there are others of the same depth that is not a context.
                 possible_context_to_remove = []
                 for item in context_registered:
                     if len(item.path) == len(path) and item.is_context != 'True':
@@ -258,8 +258,10 @@ def goalkeeper_game_view(request, goalkeeper_game_id, template_name="game/goalke
         # Create the sequence for the game
         elif request.POST['action'] == "sequence":
             sequence_size = request.POST['sequence_size']
-            sequence = create_sequence(goalkeeper_game_id, sequence_size)
+            sequence, sequence_step_det_or_prob = create_sequence(goalkeeper_game_id, sequence_size)
             game.sequence = sequence
+            game.seq_step_det_or_prob = sequence_step_det_or_prob
+            game.read_seq = True if game.sequence else False
             game.save()
             messages.success(request, _('Sequence created successfully.'))
             redirect_url = reverse("goalkeeper_game_view", args=(goalkeeper_game_id,))
@@ -288,7 +290,9 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
     if request.method == "POST" and request.POST['action'] == "save":
         if goalkeeper_game_form.is_valid():
             if goalkeeper_game_form.has_changed():
-                goalkeeper_game_form.save()
+                game = goalkeeper_game_form.save(commit=False)
+                game.read_seq = True if request.POST['sequence'] else False
+                game.save()
                 messages.success(request, _('Game updated successfully.'))
             else:
                 messages.warning(request, _('There are no changes to save.'))
@@ -396,6 +400,7 @@ def check_contexts_without_probability(goalkeeper_game_id):
         if not Probability.objects.filter(context=item.pk):
             contexts_without_probability.append(item.path)
 
+    # Add probabilities to one context at a time, so return the first context
     if contexts_without_probability:
         return contexts_without_probability[0]
     else:
@@ -512,6 +517,7 @@ def check_context_tree(goalkeeper_game_id):
     for item in context_used:
         path = item.path
 
+        # Only contexts larger than 1 are checked
         if len(path) > 1:
             valid_context = []
             context_with_equal_numbers = True
@@ -521,8 +527,8 @@ def check_context_tree(goalkeeper_game_id):
                     context_with_equal_numbers = False
                     break
 
-            # In contexts like 00, 11, 22, 000, 111, 222 and so on, the next step should be a different number,
-            # otherwise, a loop occurs.
+            # In contexts like 00, 11, 22, 000, 111, 222 and so on, the next step can not be the same number
+            # with probability equal to 1, otherwise a loop occurs.
             if context_with_equal_numbers:
                 get_context = Context.objects.get(goalkeeper=goalkeeper_game_id, path=path)
                 prob = Probability.objects.get(context=get_context, direction=path[-1])
@@ -563,7 +569,7 @@ def create_sequence(goalkeeper_game_id, sequence_size):
     :param sequence_size: size of the sequence
     :return: the sequence for the game
     """
-    context_used = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context='True')
+    context_used = Context.objects.filter(goalkeeper=goalkeeper_game_id, is_context='True').order_by('id')
 
     # transition matrix
     contexts_and_probabilities = {}
@@ -581,9 +587,17 @@ def create_sequence(goalkeeper_game_id, sequence_size):
         for num in range(1, len(item)):
             item[num] += item[num-1]
 
-    # draws the first context of the sequence
+    # draws the first context of the sequence. Check the size of the largest context and choose one of the greatest
     list_of_context_used = list(context_used.values_list('path', flat=True))
-    sequence = ''.join(random.sample(list_of_context_used, 1))
+    context_max_size = len(list_of_context_used[-1])
+    greatest_contexts_list = []
+
+    for context in list_of_context_used:
+        if len(context) == context_max_size:
+            greatest_contexts_list.append(context)
+
+    sequence = ''.join(random.sample(greatest_contexts_list, 1))
+    sequence_step_det_or_prob = 'n' * len(sequence)
 
     # generate the rest of the sequence
     next_sequence_number = ''
@@ -595,11 +609,12 @@ def create_sequence(goalkeeper_game_id, sequence_size):
                 next_sequence_number = 0
                 for prob in contexts_and_probabilities[suffix]:
                     if number_drawn <= prob:
+                        sequence_step_det_or_prob += 'n' if prob == 1 else 'Y'
                         break
                     next_sequence_number += 1
         sequence += str(next_sequence_number)
 
-    return sequence
+    return sequence, sequence_step_det_or_prob
 
 
 # Django Rest

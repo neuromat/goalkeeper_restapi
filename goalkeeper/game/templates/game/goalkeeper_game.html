@@ -3,6 +3,7 @@
 
 {% block extrahead %}
     <script src="{% static 'js/show_modal_remove.js' %}"></script>
+    <script src="{% static 'game/js/goalkeeper_game.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -43,15 +44,15 @@
             <div class="row">
                 <div class="col-sm-6 col-12">
                     <div class="form-group">
-                        <label for="id_phase" class="control-label">{% trans "Phase" %}</label>
-                        <input type="number" name="phase" class="form-control" readonly="readonly" id="id_phase" {% if game %}value="{{ game.phase }}"{% endif %}>
+                        <label class="control-label">{% trans "Number of plays" %} <b style="color: red;">*</b></label>
+                        {{ goalkeeper_game_form.number_of_plays }}
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-12">
                     <div class="form-group">
-                        <label class="control-label">{% trans "Depth" %}</label>
-                        {{ goalkeeper_game_form.depth }}
+                        <label class="control-label">{% trans "Create sequence manually?" %}</label>
+                        {{ goalkeeper_game_form.create_seq_manually }}
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
@@ -64,13 +65,29 @@
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
-{#                <div class="col-sm-6 col-12">#}
-{#                    <div class="form-group">#}
-{#                        <label class="control-label">{% trans "Deterministic or probabilistic move" %}</label>#}
-{#                        {{ goalkeeper_game_form.seq_step_det_or_prob }}#}
-{#                        <div class="help-block with-errors"></div>#}
-{#                    </div>#}
-{#                </div>#}
+                <div class="col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="id_phase" class="control-label">{% trans "Phase" %}</label>
+                        <input type="number" name="phase" class="form-control" readonly="readonly" id="id_phase" {% if game %}value="{{ game.phase }}"{% endif %}>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-12">
+                    <div class="form-group">
+                        <label class="control-label">{% trans "Deterministic or probabilistic move" %}</label>
+                        {{ goalkeeper_game_form.seq_step_det_or_prob }}
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12">
+                    <div class="form-group">
+                        <label class="control-label">{% trans "Depth" %}</label>
+                        {{ goalkeeper_game_form.depth }}
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
             </div>
 
             {#  Optional fields  #}
@@ -80,7 +97,7 @@
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                {% trans "Optional 1 - number of plays" %}
+                                {% trans "Optional 1 - number of hits" %}
                             </button>
                         </h5>
                     </div>
@@ -89,27 +106,20 @@
                             <div class="row">
                                 <div class="col-sm-6 col-12">
                                     <div class="form-group">
-                                        <label class="control-label">{% trans "Number of plays" %}</label>
-                                        {{ goalkeeper_game_form.number_of_plays }}
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label class="control-label">{% trans "Minimum number of plays" %}</label>
-                                        {{ goalkeeper_game_form.min_plays }}
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 col-12">
-                                    <div class="form-group">
                                         <label class="control-label">{% trans "Minimum number of hits in sequence" %}</label>
                                         {{ goalkeeper_game_form.min_hits_in_seq }}
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
+                                <div class="col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label class="control-label">{% trans "Minimum number of hits" %}</label>
+                                        {{ goalkeeper_game_form.min_hits }}
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-6 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Number of plays to have a break" %}</label>
@@ -172,28 +182,21 @@
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-3 col-12">
+                                <div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Show history" %}</label>
                                         {{ goalkeeper_game_form.show_history }}
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-                                <div class="col-sm-3 col-12">
-                                    <div class="form-group">
-                                        <label class="control-label">{% trans "Read sequence" %}</label>
-                                        {{ goalkeeper_game_form.read_seq }}
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-12">
+                                <div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Show the score" %}</label>
                                         {{ goalkeeper_game_form.score_board }}
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-                                <div class="col-sm-3 col-12">
+                                <div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Show play/pause button" %}</label>
                                         {{ goalkeeper_game_form.play_pause }}
