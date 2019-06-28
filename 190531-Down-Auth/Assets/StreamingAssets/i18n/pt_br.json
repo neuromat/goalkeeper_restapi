@@ -133,7 +133,8 @@
 "statusSign":"Cadastrado", 
 "statusNewSign":"Cadastrado com sucesso.",  
 "errorCad":"Erro no cadastro: Usuário já existente ou servidor desconectado.",
-"errorFields":"Preencha os campos corretamente",
+"errorFields":"Por favor, preencha os campos",
 "errorEmail":"Email inválido",
-  "":""
+"errorConnection":"Servidor indisponível. Por favor, verifique sua conexão",
+"":""
 }

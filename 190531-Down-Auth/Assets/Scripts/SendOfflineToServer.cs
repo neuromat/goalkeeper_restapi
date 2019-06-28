@@ -18,13 +18,16 @@ public class SendOfflineToServer : MonoBehaviour
     public List<string> checkFiles()
     {
         DirectoryInfo dir = new DirectoryInfo(dataPath);
-        FileInfo[] files = dir.GetFiles();
-
-        foreach (FileInfo fileTemp in files)
+        if (dir.Exists)
         {
-            if (fileTemp.Name.Contains("Plays_") && fileTemp.Name.Contains(".csv") && !fileTemp.Name.Contains("meta"))
+            FileInfo[] files = dir.GetFiles();
+
+            foreach (FileInfo fileTemp in files)
             {
-                FilePaths.Add(dataPath + "/" + fileTemp.Name);
+                if (fileTemp.Name.Contains("Plays_") && fileTemp.Name.Contains(".csv") && !fileTemp.Name.Contains("meta"))
+                {
+                    FilePaths.Add(dataPath + "/" + fileTemp.Name);
+                }
             }
         }
 
