@@ -235,6 +235,26 @@ class GameTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(GoalkeeperGame.objects.count(), 0)
 
+    def test_goalkeeper_game_view_remove_context(self):
+        game = GoalkeeperGame.objects.first()
+        context = Context.objects.create(goalkeeper=game, path='0', is_context='True', analyzed=False)
+        self.data = {
+            'action': 'remove_path-'+str(context.pk)
+        }
+        self.client.post(reverse("goalkeeper_game_view", args=(game.id,)), self.data)
+        self.assertEqual(Context.objects.count(), 0)
+
+    def test_goalkeeper_game_view_error_to_remove_context(self):
+        game = GoalkeeperGame.objects.first()
+        Context.objects.create(goalkeeper=game, path='0', is_context='True', analyzed=False)
+        self.data = {
+            'action': 'remove_path-0'
+        }
+        response = self.client.post(reverse("goalkeeper_game_view", args=(game.id,)), self.data)
+        message = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(message), 1)
+        self.assertEqual(str(message[0]), "Error trying to delete this context.")
+
     ########################
     # Update goalkeeper game
     ########################
@@ -456,3 +476,25 @@ class GameTest(TestCase):
         }
         self.client.post(reverse("probability_update", args=(context.id,)), self.data_update)
         self.assertEqual(Probability.objects.filter(context=context, direction=1, value=1.0).count(), 1)
+
+    def test_probability_update_wrong_values(self):
+        game = GoalkeeperGame.objects.first()
+        context = Context.objects.create(goalkeeper=game, path='0', is_context='True', analyzed=False)
+        self.data = {
+            'context': context.path,
+            'context-0-0': .5,
+            'context-0-1': 0,
+            'context-0-2': .5,
+            'action': 'save'
+        }
+        self.client.post(reverse("probability", args=(game.id,)), self.data)
+        self.data_update = {
+            'context': context.path,
+            'context-0-0': 1,
+            'context-0-1': 1,
+            'context-0-2': 0,
+            'action': 'save'
+        }
+        response = self.client.post(reverse("probability_update", args=(context.id,)), self.data_update)
+        message = list(get_messages(response.wsgi_request))
+        self.assertEqual(str(message[1]), "The sum of the probabilities must be equal to 1.")
