@@ -126,5 +126,6 @@
 "errorConnect":"Server Unavailable. Please check your connection",
 "buttNewAccount":"Create new account",
 "buttForgotPasswd":"Forgot my password",
+"txtCancelSignup":"Cancel signup",
 "":""
 }

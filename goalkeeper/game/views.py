@@ -725,9 +725,12 @@ class GetGameConfigs(generics.ListCreateAPIView):
         if config_name_req is not None:
             queryset = queryset.filter(name=config_name_req)
 
-        # Filter those that have at least one phase created
+        # Filter out those that have at least one phase created
         games_ids = Game.objects.values_list("config_id", flat=True)
         queryset = queryset.filter(pk__in=games_ids)
+
+        # Filter out those that are not public
+        queryset = queryset.filter(is_public=True)
 
         return queryset.order_by('id')
 

@@ -98,6 +98,8 @@ public class LoginMenu : BaseMenu {
     public GameObject userDataLogin;
     public GameObject txtNovaConta;
     public GameObject txtEsqueciSenha;
+    public GameObject txtCancelSignup;
+
 
     [SerializeField]
     private string Username = null;
@@ -177,6 +179,7 @@ public class LoginMenu : BaseMenu {
         txtVoltarIdioma.GetComponent<Text>().text = translate.getLocalizedValue ("buttBackward");
         txtNovaConta.GetComponent<Text>().text = translate.getLocalizedValue("buttNewAccount");
         txtEsqueciSenha.GetComponent<Text>().text = translate.getLocalizedValue("buttForgotPasswd");
+        txtCancelSignup.GetComponent<Text>().text = translate.getLocalizedValue("txtCancelSignup");
 
 
         if (PlayerPrefs.HasKey("x1")) {

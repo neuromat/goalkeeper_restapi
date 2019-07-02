@@ -871,8 +871,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 423, y: 0.00008583101}
-  m_SizeDelta: {x: 721, y: 70}
+  m_AnchoredPosition: {x: 423, y: -0.000022888}
+  m_SizeDelta: {x: 721, y: 104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &452935998
 MonoBehaviour:
@@ -1272,6 +1272,7 @@ MonoBehaviour:
   userDataLogin: {fileID: 2074861062}
   txtNovaConta: {fileID: 1344009293}
   txtEsqueciSenha: {fileID: 1106054479}
+  txtCancelSignup: {fileID: 2096211160}
   Username: 
   Password: 
   UsernameR: 
@@ -1540,14 +1541,14 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 668954494}
   m_TextComponent: {fileID: 169357264}
   m_Placeholder: {fileID: 1624755965}
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
-  m_CharacterLimit: 18
+  m_CharacterValidation: 5
+  m_CharacterLimit: 254
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -3985,6 +3986,7 @@ MonoBehaviour:
   userDataLogin: {fileID: 2074861062}
   txtNovaConta: {fileID: 1344009293}
   txtEsqueciSenha: {fileID: 1106054479}
+  txtCancelSignup: {fileID: 2096211160}
   Username: 
   Password: 
   UsernameR: 
@@ -4197,7 +4199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.68380713, y: 0.5325085}
   m_AnchorMax: {x: 0.68380713, y: 0.5325085}
-  m_AnchoredPosition: {x: -1.0552063, y: 0}
+  m_AnchoredPosition: {x: -2.1101074, y: -9.6}
   m_SizeDelta: {x: 659.43, y: 82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1887568618
@@ -4544,7 +4546,7 @@ GameObject:
   - component: {fileID: 2096211163}
   - component: {fileID: 2096211162}
   m_Layer: 5
-  m_Name: CancelarCadastro
+  m_Name: txtCancelSignup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
