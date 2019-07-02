@@ -123,6 +123,8 @@
 "errorCad":"Error in registration: Existing user or disconnected server.",
 "errorFields":"Please, fill in the fields",
 "errorEmail":"Invalid email",
-"errorConnection":"Unavailable server. Please check your connection",
+"errorConnect":"Server Unavailable. Please check your connection",
+"buttNewAccount":"Create new account",
+"buttForgotPasswd":"Forgot my password",
 "":""
 }

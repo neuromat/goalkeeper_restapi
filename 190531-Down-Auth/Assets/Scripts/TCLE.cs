@@ -22,19 +22,20 @@ public class TCLE: MonoBehaviour
 {
 	//public GameObject userData;                 //@@@Josi: IntroScene(1)/Canvas/LogBox/MenuGameMode
 	public GameObject TCLEbox;	//@ale : para chamar a tela do termo;
-	public GameObject userData; //@ale : para chamar a tela de entrada de dados do usuario;
+	public GameObject userDataLogin; //@ale : para chamar a tela de entrada de dados do usuario;
+    public GameObject userDataSignup;
 
 
     // public InputField age;                   //161205 pedir apenas nome
-	// public GameObject Gender;                //161205 pedir apenas nome
-	// public Dropdown gender;                  //161205 pedir apenas nome
-	// public Dropdown education;               //161205 pedir apenas nome
-	// public Dropdown destro;
+    // public GameObject Gender;                //161205 pedir apenas nome
+    // public Dropdown gender;                  //161205 pedir apenas nome
+    // public Dropdown education;               //161205 pedir apenas nome
+    // public Dropdown destro;
     // public string gender;
-	// public string education;                 //Josi: 161205 pedir apenas nome
-	// public string destro;                    //Josi: 161205 pedir apenas nome
+    // public string education;                 //Josi: 161205 pedir apenas nome
+    // public string destro;                    //Josi: 161205 pedir apenas nome
 
-	public Toggle agree;                        //170829 TCLE concorda
+    public Toggle agree;                        //170829 TCLE concorda
 	public Toggle notAgree;                     //170830      ou não
 	public ColorBlock agreeOriginalColors;      //170926 guardar as cores originais (qdo user muda de decisao)
 	public ColorBlock notAgreeOriginalColors;   //170926 guardar as cores originais (qdo user muda de decisao)
@@ -122,32 +123,32 @@ public class TCLE: MonoBehaviour
 
 
 
-	// -----------------------------------------------------------------------------------------------------
-	void Start ()
-	{   //161205 pedir apenas nome
-		//PlayerInfo.gender = "M";
-		//PlayerInfo.education = "Fundamental Completo";
-		//PlayerInfo.destro = "D";
+    // -----------------------------------------------------------------------------------------------------
+    void Start()
+    {   //161205 pedir apenas nome
+        //PlayerInfo.gender = "M";
+        //PlayerInfo.education = "Fundamental Completo";
+        //PlayerInfo.destro = "D";
 
 
-		//171009 declarar a instance para permitir chamar rotinas do outro script
-		translate = LocalizationManager.instance;
+        //171009 declarar a instance para permitir chamar rotinas do outro script
+        translate = LocalizationManager.instance;
 
-		//171009 translate
-		//preenchaNome.text = translate.getLocalizedValue ("preenchaNome");
-		//btnJogar.text = translate.getLocalizedValue ("btnJogar");
-		//btnJogarPausa.text = translate.getLocalizedValue ("btnJogarPausa");
-		//btnMenu.text = translate.getLocalizedValue ("btnMenu");
-		//placeholder.text = translate.getLocalizedValue ("placeholder");
-		//tcleHeader.text = translate.getLocalizedValue ("tcleHeader");
-//		tcleNotAgree.text = translate.getLocalizedValue ("tcleNotAgree");
-//		tcleAgree.text = translate.getLocalizedValue ("tcleAgree");
-//		txtTermo.text = translate.getLocalizedValue ("txtTermo");
-//		txtVoltarIdioma.text = translate.getLocalizedValue ("txtVoltarIdioma");
-//		Debug.Log ("Temo --> " + txtTermo);
+        //171009 translate
+        //preenchaNome.text = translate.getLocalizedValue ("preenchaNome");
+        //btnJogar.text = translate.getLocalizedValue ("btnJogar");
+        //btnJogarPausa.text = translate.getLocalizedValue ("btnJogarPausa");
+        //btnMenu.text = translate.getLocalizedValue ("btnMenu");
+        //placeholder.text = translate.getLocalizedValue ("placeholder");
+        //tcleHeader.text = translate.getLocalizedValue ("tcleHeader");
+        //		tcleNotAgree.text = translate.getLocalizedValue ("tcleNotAgree");
+        //		tcleAgree.text = translate.getLocalizedValue ("tcleAgree");
+        //		txtTermo.text = translate.getLocalizedValue ("txtTermo");
+        //		txtVoltarIdioma.text = translate.getLocalizedValue ("txtVoltarIdioma");
+        //		Debug.Log ("Temo --> " + txtTermo);
 
         //180625 from UiText to TMPro
-		tcleText.text = translate.getLocalizedValue ("tcle").Replace("\\n","\n");
+        tcleText.text = translate.getLocalizedValue("tcle").Replace("\\n", "\n");
         //tcleText.text = translate.getLocalizedValue("tcle").Replace("\\n", "\n");
 
         //btnAvancar.text = translate.getLocalizedValue("avancar");
@@ -155,10 +156,10 @@ public class TCLE: MonoBehaviour
         //@@gameFlowManager = GameFlowManager.instance;
 
         //170926 salvar as cores originais do toggle concorda/naoConcorda
-//        agreeOriginalColors = agree.colors;
-//		notAgreeOriginalColors = notAgree.colors;
-	}
-
+        //        agreeOriginalColors = agree.colors;
+        //		notAgreeOriginalColors = notAgree.colors;
+        Login();
+    }
 
 
 
@@ -236,7 +237,7 @@ public class TCLE: MonoBehaviour
 
 		//Canvas.SetActive (true);
 		TCLEbox.SetActive (true);
-		userData.SetActive (true);
+		userDataSignup.SetActive (true);
 		yield return new WaitForSeconds (2);
 
 	}
@@ -251,10 +252,34 @@ public class TCLE: MonoBehaviour
 	IEnumerator SairTermoOn() {
 
 		TCLEbox.SetActive (false);
-		userData.SetActive (true);
+		userDataSignup.SetActive (true);
 		yield return new WaitForSeconds (2);
 
 	}
 
+    public void Cadastro()
+    {
+        StartCoroutine(CadastroOn());
+    }
 
+    IEnumerator CadastroOn()
+    {
+        TCLEbox.SetActive(false);
+        userDataLogin.SetActive(false);
+        userDataSignup.SetActive(true);
+        yield return new WaitForSeconds(2);
+    }
+
+    public void Login()
+    {
+        StartCoroutine(LoginOn());
+    }
+
+    IEnumerator LoginOn()
+    {
+        TCLEbox.SetActive(false);
+        userDataLogin.SetActive(true);
+        userDataSignup.SetActive(false);
+        yield return new WaitForSeconds(2);
+    }
 }

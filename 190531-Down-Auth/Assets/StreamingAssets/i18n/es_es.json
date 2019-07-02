@@ -118,6 +118,8 @@
 "errorCad":"Error en el registro: Usuario ya existente o servidor desconectado.",
 "errorFields":"Por favor, rellene los campos",
 "errorEmail":"Correo electrónico no válido",
-"errorConnection":"Servidor indisponible. Por favor, compruebe su conexión",
+"errorConnect":"Servidor indisponible. Por favor, compruebe su conexión",
+"buttNewAccount":"Crear nueva cuenta",
+"buttForgotPasswd":"He olvidado mi contraseña",
 "":""
 }
