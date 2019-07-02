@@ -2,10 +2,376 @@
 {% load i18n static %}
 
 {% block content %}
+{#    <div class="container-fluid">#}
+{#        <!-- Breadcrumbs-->#}
+{#        <ol class="breadcrumb">#}
+{#            <li class="breadcrumb-item"><a href="/">Home</a></li>#}
+{#        </ol>#}
+{#    </div>#}
+
+    <script type="text/javascript" src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
+
     <div class="container-fluid">
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-        </ol>
+        <div class="dashboard">
+            <style>
+                .dashboard-title{
+                    font-size: 1.6em;
+                    margin-bottom: 20px;
+                    font-weight: normal;
+                    border-bottom: 2px solid #666;
+                    margin-bottom: 25px;
+                }
+            </style>
+
+            <h2 class="dashboard-title">Dashboard</h2>
+
+            <div class="info-header">
+                <!-- item -->
+                <div class="info-header-item">
+                    <div class="info-icon"> <i class="fa fa-futbol-o" aria-hidden="true"></i> </div>
+                    <div class="info-metric">
+                        <h2>Total de jogadas</h2>
+                        <p id="totalGames">30</p>
+                    </div>
+                </div>
+                <!-- item -->
+                <div class="info-header-item">
+                    <div class="info-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+                    <div class="info-metric">
+                        <h2>Índice de acerto</h2>
+                        <p>8.5 s</p>
+                    </div>
+                </div>
+                <!-- item -->
+                <div class="info-header-item">
+                    <div class="info-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+                    <div class="info-metric">
+                        <h2>Total de usuários</h2>
+                        <p>303</p>
+                    </div>
+                </div>
+                <!--
+                <div class="info-header-item">
+                    <div class="info-icon"></div>
+                    <div class="info-metric">
+                        <h2>Partidas realizadas</h2>
+                        <p>303</p>
+                    </div>
+                </div>
+                -->
+            </div>
+
+            <style>
+                .loader{
+                    width: 100px;
+                    height: 100px;
+                    margin: auto;
+                    background-size: contain;
+                    background-position: center;
+                }
+            </style>
+
+            <div class="chart-pane">
+                <!-- Chart pane item -->
+                <div class="chart-pane-item">
+                    <div id="preloader" class="loader" style="background-image:url('static/loader.gif');"></div>
+                    <!-- <pre>Jogadas x Acertos</pre> -->
+                    <canvas id="barChart" style="display: none;"></canvas>
+                </div>
+
+                <div class="chart-filter">
+                    <div class="form-group">
+                        <label for="">Adversário <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
+                        <select id="adversario" class="form-control" name="" id="">
+                            <option value="Nildo">Nildo</option>
+                            <option value="Rivelino">Rivelino</option>
+                            <option value="Garrincha">Garrincha</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Fase <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
+                        <select id="fase" class="form-control" name="" id="">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button id="filtroBtn" onclick="filtrar()" class="btn btn-dark btn-lg btn-block">Filtrar </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
+    <style>
+        /* Removendo o rodapé */
+
+        footer{
+            display: none;
+        }
+        
+        .dashboard{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 90vh;
+            background: #f3f3f3;
+            padding: 15px;
+        }
+
+        .info-header{
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            border: 1px solid #ccc;
+            -webkit-box-shadow: 2px 1px 1px #ccc;
+            background: white;
+            width: 85%;
+            margin: 0 auto 30px auto;
+        }
+
+        .info-header-item{
+            display: flex;
+            width: 390px;
+            height: 80px;
+            background: white;
+            border: 1px solid #ccc;
+        }
+
+        .info-header-item .info-icon{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            background: #343a40;
+        }
+
+        .info-header-item .info-icon i{
+            color: white;
+            font-size: 2.5em;
+        }
+
+        .info-header-item .info-metric{
+            display: flex;
+            flex-direction: column;
+            width: 70%;
+            padding: 10px;
+        }
+
+        .info-header-item .info-metric h2{
+            font-size: 0.9em;
+            margin-bottom: 0;
+        }
+
+        .info-header-item .info-metric p {
+            font-size: 2em;
+        }
+
+        /* Chart-pane */
+
+        .chart-pane{
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .chart-pane-item{
+            width: 40%;
+            min-height: 400px;
+            background: white;
+            border: 1px solid #333;
+            margin: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .chart-filter{
+            width: 40%;
+            height: 400px;
+            display: flex;
+            {#background: white;#}
+            {#border: 1px solid #333;#}
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        // CALL API`S SKETCH
+
+        /**
+         * 1. Consumir dados da api...quantos endpoints e chamadas?
+         * 2. Atualizar view passando os dados
+         * 3. Repetir req`s em intervalo
+         */
+
+        /**
+         * BASE URL:
+         */
+        const api = 'http://127.0.0.1:8001/api/results';
+
+        /**
+         * CRIA GRÁFICO:
+         */
+
+        function createChart(metrics){
+            // Habilita a visualização de todos os gráficos
+            $('canvas').removeAttr('style');
+            let myChart = new Chart($('#barChart'), {
+                type: 'horizontalBar',
+                data: {
+                    labels: ["Partidas", "Acertos", "Erros"],
+
+                    datasets: [{
+                        label: 'Total',
+                        data: [metrics.totalGames, metrics.wins, metrics.fail],
+                        backgroundColor: [
+                            'rgba(0, 102,153, .6)',
+                            'rgba(52, 168, 83, .6)',
+                            'rgba(153, 0, 0, .6)',
+                        ],
+                        borderColor: [
+                            '#069',
+                            '#34a853',
+                            '#900',
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    layout: {
+                      padding: {
+                          left: 10,
+                          right: 30,
+                          top: 10,
+                          bottom: 10
+                      }
+                    },
+                    scales: {
+                        xAxes: [{
+
+                            barThickness: 4,
+                            maxBarThickness: 8,
+                            minBarLength: 0,
+                            gridLines: {
+                                offsetGridLines: true
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        /**
+         *  Controla a exibição do preloader
+         */
+
+        function loaderManager(flag){
+            console.log($('#preloader'));
+            console.log('loaderManager()');
+            if(flag){
+                $('#preloader').css('display', 'flex')
+            } else {
+                $('#preloader').css('display', 'none');
+            }
+        }
+
+
+        function filtrar(){
+            let params = {
+                adversario: $('#adversario').val(),
+                fase: $('#fase').val()
+            };
+            console.log(params);
+            loadCharts();
+        }
+
+         function resultMetrics(arr){
+             let corrects = 0;
+             let fails = 0;
+
+             arr.map((shot) => {
+                 if(shot.correct){
+                     corrects++
+                 } else {
+                     fails++
+                 }
+             });
+
+             return {
+                 corrects: corrects,
+                 fails: fails
+             }
+         }
+
+        function loadCharts(){
+             loaderManager(true);
+             fetch(api)
+                 .then(res => res.json())
+                 .then((data)=> {
+                     let results = resultMetrics(data);
+                     let chartInfo = {
+                         totalGames: data.length,
+                         wins: results.corrects,
+                         fail: results.fails
+                     };
+
+                     // ATUALIZA QUANTIDADE DE JOGOS
+                     $('#totalGames').html(chartInfo.totalGames);
+
+                     console.log('resultMetrics', results);
+                     console.log('chartInfo: ', chartInfo);
+                     console.log('Loading: False');
+
+                     loaderManager(false);
+                     createChart(chartInfo);
+                 })
+                 .catch(err => alert('Algo deu errado ', err))
+         }
+
+
+        /**
+         * Atualiza dados para determinado intervalo
+         * Valor default definido para 20s
+
+
+        function updateData(interval = 20000){
+            console.log('updateData()');
+            setInterval(loadCharts(), interval);
+        }*/
+
+        $(document).ready(() => {
+             loaderManager(false);
+
+             // Inicializa os tooltip's bootstrap.
+             $('label i').tooltip();
+
+             // Inicializa gráfico
+             loadCharts();
+             //updateData(4000);
+         });
+
+    </script>
+
+
+
 {% endblock %}
