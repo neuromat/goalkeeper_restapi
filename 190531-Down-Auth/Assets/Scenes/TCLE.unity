@@ -871,8 +871,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 423, y: 0.00008583101}
-  m_SizeDelta: {x: 721, y: 70}
+  m_AnchoredPosition: {x: 423, y: -22}
+  m_SizeDelta: {x: 721, y: 94}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &452935998
 MonoBehaviour:
@@ -900,7 +900,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1272,6 +1272,7 @@ MonoBehaviour:
   userDataLogin: {fileID: 2074861062}
   txtNovaConta: {fileID: 1344009293}
   txtEsqueciSenha: {fileID: 1106054479}
+  txtCancelSignup: {fileID: 2096211160}
   Username: 
   Password: 
   UsernameR: 
@@ -1540,14 +1541,14 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 668954494}
   m_TextComponent: {fileID: 169357264}
   m_Placeholder: {fileID: 1624755965}
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
-  m_CharacterLimit: 18
+  m_CharacterValidation: 5
+  m_CharacterLimit: 254
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -1896,13 +1897,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 668954503}
   m_TextComponent: {fileID: 1185517911}
   m_Placeholder: {fileID: 67488506}
-  m_ContentType: 0
+  m_ContentType: 5
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 6
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 4
   m_CharacterLimit: 18
   m_OnEndEdit:
     m_PersistentCalls:
@@ -3097,7 +3098,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1374272665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3731,13 +3732,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1783926131}
   m_TextComponent: {fileID: 2025191539}
   m_Placeholder: {fileID: 729956308}
-  m_ContentType: 0
+  m_ContentType: 5
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 6
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 4
   m_CharacterLimit: 18
   m_OnEndEdit:
     m_PersistentCalls:
@@ -3985,6 +3986,7 @@ MonoBehaviour:
   userDataLogin: {fileID: 2074861062}
   txtNovaConta: {fileID: 1344009293}
   txtEsqueciSenha: {fileID: 1106054479}
+  txtCancelSignup: {fileID: 2096211160}
   Username: 
   Password: 
   UsernameR: 
@@ -4426,7 +4428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2074861063
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4544,7 +4546,7 @@ GameObject:
   - component: {fileID: 2096211163}
   - component: {fileID: 2096211162}
   m_Layer: 5
-  m_Name: CancelarCadastro
+  m_Name: txtCancelSignup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

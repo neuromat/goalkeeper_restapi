@@ -121,5 +121,6 @@
 "errorConnect":"Servidor indisponible. Por favor, compruebe su conexión",
 "buttNewAccount":"Crear nueva cuenta",
 "buttForgotPasswd":"He olvidado mi contraseña",
+"txtCancelSignup":"Cancelar registro",
 "":""
 }
