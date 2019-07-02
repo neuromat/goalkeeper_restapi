@@ -716,7 +716,7 @@ class GetGameConfigs(generics.ListCreateAPIView):
         queryset = GameConfig.objects.all()
         level_id_req = self.request.query_params.get('level', None)
         level_name = Level.objects.get(id=level_id_req).name if level_id_req else None
-        # Get all the levels below the
+        # Get all the levels below the requested
         if level_name is not None:
             levels = Level.objects.filter(name__lte=level_name)
             queryset = queryset.filter(level__in=levels)
@@ -724,6 +724,10 @@ class GetGameConfigs(generics.ListCreateAPIView):
         config_name_req = self.request.query_params.get('name', None)
         if config_name_req is not None:
             queryset = queryset.filter(name=config_name_req)
+
+        # Filter those that have at least one phase created
+        games_ids = Game.objects.values_list("config_id", flat=True)
+        queryset = queryset.filter(pk__in=games_ids)
 
         return queryset.order_by('id')
 

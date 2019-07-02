@@ -1024,11 +1024,14 @@ public class LoadStages : MonoBehaviour
         if (level > 0)
         {
             address = address + string.Format("&level={0}", level);
+            Debug.Log(level);
         }
         if (name != null)
         {
-            address = address + string.Format("&name={0}", name);
+            address = address + string.Format("&name={0}", System.Uri.EscapeDataString(name));
+            Debug.Log(address);
         }
+        Debug.Log(address);
 
         var request = new WWW(address);
 
@@ -1037,6 +1040,7 @@ public class LoadStages : MonoBehaviour
 
         var ObjList = new List<GameConfigJson>();
         ObjList = JsonConvert.DeserializeObject<List<GameConfigJson>>(request.text);
+        Debug.Log("serializou");
         return ObjList;
     }
 
