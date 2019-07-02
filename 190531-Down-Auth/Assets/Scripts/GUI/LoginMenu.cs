@@ -445,13 +445,24 @@ public class LoginMenu : BaseMenu {
     
     private IEnumerator  statusMsg(string msg)
     {
-//        Mensagem.CrossFadeAlpha (100f, 0f, false);
-//        Mensagem.color = Color.green;
+        myEventSystem = EventSystem.current;
+        //        Mensagem.CrossFadeAlpha (100f, 0f, false);
+        //        Mensagem.color = Color.green;
 
         Mensagem.text = msg;
         yield return new WaitForSeconds (2.0f);
-//        Mensagem.CrossFadeAlpha (0f, 2f, false);
-        SceneManager.LoadScene("TCLE");
+        Mensagem.text = "";
+        //        Mensagem.CrossFadeAlpha (0f, 2f, false);
+        //SceneManager.LoadScene("TCLE");
+        if (userLogin.activeInHierarchy)
+        {
+            myEventSystem.SetSelectedGameObject(GameObject.Find("userLogin"), null);
+        }
+        else
+        {
+            myEventSystem.SetSelectedGameObject(GameObject.Find("userRegister"), null);
+        }
+
     }
 
     public void OnBotaoVoltar()
