@@ -50,13 +50,14 @@ class GameConfig(models.Model):
 
 class Game(models.Model):
     config = models.ForeignKey(GameConfig, on_delete=models.PROTECT)
+    phase = models.IntegerField()
     number_of_directions = models.IntegerField(choices=DIRECTIONS_CHOICES, default=THREE)
-    number_of_plays = models.IntegerField()
-    min_hits = models.IntegerField(blank=True, null=True)
-    min_hits_in_seq = models.IntegerField(blank=True, null=True)
+    number_of_plays = models.PositiveIntegerField()
+    min_hits = models.PositiveIntegerField(blank=True, null=True)
+    min_hits_in_seq = models.PositiveIntegerField(blank=True, null=True)
     sequence = models.CharField(max_length=255, blank=True)
     read_seq = models.BooleanField()
-    plays_to_relax = models.IntegerField(default=0)
+    plays_to_relax = models.PositiveIntegerField(default=0)
     play_pause = models.BooleanField()
     play_pause_key = models.CharField(max_length=10, blank=True)
     player_time = models.FloatField(default=1.0)
@@ -85,23 +86,8 @@ class WarmUp(Game):
         super(WarmUp, self).save(*args, **kwargs)
 
 
-class MemoryGame(Game):
-    """ An instance of this class is a Memory game. """
-    phase = models.IntegerField()
-
-    def __str__(self):
-        return self.config.name + ' - ' + str(self.phase)
-
-    # Sets the type of the game.
-    def save(self, *args, **kwargs):
-        if self.pk is None:
-            self.game_type = 'JM'
-        super(MemoryGame, self).save(*args, **kwargs)
-
-
 class GoalkeeperGame(Game):
     """ An instance of this class is a Goalkeeper game. """
-    phase = models.IntegerField()
     depth = models.IntegerField(blank=True, null=True)
     seq_step_det_or_prob = models.CharField(max_length=255, blank=True)
     create_seq_manually = models.CharField(max_length=3, choices=YES_NO_ANSWER, default=NO)

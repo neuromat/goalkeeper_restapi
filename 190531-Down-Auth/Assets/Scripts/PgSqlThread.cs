@@ -7,10 +7,13 @@
 #if UNITY_STANDALONE || UNITY_EDITOR
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.IO;
 using Npgsql;
 using System.Threading;
+using Newtonsoft.Json;
+
 //                                             TESTERESULTS
 
 
@@ -23,7 +26,8 @@ public class PgSqlThread : MonoBehaviour {
 	private string sendDir = "SendedFiles";
 	private string FilePath;
 	private Thread ThreadPrincipal;
-	private bool stopThread = false;
+    private ThreadStart newThread;
+    private bool stopThread = false;
 	private string dataPath;
 	// Use this for initialization
 
@@ -64,7 +68,8 @@ public class PgSqlThread : MonoBehaviour {
 		// Creating our thread. The ThreadStart delegate is points to
 		// the method being run in a new thread.
 		dataPath = Application.dataPath;
-		ThreadPrincipal = new Thread (new ThreadStart (this.execThread));
+        newThread = new ThreadStart(this.execThread);
+		ThreadPrincipal = new Thread (newThread);
 
 		// Starting our two threads. Thread.Sleep(10) gives the first Thread
 		// 10 miliseconds more time.
@@ -72,8 +77,67 @@ public class PgSqlThread : MonoBehaviour {
 	}
 
 
-	// Update is called once per frame
-	void execThread () {
+    public List<LoadStages.LevelJson> GetLevel(int? level_id = null, int? level_name = null)
+    {
+        string address = "localhost:8000/api/getlevel?format=json";
+        if (level_id != null)
+        {
+            address = address + string.Format("&id={0}", level_id);
+        }
+        if (level_name != null)
+        {
+            address = address + string.Format("&name={0}", level_name);
+        }
+
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+
+        var ObjList = new List<LoadStages.LevelJson>();
+        ObjList = JsonConvert.DeserializeObject<List<LoadStages.LevelJson>>(request.text);
+        return ObjList;
+    }
+
+    IEnumerator WaitForWWW(WWW www)
+    {
+        yield return www;
+    }
+
+
+    public void UpdateLevelofPlayer(int game_level_name)
+    {
+        int player_level_name = GetLevel(PlayerInfo.level)[0].name;
+
+        if (game_level_name == player_level_name)
+        {
+            player_level_name += 1;
+
+            List<LoadStages.LevelJson> new_level = GetLevel(level_name: player_level_name);
+            if (new_level.Count > 0)
+            {
+                // Atualizar o nível dentro do jogo
+                PlayerInfo.level = new_level[0].id;
+
+                // Atualizar o n[ivel dentro da base
+                UpdatePlayerLevelinDB();
+            }
+        }
+    }
+
+    public void UpdatePlayerLevelinDB()
+    {
+        string address = string.Format("localhost:8000/api/setplayerlevel?format=json&token={0}", PlayerInfo.token);
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+    }
+
+
+    // Update is called once per frame
+    void execThread () {
+        Debug.Log("Entra-se na execthread");
 		while (!stopThread) {
 			// Enquanto o programa não for encerrado,tentamos entrar na thread
 			if (checkFiles()) {
@@ -90,6 +154,9 @@ public class PgSqlThread : MonoBehaviour {
 					Debug.Log("threadpSQL File could not be read:" + e.Message);    //171011
 					//print (e.Message); foi para a linha de cima
 				}
+
+                // Chamar a função para decidir se o nível do jogador deve ser atualizado
+
 
 				// Segundo passo: Formatar a inserção no PostGreSQL
 				//string query = "INSERT INTO goalGame VALUES ('" + FileContent + "')";

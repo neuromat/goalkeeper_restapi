@@ -20,7 +20,6 @@
         </ol>
 
         <form role="form" method="post">{% csrf_token %}
-            <input type="text" id="id_operation" value="{% if creating %}creating{% elif editing %}editing{% else %}viewing{% endif %}" hidden="hidden">
             <div class="row">
                 <div class="col-sm-6 col-12">
                     <div class="form-group">
@@ -183,28 +182,21 @@
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-3 col-12">
+                                <div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Show history" %}</label>
                                         {{ goalkeeper_game_form.show_history }}
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-                                <div class="col-sm-3 col-12">
-                                    <div class="form-group">
-                                        <label class="control-label">{% trans "Read sequence" %}</label>
-                                        {{ goalkeeper_game_form.read_seq }}
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-12">
+                                <div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Show the score" %}</label>
                                         {{ goalkeeper_game_form.score_board }}
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-                                <div class="col-sm-3 col-12">
+                                <div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Show play/pause button" %}</label>
                                         {{ goalkeeper_game_form.play_pause }}
@@ -268,7 +260,7 @@
                 <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
                 <a href="{% url 'goalkeeper_game_list' %}" class="btn btn-secondary">{% trans "Back" %}</a>
             {% elif editing %}
-                <button type="submit" id="editSaveBtn" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
+                <button type="submit" name="action" value="save" class="btn btn-primary">{% trans "Save" %}</button>
                 <a href="{% url 'goalkeeper_game_view' game.id %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
             {% elif viewing %}
                 <a href="{% url 'goalkeeper_game_update' game.id %}" class="btn btn-primary" style="margin-left: 5px">{% trans "Edit" %}</a>

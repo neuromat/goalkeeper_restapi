@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-25 14:39-0300\n"
+"POT-Creation-Date: 2019-06-27 11:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,8 +50,8 @@ msgstr "Novo usuário"
 #: custom_user/templates/custom_user/register_users.html:25
 #: game/templates/game/config.html:22 game/templates/game/config.html:25
 #: game/templates/game/context.html:41 game/templates/game/context_tree.html:97
-#: game/templates/game/goalkeeper_game.html:257
-#: game/templates/game/goalkeeper_game.html:260
+#: game/templates/game/goalkeeper_game.html:267
+#: game/templates/game/goalkeeper_game.html:270
 #: game/templates/game/probability.html:57
 msgid "Save"
 msgstr "Salvar"
@@ -60,9 +60,9 @@ msgstr "Salvar"
 #: custom_user/templates/custom_user/register_users.html:26
 #: game/templates/game/config.html:23 game/templates/game/config.html:29
 #: game/templates/game/config.html:32 game/templates/game/context.html:42
-#: game/templates/game/goalkeeper_game.html:258
-#: game/templates/game/goalkeeper_game.html:264
-#: game/templates/game/goalkeeper_game.html:267
+#: game/templates/game/goalkeeper_game.html:268
+#: game/templates/game/goalkeeper_game.html:274
+#: game/templates/game/goalkeeper_game.html:277
 #: game/templates/game/probability.html:58
 #: templates/login/password_reset.html:15
 #: templates/login/password_reset_done.html:11
@@ -73,8 +73,8 @@ msgstr "Voltar"
 #: custom_user/templates/custom_user/register_users.html:41
 #: game/templates/game/config.html:30 game/templates/game/config.html:46
 #: game/templates/game/context_tree.html:80
-#: game/templates/game/goalkeeper_game.html:265
-#: game/templates/game/goalkeeper_game.html:288
+#: game/templates/game/goalkeeper_game.html:275
+#: game/templates/game/goalkeeper_game.html:298
 msgid "Delete"
 msgstr "Remover"
 
@@ -90,8 +90,8 @@ msgstr "Tem certeza de que deseja excluir este usuário?"
 #: game/templates/game/config.html:26 game/templates/game/config.html:45
 #: game/templates/game/context_tree.html:79
 #: game/templates/game/context_tree.html:98
-#: game/templates/game/goalkeeper_game.html:261
-#: game/templates/game/goalkeeper_game.html:287
+#: game/templates/game/goalkeeper_game.html:271
+#: game/templates/game/goalkeeper_game.html:297
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -141,7 +141,7 @@ msgid "User created successfully."
 msgstr "Usuário criado com sucesso."
 
 #: custom_user/views.py:38 game/views.py:73 game/views.py:128 game/views.py:164
-#: game/views.py:295
+#: game/views.py:296
 msgid "Information not saved."
 msgstr "Não foi possível salvar esta informação."
 
@@ -211,7 +211,7 @@ msgid "New game config"
 msgstr "Nova configuração"
 
 #: game/templates/game/config.html:28
-#: game/templates/game/goalkeeper_game.html:263
+#: game/templates/game/goalkeeper_game.html:273
 msgid "Edit"
 msgstr "Editar"
 
@@ -233,7 +233,7 @@ msgid "List of kickers"
 msgstr "Lista de adversários"
 
 #: game/templates/game/config_list.html:16
-#: game/templates/game/goalkeeper_game.html:28
+#: game/templates/game/goalkeeper_game.html:29
 msgid "Create kicker"
 msgstr "Criar adversário"
 
@@ -314,119 +314,127 @@ msgstr "Tem certeza de que deseja excluir este contexto?"
 msgid "Type the size of the sequence"
 msgstr "Digite o tamanho da sequência"
 
-#: game/templates/game/goalkeeper_game.html:13
+#: game/templates/game/goalkeeper_game.html:14
 #: game/templates/game/goalkeeper_game_list.html:9
 #: game/templates/game/probability.html:12 templates/menu.html:19
 #: templates/menu.html:22
 msgid "Games"
 msgstr "Jogos"
 
-#: game/templates/game/goalkeeper_game.html:15
+#: game/templates/game/goalkeeper_game.html:16
 msgid "New goalkeeper game"
 msgstr "Novo jogo de goleiro"
 
-#: game/templates/game/goalkeeper_game.html:25
+#: game/templates/game/goalkeeper_game.html:26
 msgid "Kicker"
 msgstr "Adversário"
 
-#: game/templates/game/goalkeeper_game.html:37
+#: game/templates/game/goalkeeper_game.html:38
 msgid "Number of directions"
 msgstr "Número de direções"
 
-#: game/templates/game/goalkeeper_game.html:46
+#: game/templates/game/goalkeeper_game.html:47
+msgid "Number of plays"
+msgstr "Número de jogadas"
+
+#: game/templates/game/goalkeeper_game.html:54
+msgid "Create sequence manually?"
+msgstr "Criar sequência manualmente?"
+
+#: game/templates/game/goalkeeper_game.html:63
+msgid "Sequence"
+msgstr "Sequência"
+
+#: game/templates/game/goalkeeper_game.html:70
 #: game/templates/game/goalkeeper_game_list.html:25
 msgid "Phase"
 msgstr "Fase"
 
-#: game/templates/game/goalkeeper_game.html:53
+#: game/templates/game/goalkeeper_game.html:79
+msgid "Deterministic or probabilistic move"
+msgstr "Movimento deterministico ou probabilístico"
+
+#: game/templates/game/goalkeeper_game.html:86
 msgid "Depth"
 msgstr "Altura"
 
-#: game/templates/game/goalkeeper_game.html:62
-msgid "Sequence"
-msgstr "Sequência"
+#: game/templates/game/goalkeeper_game.html:100
+msgid "Optional 1 - number of hits"
+msgstr "Opcional 1 - número de acertos"
 
-#: game/templates/game/goalkeeper_game.html:83
-msgid "Optional 1 - number of plays"
-msgstr "Opcional 1 - número de jogadas"
-
-#: game/templates/game/goalkeeper_game.html:92
-msgid "Number of plays"
-msgstr "Número de jogadas"
-
-#: game/templates/game/goalkeeper_game.html:99
-msgid "Minimum number of plays"
-msgstr "Número mínimo de jogadas"
-
-#: game/templates/game/goalkeeper_game.html:108
+#: game/templates/game/goalkeeper_game.html:109
 msgid "Minimum number of hits in sequence"
 msgstr "Número mínimo de acertos em sequência"
 
-#: game/templates/game/goalkeeper_game.html:115
+#: game/templates/game/goalkeeper_game.html:116
+msgid "Minimum number of hits"
+msgstr "Número mínimo de acertos"
+
+#: game/templates/game/goalkeeper_game.html:125
 msgid "Number of plays to have a break"
 msgstr "Número de jogadas para fazer uma pausa"
 
-#: game/templates/game/goalkeeper_game.html:129
+#: game/templates/game/goalkeeper_game.html:139
 msgid "Optional 2 - times"
 msgstr "Opcional 2 - tempos"
 
-#: game/templates/game/goalkeeper_game.html:138
+#: game/templates/game/goalkeeper_game.html:148
 msgid "Animation time after a kick"
 msgstr "Tempo de animação depois de um chute"
 
-#: game/templates/game/goalkeeper_game.html:145
+#: game/templates/game/goalkeeper_game.html:155
 msgid "Speed time for the opponent"
 msgstr "Tempo de animação para o adversário"
 
-#: game/templates/game/goalkeeper_game.html:154
+#: game/templates/game/goalkeeper_game.html:164
 msgid "Type of final score board"
 msgstr "Tipo de placar final"
 
-#: game/templates/game/goalkeeper_game.html:168
+#: game/templates/game/goalkeeper_game.html:178
 msgid "Optional 3 - show/hide options"
 msgstr "Opcional 3 - mostrar/ocultar opções"
 
-#: game/templates/game/goalkeeper_game.html:177
+#: game/templates/game/goalkeeper_game.html:187
 msgid "Show history"
 msgstr "Mostrar histórico"
 
-#: game/templates/game/goalkeeper_game.html:184
+#: game/templates/game/goalkeeper_game.html:194
 msgid "Read sequence"
 msgstr "Ler sequência"
 
-#: game/templates/game/goalkeeper_game.html:191
+#: game/templates/game/goalkeeper_game.html:201
 msgid "Show the score"
 msgstr "Mostrar a pontuação"
 
-#: game/templates/game/goalkeeper_game.html:198
+#: game/templates/game/goalkeeper_game.html:208
 msgid "Show play/pause button"
 msgstr "Mostrar botão play/pause"
 
-#: game/templates/game/goalkeeper_game.html:212
+#: game/templates/game/goalkeeper_game.html:222
 msgid "Optional 4 - buttons"
 msgstr "Opcional 4 - botões"
 
-#: game/templates/game/goalkeeper_game.html:221
+#: game/templates/game/goalkeeper_game.html:231
 msgid "Play/pause button"
 msgstr "Botão play/pause"
 
-#: game/templates/game/goalkeeper_game.html:228
+#: game/templates/game/goalkeeper_game.html:238
 msgid "Left button"
 msgstr "Botão esquerdo"
 
-#: game/templates/game/goalkeeper_game.html:237
+#: game/templates/game/goalkeeper_game.html:247
 msgid "Center button"
 msgstr "Botão central"
 
-#: game/templates/game/goalkeeper_game.html:244
+#: game/templates/game/goalkeeper_game.html:254
 msgid "Right button"
 msgstr "Botão direito"
 
-#: game/templates/game/goalkeeper_game.html:281
+#: game/templates/game/goalkeeper_game.html:291
 msgid "Delete goalkeeper game"
 msgstr "Remover jogo do goleiro"
 
-#: game/templates/game/goalkeeper_game.html:284
+#: game/templates/game/goalkeeper_game.html:294
 msgid "Are you sure you want to delete this game?"
 msgstr "Tem certeza que quer remover esse jogo?"
 
@@ -477,7 +485,7 @@ msgstr "Erro ao tentar excluir este config."
 msgid "Kicker updated successfully."
 msgstr "Adversário atualizado com sucesso."
 
-#: game/views.py:126 game/views.py:293
+#: game/views.py:126 game/views.py:294
 msgid "There are no changes to save."
 msgstr "Não há alterações para salvar."
 
@@ -497,23 +505,23 @@ msgstr "Erro ao tentar excluir o jogo."
 msgid "Context removed successfully."
 msgstr "Contexto removido com sucesso."
 
-#: game/views.py:263
+#: game/views.py:264
 msgid "Sequence created successfully."
 msgstr "Sequência criada com sucesso."
 
-#: game/views.py:291
+#: game/views.py:292
 msgid "Game updated successfully."
 msgstr "Jogo atualizado com sucesso."
 
-#: game/views.py:442
+#: game/views.py:443
 msgid "Probability created successfully."
 msgstr "Probabilidade criada com sucesso."
 
-#: game/views.py:449 game/views.py:487
+#: game/views.py:450 game/views.py:488
 msgid "The sum of the probabilities must be equal to 1."
 msgstr "A soma das probabilidades deve ser igual a 1."
 
-#: game/views.py:483
+#: game/views.py:484
 msgid "Probability updated successfully."
 msgstr "Probabilidade atualizada com sucesso."
 
@@ -647,6 +655,3 @@ msgstr ""
 #: templates/menu.html:59
 msgid "Logout"
 msgstr "Sair"
-
-#~ msgid "Deterministic or probabilistic move"
-#~ msgstr "Movimento deterministico ou probabilístico"

@@ -116,7 +116,10 @@
 "statusSign":"Unido",
 "statusNewSign":"Catastrado con éxito.",
 "errorCad":"Error en el registro: Usuario ya existente o servidor desconectado.",
-"errorFields":"Rellene los campos correctamente",
+"errorFields":"Por favor, rellene los campos",
 "errorEmail":"Correo electrónico no válido",
+"errorConnect":"Servidor indisponible. Por favor, compruebe su conexión",
+"buttNewAccount":"Crear nueva cuenta",
+"buttForgotPasswd":"He olvidado mi contraseña",
 "":""
 }

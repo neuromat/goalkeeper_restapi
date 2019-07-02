@@ -82,6 +82,8 @@ public class LoadStages : MonoBehaviour
 
     public int level;
 
+    public Text Mensagem;
+
     public Dictionary<string, int> games_ids = new Dictionary<string, int>();
 
 
@@ -177,97 +179,104 @@ public class LoadStages : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //171005 instance declaration to allow calling scripts from another script
+        translate = LocalizationManager.instance;
+
         // Apaga e cria o diretório Custom Trees (ou equivalente)
         var path = CreateCustomTreesDirectory();
 
         // define o nível do jogador
         level = GetPlayerLevel();
 
-        var gamesconfigs = GetGamesConfig(level);
-
-        // Salva a lista de times no arquivo index.info
-        SaveIndexInfo(path, gamesconfigs);
-
-        // Guarda o jogo associado a cada configuração
-        foreach (GameConfigJson config in gamesconfigs)
+        if (level == 0)
         {
-            var games = GetGame(config.id);
-
-            foreach (GameJson game in games)
-            {
-                // Salva os ids de cada fase de cada jogo em uma lista, para ser
-                // acessada no momento de salvar os resultados de cada jogada
-                SaveIDsofGamesforResults(config.name, game);
-
-                // Lê os contextos e probabilidades da base e cria as árvores com base nesses objetos
-                var contexts = GetContexts(game.id);
-
-                if (game.phase == 0)
-                {
-                    var tree = CreateFirstTree(config, game, contexts);
-                    // Salva as árvores em arquivos dentro do diretório correspondente a cada time
-                    CreateTreeDirAndFile(path + config.name, "/tree" + (game.phase + 1).ToString() + ".txt", tree);
-                }
-                else
-                {
-                    var tree = CreateTree(config, game, contexts);
-                    // Salva as árvores em arquivos dentro do diretório correspondente a cada time
-                    CreateTreeDirAndFile(path + config.name, "/tree" + (game.phase + 1).ToString() + ".txt", tree);
-                }
-            }
-        }
-
-        //StartCoroutine(CriaMenu(gamesconfigs));
-
-        //180209 to avoid delays in LocalizationManager (original place); here have enough time
-        StartCoroutine(readMachineIP());
-
-        int i = 0;
-
-        //171005 instance declaration to allow calling scripts from another script
-        translate = LocalizationManager.instance;
-
-        //171006 texts to change on the interface
-        //Creditos.text = translate.getLocalizedValue ("creditos");
-        headTitle.text = translate.getLocalizedValue("jogo");
-        selectTeam.text = translate.getLocalizedValue("escolha");
-        txtNext.text = translate.getLocalizedValue("avancar");
-        txtSair.text = translate.getLocalizedValue("sair").Replace("\\n", "\n");
-
-        //170310 delete PlayerPrefs; be careful: LoadStages loaded the packet name to use later
-        //180130 PlayerPrefs.DeleteAll ();     deleted at beginning, on LocalizationManager
-
-        //170622 in webGL mode, define the page to go when the user select Exit/ESC
-        //180627 goes out from here and goes to Localization
-        PlayerPrefs.SetString("gameURL", "http://game.numec.prp.usp.br");
-        PlayerPrefs.SetString("version", txtVersion.text);       //180402 to save version game in results file
-        txtVersion.text = PlayerPrefs.GetString("version");         //180627 taked from Localization
-
-
-        warning.color = new Color32(255, 255, 255, 0);
-        if (warning != null)
-        {
-            warning.text = System.String.Empty;   //170110 era ""; Use System.String.Empty instead of "" when dealing with lots of strings
-        }
-
-        // No path found, use default
-        if (i == 0)
-        {
-            DefaultTreeSourceInit();      //carrega as arvores do diretorio CustomTrees
+            Mensagem.text = translate.getLocalizedValue("errorConnection");
         }
         else
         {
+            var gamesconfigs = GetGamesConfig(level);
+
+            // Salva a lista de times no arquivo index.info
+            SaveIndexInfo(path, gamesconfigs);
+
+            // Guarda o jogo associado a cada configuração
+            foreach (GameConfigJson config in gamesconfigs)
+            {
+                var games = GetGame(config.id);
+
+                foreach (GameJson game in games)
+                {
+                    // Salva os ids de cada fase de cada jogo em uma lista, para ser
+                    // acessada no momento de salvar os resultados de cada jogada
+                    SaveIDsofGamesforResults(config.name, game);
+
+                    // Lê os contextos e probabilidades da base e cria as árvores com base nesses objetos
+                    var contexts = GetContexts(game.id);
+
+                    if (game.phase == 0)
+                    {
+                        var tree = CreateFirstTree(config, game, contexts);
+                        // Salva as árvores em arquivos dentro do diretório correspondente a cada time
+                        CreateTreeDirAndFile(path + config.name, "/tree" + (game.phase + 1).ToString() + ".txt", tree);
+                    }
+                    else
+                    {
+                        var tree = CreateTree(config, game, contexts);
+                        // Salva as árvores em arquivos dentro do diretório correspondente a cada time
+                        CreateTreeDirAndFile(path + config.name, "/tree" + (game.phase + 1).ToString() + ".txt", tree);
+                    }
+                }
+            }
+
+            //StartCoroutine(CriaMenu(gamesconfigs));
+
+            //180209 to avoid delays in LocalizationManager (original place); here have enough time
+            StartCoroutine(readMachineIP());
+
+            int i = 0;
+
+            //171006 texts to change on the interface
+            //Creditos.text = translate.getLocalizedValue ("creditos");
+            headTitle.text = translate.getLocalizedValue("jogo");
+            selectTeam.text = translate.getLocalizedValue("escolha");
+            txtNext.text = translate.getLocalizedValue("avancar");
+            txtSair.text = translate.getLocalizedValue("sair").Replace("\\n", "\n");
+
+            //170310 delete PlayerPrefs; be careful: LoadStages loaded the packet name to use later
+            //180130 PlayerPrefs.DeleteAll ();     deleted at beginning, on LocalizationManager
+
+            //170622 in webGL mode, define the page to go when the user select Exit/ESC
+            //180627 goes out from here and goes to Localization
+            PlayerPrefs.SetString("gameURL", "http://game.numec.prp.usp.br");
+            PlayerPrefs.SetString("version", txtVersion.text);       //180402 to save version game in results file
+            txtVersion.text = PlayerPrefs.GetString("version");         //180627 taked from Localization
+
+
+            warning.color = new Color32(255, 255, 255, 0);
             if (warning != null)
             {
-                //warning.text = "Carregado das preferencias de usuario:\n";
-                warning.text = translate.getLocalizedValue("loadPrefs");  //171006
+                warning.text = System.String.Empty;   //170110 era ""; Use System.String.Empty instead of "" when dealing with lots of strings
             }
-        }
 
-        // read the trees in coroutines
-        foreach (SourcePath s in treeSourcePaths)
-        {
-            StartCoroutine(ReadSource(s.url, s.sourceType));
+            // No path found, use default
+            if (i == 0)
+            {
+                DefaultTreeSourceInit();      //carrega as arvores do diretorio CustomTrees
+            }
+            else
+            {
+                if (warning != null)
+                {
+                    //warning.text = "Carregado das preferencias de usuario:\n";
+                    warning.text = translate.getLocalizedValue("loadPrefs");  //171006
+                }
+            }
+
+            // read the trees in coroutines
+            foreach (SourcePath s in treeSourcePaths)
+            {
+                StartCoroutine(ReadSource(s.url, s.sourceType));
+            }
         }
     }
 
@@ -971,8 +980,15 @@ public class LoadStages : MonoBehaviour
         var ObjList = new List<ProfileLevelJson>();
         ObjList = JsonConvert.DeserializeObject<List<ProfileLevelJson>>(request.text);
 
-        PlayerInfo.level = ObjList[0].level;
-        return PlayerInfo.level;
+        if (ObjList != null)
+        {
+            PlayerInfo.level = ObjList[0].level;
+            return PlayerInfo.level;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     // Pega o objeto nível de acordo com o id (que é gravado no custom_user e na
