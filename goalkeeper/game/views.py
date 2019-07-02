@@ -730,7 +730,7 @@ class GetGameConfigs(generics.ListCreateAPIView):
         queryset = queryset.filter(pk__in=games_ids)
 
         # Filter out those that are not public
-        queryset = queryset.filter(is_public=True)
+        queryset = queryset.filter(is_public='yes')
 
         return queryset.order_by('id')
 
