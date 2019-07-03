@@ -1,0 +1,102 @@
+.dashboard{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90vh;
+    background: #f3f3f3;
+    padding: 15px;
+}
+
+.dashboard-title{
+    font-size: 1.6em;
+    font-weight: normal;
+    border-bottom: 2px solid #666;
+    margin-bottom: 25px;
+}
+
+.info-header{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 2px 1px 1px #ccc;
+    background: white;
+    width: 85%;
+    margin: 0 auto 30px auto;
+}
+
+.info-header-item{
+    display: flex;
+    width: 390px;
+    height: 80px;
+    background: white;
+    border: 1px solid #ccc;
+}
+
+.info-header-item .info-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    background: #343a40;
+}
+
+.info-header-item .info-icon i{
+    color: white;
+    font-size: 2.5em;
+}
+
+.info-header-item .info-metric{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: 10px;
+}
+
+.info-header-item .info-metric h2{
+    font-size: 0.9em;
+    margin-bottom: 0;
+}
+
+.info-header-item .info-metric p {
+    font-size: 2em;
+}
+
+/* Chart-pane */
+
+.chart-pane{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 15px;
+}
+
+.chart-pane-item{
+    width: 40%;
+    min-height: 400px;
+    background: white;
+    border: 1px solid #333;
+    margin: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.chart-filter{
+    width: 40%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.loader{
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    background-size: contain;
+    background-position: center;
+}

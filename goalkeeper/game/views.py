@@ -16,11 +16,20 @@ from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer
     PlayerLevelSerializer
 from rest_framework.authtoken.models import Token
 from custom_user.models import Profile
+from result.models import GameResult
 
 
 @login_required
 def home(request, template_name="game/home.html"):
-    return render(request, template_name)
+    total_games = GameResult.objects.count()
+    total_hits = GameResult.objects.filter(correct=True).count()
+    total_errors = total_games - total_hits
+    context = {
+        "total_games": total_games,
+        "total_hits": total_hits,
+        "total_errors": total_errors,
+    }
+    return render(request, template_name, context)
 
 
 def language_change(request, language_code):
