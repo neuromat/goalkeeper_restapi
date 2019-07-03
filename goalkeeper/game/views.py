@@ -2,6 +2,7 @@ import random
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.db.models.deletion import ProtectedError
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
@@ -24,11 +25,21 @@ def home(request, template_name="game/home.html"):
     total_games = GameResult.objects.count()
     total_hits = GameResult.objects.filter(correct=True).count()
     total_errors = total_games - total_hits
+    total_users = GameResult.objects.values_list('owner', flat=True).distinct().count()
+
+    if total_games != 0:
+        wins_percent = total_hits * 100 / total_games
+    else:
+        wins_percent = '---'
+
     context = {
         "total_games": total_games,
         "total_hits": total_hits,
         "total_errors": total_errors,
+        "total_users": total_users,
+        "wins_percent": wins_percent
     }
+
     return render(request, template_name, context)
 
 

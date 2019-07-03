@@ -8,12 +8,12 @@
 {% endblock %}
 
 {% block content %}
-{#    <div class="container-fluid">#}
-{#        <!-- Breadcrumbs-->#}
-{#        <ol class="breadcrumb">#}
-{#            <li class="breadcrumb-item"><a href="/">Home</a></li>#}
-{#        </ol>#}
-{#    </div>#}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+        </ol>
+    </div>
 
     <div class="container-fluid">
         <div class="dashboard">
@@ -33,7 +33,7 @@
                     <div class="info-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
                     <div class="info-metric">
                         <h2>Índice de acerto</h2>
-                        <p>{{ total_hits }}</p>
+                        <p>{{ wins_percent }}%</p>
                     </div>
                 </div>
                 <!-- item -->
@@ -41,18 +41,9 @@
                     <div class="info-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
                     <div class="info-metric">
                         <h2>Total de usuários</h2>
-                        <p>303</p>
+                        <p>{{ total_users }}</p>
                     </div>
                 </div>
-                <!--
-                <div class="info-header-item">
-                    <div class="info-icon"></div>
-                    <div class="info-metric">
-                        <h2>Partidas realizadas</h2>
-                        <p>303</p>
-                    </div>
-                </div>
-                -->
             </div>
 
             <div class="chart-pane">
