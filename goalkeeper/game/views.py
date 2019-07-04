@@ -175,6 +175,10 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
             game = goalkeeper_game_form.save(commit=False)
             game.phase = next_phase
             game.read_seq = True if request.POST['sequence'] else False
+
+            if len(game.sequence) != len(game.seq_step_det_or_prob):
+                game.seq_step_det_or_prob = dummy_seq_step_det_or_prob(len(game.sequence))
+
             game.save()
 
             messages.success(request, _('Game created successfully.'))
@@ -638,6 +642,10 @@ def create_sequence(goalkeeper_game_id, sequence_size):
         sequence += str(next_sequence_number)
 
     return sequence, sequence_step_det_or_prob
+
+
+def dummy_seq_step_det_or_prob (length):
+    return 'n' * length
 
 
 # Django Rest

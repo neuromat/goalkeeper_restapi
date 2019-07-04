@@ -335,6 +335,11 @@ public class LoginMenu : BaseMenu {
         }
     }
 
+    public void DoResetPassword()
+    {
+        Application.OpenURL("http://localhost:8000/reset");
+    }
+
     public static bool validateEmail (string email)
     {
         if (email != null)
