@@ -10,7 +10,7 @@
  * BASE URL:
  */
 const api = 'http://127.0.0.1:8000/api/results';
-
+let labels = ["Partidas", "Acertos", "Erros"];
 /**
  * CRIA GRÁFICO:
  */
@@ -21,7 +21,7 @@ function createChart(metrics){
     let myChart = new Chart($('#barChart'), {
         type: 'horizontalBar',
         data: {
-            labels: ["Partidas", "Acertos", "Erros"],
+            labels: labels,
 
             datasets: [{
                 label: 'Total',
@@ -113,7 +113,7 @@ function filtrar(){
      }
  }
 
-function loadCharts(){
+function loadCharts(labels){
      loaderManager(true);
      fetch(api)
          .then(res => res.json())
@@ -152,6 +152,14 @@ function updateData(interval = 20000){
 $(document).ready(() => {
      loaderManager(false);
 
+     let title = $('title').html();
+
+     // Verifica se a tradução para inglês foi ativada
+     if(title == 'Goalkeeper game'){
+         labels = ["Games", "Hits", "Errors"]
+     }
+
+    console.log(labels);
      // Inicializa os tooltip's bootstrap.
      $('label i').tooltip();
 

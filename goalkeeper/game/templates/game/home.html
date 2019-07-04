@@ -3,8 +3,8 @@
 
 {% block extrahead %}
     <link href="{% static "game/css/dashboard.css" %}" rel="stylesheet">
-    <script type="text/javascript" src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
-    <script src="{% static 'game/js/dashboard.js' %}"></script>
+    <script type="text/javascript" src="{% static "game/js/chartjs-library.js" %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/dashboard.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
                 <div class="info-header-item">
                     <div class="info-icon"> <i class="fa fa-futbol-o" aria-hidden="true"></i> </div>
                     <div class="info-metric">
-                        <h2>Total de jogadas</h2>
+                        <h2> {% trans "Total games" %}</h2>
                         <p id="totalGames">{{ total_games }}</p>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="info-header-item">
                     <div class="info-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
                     <div class="info-metric">
-                        <h2>Índice de acerto</h2>
+                        <h2>{% trans "Hit rate" %}</h2>
                         <p>{{ wins_percent }}%</p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="info-header-item">
                     <div class="info-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
                     <div class="info-metric">
-                        <h2>Total de usuários</h2>
+                        <h2>{% trans "Total users" %}</h2>
                         <p>{{ total_users }}</p>
                     </div>
                 </div>
@@ -49,15 +49,15 @@
             <div class="chart-pane">
                 <!-- Chart pane item -->
                 <div class="chart-pane-item">
-                    <div id="preloader" class="loader" style="background-image:url('static/loader.gif');"></div>
+                    <div id="preloader" class="loader" style="background-image:url('{% static "game/loader.gif" %}');"></div>
                     <!-- <pre>Jogadas x Acertos</pre> -->
                     <canvas id="barChart" style="display: none;"></canvas>
                 </div>
 
                 <div class="chart-filter">
                     <div class="form-group">
-                        <label for="">Adversário <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
-                        <select id="adversario" class="form-control" name="" id="">
+                        <label> {% trans "Opponents" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
+                        <select id="adversario" class="form-control">
                             <option value="Nildo">Nildo</option>
                             <option value="Rivelino">Rivelino</option>
                             <option value="Garrincha">Garrincha</option>
@@ -65,15 +65,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="">Fase <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
-                        <select id="fase" class="form-control" name="" id="">
+                        <label> {% trans "Phase" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
+                        <select id="fase" class="form-control">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <button id="filtroBtn" onclick="filtrar()" class="btn btn-dark btn-lg btn-block">Filtrar </button>
+                        <button id="filtroBtn" onclick="filtrar()" class="btn btn-dark btn-lg btn-block"> {% trans "Filter" %} </button>
                     </div>
                 </div>
             </div>
