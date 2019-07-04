@@ -2,21 +2,14 @@ import random
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.db.models.deletion import ProtectedError
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as _
 
-from rest_framework import generics, permissions
-
 from .forms import GameConfigForm, GoalkeeperGameForm
-from .models import Context, Game, GoalkeeperGame, Probability, GameConfig, Level
-from .serializers import GameConfigSerializer, GameSerializer, ContextSerializer, ProbSerializer, LevelSerializer, \
-    PlayerLevelSerializer
-from rest_framework.authtoken.models import Token
-from custom_user.models import Profile
+from .models import Context, Game, GoalkeeperGame, Probability, GameConfig
 from result.models import GameResult
 
 
@@ -177,7 +170,7 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
             game.read_seq = True if request.POST['sequence'] else False
 
             if len(game.sequence) != len(game.seq_step_det_or_prob):
-                game.seq_step_det_or_prob = dummy_seq_step_det_or_prob(len(game.sequence))
+                game.seq_step_det_or_prob = 'n' * (len(game.sequence))
 
             game.save()
 
@@ -642,167 +635,3 @@ def create_sequence(goalkeeper_game_id, sequence_size):
         sequence += str(next_sequence_number)
 
     return sequence, sequence_step_det_or_prob
-
-
-def dummy_seq_step_det_or_prob (length):
-    return 'n' * length
-
-
-# Django Rest
-class GetPlayerLevel(generics.ListAPIView):
-    serializer_class = PlayerLevelSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'head']
-
-    def get_queryset(self):
-        queryset = Profile.objects.all()
-        token_req = self.request.query_params.get('token', None)
-        token = Token.objects.filter(key=token_req).first()
-
-        if token is not None:
-            queryset = queryset.filter(user=token.user)
-
-        return queryset
-
-
-class UpdatePlayerLevel(generics.ListAPIView):
-    serializer_class = PlayerLevelSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'head']
-
-    def get_queryset(self):
-        queryset = Profile.objects.all()
-        token_req = self.request.query_params.get('token', None)
-        token = Token.objects.filter(key=token_req).first()
-
-        level_req = self.request.query_params.get('nivel', None)
-        level = Level.objects.filter(id=level_req).first()
-
-        if token is not None:
-            profile = Profile.objects.get(user=token.user)
-
-            if level is not None:
-                new_level = level
-            else:
-                new_level = Level.objects.filter(name=profile.level.name + 1).first()
-
-            if new_level is not None:
-                profile.level = new_level
-                profile.save()
-                queryset = queryset.filter(id=profile.id)
-        return queryset
-
-#
-# class UpdatePlayerLevel(generics.UpdateAPIView):
-#     serializer_class = PlayerLevelSerializer
-#     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-#     # lookup_field = 'level'
-#
-#     def get_object(self):
-#         queryset = Profile.objects.all()
-#         token_req = self.request.query_params.get('token', None)
-#         token = Token.objects.filter(key=token_req).first()
-#
-#         if token is not None:
-#             queryset = queryset.filter(user=token.user)
-#
-#             if queryset.count() > 0:
-#                 new_level = Level.objects.filter(name=queryset[0].level.name + 1).first()
-#
-#                 if new_level is not None:
-#                     queryset[0].level = new_level
-#
-#             return queryset.get(pk=queryset[0].id)
-
-
-class GetLevel(generics.ListCreateAPIView):
-    serializer_class = LevelSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'head']
-
-    def get_queryset(self):
-        queryset = Level.objects.all()
-        id_req = self.request.query_params.get('id', None)
-        name_req = self.request.query_params.get('name', None)
-
-        if id_req is not None:
-            queryset = queryset.filter(id=id_req)
-
-        if name_req is not None:
-            queryset = queryset.filter(name=name_req)
-
-        return queryset.order_by('id')
-
-
-# With ?level=<int:level X> at the URL we can filter only games of level X
-class GetGameConfigs(generics.ListCreateAPIView):
-    serializer_class = GameConfigSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'head']
-
-    def get_queryset(self):
-        queryset = GameConfig.objects.all()
-        level_id_req = self.request.query_params.get('level', None)
-        level_name = Level.objects.get(id=level_id_req).name if level_id_req else None
-        # Get all the levels below the requested
-        if level_name is not None:
-            levels = Level.objects.filter(name__lte=level_name)
-            queryset = queryset.filter(level__in=levels)
-
-        config_name_req = self.request.query_params.get('name', None)
-        if config_name_req is not None:
-            queryset = queryset.filter(name=config_name_req)
-
-        # Filter out those that have at least one phase created
-        games_ids = Game.objects.values_list("config_id", flat=True)
-        queryset = queryset.filter(pk__in=games_ids)
-
-        # Filter out those that are not public
-        queryset = queryset.filter(is_public='yes')
-
-        return queryset.order_by('id')
-
-
-class GetGames(generics.ListCreateAPIView):
-    serializer_class = GameSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'head']
-
-    def get_queryset(self):
-        config_id = self.request.query_params.get('config_id', None)
-        queryset = GoalkeeperGame.objects.filter(game_type="JG", config=config_id)
-        phase = self.request.query_params.get('phase', None)
-
-        if phase is not None:
-            queryset = queryset.filter(phase=phase)
-
-        return queryset.order_by("phase")
-
-
-class GetContexts(generics.ListCreateAPIView):
-    serializer_class = ContextSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'head']
-
-    def get_queryset(self):
-        game_id_req = self.request.query_params.get('game', None)
-        queryset = Context.objects.filter(goalkeeper=game_id_req, is_context=True) if game_id_req else None
-
-        return queryset.order_by('id')
-
-
-class GetProbs(generics.ListCreateAPIView):
-    serializer_class = ProbSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'head']
-
-    def get_queryset(self):
-        context_id_req = self.request.query_params.get('context', None)
-        queryset = Probability.objects.filter(context=context_id_req) if context_tree else None
-
-        direction = self.request.query_params.get('direction', None)
-
-        if direction is not None:
-            queryset = queryset.filter(direction=direction)
-
-        return queryset.order_by('direction')
