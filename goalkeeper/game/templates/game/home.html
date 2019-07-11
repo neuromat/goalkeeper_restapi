@@ -54,7 +54,7 @@
 
                 <div class="chart-filter">
                     <div class="form-group">
-                        <label> {% trans "Kickers" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% trans "Select a kicker" %}"></i></label>
+                        <label> {% trans "Kickers" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% trans "Select a kicker to filter the results" %}"></i></label>
                         <select id="adversario" class="form-control" onchange="select_kicker_to_filter_phase(this.value);">
                             <option value="">{% trans "Select a kicker" %}</option>
                             {% for kicker in kickers %}
@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label> {% trans "Phase" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
+                        <label> {% trans "Phase" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Select a phase to filter the results"></i></label>
                         <select id="fase" class="form-control" >
                             <option value="">{% trans "Choose a kicker first" %}</option>
                         </select>
