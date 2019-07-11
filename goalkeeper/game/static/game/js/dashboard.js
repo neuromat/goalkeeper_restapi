@@ -9,8 +9,35 @@
 /**
  * BASE URL:
  */
-const api = 'http://127.0.0.1:8000/api/results';
+
+var url = window.location.href
+var arr = url.split("/");
+const api = arr[0] + "//" + arr[2] + "/api/results/";
 let labels = ["Partidas", "Acertos", "Erros"];
+
+/**
+ * FILTER KICKER:
+ */
+
+function select_kicker_to_filter_phase(kicker_id) {
+    $("#fase").html('<option value="">Loading...</option>');
+    $.ajax({
+        type: "GET",
+        url: "/game/select_kicker_to_filter_phase",
+        dataType: "json",
+        data: {'kicker':kicker_id},
+        success: function(retorno) {
+            $("#fase").empty();
+            $.each(retorno[0], function(i, item){
+                $("#fase").append('<option value="'+item.pk+'">'+item.phase+'</option>');
+            });
+        },
+        error: function(erro) {
+            alert('Ops, we have a problem!');
+        }
+    });
+}
+
 /**
  * CRIA GRÁFICO:
  */
