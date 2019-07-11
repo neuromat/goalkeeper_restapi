@@ -10,10 +10,14 @@ class GameResultList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = GameResult.objects.all()
-        game_req = self.request.query_params.get('game', None)
+        kicker = self.request.query_params.get('kicker', None)
+        phase = self.request.query_params.get('phase', None)
 
-        if game_req is not None:
-            queryset = queryset.filter(game_phase=game_req)
+        if kicker is not None:
+            queryset = queryset.filter(game_phase__config__name=kicker)
+
+        if phase is not None:
+            queryset = queryset.filter(game_phase__phase=phase)
 
         return queryset
 
