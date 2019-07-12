@@ -61,7 +61,7 @@
 "btnJogarPausa":"Start with pause",
 "btnMenu":"Game Menu",
 "tcle":">>>>>       INFORMED CONSENT FORM       <<<<<\n\n\nThis game was developed by CEPID Neuromat with purpose of investigate the learning of a sequence of events.\n\nYour personal data (sex, age, manual laterality and familiarity with virtual games), response time and number of hits, if collected, will be stored in a public database, and will be available for future scientific research. The team responsible for managing this database works to protect the information against access and/or misuse by third parties.\n\nWe also inform that this experiment is safe and you have guaranteed, without suffering any penalty, the right of not to accept recording your data.\n\nAlso, it is important to note that you will not receive any kind of financial reward.",
-"obrigado":"You have completed the challenge! Thank you for playing the ",
+"obrigado":"You have completed the challenge!",
 "middleMsg":"Congratulations, you have reached the next phase!",
 "endMsg":"Congratulations, now you are a professional! Do you want to face greater challenges?",
 "menu1":"Game\nMenu",

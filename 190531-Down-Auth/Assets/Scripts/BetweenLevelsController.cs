@@ -47,7 +47,7 @@ public class BetweenLevelsController : MonoBehaviour
         translate = LocalizationManager.instance;
 
         //171010 translate msg
-        endMsg = translate.getLocalizedValue("obrigado") + translate.getLocalizedValue("game2");
+        endMsg = translate.getLocalizedValue("obrigado");
         endMsgBM = translate.getLocalizedValue("obrigado") + translate.getLocalizedValue("game1");
         endMsgMD = translate.getLocalizedValue("obrigado") + translate.getLocalizedValue("game5");
         middleMsg = translate.getLocalizedValue("middleMsg");

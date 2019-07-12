@@ -63,7 +63,7 @@
 "btnJogarPausa":"Iniciar com pausa",
 "btnMenu":"Menu Principal",
 "tcle":"\n<b>TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO</b>\n\nEste jogo foi desenvolvido pelo CEPID NeuroMat com o objetivo de investigar o aprendizado de uma sequência de eventos.\n\nOs dados coletados neste jogo, tais como: tempo de resposta e quantidade de acertos, serão utilizados e armazenados em um banco de dados, ficando disponíveis para futuras pesquisas científicas. A equipe responsável pela gestão deste banco de dados trabalha para proteger as informações coletadas contra o acesso e/ou uso indevido por terceiros.\n\nInformamos também que este experimento não apresenta risco.\n\nAlém disso, é importante notar que você não receberá qualquer tipo de recompensa financeira.\n\nContato: neuromat@numec.prp.usp.br",
-"obrigado":"Você completou o desafio! Obrigado por jogar o ",
+"obrigado":"Você completou o desafio!",
 "middleMsg":"Você atingiu a próxima fase!",
 "endMsg":"Parabéns, agora você é um profissional! Deseja encarar desafios ainda maiores?",
 "menu1":"Menu de\nJogos",

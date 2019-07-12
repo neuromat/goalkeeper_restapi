@@ -1228,7 +1228,7 @@ menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("
         //btnThisLevel.onClick.AddListener(Sair);
         //--
         Button btnEndLevel = endLevel.GetComponent<Button>();      //Josi: 161212: ao haver mais jogos,
-        btnEndLevel.onClick.AddListener(GoToIntro);                //              terminar os niveis deve levar ao menu principal
+        btnEndLevel.onClick.AddListener(ToConfigurations);                //              terminar os niveis deve levar ao menu principal
 
         //Josi; onClick nao funciona no betweenLevels; ideia em https://docs.unity3d.com/ScriptReference/UI.Button-onClick.html
         Button btnNotAbandon = notAbandon.GetComponent<Button>();
