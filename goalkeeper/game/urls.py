@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import context_tree, game_config_new, game_config_list, game_config_view, game_config_update,  \
     goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, probability, \
-    probability_update
+    probability_update, select_kicker_to_filter_phase
 
 
 urlpatterns = [
@@ -19,4 +19,7 @@ urlpatterns = [
     path('goalkeeper/context/<int:goalkeeper_game_id>/', context_tree, name='context'),
     path('goalkeeper/context/<int:goalkeeper_game_id>/probability/', probability, name='probability'),
     path('goalkeeper/context/<int:context_id>/probability/update/', probability_update, name='probability_update'),
+
+    # Filters
+    path('select_kicker_to_filter_phase', select_kicker_to_filter_phase, name='select_kicker_to_filter_phase'),
 ]

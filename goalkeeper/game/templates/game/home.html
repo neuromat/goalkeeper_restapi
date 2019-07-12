@@ -17,14 +17,12 @@
 
     <div class="container-fluid">
         <div class="dashboard">
-            <h2 class="dashboard-title">Dashboard</h2>
-
             <div class="info-header">
                 <!-- item -->
                 <div class="info-header-item">
                     <div class="info-icon"> <i class="fa fa-futbol-o" aria-hidden="true"></i> </div>
                     <div class="info-metric">
-                        <h2> {% trans "Total games" %}</h2>
+                        <h2> {% trans "Number of plays" %}</h2>
                         <p id="totalGames">{{ total_games }}</p>
                     </div>
                 </div>
@@ -33,15 +31,15 @@
                     <div class="info-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
                     <div class="info-metric">
                         <h2>{% trans "Hit rate" %}</h2>
-                        <p>{{ wins_percent }}%</p>
+                        <p>{% if hit_rate %}{{ hit_rate }}%{% else %}---{% endif %}</p>
                     </div>
                 </div>
                 <!-- item -->
                 <div class="info-header-item">
                     <div class="info-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
                     <div class="info-metric">
-                        <h2>{% trans "Total users" %}</h2>
-                        <p>{{ total_users }}</p>
+                        <h2>{% trans "Total players" %}</h2>
+                        <p>{{ total_players }}</p>
                     </div>
                 </div>
             </div>
@@ -56,29 +54,27 @@
 
                 <div class="chart-filter">
                     <div class="form-group">
-                        <label> {% trans "Opponents" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
-                        <select id="adversario" class="form-control">
-                            <option value="Nildo">Nildo</option>
-                            <option value="Rivelino">Rivelino</option>
-                            <option value="Garrincha">Garrincha</option>
+                        <label> {% trans "Kicker" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% trans "Select a kicker to filter the results" %}"></i></label>
+                        <select id="adversario" class="form-control" onchange="select_kicker_to_filter_phase(this.value);">
+                            <option value="">{% trans "Select a kicker" %}</option>
+                            {% for kicker in kickers %}
+                                <option value="{{ kicker.name }}">{{ kicker.name }}</option>
+                            {% endfor %}
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label> {% trans "Phase" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Descrição do campo"></i></label>
-                        <select id="fase" class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                        <label> {% trans "Phase" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% trans "Select a phase to filter the results" %}"></i></label>
+                        <select disabled="disabled" id="fase" class="form-control">
+                            <option value="">{% trans "Choose a kicker first" %}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <button id="filtroBtn" onclick="filtrar()" class="btn btn-dark btn-lg btn-block"> {% trans "Filter" %} </button>
+                        <button id="filtroBtn" onclick="filtrar()" disabled="disabled" class="btn btn-dark btn-lg btn-block"> {% trans "Filter" %} </button>
                     </div>
+                    <p class="text-center"><a href="#" onclick="clearFilter()">Limpar filtros</a></p>
                 </div>
             </div>
-
         </div>
-
     </div>
 {% endblock %}

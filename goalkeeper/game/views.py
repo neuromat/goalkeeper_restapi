@@ -1,9 +1,10 @@
+import json as simplejson
 import random
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models.deletion import ProtectedError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY, ugettext as _
@@ -13,24 +14,33 @@ from .models import Context, Game, GoalkeeperGame, Probability, GameConfig
 from result.models import GameResult
 
 
+def select_kicker_to_filter_phase(request):
+    if request.method == 'GET':
+        kicker_name = request.GET.get('kicker')
+        kicker = get_object_or_404(GameConfig, name=kicker_name)
+
+        phases = Game.objects.filter(config=kicker.pk).order_by('phase')
+        list_phase = []
+        for phase in phases:
+            list_phase.append({'pk': phase.id, 'phase': phase.phase})
+
+        json = simplejson.dumps([list_phase])
+        return HttpResponse(json, content_type="application/json")
+
+
 @login_required
 def home(request, template_name="game/home.html"):
     total_games = GameResult.objects.count()
     total_hits = GameResult.objects.filter(correct=True).count()
-    total_errors = total_games - total_hits
-    total_users = GameResult.objects.values_list('owner', flat=True).distinct().count()
-
-    if total_games != 0:
-        wins_percent = total_hits * 100 / total_games
-    else:
-        wins_percent = '---'
+    hit_rate = total_hits * 100 / total_games if total_games != 0 else None
+    total_players = GameResult.objects.values_list('owner', flat=True).distinct().count()
+    kickers = GameConfig.objects.all()
 
     context = {
         "total_games": total_games,
-        "total_hits": total_hits,
-        "total_errors": total_errors,
-        "total_users": total_users,
-        "wins_percent": wins_percent
+        "hit_rate": hit_rate,
+        "total_players": total_players,
+        "kickers": kickers
     }
 
     return render(request, template_name, context)
@@ -169,7 +179,7 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
             game.phase = next_phase
             game.read_seq = True if request.POST['sequence'] else False
 
-            if len(game.sequence) != len(game.seq_step_det_or_prob):
+            if len(game.sequence) != len(game.seq_step_det_or_prob) and game.create_seq_manually == 'yes':
                 game.seq_step_det_or_prob = 'n' * (len(game.sequence))
 
             game.save()
@@ -312,6 +322,10 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
             if goalkeeper_game_form.has_changed():
                 game = goalkeeper_game_form.save(commit=False)
                 game.read_seq = True if request.POST['sequence'] else False
+
+                if len(game.sequence) != len(game.seq_step_det_or_prob) and game.create_seq_manually == 'yes':
+                    game.seq_step_det_or_prob = 'n' * (len(game.sequence))
+
                 game.save()
                 messages.success(request, _('Game updated successfully.'))
             else:
