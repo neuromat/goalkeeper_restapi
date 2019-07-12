@@ -153,7 +153,7 @@ function resultMetrics(arr){
          fails: fails
      }
  }
- 
+
 function loadCharts(params){
 
      loaderManager(true);
