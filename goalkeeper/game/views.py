@@ -179,7 +179,7 @@ def goalkeeper_game_new(request, template_name="game/goalkeeper_game.html"):
             game.phase = next_phase
             game.read_seq = True if request.POST['sequence'] else False
 
-            if len(game.sequence) != len(game.seq_step_det_or_prob):
+            if len(game.sequence) != len(game.seq_step_det_or_prob) and game.create_seq_manually == 'yes':
                 game.seq_step_det_or_prob = 'n' * (len(game.sequence))
 
             game.save()
@@ -322,6 +322,10 @@ def goalkeeper_game_update(request, goalkeeper_game_id, template_name="game/goal
             if goalkeeper_game_form.has_changed():
                 game = goalkeeper_game_form.save(commit=False)
                 game.read_seq = True if request.POST['sequence'] else False
+
+                if len(game.sequence) != len(game.seq_step_det_or_prob) and game.create_seq_manually == 'yes':
+                    game.seq_step_det_or_prob = 'n' * (len(game.sequence))
+
                 game.save()
                 messages.success(request, _('Game updated successfully.'))
             else:
