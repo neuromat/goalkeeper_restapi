@@ -98,3 +98,12 @@
     background-size: contain;
     background-position: center;
 }
+
+.text-link{
+    cursor: pointer;
+    color: #069;
+}
+
+.text-link:hover{
+    text-decoration: underline;
+}

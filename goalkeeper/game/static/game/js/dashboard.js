@@ -14,30 +14,40 @@ let url = window.location.href
 let arr = url.split("/");
 const api = arr[0] + "//" + arr[2] + "/api/results/";
 let labels = ["Partidas", "Acertos", "Erros"];
+let myChart = {};
 
 /**
  * FILTER KICKER:
  */
 
 function select_kicker_to_filter_phase(kicker_id) {
-    $("#fase").html('<option value="">Loading...</option>');
-    $.ajax({
-        type: "GET",
-        url: "/game/select_kicker_to_filter_phase",
-        dataType: "json",
-        data: {'kicker':kicker_id},
-        success: function(retorno) {
-            $("#fase, #filtroBtn").removeAttr('disabled');
-            $("#fase").empty();
 
-            $.each(retorno[0], function(i, item){
-                $("#fase").append('<option value="'+item.pk+'">'+item.phase+'</option>');
-            });
-        },
-        error: function(erro) {
-            console.log('Ops, we have a problem!');
-        }
-    });
+    if(kicker_id === ""){
+        disableFields();
+    } else {
+        $("#fase").html('<option value="">Loading...</option>');
+        $.ajax({
+            type: "GET",
+            url: "/game/select_kicker_to_filter_phase",
+            dataType: "json",
+            data: {'kicker':kicker_id},
+            success: function(retorno) {
+                $("#fase, #filtroBtn").removeAttr('disabled');
+                $("#fase").empty();
+                $.each(retorno[0], function(i, item){
+                    $("#fase").append('<option value="'+item.pk+'">'+item.phase+'</option>');
+                });
+            },
+            error: function(erro) {
+                console.log('Ops, we have a problem!');
+            }
+        });
+    }
+}
+
+function disableFields(){
+    $("#fase").html('<option value="">Primeiro escolha um adversário</option>');
+    $('#fase, #filtroBtn').attr('disabled', 'disabled');
 }
 
 /**
@@ -45,10 +55,11 @@ function select_kicker_to_filter_phase(kicker_id) {
  */
 
 function createChart(metrics){
+
     // Habilita a visualização de todos os gráficos
     $('canvas').removeAttr('style');
 
-    let myChart = new Chart($('#barChart'), {
+    myChart = new Chart($('#barChart'), {
         type: 'horizontalBar',
         data: {
             labels: labels,
@@ -110,7 +121,6 @@ function loaderManager(flag){
 }
 
 function filtrar(){
-
     /**
      * Filtrar deve enviar a requisição, receber o retorno
      * e carregar novamente o gráfico com os dados
@@ -122,10 +132,11 @@ function filtrar(){
         fase: $('#fase').val()
     };
 
+    myChart.destroy();
     loadCharts(params);
 }
 
- function resultMetrics(arr){
+function resultMetrics(arr){
      let corrects = 0;
      let fails = 0;
 
@@ -144,7 +155,9 @@ function filtrar(){
  }
 
 function clearFilter(){
-    console.log('Limpar filtros');
+    myChart.destroy();
+    disableFields();
+    loadCharts();
 }
 
 function loadCharts(params){

@@ -46,10 +46,10 @@
 
             <div class="chart-pane">
                 <!-- Chart pane item -->
-                <div class="chart-pane-item">
-                    <div id="preloader" class="loader" style="background-image:url('{% static "game/loader.gif" %}');"></div>
+                <div id="chartContainer" class="chart-pane-item">
+{#                    <div id="preloader" class="loader" style="background-image:url('{% static "game/loader.gif" %}');"></div>#}
                     <!-- <pre>Jogadas x Acertos</pre> -->
-                    <canvas id="barChart" style="display: none;"></canvas>
+                    <canvas id="barChart"></canvas>
                 </div>
 
                 <div class="chart-filter">
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <button id="filtroBtn" onclick="filtrar()" disabled="disabled" class="btn btn-dark btn-lg btn-block"> {% trans "Filter" %} </button>
                     </div>
-                    <p class="text-center"><a href="#" onclick="clearFilter()">Limpar filtros</a></p>
+                    <p onclick="clearFilter()" class="text-center text-link">Limpar filtros</p>
                 </div>
             </div>
         </div>
