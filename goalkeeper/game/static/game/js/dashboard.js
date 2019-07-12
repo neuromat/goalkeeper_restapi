@@ -35,7 +35,7 @@ function select_kicker_to_filter_phase(kicker_id) {
                 $("#fase, #filtroBtn").removeAttr('disabled');
                 $("#fase").empty();
                 $.each(retorno[0], function(i, item){
-                    $("#fase").append('<option value="'+item.pk+'">'+item.phase+'</option>');
+                    $("#fase").append('<option value="'+item.phase+'">'+item.phase+'</option>');
                 });
             },
             error: function(erro) {
