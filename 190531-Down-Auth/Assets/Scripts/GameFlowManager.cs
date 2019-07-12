@@ -20,73 +20,75 @@ using System.IO;
 //---------------------------------------------------------------------------------------
 public class GameFlowManager : MonoBehaviour
 {
-	// @ale : Premios
-	public GameObject Premios;
-	//public GameObject Player;
-	public GameObject icon1on;
-	public GameObject icon2on;
-	public GameObject icon3on;
-	public GameObject icon4on;
-	public GameObject icon5on;
-	public GameObject icon6on;
-	public GameObject icon7on;
-	public GameObject icon8on;
-	public GameObject icon9on;
+    // @ale : Premios
+    public GameObject Premios;
+    //public GameObject Player;
+    public GameObject icon1on;
+    public GameObject icon2on;
+    public GameObject icon3on;
+    public GameObject icon4on;
+    public GameObject icon5on;
+    public GameObject icon6on;
+    public GameObject icon7on;
+    public GameObject icon8on;
+    public GameObject icon9on;
 
-	public GameObject icon1off;
-	public GameObject icon2off;
-	public GameObject icon3off;
-	public GameObject icon4off;
-	public GameObject icon5off;
-	public GameObject icon6off;
-	public GameObject icon7off;
-	public GameObject icon8off;
-	public GameObject icon9off;
+    public GameObject icon1off;
+    public GameObject icon2off;
+    public GameObject icon3off;
+    public GameObject icon4off;
+    public GameObject icon5off;
+    public GameObject icon6off;
+    public GameObject icon7off;
+    public GameObject icon8off;
+    public GameObject icon9off;
 
-	public GameObject IndicaPremios;
+    public GameObject IndicaPremios;
 
-	// Quadro de Premios
-	public Text TextP1; // premio 1...
-	public Text TextP2;
-	public Text TextP3;
-	public Text TextP4;
-	public Text TextP5;
-	public Text TextP6;
-	public Text TextP7;
-	public Text TextP8;
-	public Text TextP9;
-	public Text QuadroPremios; // titulo quadro de premios
-	public Text SairQuadro;
+    // Quadro de Premios
+    public Text TextP1; // premio 1...
+    public Text TextP2;
+    public Text TextP3;
+    public Text TextP4;
+    public Text TextP5;
+    public Text TextP6;
+    public Text TextP7;
+    public Text TextP8;
+    public Text TextP9;
+    public Text QuadroPremios; // titulo quadro de premios
+    public Text SairQuadro;
 
-	public Text txtNumeroDefesas;
-	public Text TextHeaderPremios;
-	public Text txtPremioDefesas;
-	public Text txtPremioDefesasSeguidas;
-	public Text txtPremioFases;
+    public Text txtNumeroDefesas1;
+    public Text txtNumeroDefesas2;
+    public Text txtMinHits;
+    public Text TextHeaderPremios;
+    public Text txtPremioDefesas;
+    public Text txtPremioDefesasSeguidas;
+    public Text txtPremioFases;
 
 
     public GameObject game;
     public CanvasGroup gameCanvas;
     public GameObject betweenLevels;
     public GameObject intro;
-    public GameObject introMenu;
-    public GameObject gameModeMenu;
+    //public GameObject introMenu;
+    //public GameObject gameModeMenu;
     public ScoreMonitor scoreMonitor;
 
     public GameObject logBox;         //Josi: JG: box com as 8 jogadas mainScene/gameScene/gameUICanvas/LogBox
     public GameObject bmMsg;          //Josi: BM: tutorial ou "aperte tecla" mainScene/gameScene/gameUICanvas/bmMsg
     public GameObject aperteTecla;    //Josi: 161229: reuniao: sai tutorial, mas no BMcomTempo entra aviso de AperteTecla para 3-2-1
 
-    //	public GameObject mdTutorial;     //Josi: MD: tutorial do memoDecl - mainScene/gameScene/gameUICanvas/mdTutorial: Reuniao pede para eliminar
-    //	public GameObject progressionBar; //Josi: 161227: reuniao pede para eliminar a menos do Jogo do Goleiro
+    //  public GameObject mdTutorial;     //Josi: MD: tutorial do memoDecl - mainScene/gameScene/gameUICanvas/mdTutorial: Reuniao pede para eliminar
+    //  public GameObject progressionBar; //Josi: 161227: reuniao pede para eliminar a menos do Jogo do Goleiro
     public GameObject frameChute;     //Josi: 161229: reuniao: contorno que recebe a indicacao da seta de direcao mainScene/gameScene/gameUICanvas/bmIndicaChute
 
     public GameObject mdFirstScreen;  //170102: reuniao: primeira tela do MD (ou Base Memoria)
-                                      //	public GameObject ExitFirstScreenJM;     //170309 mainScene/gameScene/gameUIcanvas/mdFirstScreen/ExitFirstScreenJM botao de exit
+                                      //    public GameObject ExitFirstScreenJM;     //170309 mainScene/gameScene/gameUIcanvas/mdFirstScreen/ExitFirstScreenJM botao de exit
     public GameObject mdAperteTecla;  //170912: para poder alterar a transparência enquanto está em modo Pause (não encontrei sintaxe sem declarar)
 
-    public GameObject errorMessages;         //170311 em configuration/canvas/errorMessages; QG para apontar se o param ID estah repetido...
-    public Text txtMessage;                  //170623 txt do erro
+    //public GameObject errorMessages;         //170311 em configuration/canvas/errorMessages; QG para apontar se o param ID estah repetido...
+    //public Text txtMessage;                  //170623 txt do erro
     private bool waitingKeyToExit = false;   //170311 para sair apos encontrar erro nos confFiles
 
     public float startSessionTime;           //170316 inicio da sessao: selecionar jogo (para comparativo entre os tempos de decsao/movimento)
@@ -126,7 +128,7 @@ public class GameFlowManager : MonoBehaviour
 
     private ProbCalculator probCalculator;
     private UIManager uiManager;
-    //	private bool barCalculated = false;     //170106 sem barra de progresso
+    //  private bool barCalculated = false;     //170106 sem barra de progresso
 
     private bool onVersusMode = false;
 
@@ -162,67 +164,58 @@ public class GameFlowManager : MonoBehaviour
     public GameObject scrTutorial;        //180626 temporarily screen gameTutorial; will be changed for an Magara art
                                           //180626 TMP are called as gameObjects
     private LocalizationManager translate;    //171006 trazer script das rotinas de translation
-		/*
-		public GameObject txtTut1;                //171006 elementos para traduzir na tela de Menu
-    public GameObject txtTut2;
-    public GameObject txtTut3;
-    public GameObject txtTut4;
-		*/
-		public Text txtTut5;
+    public Text txtTut1;                //171006 elementos para traduzir na tela de Menu
+    public Text txtTut2;
+    public Text txtTut3;
+    public Text txtTut4;
 
-    public Text txtJogo;
     public Text txtMenu;
-    public Text txtSair;
-    public Text txtHeader;                   //171009 errMsgs
-    public Text txtExit;
     public Text txtTeam;                     //180614 back to Team Selection
-    public Text txtStartG;                   //180629 start game
-    public Text txtComP;                     //180629 com pausa
-    public Text txtSemP;                     //180629 sem pausa
+
 
     int errorNumber;                         //180105 to create a function
     public string sequJMGiven;               //180418 to save the sequence given to the player in JM
 
 
-	//@ale Save data =========================================================================
+    //@ale Save data =========================================================================
 
-	public bool icone1;
-	public bool icone2;
-	public bool icone3;
-	public bool icone4;
-	public bool icone5;
-	public bool icone6;
-	public bool icone7;
-	public bool icone8;
-	public bool icone9;
+    public bool icone1;
+    public bool icone2;
+    public bool icone3;
+    public bool icone4;
+    public bool icone5;
+    public bool icone6;
+    public bool icone7;
+    public bool icone8;
+    public bool icone9;
 
 
-	[Header("Configurações")]
-	public string DiretorioDoArquivo;
-	public string FormatoDoArquivo = "dat";
-	public string NomeDoArquivo;
+    [Header("Configurações")]
+    public string DiretorioDoArquivo;
+    public string FormatoDoArquivo = "dat";
+    public string NomeDoArquivo;
 
-	[Header("Elementos da UI")]
-	public InputField Diretorio;
+    [Header("Elementos da UI")]
+    public InputField Diretorio;
 
-	[Serializable] //Nessa parte nós meio que formatamos o nosso arquivo, criando uma classse para isso. Aqui criamos as variaveis que serão adicionadas ao arquivo, e vale notar que você pode repetir nome de variaveis, desde que uma delas esteja fora dessa classe.
-	class DadosDoPremio
-	{
-		public bool Bool1;
-		public bool Bool2;
-		public bool Bool3;
-		public bool Bool4;
-		public bool Bool5;
-		public bool Bool6;
-		public bool Bool7;
-		public bool Bool8;
-		public bool Bool9;
-	}
+    [Serializable] //Nessa parte nós meio que formatamos o nosso arquivo, criando uma classse para isso. Aqui criamos as variaveis que serão adicionadas ao arquivo, e vale notar que você pode repetir nome de variaveis, desde que uma delas esteja fora dessa classe.
+    class DadosDoPremio
+    {
+        public bool Bool1;
+        public bool Bool2;
+        public bool Bool3;
+        public bool Bool4;
+        public bool Bool5;
+        public bool Bool6;
+        public bool Bool7;
+        public bool Bool8;
+        public bool Bool9;
+    }
 
-	public int numeroFases = 0;
-	public int totalAcertos;
+    public int numeroFases = 0;
+    public int totalAcertos;
 
-	//=========================================================================================
+    //=========================================================================================
 
     static private GameFlowManager _instance;
     static public GameFlowManager instance
@@ -295,7 +288,7 @@ public class GameFlowManager : MonoBehaviour
 
 
             if (numPlays > 0)
-            {							/* Versao Desktop
+            {                           /* Versao Desktop
                 //170306 IMEjr nao gostou da estrategia de soh aumentar ao final do totalDeJogadas; como eram 5 x 1 mudei...
                 //       assim pode nao ficar claro que o aumento ocorreu porque ao fim das jogadas planejadas o min nao foi atingido
 
@@ -305,13 +298,13 @@ public class GameFlowManager : MonoBehaviour
                 if (PlayerPrefs.GetInt("gameSelected") == 2)
                 {
                     //modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
-										// era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
-										if ( (uiManager.success  == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
+                                        // era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
+                                        if ( (uiManager.success  == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
                     {    //180402 extremes (>, not >=)
-												ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
+                                                ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
                         //gameOver(2);
                     }
-										/*
+                                        /*
                     else
                     {
                         if (probCalculator.getJGminHitsInSequence() > 0)
@@ -323,405 +316,448 @@ public class GameFlowManager : MonoBehaviour
                         }
                     }
 
-                	} */
-
-									  Debug.Log ("GameFlowManager.cs !!!!!!!!!!!!!!!! numPlays > 0 !!!!!!!!!!!!");
-										Debug.Log ("successTotal >>>>>>>>>>>>>" + uiManager.successTotal);
-										Debug.Log ("getJGminHitsInSequence >>>>>>>>>>>>>>>>>>>>>>>>" + probCalculator.getJGminHitsInSequence());
-										
-		                if (PlayerPrefs.GetInt("gameSelected") == 2)
-		                {
-											//modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
-											// era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
-											if ( (uiManager.success  == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
-											{    //180402 extremes (>, not >=)
-												Debug.Log ("############################################################################");
-												Debug.Log ("GameFlowManager.cs ****** f:uiManager.successTotal = " + uiManager.successTotal);
-												Debug.Log ("GameFlowManager.cs ****** f:minHitsInSequence = " + minHitsInSequence);
-												Debug.Log ("############################################################################");
-												//gameLover(PlayerPrefs.GetInt("gameSelected"));
-												ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
-											}
-
-		                }
-
-
-				// @ale - Premio 1 - Acertar 8 defesas em qualquer ordem
-				if (uiManager.successTotal == 8 || Load1() == true)
-				{
-					Debug.Log ("Total de Acertos = " +totalAcertos + "... ativa icone1 = "+icone1);
-					totalAcertos = uiManager.success + totalAcertos;
-
-					if (Load1 () == false) {
-						LigaDesligaIndicaPremios (true);
-					} else {
-						LigaDesligaIndicaPremios (false);
-					}
-
-					//Premios.SetActive (false);
-					icon1off.SetActive (false);
-					/*
-					icon2off.SetActive (true);
-					icon3off.SetActive (true);
-					icon4off.SetActive (true);
-					icon5off.SetActive (true);
-					icon6off.SetActive (true);
-					icon7off.SetActive (true);
-					icon8off.SetActive (true);
-					*/
-					icon1on.SetActive (true);
-					/*
-					icon2on.SetActive (false);
-					icon3on.SetActive (false);
-					icon4on.SetActive (false);
-					icon5on.SetActive (false);
-					icon6on.SetActive (false);
-					icon7on.SetActive (false);
-					icon8on.SetActive (false);
-					*/
-
-					if (!icone1 && Load2() == true) {
-						icone1 = true;
-						Save (true, true, false, false, false, false, false, false, false);
-					}
-
-					if (!icone1 && Load2() == false) {
-						icone1 = true;
-						Save (true, false, false, false, false, false, false, false, false);
-					}
-
-
-				}
-
-
-				// @ale - Premio 2 (32 Defesas)
-				if (uiManager.successTotal == 32 || Load2() == true)
-				{
-					//Debug.Log ("-----ativa icone1 = "+icone1);
-					totalAcertos = uiManager.success + totalAcertos;
-
-					if (Load2 () == false) {
-						LigaDesligaIndicaPremios (true);
-					} else {
-						LigaDesligaIndicaPremios (false);
-					}
-					icon2off.SetActive (false);
-					icon2on.SetActive (true);
-					if (!icone2 && Load1() == true) {
-						icone2 = true;
-						Save (true, true, false, false, false, false, false, false, false);
-					}
-					if (!icone2 && Load1() == false) {
-						icone2 = true;
-						Save (false, true, false, false, false, false, false, false, false);
-					}
-				}
-
-
-				// @ale - Premio 3 - Acertar 30 defesas em qualquer ordem
-				if (uiManager.successTotal == 64 || Load3() == true)
-				{
-					Debug.Log ("-----ativa icone3 = "+icone3);
-
-					totalAcertos = uiManager.success + totalAcertos;
-
-					if (Load3 () == false) {
-						LigaDesligaIndicaPremios (true);
-					} else {
-						LigaDesligaIndicaPremios (false);
-					}
-
-					icon3off.SetActive (false);
-					icon3on.SetActive (true);
-
-					if (!icone3 && Load2() == true) {
-						icone3 = true;
-						Save (true, true, true, false, false, false, false, false, false);
-					}
-					if (!icone3 && Load2() == false) {
-						icone3 = true;
-						Save (true, false, true, false, false, false, false, false, false);
-					}
-				}
-
-
-				// @ale - Premio 4 (5 Defesas em Sequencia)
-				if (minHitsInSequence == 5 || Load4() == true)
-				{
-					if (Load4 () == false) {
-						LigaDesligaIndicaPremios (true);
-					} else {
-						LigaDesligaIndicaPremios (false);
-					}
-					icon4off.SetActive (false);
-					icon4on.SetActive (true);
-
-					if (!icone4)
-					{
-						icone4 = true;
-						Save (false, false, false, true, false, false, false, false, false);
-					}
-					if (Load1() == true)
-					{
-						Save (true, false, false, true, false, false, false, false, false);
-					}
-					if (Load2() == true)
-					{
-						Save (true, true, false, true, false, false, false, false, false);
-					}
-					if (Load3() == true)
-					{
-						Save (true, true, true, true, false, false, false, false, false);
-					}
-					if (Load5() == true)
-					{
-						Save (true, true, true, true, true, false, false, false, false);
-					}
-
-				}
-
-
-				// @ale - Premio 5 (10 Defesas em Sequencia)
-				if (minHitsInSequence == 10 || Load5() == true)
-				{
-					if (Load5 () == false) {
-						LigaDesligaIndicaPremios (true);
-					} else {
-						LigaDesligaIndicaPremios (false);
-					}
-
-
-					icon5off.SetActive (false);
-					icon5on.SetActive (true);
-
-					if (!icone5)
-					{
-						icone5 = true;
-						Save (false, false, false, false, true, false, false, false, false);
-					}
-					if (Load1() == true)
-					{
-						Save (true, false, false, false, true, false, false, false, false);
-					}
-					if (Load2() == true)
-					{
-						Save (true, true, false, false, true, false, false, false, false);
-					}
-					if (Load3() == true)
-					{
-						Save (true, true, true, false, true, false, false, false, false);
-					}
-					if (Load4() == true)
-					{
-						Save (true, true, true, true, true, false, false, false, false);
-					}
-
-
-				}
-
-
-				// @ale - Premio 6 (15 Defesas em Sequencia)
-				if (minHitsInSequence == 15 || Load6() == true)
-				{
-					if (Load6 () == false) {
-						LigaDesligaIndicaPremios (true);
-					} else {
-						LigaDesligaIndicaPremios (false);
-					}
-
-					icon6off.SetActive (false);
-					icon6on.SetActive (true);
-
-					if (!icone6)
-					{
-						icone6 = true;
-						Save (false, false, false, false, false, true, false, false, false);
-					}
-					if (Load1() == true)
-					{
-						Save (true, false, false, false, false, true, false, false, false);
-					}
-					if (Load2() == true)
-					{
-						Save (true, true, false, false, false, true, false, false, false);
-					}
-					if (Load3() == true)
-					{
-						Save (true, true, true, false, false, true, false, false, false);
-					}
-					if (Load4() == true)
-					{
-						Save (true, true, true, true, false, true, false, false, false);
-					}
-					if (Load5() == true)
-					{
-						Save (true, true, true, true, true, true, false, false, false);
-					}
-
-				}
-
-
-
-
-
-				// @ale - Premio 7 (Finalizar 2 fases completas)
-				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load7() == true)
-				{
-					if (numeroFases < 2) {
-						numeroFases ++;
-						Debug.Log ("probCalculator.getJGminHitsInSequence --->>>>>>>>>> " + probCalculator.getJGminHitsInSequence());
-						Debug.Log ("uiManager.eventCount --->>>>>>>>>> " + uiManager.eventCount);
-						Debug.Log ("numPlays --->>>>>>>>>> " + numPlays);
-						Debug.Log ("Numero de FASES ate 2 --->>>>>>>>>> " + numeroFases);
-					}
-
-					if (numeroFases == 2) {
-
-						if (Load7 () == false) {
-							LigaDesligaIndicaPremios (true);
-						} else {
-							LigaDesligaIndicaPremios (false);
-						}
-
-
-						icon7off.SetActive (false);
-						icon7on.SetActive (true);
-
-						if (!icone7)
-						{
-							icone7 = true;
-							Save (false, false, false, false, false, false, true, false, false);
-						}
-						if (Load1() == true)
-						{
-							Save (true, false, false, false, false, false, true, false, false);
-						}
-						if (Load2() == true)
-						{
-							Save (true, true, false, false, false, false, true, false, false);
-						}
-						if (Load3() == true)
-						{
-							Save (true, true, true, false, false, false, true, false, false);
-						}
-						if (Load4() == true)
-						{
-							Save (true, true, true, true, false, false, true, false, false);
-						}
-						if (Load5() == true)
-						{
-							Save (true, true, true, true, true, false, true, false, false);
-						}
-						if (Load6() == true)
-						{
-							Save (true, true, true, true, true, true, true, false, false);
-						}
-
-					}
-
-				}
-
-
-				// @ale - Premio 8 (Finalizar 4 fases completas)
-				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load8() == true)
-				{
-					if (numeroFases > 2 && numeroFases < 4) {
-						numeroFases ++;
-						Debug.Log ("Numero de FASES de 2 ate 4 --->>>>>>>>>> " + numeroFases);
-					}
-
-					if (numeroFases == 4) {
-
-						if (Load8 () == false) {
-							LigaDesligaIndicaPremios (true);
-						} else {
-							LigaDesligaIndicaPremios (false);
-						}
-
-
-						icon8off.SetActive (false);
-						icon8on.SetActive (true);
-
-						if (!icone8)
-						{
-							icone8 = true;
-							Save (false, false, false, false, false, false, false, true, false);
-						}
-						if (Load1() == true)
-						{
-							Save (true, false, false, false, false, false, false, true, false);
-						}
-						if (Load2() == true)
-						{
-							Save (true, true, false, false, false, false, false, true, false);
-						}
-						if (Load3() == true)
-						{
-							Save (true, true, true, false, false, false, false, true, false);
-						}
-						if (Load4() == true)
-						{
-							Save (true, true, true, true, false, false, false, true, false);
-						}
-						if (Load5() == true)
-						{
-							Save (true, true, true, true, true, false, false, true, false);
-						}
-						if (Load6() == true)
-						{
-							Save (true, true, true, true, true, true, false, true, false);
-						}
-						if (Load7() == true)
-						{
-							Save (true, true, true, true, true, true, true, true, false);
-						}
-
-					}
-				}
-
-
-				// @ale - Premio 9 (Finalizar 8 fases completas)
-				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load9() == true)
-
-				{
-					if (numeroFases > 4 && numeroFases < 8) {
-						numeroFases ++;
-						Debug.Log ("Numero de FASES de 4 ate 8 --->>>>>>>>>> " + numeroFases);
-					}
-
-					if (numeroFases == 8) {
-
-						if (Load9 () == false) {
-							LigaDesligaIndicaPremios (true);
-						} else {
-							LigaDesligaIndicaPremios (false);
-						}
-
-
-						icon9off.SetActive (false);
-						icon9on.SetActive (true);
-
-						if (!icone9 && Load7() == true && Load8() == true) {
-							icone9 = true;
-							Save (true, true, true, true, true, true, true, true, true);
-						}
-
-						if (!icone9 && Load7() == false && Load8() == false) {
-							icone9 = true;
-							Save (true, true, true, true, true, true, false, false, true);
-						}
-
-						if (!icone9 && Load7() == false && Load8() == true) {
-							icone9 = true;
-							Save (true, true, true, true, true, false, false, true, true);
-						}
-
-						if (!icone9 && Load7() == true && Load8() == false) {
-							icone9 = true;
-							Save (true, true, true, true, true, true, true, false, true);
-						}
-					}
-				}
+                    } */
+
+                Debug.Log("GameFlowManager.cs !!!!!!!!!!!!!!!! numPlays > 0 !!!!!!!!!!!!");
+                Debug.Log("successTotal >>>>>>>>>>>>>" + uiManager.successTotal);
+                Debug.Log("getJGminHitsInSequence >>>>>>>>>>>>>>>>>>>>>>>>" + probCalculator.getJGminHitsInSequence());
+
+                if (PlayerPrefs.GetInt("gameSelected") == 2)
+                {
+                    //modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
+                    // era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
+                    if ((uiManager.success == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0))
+                    {    //180402 extremes (>, not >=)
+                        Debug.Log("############################################################################");
+                        Debug.Log("GameFlowManager.cs ****** f:uiManager.successTotal = " + uiManager.successTotal);
+                        Debug.Log("GameFlowManager.cs ****** f:minHitsInSequence = " + minHitsInSequence);
+                        Debug.Log("############################################################################");
+                        //gameLover(PlayerPrefs.GetInt("gameSelected"));
+                        ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
+                    }
+
+                }
+
+
+                // @ale - Premio 1 - Acertar 8 defesas em qualquer ordem
+                if (uiManager.successTotal == 8 || Load1() == true)
+                {
+                    Debug.Log("Total de Acertos = " + totalAcertos + "... ativa icone1 = " + icone1);
+                    totalAcertos = uiManager.success + totalAcertos;
+
+                    if (Load1() == false)
+                    {
+                        LigaDesligaIndicaPremios(true);
+                    }
+                    else
+                    {
+                        LigaDesligaIndicaPremios(false);
+                    }
+
+                    //Premios.SetActive (false);
+                    icon1off.SetActive(false);
+                    /*
+                    icon2off.SetActive (true);
+                    icon3off.SetActive (true);
+                    icon4off.SetActive (true);
+                    icon5off.SetActive (true);
+                    icon6off.SetActive (true);
+                    icon7off.SetActive (true);
+                    icon8off.SetActive (true);
+                    */
+                    icon1on.SetActive(true);
+                    /*
+                    icon2on.SetActive (false);
+                    icon3on.SetActive (false);
+                    icon4on.SetActive (false);
+                    icon5on.SetActive (false);
+                    icon6on.SetActive (false);
+                    icon7on.SetActive (false);
+                    icon8on.SetActive (false);
+                    */
+
+                    if (!icone1 && Load2() == true)
+                    {
+                        icone1 = true;
+                        Save(true, true, false, false, false, false, false, false, false);
+                    }
+
+                    if (!icone1 && Load2() == false)
+                    {
+                        icone1 = true;
+                        Save(true, false, false, false, false, false, false, false, false);
+                    }
+
+
+                }
+
+
+                // @ale - Premio 2 (32 Defesas)
+                if (uiManager.successTotal == 32 || Load2() == true)
+                {
+                    //Debug.Log ("-----ativa icone1 = "+icone1);
+                    totalAcertos = uiManager.success + totalAcertos;
+
+                    if (Load2() == false)
+                    {
+                        LigaDesligaIndicaPremios(true);
+                    }
+                    else
+                    {
+                        LigaDesligaIndicaPremios(false);
+                    }
+                    icon2off.SetActive(false);
+                    icon2on.SetActive(true);
+                    if (!icone2 && Load1() == true)
+                    {
+                        icone2 = true;
+                        Save(true, true, false, false, false, false, false, false, false);
+                    }
+                    if (!icone2 && Load1() == false)
+                    {
+                        icone2 = true;
+                        Save(false, true, false, false, false, false, false, false, false);
+                    }
+                }
+
+
+                // @ale - Premio 3 - Acertar 30 defesas em qualquer ordem
+                if (uiManager.successTotal == 64 || Load3() == true)
+                {
+                    Debug.Log("-----ativa icone3 = " + icone3);
+
+                    totalAcertos = uiManager.success + totalAcertos;
+
+                    if (Load3() == false)
+                    {
+                        LigaDesligaIndicaPremios(true);
+                    }
+                    else
+                    {
+                        LigaDesligaIndicaPremios(false);
+                    }
+
+                    icon3off.SetActive(false);
+                    icon3on.SetActive(true);
+
+                    if (!icone3 && Load2() == true)
+                    {
+                        icone3 = true;
+                        Save(true, true, true, false, false, false, false, false, false);
+                    }
+                    if (!icone3 && Load2() == false)
+                    {
+                        icone3 = true;
+                        Save(true, false, true, false, false, false, false, false, false);
+                    }
+                }
+
+
+                // @ale - Premio 4 (5 Defesas em Sequencia)
+                if (minHitsInSequence == 5 || Load4() == true)
+                {
+                    if (Load4() == false)
+                    {
+                        LigaDesligaIndicaPremios(true);
+                    }
+                    else
+                    {
+                        LigaDesligaIndicaPremios(false);
+                    }
+                    icon4off.SetActive(false);
+                    icon4on.SetActive(true);
+
+                    if (!icone4)
+                    {
+                        icone4 = true;
+                        Save(false, false, false, true, false, false, false, false, false);
+                    }
+                    if (Load1() == true)
+                    {
+                        Save(true, false, false, true, false, false, false, false, false);
+                    }
+                    if (Load2() == true)
+                    {
+                        Save(true, true, false, true, false, false, false, false, false);
+                    }
+                    if (Load3() == true)
+                    {
+                        Save(true, true, true, true, false, false, false, false, false);
+                    }
+                    if (Load5() == true)
+                    {
+                        Save(true, true, true, true, true, false, false, false, false);
+                    }
+
+                }
+
+
+                // @ale - Premio 5 (10 Defesas em Sequencia)
+                if (minHitsInSequence == 10 || Load5() == true)
+                {
+                    if (Load5() == false)
+                    {
+                        LigaDesligaIndicaPremios(true);
+                    }
+                    else
+                    {
+                        LigaDesligaIndicaPremios(false);
+                    }
+
+
+                    icon5off.SetActive(false);
+                    icon5on.SetActive(true);
+
+                    if (!icone5)
+                    {
+                        icone5 = true;
+                        Save(false, false, false, false, true, false, false, false, false);
+                    }
+                    if (Load1() == true)
+                    {
+                        Save(true, false, false, false, true, false, false, false, false);
+                    }
+                    if (Load2() == true)
+                    {
+                        Save(true, true, false, false, true, false, false, false, false);
+                    }
+                    if (Load3() == true)
+                    {
+                        Save(true, true, true, false, true, false, false, false, false);
+                    }
+                    if (Load4() == true)
+                    {
+                        Save(true, true, true, true, true, false, false, false, false);
+                    }
+
+
+                }
+
+
+                // @ale - Premio 6 (15 Defesas em Sequencia)
+                if (minHitsInSequence == 15 || Load6() == true)
+                {
+                    if (Load6() == false)
+                    {
+                        LigaDesligaIndicaPremios(true);
+                    }
+                    else
+                    {
+                        LigaDesligaIndicaPremios(false);
+                    }
+
+                    icon6off.SetActive(false);
+                    icon6on.SetActive(true);
+
+                    if (!icone6)
+                    {
+                        icone6 = true;
+                        Save(false, false, false, false, false, true, false, false, false);
+                    }
+                    if (Load1() == true)
+                    {
+                        Save(true, false, false, false, false, true, false, false, false);
+                    }
+                    if (Load2() == true)
+                    {
+                        Save(true, true, false, false, false, true, false, false, false);
+                    }
+                    if (Load3() == true)
+                    {
+                        Save(true, true, true, false, false, true, false, false, false);
+                    }
+                    if (Load4() == true)
+                    {
+                        Save(true, true, true, true, false, true, false, false, false);
+                    }
+                    if (Load5() == true)
+                    {
+                        Save(true, true, true, true, true, true, false, false, false);
+                    }
+
+                }
+
+
+
+
+
+                // @ale - Premio 7 (Finalizar 2 fases completas)
+                if ((uiManager.success == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) || Load7() == true)
+                {
+                    if (numeroFases < 2)
+                    {
+                        numeroFases++;
+                        Debug.Log("probCalculator.getJGminHitsInSequence --->>>>>>>>>> " + probCalculator.getJGminHitsInSequence());
+                        Debug.Log("uiManager.eventCount --->>>>>>>>>> " + uiManager.eventCount);
+                        Debug.Log("numPlays --->>>>>>>>>> " + numPlays);
+                        Debug.Log("Numero de FASES ate 2 --->>>>>>>>>> " + numeroFases);
+                    }
+
+                    if (numeroFases == 2)
+                    {
+
+                        if (Load7() == false)
+                        {
+                            LigaDesligaIndicaPremios(true);
+                        }
+                        else
+                        {
+                            LigaDesligaIndicaPremios(false);
+                        }
+
+
+                        icon7off.SetActive(false);
+                        icon7on.SetActive(true);
+
+                        if (!icone7)
+                        {
+                            icone7 = true;
+                            Save(false, false, false, false, false, false, true, false, false);
+                        }
+                        if (Load1() == true)
+                        {
+                            Save(true, false, false, false, false, false, true, false, false);
+                        }
+                        if (Load2() == true)
+                        {
+                            Save(true, true, false, false, false, false, true, false, false);
+                        }
+                        if (Load3() == true)
+                        {
+                            Save(true, true, true, false, false, false, true, false, false);
+                        }
+                        if (Load4() == true)
+                        {
+                            Save(true, true, true, true, false, false, true, false, false);
+                        }
+                        if (Load5() == true)
+                        {
+                            Save(true, true, true, true, true, false, true, false, false);
+                        }
+                        if (Load6() == true)
+                        {
+                            Save(true, true, true, true, true, true, true, false, false);
+                        }
+
+                    }
+
+                }
+
+
+                // @ale - Premio 8 (Finalizar 4 fases completas)
+                if ((uiManager.success == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) || Load8() == true)
+                {
+                    if (numeroFases > 2 && numeroFases < 4)
+                    {
+                        numeroFases++;
+                        Debug.Log("Numero de FASES de 2 ate 4 --->>>>>>>>>> " + numeroFases);
+                    }
+
+                    if (numeroFases == 4)
+                    {
+
+                        if (Load8() == false)
+                        {
+                            LigaDesligaIndicaPremios(true);
+                        }
+                        else
+                        {
+                            LigaDesligaIndicaPremios(false);
+                        }
+
+
+                        icon8off.SetActive(false);
+                        icon8on.SetActive(true);
+
+                        if (!icone8)
+                        {
+                            icone8 = true;
+                            Save(false, false, false, false, false, false, false, true, false);
+                        }
+                        if (Load1() == true)
+                        {
+                            Save(true, false, false, false, false, false, false, true, false);
+                        }
+                        if (Load2() == true)
+                        {
+                            Save(true, true, false, false, false, false, false, true, false);
+                        }
+                        if (Load3() == true)
+                        {
+                            Save(true, true, true, false, false, false, false, true, false);
+                        }
+                        if (Load4() == true)
+                        {
+                            Save(true, true, true, true, false, false, false, true, false);
+                        }
+                        if (Load5() == true)
+                        {
+                            Save(true, true, true, true, true, false, false, true, false);
+                        }
+                        if (Load6() == true)
+                        {
+                            Save(true, true, true, true, true, true, false, true, false);
+                        }
+                        if (Load7() == true)
+                        {
+                            Save(true, true, true, true, true, true, true, true, false);
+                        }
+
+                    }
+                }
+
+
+                // @ale - Premio 9 (Finalizar 8 fases completas)
+                if ((uiManager.success == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) || Load9() == true)
+
+                {
+                    if (numeroFases > 4 && numeroFases < 8)
+                    {
+                        numeroFases++;
+                        Debug.Log("Numero de FASES de 4 ate 8 --->>>>>>>>>> " + numeroFases);
+                    }
+
+                    if (numeroFases == 8)
+                    {
+
+                        if (Load9() == false)
+                        {
+                            LigaDesligaIndicaPremios(true);
+                        }
+                        else
+                        {
+                            LigaDesligaIndicaPremios(false);
+                        }
+
+
+                        icon9off.SetActive(false);
+                        icon9on.SetActive(true);
+
+                        if (!icone9 && Load7() == true && Load8() == true)
+                        {
+                            icone9 = true;
+                            Save(true, true, true, true, true, true, true, true, true);
+                        }
+
+                        if (!icone9 && Load7() == false && Load8() == false)
+                        {
+                            icone9 = true;
+                            Save(true, true, true, true, true, true, false, false, true);
+                        }
+
+                        if (!icone9 && Load7() == false && Load8() == true)
+                        {
+                            icone9 = true;
+                            Save(true, true, true, true, true, false, false, true, true);
+                        }
+
+                        if (!icone9 && Load7() == true && Load8() == false)
+                        {
+                            icone9 = true;
+                            Save(true, true, true, true, true, true, true, false, true);
+                        }
+                    }
+                }
 
 
 
@@ -864,7 +900,7 @@ public class GameFlowManager : MonoBehaviour
                 //-------------------------------------------------------
 
                 //if(playing && uiManager.events.Count >= probCalculator.GetCurrentPlayLimit())    //Josi: era assim
-                //				if (playing && uiManager.events.Count >= numPlays) {   //170106 events contem o log,que no caso do MD acumula os testes iniciais
+                //              if (playing && uiManager.events.Count >= numPlays) {   //170106 events contem o log,que no caso do MD acumula os testes iniciais
                 //if (playing && (uiManager.eventCount >= numPlays)) {   //       eventCount contem o numero de jogadas de uma fase
                 if (playing && (uiManager.eventCount >= numPlays) && (PlayerPrefs.GetInt("gameSelected") != 5))
                 { //
@@ -1000,55 +1036,59 @@ public class GameFlowManager : MonoBehaviour
     }
 
 
-	// @ale -------------------------------- Painel de Premios ------------------------------------------
+    // @ale -------------------------------- Painel de Premios ------------------------------------------
 
-	public void PainelPremios () {
-		StartCoroutine (PainelPremiosOn ());
-	}
+    public void PainelPremios()
+    {
+        StartCoroutine(PainelPremiosOn());
+    }
 
-	IEnumerator PainelPremiosOn() {
-		Debug.Log ("ATIVAR JANELA DE PREMIOS");
-		LigaDesligaIndicaPremios (false);
-		Premios.SetActive (true);
-		Debug.Log ("Verifica .... Load1");
-		Load1();
+    IEnumerator PainelPremiosOn()
+    {
+        Debug.Log("ATIVAR JANELA DE PREMIOS");
+        LigaDesligaIndicaPremios(false);
+        Premios.SetActive(true);
+        Debug.Log("Verifica .... Load1");
+        Load1();
 
-		yield return new WaitForSeconds (2);
-	}
+        yield return new WaitForSeconds(2);
+    }
 
-	public void SairPainelPremios () {
-		StartCoroutine (PainelPremiosOff ());
-	}
+    public void SairPainelPremios()
+    {
+        StartCoroutine(PainelPremiosOff());
+    }
 
-	IEnumerator PainelPremiosOff() {
-		Premios.SetActive (false);
-		yield return new WaitForSeconds (2);
-	}
-	// ------------------------------------fim painel de premios------------------------------------------
+    IEnumerator PainelPremiosOff()
+    {
+        Premios.SetActive(false);
+        yield return new WaitForSeconds(2);
+    }
+    // ------------------------------------fim painel de premios------------------------------------------
 
 
 
-	// @ale -------------------------------- Painel Usuario ------------------------------------------
-  /*
-	public void PainelPlayer () {
-		StartCoroutine (PainelPlayerOn ());
-	}
+    // @ale -------------------------------- Painel Usuario ------------------------------------------
+    /*
+      public void PainelPlayer () {
+          StartCoroutine (PainelPlayerOn ());
+      }
 
-	IEnumerator PainelPlayerOn() {
-		Player.SetActive (true);
-		yield return new WaitForSeconds (2);
-	}
+      IEnumerator PainelPlayerOn() {
+          Player.SetActive (true);
+          yield return new WaitForSeconds (2);
+      }
 
-	public void SairPainelPlayer () {
-		StartCoroutine (PainelPlayerOff ());
-	}
+      public void SairPainelPlayer () {
+          StartCoroutine (PainelPlayerOff ());
+      }
 
-	IEnumerator PainelPlayerOff() {
-		Player.SetActive (false);
-		yield return new WaitForSeconds (2);
-	}
-	*/
-	// ------------------------------------fim painel usuario------------------------------------------
+      IEnumerator PainelPlayerOff() {
+          Player.SetActive (false);
+          yield return new WaitForSeconds (2);
+      }
+      */
+    // ------------------------------------fim painel usuario------------------------------------------
 
     void Start()
     {
@@ -1056,9 +1096,9 @@ public class GameFlowManager : MonoBehaviour
         uiManager = UIManager.instance;
 
         intro.SetActive(true);
-        introMenu.SetActive(true);
+        //introMenu.SetActive(true);
 
-        gameModeMenu.SetActive(false);
+        //gameModeMenu.SetActive(false);
         betweenLevels.SetActive(false);
         gameCanvas.interactable = false;
         game.SetActive(false);
@@ -1072,51 +1112,56 @@ public class GameFlowManager : MonoBehaviour
 
         //171006 trocar os textos
         //180626 manter a tela de tutorial com as 4 imagens/texto ate que venha uma sugestão do designer
-        //txtTut1.text = translate.getLocalizedValue("tut1").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
-        //txtTut2.text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
-        //txtTut3.text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
-        //txtTut4.text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
+        txtTut1.text = translate.getLocalizedValue("tut1").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
+        txtTut2.text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
+        txtTut3.text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
+        txtTut4.text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
         //txtTut5.text = translate.getLocalizedValue("tut5").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
         //180627 from UiText to TMPro
-				/*
-        txtTut1.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut1").Replace("\\n", "\n");
-        txtTut2.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");
-        txtTut3.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");
-        txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");
-				*/
-        txtJogo.text = translate.getLocalizedValue("jogo");
-	// original txtMenu.text = PlayerPrefs.GetString("teamSelected") + " : " + translate.getLocalizedValue("menu");
+        /*
+txtTut1.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut1").Replace("\\n", "\n");
+txtTut2.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");
+txtTut3.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");
+txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");
+        */
+        //txtJogo.text = translate.getLocalizedValue("jogo");
+        // original txtMenu.text = PlayerPrefs.GetString("teamSelected") + " : " + translate.getLocalizedValue("menu");
         txtMenu.text = translate.getLocalizedValue("menu");
-        txtSair.text = translate.getLocalizedValue("sair");
         txtTeam.text = translate.getLocalizedValue("bckTeams");
 
-        txtStartG.text = translate.getLocalizedValue("iniciaJ").Replace("\\n", "\n");  //180629 start game
-        txtComP.text = translate.getLocalizedValue("comP");                            //180629 com pausa
-        txtSemP.text = translate.getLocalizedValue("semP");                            //180629 sem pausa
-				txtNumeroDefesas.text = translate.getLocalizedValue("numeroDefesas");
+        //txtStartG.text = translate.getLocalizedValue("iniciaJ").Replace("\\n", "\n");  //180629 start game
+        //txtComP.text = translate.getLocalizedValue("comP");                            //180629 com pausa
+        //txtSemP.text = translate.getLocalizedValue("semP");                            //180629 sem pausa
+        var minhits = probCalculator.getJGminHitsInSequence(); 
+        txtMinHits.text = minhits.ToString();
+        if (minhits != 0)
+        {
+            txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
+            txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas2");
+        }
 
 
         //180612 new buttons
-				/*
-        menuAbout.GetComponentInChildren<Text>().text = translate.getLocalizedValue("sobre");       //.Replace("\\n", "\n");                                                                                //@@menuCredits.GetComponentInChildren<Text>().text = translate.getLocalizedValue("creditos");  //.Replace("\\n", "\n");
-        menuPrizes.GetComponentInChildren<Text>().text = translate.getLocalizedValue("premios");    //.Replace("\\n", "\n");
-        menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("tutor");    //.Replace("\\n", "\n");
-				*/
-		// TRANSLATE DOS BOTOES DO QUADRO DE PREMIOS
-		TextP1.text = translate.getLocalizedValue("TextP1");
-		TextP2.text = translate.getLocalizedValue("TextP2");
-		TextP3.text = translate.getLocalizedValue("TextP3");
-		TextP4.text = translate.getLocalizedValue("TextP4");
-		TextP5.text = translate.getLocalizedValue("TextP5");
-		TextP6.text = translate.getLocalizedValue("TextP6");
-		TextP7.text = translate.getLocalizedValue("TextP7");
-		TextP8.text = translate.getLocalizedValue("TextP8");
-		TextP9.text = translate.getLocalizedValue("TextP9");
-		SairQuadro.text = translate.getLocalizedValue("TextSair");
-		QuadroPremios.text = translate.getLocalizedValue("TextHeaderPremios");
-		txtPremioDefesas.text = translate.getLocalizedValue("TextPremioDefesas");
-		txtPremioDefesasSeguidas.text = translate.getLocalizedValue("TextPremioDefesasSeguidas");
-		txtPremioFases.text = translate.getLocalizedValue("TextPremioFases");
+        /*
+menuAbout.GetComponentInChildren<Text>().text = translate.getLocalizedValue("sobre");       //.Replace("\\n", "\n");                                                                                //@@menuCredits.GetComponentInChildren<Text>().text = translate.getLocalizedValue("creditos");  //.Replace("\\n", "\n");
+menuPrizes.GetComponentInChildren<Text>().text = translate.getLocalizedValue("premios");    //.Replace("\\n", "\n");
+menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("tutor");    //.Replace("\\n", "\n");
+        */
+        // TRANSLATE DOS BOTOES DO QUADRO DE PREMIOS
+        TextP1.text = translate.getLocalizedValue("TextP1");
+        TextP2.text = translate.getLocalizedValue("TextP2");
+        TextP3.text = translate.getLocalizedValue("TextP3");
+        TextP4.text = translate.getLocalizedValue("TextP4");
+        TextP5.text = translate.getLocalizedValue("TextP5");
+        TextP6.text = translate.getLocalizedValue("TextP6");
+        TextP7.text = translate.getLocalizedValue("TextP7");
+        TextP8.text = translate.getLocalizedValue("TextP8");
+        TextP9.text = translate.getLocalizedValue("TextP9");
+        SairQuadro.text = translate.getLocalizedValue("TextSair");
+        QuadroPremios.text = translate.getLocalizedValue("TextHeaderPremios");
+        txtPremioDefesas.text = translate.getLocalizedValue("TextPremioDefesas");
+        txtPremioDefesasSeguidas.text = translate.getLocalizedValue("TextPremioDefesasSeguidas");
+        txtPremioFases.text = translate.getLocalizedValue("TextPremioFases");
 
 
         //170311 validar arq conf ======================================
@@ -1126,57 +1171,48 @@ public class GameFlowManager : MonoBehaviour
 
             //171009 translate frases de erro
             //171122 iOS (iPad/iPhone) + change order to avoid negatives
-            txtHeader.text = translate.getLocalizedValue("errHeader");
-            if ((Application.platform == RuntimePlatform.Android) ||
-                (Application.platform == RuntimePlatform.IPhonePlayer) || (SystemInfo.deviceModel.Contains("iPad")))
-            {
-                txtExit.text = translate.getLocalizedValue("toqueErrExit");
-            }
-            else
-            {
-                txtExit.text = translate.getLocalizedValue("aperteErrExit");
-            }
+            //txtHeader.text = translate.getLocalizedValue("errHeader");
 
-            errorMessages.SetActive(true);
-            txtMessage.text = string.Empty;
-            //---
-            //180105
-            if (errorNumber - 64 >= 0)
-            {
-                //txtMessage.text = "O parâmetro 'sendMarkersToEEG' aceita apenas os valores serial, parallel ou none)";
-                showErrorMessage("err05", 64);
-            }
-            //---
-            //180105
-            if (errorNumber - 32 >= 0 || uiManager.diagSerial == 2)
-            {
-                //txtMessage.text = "'sendMarkersToEEG' indica envio pela serial, mas falta indicar a porta em 'portEEGserial'";
-                showErrorMessage("err06", 32);
-            }
-            //---
-            if (errorNumber - 16 >= 0)
-            {
-                //txtMessage.text = "O parâmetro 'menus' está inexistente ou inválido (falta associar o primeiro item de menu ou este aparece mais de uma vez)";
-                showErrorMessage("err04", 16);
-            }
-            //---
-            if (errorNumber - 8 >= 0)
-            {
-                //txtMessage.text = "- Nos arquivos de configuração, o parâmetro ID está com o mesmo nome em fases diferentes - o ID deve ser único em cada um deles.";
-                showErrorMessage("err01", 8);
-            }
-            //---
-            if (errorNumber - 4 >= 0)
-            {
-                //txtMessage.text = "- Faltam parâmetros de configuração: executável do Jogo incompatível com a definição dos times.";
-                showErrorMessage("err02", 4);
-            }
-            //---
-            if (errorNumber - 2 >= 0)
-            {
-                //txtMessage.text = "- O envio de marcadores ao EEG através da porta paralela só está válido para ambientes Windows 32bits (parâmetro sendMarkersToEEG).";
-                showErrorMessage("err03", 2);
-            }
+            ////errorMessages.SetActive(true);
+            //txtMessage.text = string.Empty;
+            ////---
+            ////180105
+            //if (errorNumber - 64 >= 0)
+            //{
+            //    //txtMessage.text = "O parâmetro 'sendMarkersToEEG' aceita apenas os valores serial, parallel ou none)";
+            //    showErrorMessage("err05", 64);
+            //}
+            ////---
+            ////180105
+            //if (errorNumber - 32 >= 0 || uiManager.diagSerial == 2)
+            //{
+            //    //txtMessage.text = "'sendMarkersToEEG' indica envio pela serial, mas falta indicar a porta em 'portEEGserial'";
+            //    showErrorMessage("err06", 32);
+            //}
+            ////---
+            //if (errorNumber - 16 >= 0)
+            //{
+            //    //txtMessage.text = "O parâmetro 'menus' está inexistente ou inválido (falta associar o primeiro item de menu ou este aparece mais de uma vez)";
+            //    showErrorMessage("err04", 16);
+            //}
+            ////---
+            //if (errorNumber - 8 >= 0)
+            //{
+            //    //txtMessage.text = "- Nos arquivos de configuração, o parâmetro ID está com o mesmo nome em fases diferentes - o ID deve ser único em cada um deles.";
+            //    showErrorMessage("err01", 8);
+            //}
+            ////---
+            //if (errorNumber - 4 >= 0)
+            //{
+            //    //txtMessage.text = "- Faltam parâmetros de configuração: executável do Jogo incompatível com a definição dos times.";
+            //    showErrorMessage("err02", 4);
+            //}
+            ////---
+            //if (errorNumber - 2 >= 0)
+            //{
+            //    //txtMessage.text = "- O envio de marcadores ao EEG através da porta paralela só está válido para ambientes Windows 32bits (parâmetro sendMarkersToEEG).";
+            //    showErrorMessage("err03", 2);
+            //}
             waitingKeyToExit = true;  //aparece o quadro de erros e aguarda tecla para sair;
         }
 
@@ -1192,7 +1228,7 @@ public class GameFlowManager : MonoBehaviour
         //btnThisLevel.onClick.AddListener(Sair);
         //--
         Button btnEndLevel = endLevel.GetComponent<Button>();      //Josi: 161212: ao haver mais jogos,
-        btnEndLevel.onClick.AddListener(GoToIntro);                //              terminar os niveis deve levar ao menu principal
+        btnEndLevel.onClick.AddListener(ToConfigurations);                //              terminar os niveis deve levar ao menu principal
 
         //Josi; onClick nao funciona no betweenLevels; ideia em https://docs.unity3d.com/ScriptReference/UI.Button-onClick.html
         Button btnNotAbandon = notAbandon.GetComponent<Button>();
@@ -1210,14 +1246,14 @@ public class GameFlowManager : MonoBehaviour
         btnExit.onClick.AddListener(() => uiManager.QuitGame(2));
 
         //180605 new buttons on old tutorial screen (together menu)
-				/*
-        Button btnTutorial = menuTutorial.GetComponent<Button>();
-        btnTutorial.onClick.AddListener(showTutorial);
-        Button btnCredits = menuCredits.GetComponent<Button>();
-        btnCredits.onClick.AddListener(showCredits);
-        Button btnAbout = menuAbout.GetComponent<Button>();
-        btnAbout.onClick.AddListener(showAbout);
-				*/
+        /*
+Button btnTutorial = menuTutorial.GetComponent<Button>();
+btnTutorial.onClick.AddListener(showTutorial);
+Button btnCredits = menuCredits.GetComponent<Button>();
+btnCredits.onClick.AddListener(showCredits);
+Button btnAbout = menuAbout.GetComponent<Button>();
+btnAbout.onClick.AddListener(showAbout);
+        */
 
         //================
         //170302 definir MENU DE JOGOS com base no primeiro arquivo de configuracao
@@ -1350,7 +1386,7 @@ public class GameFlowManager : MonoBehaviour
     {
         if (uiManager.userAbandonModule)    //180618 was: if(game.activeInHierarchy), but now, many options come to GoToIntro...
         {
-            uiManager.SendEventsToServer(PlayerPrefs.GetInt("gameSelected"));  //161207: o user pode querer nao avancar e ai perde a gravacao do nivel mesmo que interrupted		                                                                     //      passou para o GameFlowManager.ShowInBetween e GoToIntro (ao abandonar o nivel do jogo)
+            uiManager.SendEventsToServer(PlayerPrefs.GetInt("gameSelected"));  //161207: o user pode querer nao avancar e ai perde a gravacao do nivel mesmo que interrupted                                                                             //      passou para o GameFlowManager.ShowInBetween e GoToIntro (ao abandonar o nivel do jogo)
         }
 
         //170307 antes estava dentro do if acima, mas ao voltar para o menu, todos deveriam executar esta inicializacao
@@ -1361,8 +1397,8 @@ public class GameFlowManager : MonoBehaviour
         betweenLevels.SetActive(false);
         gameCanvas.interactable = false;
         game.SetActive(false);
-        introMenu.SetActive(true);
-        gameModeMenu.SetActive(false);
+        //introMenu.SetActive(true);
+        //gameModeMenu.SetActive(false);
         probCalculator.ResetToInitialMachine();
         waitingKeyGameOver = false;
         waitingKeyGameLover = false;
@@ -1402,8 +1438,8 @@ public class GameFlowManager : MonoBehaviour
 
             obrigaAlias.text = System.String.Empty;
 
-            introMenu.SetActive(false);        //Josi: menuInicio em IntroScene(1): botões dos jogos
-            gameModeMenu.SetActive(true);      //Josi: userData em IntroScene(1): cata dados: msg, msg se vazio, botao Continuar
+            //introMenu.SetActive(false);        //Josi: menuInicio em IntroScene(1): botões dos jogos
+            //gameModeMenu.SetActive(true);      //Josi: userData em IntroScene(1): cata dados: msg, msg se vazio, botao Continuar
             userInfoForm.SetActive(true);      //Josi: sendData em IntroScene(1): cata dados: apelido
 
         }
@@ -1747,23 +1783,23 @@ public class GameFlowManager : MonoBehaviour
 
         //170124 solicitado pelo Prof Andre Frazao manter apenas acertos/jogadas sem porcentual
         //Josi: trazer o placar para esta tela de sobreposicao, de troca de nivel
-        //		string concordaAcerto = " acertos em ";
-        //		string concordaJogada = " jogadas (";
-        //		if (uiManager.success == 1) {
-        //			concordaAcerto = " acerto em ";
-        //		}
-        //		if (probCalculator.GetCurrentPlayLimit(gameSelected) == 1) {
-        //			concordaJogada = " jogada (";
-        //		}
+        //      string concordaAcerto = " acertos em ";
+        //      string concordaJogada = " jogadas (";
+        //      if (uiManager.success == 1) {
+        //          concordaAcerto = " acerto em ";
+        //      }
+        //      if (probCalculator.GetCurrentPlayLimit(gameSelected) == 1) {
+        //          concordaJogada = " jogada (";
+        //      }
 
         //170124 solicitado pelo Prof Andre Frazao manter apenas acertos/jogadas sem porcentual
         //placarFinal: xxx acertos em yyy jogadas (zzz.zz%)
         //placarFinal.text = uiManager.success.ToString ().PadLeft (3).Trim () + concordaAcerto
-        //	+ probCalculator.GetCurrentPlayLimit (gameSelected).ToString ().PadLeft (3).Trim () + concordaJogada
-        //	+ ((uiManager.success * 100f) / (float)probCalculator.GetCurrentPlayLimit (gameSelected)).ToString ("F2").Trim () + "%)";
+        //  + probCalculator.GetCurrentPlayLimit (gameSelected).ToString ().PadLeft (3).Trim () + concordaJogada
+        //  + ((uiManager.success * 100f) / (float)probCalculator.GetCurrentPlayLimit (gameSelected)).ToString ("F2").Trim () + "%)";
         // 170412 refeito todo o trecho considerando o novo param finalScoreboard
         //placarFinal.text = uiManager.success.ToString ().PadLeft (3).Trim () + "/" +
-        //	probCalculator.GetCurrentPlayLimit (gameSelected, uiManager.phaseZeroJG).ToString ().PadLeft (3).Trim (); //170216 novo param no PlayLimit
+        //  probCalculator.GetCurrentPlayLimit (gameSelected, uiManager.phaseZeroJG).ToString ().PadLeft (3).Trim (); //170216 novo param no PlayLimit
 
 
         //170412 para atender aos Prof Bruno e Prof Andre, criado o param finalScoreboard com as opcoes long (bruno), short/none (andre)
@@ -1788,13 +1824,13 @@ public class GameFlowManager : MonoBehaviour
             placarFinal.text = uiManager.success.ToString().PadLeft(3).Trim() + concordaAcerto
                 + probCalculator.GetCurrentPlayLimit(gameSelected).ToString().PadLeft(3).Trim() + concordaJogada
                 + ((uiManager.success * 100f) / (float)probCalculator.GetCurrentPlayLimit(gameSelected)).ToString("F2").Trim() + "%)";
-			*/
+            */
 
-			//modificado versao mobile para nao indicar o % ja que depende no.min de acertos estabelecidos e nao do
-			// do total de jogadas: placarFinal: xxx acertos em yyy jogadas
-			placarFinal.text = "";
+            //modificado versao mobile para nao indicar o % ja que depende no.min de acertos estabelecidos e nao do
+            // do total de jogadas: placarFinal: xxx acertos em yyy jogadas
+            placarFinal.text = "";
 
-			//Debug.Log ("GameFlowManager.cs *********** f:ShowInBetewwen --> placarFinal.text = " + placarFinal.text);
+            //Debug.Log ("GameFlowManager.cs *********** f:ShowInBetewwen --> placarFinal.text = " + placarFinal.text);
         }
         else
         {
@@ -1965,18 +2001,18 @@ public class GameFlowManager : MonoBehaviour
     public void Update()
     {
 
-		// original quando ainda pegava o Apelido
-		//NomeDoArquivo = "salvaPremios-" + PlayerPrefs.GetString("nomePerfil");
+        // original quando ainda pegava o Apelido
+        //NomeDoArquivo = "salvaPremios-" + PlayerPrefs.GetString("nomePerfil");
 
-		// 190610 - @ale : Usado temporariamente na versao de demonstracao
-		NomeDoArquivo = "salvaPremios-" + PlayerPrefs.GetString("usuarioTemp");
-		//Debug.Log ("NomeDoArquivo = " + NomeDoArquivo);
+        // 190610 - @ale : Usado temporariamente na versao de demonstracao
+        NomeDoArquivo = "salvaPremios-" + PlayerPrefs.GetString("usuarioTemp");
+        //Debug.Log ("NomeDoArquivo = " + NomeDoArquivo);
 
-		// @ale Save Data ========================================================
-		DiretorioDoArquivo = Application.persistentDataPath + "/" + NomeDoArquivo + "." + FormatoDoArquivo; //Aqui é definido o local de save, para o jogo.
- 		//Debug.Log ("DiretorioDoArquivo = " + DiretorioDoArquivo);
-		//Detalhe: "Application.persistentDataPath" é o local base onde o arquivo é salvo. Ele varia de plataforma para plataforma e de dispositivo para dispositivo. A unica coisa que não muda é o nome e formato do arquivo do seu save.
-		//========================================================================
+        // @ale Save Data ========================================================
+        DiretorioDoArquivo = Application.persistentDataPath + "/" + NomeDoArquivo + "." + FormatoDoArquivo; //Aqui é definido o local de save, para o jogo.
+        //Debug.Log ("DiretorioDoArquivo = " + DiretorioDoArquivo);
+        //Detalhe: "Application.persistentDataPath" é o local base onde o arquivo é salvo. Ele varia de plataforma para plataforma e de dispositivo para dispositivo. A unica coisa que não muda é o nome e formato do arquivo do seu save.
+        //========================================================================
 
 
         //Josi: outra maneira de Sair, sem clicar no botão: apertar a tecla ESCAPE
@@ -2056,14 +2092,14 @@ public class GameFlowManager : MonoBehaviour
                    //if (Input.anyKey) {               //para aceitar qualquer tecla
                     waitingKeyGameOver = false;
                     bmGameOver.SetActive(false);
- //@@                   if (PlayerPrefs.GetInt("gameSelected") == 2)
- //@@                   {
-                        ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
- //@@                   }
- //@@                   else
- //@@                   {
- //@@                       GoToIntro();  //180627 in this way, the player can't see the betweenLevels screen, creating a different protocol
- //@@                   }
+                    //@@                   if (PlayerPrefs.GetInt("gameSelected") == 2)
+                    //@@                   {
+                    ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
+                    //@@                   }
+                    //@@                   else
+                    //@@                   {
+                    //@@                       GoToIntro();  //180627 in this way, the player can't see the betweenLevels screen, creating a different protocol
+                    //@@                   }
                 }
             }
 
@@ -2071,19 +2107,19 @@ public class GameFlowManager : MonoBehaviour
             //       Input.GetMouseButtonDown(0) simulates a tap on mobile devices
             if (waitingKeyGameLover)
             {
-                if (Input.GetKeyDown("space")  || Input.GetMouseButtonDown(0))
+                if (Input.GetKeyDown("space") || Input.GetMouseButtonDown(0))
                 {  //180620 aceitar tecla especifica para não confundir com as do jogo e a msg passar em branco
                    //if (Input.anyKey) {                //para aceitar qualquer tecla
                     waitingKeyGameLover = false;
                     bmGameLover.SetActive(false);
- //@@                   if (PlayerPrefs.GetInt("gameSelected") == 2)
- //@@                   {
-                        ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
- //@@                   }
- //@@                   else
- //@@                   {
- //@@                   GoToIntro();  //180627 in this way, the player can't see the betweenLevels screen, creating a different protocol
- //@@               }
+                    //@@                   if (PlayerPrefs.GetInt("gameSelected") == 2)
+                    //@@                   {
+                    ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
+                    //@@                   }
+                    //@@                   else
+                    //@@                   {
+                    //@@                   GoToIntro();  //180627 in this way, the player can't see the betweenLevels screen, creating a different protocol
+                    //@@               }
                 }
             }
         }
@@ -2113,20 +2149,20 @@ public class GameFlowManager : MonoBehaviour
     }
 
 
-    //---------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------
     //180105 to show error messages that avoid to continue in the game
-    public void showErrorMessage(string txtMsgKey, int powerOfTwo)
-    {
-        errorNumber = errorNumber - powerOfTwo;
-        if (txtMessage.text == string.Empty)
-        {
-            txtMessage.text = translate.getLocalizedValue(txtMsgKey);
-        }
-        else
-        {
-            txtMessage.text = txtMessage.text + "\n" + translate.getLocalizedValue(txtMsgKey);
-        }
-    }
+    //public void showErrorMessage(string txtMsgKey, int powerOfTwo)
+    //{
+    //    errorNumber = errorNumber - powerOfTwo;
+    //    if (txtMessage.text == string.Empty)
+    //    {
+    //        txtMessage.text = translate.getLocalizedValue(txtMsgKey);
+    //    }
+    //    else
+    //    {
+    //        txtMessage.text = txtMessage.text + "\n" + translate.getLocalizedValue(txtMsgKey);
+    //    }
+    //}
 
 
 
@@ -2181,162 +2217,161 @@ public class GameFlowManager : MonoBehaviour
         PlayerPrefs.SetInt("startPaused", startPaused ? 1 : 0); //menu "Jogar com pausa" selecionado
     }
 
-	//@ale Save Data =============================================================================================
+    //@ale Save Data =============================================================================================
 
-	public void Save(bool icone1, bool icone2, bool icone3, bool icone4, bool icone5, bool icone6, bool icone7, bool icone8, bool icone9) //Void que salva
-	{
-		Debug.Log ("GameFlowManager.cs --> f:Save () : ENTROU");
-		Debug.Log ("GameFlowManager.cs --> f:Save () --> DiretorioDoArquivo =  "+DiretorioDoArquivo);
+    public void Save(bool icone1, bool icone2, bool icone3, bool icone4, bool icone5, bool icone6, bool icone7, bool icone8, bool icone9) //Void que salva
+    {
+        Debug.Log("GameFlowManager.cs --> f:Save () : ENTROU");
+        Debug.Log("GameFlowManager.cs --> f:Save () --> DiretorioDoArquivo =  " + DiretorioDoArquivo);
 
-		BinaryFormatter binario = new BinaryFormatter();
-		FileStream arquivo = File.Create(DiretorioDoArquivo); //Aqui, criamos o arquivo
+        BinaryFormatter binario = new BinaryFormatter();
+        FileStream arquivo = File.Create(DiretorioDoArquivo); //Aqui, criamos o arquivo
 
-		DadosDoPremio dadosPremio = new DadosDoPremio(); //"DadosDoJogo" é o nome da classe que iremos acessar, ao qual criamos anteriormente
-		//dados.Int = VariavelInteira; //"dados.Int", é assim que acessamos uma variavel da nossa classe, para setar o valor dela, daí é só pegar e igualar com uma variavel do seu script.
-		//dados.Float = VariavelDecimal;
-		//dados.String = VariavelTexto;
-		dadosPremio.Bool1 = icone1;
-		dadosPremio.Bool2 = icone2;
-		dadosPremio.Bool3 = icone3;
-		dadosPremio.Bool4 = icone4;
-		dadosPremio.Bool5 = icone5;
-		dadosPremio.Bool6 = icone6;
-		dadosPremio.Bool7 = icone7;
-		dadosPremio.Bool8 = icone8;
-		dadosPremio.Bool9 = icone9;
-		Debug.Log ("GameFlowManager.cs --> f:Save () --> dadosPremio.Bool =  "+dadosPremio.Bool1+dadosPremio.Bool2+dadosPremio.Bool3+dadosPremio.Bool4);
+        DadosDoPremio dadosPremio = new DadosDoPremio(); //"DadosDoJogo" é o nome da classe que iremos acessar, ao qual criamos anteriormente
+        //dados.Int = VariavelInteira; //"dados.Int", é assim que acessamos uma variavel da nossa classe, para setar o valor dela, daí é só pegar e igualar com uma variavel do seu script.
+        //dados.Float = VariavelDecimal;
+        //dados.String = VariavelTexto;
+        dadosPremio.Bool1 = icone1;
+        dadosPremio.Bool2 = icone2;
+        dadosPremio.Bool3 = icone3;
+        dadosPremio.Bool4 = icone4;
+        dadosPremio.Bool5 = icone5;
+        dadosPremio.Bool6 = icone6;
+        dadosPremio.Bool7 = icone7;
+        dadosPremio.Bool8 = icone8;
+        dadosPremio.Bool9 = icone9;
+        Debug.Log("GameFlowManager.cs --> f:Save () --> dadosPremio.Bool =  " + dadosPremio.Bool1 + dadosPremio.Bool2 + dadosPremio.Bool3 + dadosPremio.Bool4);
 
-		binario.Serialize(arquivo, dadosPremio);
-		arquivo.Close(); //Aqui terminamos a leitura do arquivo.
-	}
+        binario.Serialize(arquivo, dadosPremio);
+        arquivo.Close(); //Aqui terminamos a leitura do arquivo.
+    }
 
-	public bool Load1() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
+    public bool Load1() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
 
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone1 = dadosPremio.Bool1;
-			Debug.Log ("Arquivo de dados existe --> f:Load1 () --> icone1 =  "+icone1);
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone1;
-	}
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone1 = dadosPremio.Bool1;
+            Debug.Log("Arquivo de dados existe --> f:Load1 () --> icone1 =  " + icone1);
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone1;
+    }
 
-	public bool Load2() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone2 = dadosPremio.Bool2;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone2;
-	}
+    public bool Load2() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone2 = dadosPremio.Bool2;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone2;
+    }
 
-	public bool Load3() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone3 = dadosPremio.Bool3;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone3;
-	}
-
-
-	public bool Load4() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone4 = dadosPremio.Bool4;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone4;
-	}
-
-	public bool Load5() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone5 = dadosPremio.Bool5;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone5;
-	}
-
-	public bool Load6() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone6 = dadosPremio.Bool6;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone6;
-	}
-
-	public bool Load7() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone7 = dadosPremio.Bool7;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone7;
-	}
-
-	public bool Load8() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone8 = dadosPremio.Bool8;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone8;
-	}
-
-	public bool Load9() // Void que carrega
-	{
-		if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
-		{
-			BinaryFormatter binario = new BinaryFormatter();
-			FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
-			DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
-			icone9 = dadosPremio.Bool9;
-			arquivo.Close(); //Aqui fechamos a leitura
-		}
-		return icone9;
-	}
+    public bool Load3() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone3 = dadosPremio.Bool3;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone3;
+    }
 
 
-	public void LigaDesligaIndicaPremios(bool chave)
-	{
-		IndicaPremios.SetActive (chave);
-	}
+    public bool Load4() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone4 = dadosPremio.Bool4;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone4;
+    }
+
+    public bool Load5() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone5 = dadosPremio.Bool5;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone5;
+    }
+
+    public bool Load6() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone6 = dadosPremio.Bool6;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone6;
+    }
+
+    public bool Load7() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone7 = dadosPremio.Bool7;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone7;
+    }
+
+    public bool Load8() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone8 = dadosPremio.Bool8;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone8;
+    }
+
+    public bool Load9() // Void que carrega
+    {
+        if (File.Exists(DiretorioDoArquivo) == true) //Aqui verificamos se existe um arquivo para ser carregado. se existir, prosseguimos
+        {
+            BinaryFormatter binario = new BinaryFormatter();
+            FileStream arquivo = File.Open(DiretorioDoArquivo, FileMode.Open); //Aqui abrimos o arquivo
+            DadosDoPremio dadosPremio = (DadosDoPremio)binario.Deserialize(arquivo); //Aqui meio que descriptografamos o arquivo
+            icone9 = dadosPremio.Bool9;
+            arquivo.Close(); //Aqui fechamos a leitura
+        }
+        return icone9;
+    }
 
 
-	// ================================= fim do Save Data ===================================================
+    public void LigaDesligaIndicaPremios(bool chave)
+    {
+        IndicaPremios.SetActive(chave);
+    }
 
+
+    // ================================= fim do Save Data ===================================================
 }

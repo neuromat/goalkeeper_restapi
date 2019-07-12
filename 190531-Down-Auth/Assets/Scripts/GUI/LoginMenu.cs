@@ -67,6 +67,7 @@ public class LoginMenu : BaseMenu {
     private string errorLogin;
     private string errorConnect;
     private string errorSigns;
+    private string errorPasswd8char;
     private string errorOnReadTerm;
     private string errorOptAccess;
     private string errorCad;
@@ -307,8 +308,14 @@ public class LoginMenu : BaseMenu {
         }
         else
         {
+            // Verificar se a senha contém ao menos 8 caracteres
+            if (PasswordR.Length<8)
+            {
+                errorPasswd8char = translateError.getLocalizedValue("errorPasswd8char");
+                StartCoroutine(statusMsg(errorPasswd8char));
+            }
             // Verificar se as senhas são iguais
-            if (PasswordR != ConfPassword)
+            else if (PasswordR != ConfPassword)
             {
                 errorSigns = translateError.getLocalizedValue("errorSigns");
                 StartCoroutine(statusMsg(errorSigns));
@@ -415,39 +422,29 @@ public class LoginMenu : BaseMenu {
         Send(RequestType.Post, "user", form, OnSignupResponse);
     }
 
-    private void OnSignupResponse(ResponseType responseType, JToken responseData, string callee) {
+    private void OnSignupResponse(ResponseType responseType, JToken responseData, string callee)
+    {
 
         translateError = LocalizationManager.instance;
         errorConnect = translateError.getLocalizedValue("errorConnect");
+        errorCad = translateError.getLocalizedValue("errorCad");
 
-        if (responseType == ResponseType.Success) {
-            if (OnSignupSuccess != null) {
+        if (responseType == ResponseType.Success)
+        {
+            if (OnSignupSuccess != null)
+            {
                 OnSignupSuccess();
-                statusNewSign = translateError.getLocalizedValue ("statusNewSign");
+                statusNewSign = translateError.getLocalizedValue("statusNewSign");
                 StartCoroutine(statusMsg(statusNewSign));
             }
-        } else if (responseType == ResponseType.ClientError) {
+        }
+        else if (responseType == ResponseType.ClientError)
+        {
             StartCoroutine(statusMsg(errorConnect));
-            //if (OnSignupFailed != null)
-            //{
-            //    OnSignupFailed("Could not reach the server. Please try again later.");
-            //    errorCad = translateError.getLocalizedValue("errorCad");
-            //    StartCoroutine(statusMsg(errorCad));
-            //}
-        } else if (responseType == ResponseType.RequestError) {
-            string errors = "";
-            JObject obj = (JObject)responseData;
-            foreach (KeyValuePair<string, JToken> pair in obj) {
-                errors += "[" + pair.Key + "] ";
-                foreach (string errStr in pair.Value) {
-                    errors += errStr;
-                }
-                errors += '\n';
-            }
-            if (OnSignupFailed != null) {
-                OnSignupFailed(errors);
-                StartCoroutine(statusMsg(errors));
-            }
+        }
+        else if (responseType == ResponseType.RequestError)
+        {
+            StartCoroutine(statusMsg(errorCad));
         }
     }
     
@@ -458,7 +455,7 @@ public class LoginMenu : BaseMenu {
         //        Mensagem.color = Color.green;
 
         Mensagem.text = msg;
-        yield return new WaitForSeconds (2.0f);
+        yield return new WaitForSeconds (5.0f);
         Mensagem.text = "";
         //        Mensagem.CrossFadeAlpha (0f, 2f, false);
         //SceneManager.LoadScene("TCLE");
@@ -635,8 +632,16 @@ public class LoginMenu : BaseMenu {
             onResponse(ResponseType.Success, responseObj, callee);
         }
 
-        SceneManager.LoadScene("Configurations");
-
+        if (callee!="Signup")
+        {
+            SceneManager.LoadScene("Configurations");
+        }
+        else
+        {
+            var successCadMsg = translateError.getLocalizedValue("statusNewSign");
+            StartCoroutine(statusMsg(successCadMsg));
+            SceneManager.LoadScene("TCLE");
+        }
     }
 
     private void SetCurrentTabObject()
