@@ -12,6 +12,7 @@ public class FirstTreeJson
     public string sequ { get; set; }
     public string sequR { get; set; }
     public List<JsonStateInput> states { get; set; }
+    public int? minHits { get; set; }
     public int? minHitsInSequence { get; set; }
     public string animationTypeJG { get; set; }
     public string animationTypeOthers { get; set; }

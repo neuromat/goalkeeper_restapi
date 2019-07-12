@@ -878,8 +878,8 @@ public class LoadStages : MonoBehaviour
         [JsonProperty(PropertyName = "number_of_plays")]
         public int? number_of_plays { get; set; }
 
-        [JsonProperty(PropertyName = "min_plays")]
-        public int? min_plays { get; set; }
+        [JsonProperty(PropertyName = "min_hits")]
+        public int? min_hits { get; set; }
 
         [JsonProperty(PropertyName = "min_hits_in_seq")]
         public int? min_hits_in_seq { get; set; }
@@ -1166,6 +1166,7 @@ public class LoadStages : MonoBehaviour
         tree.readSequ = game.read_seq;
         tree.sequ = game.sequence;
         tree.sequR = game.seq_step_det_or_prob;
+        tree.minHits = game.min_hits;
         tree.minHitsInSequence = game.min_hits_in_seq;
         tree.animationTypeJG = "short";//game.celebration_time;
         tree.animationTypeOthers = "short";//game.celebration_time;
@@ -1211,6 +1212,7 @@ public class LoadStages : MonoBehaviour
         tree.readSequ = game.read_seq;
         tree.sequ = game.sequence;
         tree.sequR = game.seq_step_det_or_prob;
+        tree.minHits = game.min_hits;
         tree.minHitsInSequence = game.min_hits_in_seq;
         tree.animationTypeJG = "short"; //game.celebration_time;
         tree.animationTypeOthers = "short"; //game.celebration_time;

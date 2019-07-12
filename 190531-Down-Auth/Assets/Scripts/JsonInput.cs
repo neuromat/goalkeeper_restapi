@@ -42,8 +42,10 @@ public class JsonInput
 	public int mdMaxPlays;              //180320 num max de jogadas esperando que o jogador acerte 3x (ou diferente)
 	public int mdMinHitsInSequence;     //180321 num min de jogadas certas em sequência, no JM; se zero, acertar 12 em qualquer posição
 	public int minHitsInSequence;       //180320 assintota jogadas: núm que determina que o jogador "adivinhou" o padrão, por acertar em sequência
+    public int minHits;
 
-	public string leftInputKey;         //180328 in addition to the mouse and the arrow keys, use this key for left defense
+
+    public string leftInputKey;         //180328 in addition to the mouse and the arrow keys, use this key for left defense
 	public string centerInputKey;       //180328 in addition to the mouse and the arrow keys, use this key for center defense
 	public string rightInputKey;        //180328 in addition to the mouse and the arrow keys, use this key for right defense
 	public string pausePlayInputKey;	//180403 internal control (same as playPause button for the experimenter)

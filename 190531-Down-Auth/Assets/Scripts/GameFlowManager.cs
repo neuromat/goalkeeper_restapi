@@ -324,20 +324,14 @@ public class GameFlowManager : MonoBehaviour
 
                 if (PlayerPrefs.GetInt("gameSelected") == 2)
                 {
-                    //modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
-                    // era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
-                    if ((uiManager.success == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0))
-                    {    //180402 extremes (>, not >=)
-                        Debug.Log("############################################################################");
-                        Debug.Log("GameFlowManager.cs ****** f:uiManager.successTotal = " + uiManager.successTotal);
-                        Debug.Log("GameFlowManager.cs ****** f:minHitsInSequence = " + minHitsInSequence);
-                        Debug.Log("############################################################################");
-                        //gameLover(PlayerPrefs.GetInt("gameSelected"));
+                    // Se o número de acertos consecutivos for igual ao número mínimo de acertos em sequência exigido,
+                    // ou se o número de acertos, em qualquer ordem, for igual ao número mínimo de acertos exigido, termine a fase
+                    if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) || 
+                        ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+                    {
                         ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
                     }
-
                 }
-
 
                 // @ale - Premio 1 - Acertar 8 defesas em qualquer ordem
                 if (uiManager.successTotal == 8 || Load1() == true)
@@ -390,7 +384,6 @@ public class GameFlowManager : MonoBehaviour
 
 
                 }
-
 
                 // @ale - Premio 2 (32 Defesas)
                 if (uiManager.successTotal == 32 || Load2() == true)

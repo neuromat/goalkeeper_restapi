@@ -62,6 +62,7 @@ public class StateMachine
 	public bool showPlayPauseButton;    //170918: iniciar ou não, com o jogo em Pausa, para explicações do experimentador ao jogador
 	                                    //        virou o botão "Continuar com pausa" além do Continuar, no cataApelido
 	public int minHitsInSequence;       //180320: assintota jogadas: núm que determina que o jogador "adivinhou" o padrão, por acertar em sequência
+    public int minHits;                 //190712: número mínimo de jogadas que o jogador precisa acertar
 
 	public string leftInputKey;         //180328 in addition to the mouse and the arrow keys, use this key for left defense
 	public string centerInputKey;       //180328 in addition to the mouse and the arrow keys, use this key for center defense
@@ -164,7 +165,8 @@ public class ProbCalculator : MonoBehaviour
 		s.depth = input.GetDepth();
 		s.limitPlays = input.GetLimitPlays();
 		s.minHitsInSequence = input.minHitsInSequence;  //180320 para encerrar o JG assim que o jogador atingir a assíntota
-		                                                //       (núm que define que o jogador aprendeu o padrão, por acertar em sequência)
+                                                        //       (núm que define que o jogador aprendeu o padrão, por acertar em sequência)
+        s.minHits = input.minHits;
 
 		s.readSequ = input.readSequ;               //Josi: jogar por sequOtima ou por arvore randomica no JG
 		s.sequ = input.sequ;                       //Josi: sequOtima lida no treeN.txt para o JG
@@ -1116,10 +1118,15 @@ public class ProbCalculator : MonoBehaviour
 		return machines [currentStateMachineIndex].minHitsInSequence;
 	}
 
+    public int getJGminHits()
+    {
+        return machines[currentStateMachineIndex].minHits;
+    }
+
 
     //-------------------------------------------------------------------------------------
-	//180322 return minHitsInSequence for Memory module (assymptote)
-	public int getMDminHitsInSequence() {
+    //180322 return minHitsInSequence for Memory module (assymptote)
+    public int getMDminHitsInSequence() {
 		return machines [currentStateMachineIndex].mdMinHitsInSequence;
 	}
 

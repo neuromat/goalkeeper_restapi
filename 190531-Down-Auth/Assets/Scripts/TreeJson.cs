@@ -11,6 +11,7 @@ public class TreeJson
     public bool readSequ { get; set; }
     public string sequ { get; set; }
     public string sequR { get; set; }
+    public int? minHits { get; set; }
     public int? minHitsInSequence { get; set; }
     public string animationTypeJG { get; set; }
     public string animationTypeOthers { get; set; }
