@@ -169,15 +169,9 @@ public class GameFlowManager : MonoBehaviour
     public Text txtTut3;
     public Text txtTut4;
 
-    //public Text txtJogo;
     public Text txtMenu;
-    public Text txtSair;
-    //public Text txtHeader;                   //171009 errMsgs
-    public Text txtExit;
     public Text txtTeam;                     //180614 back to Team Selection
-    //public Text txtStartG;                   //180629 start game
-    //public Text txtComP;                     //180629 com pausa
-    //public Text txtSemP;                     //180629 sem pausa
+
 
     int errorNumber;                         //180105 to create a function
     public string sequJMGiven;               //180418 to save the sequence given to the player in JM
@@ -1133,7 +1127,6 @@ txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedVa
         //txtJogo.text = translate.getLocalizedValue("jogo");
         // original txtMenu.text = PlayerPrefs.GetString("teamSelected") + " : " + translate.getLocalizedValue("menu");
         txtMenu.text = translate.getLocalizedValue("menu");
-        txtSair.text = translate.getLocalizedValue("sair");
         txtTeam.text = translate.getLocalizedValue("bckTeams");
 
         //txtStartG.text = translate.getLocalizedValue("iniciaJ").Replace("\\n", "\n");  //180629 start game
@@ -1141,9 +1134,8 @@ txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedVa
         //txtSemP.text = translate.getLocalizedValue("semP");                            //180629 sem pausa
         var minhits = probCalculator.getJGminHitsInSequence(); 
         txtMinHits.text = minhits.ToString();
-        if (txtMinHits.text != "0")
+        if (minhits != 0)
         {
-            Debug.Log("********************************************" + txtMinHits);
             txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
             txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas2");
         }
@@ -1180,15 +1172,6 @@ menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("
             //171009 translate frases de erro
             //171122 iOS (iPad/iPhone) + change order to avoid negatives
             //txtHeader.text = translate.getLocalizedValue("errHeader");
-            if ((Application.platform == RuntimePlatform.Android) ||
-                (Application.platform == RuntimePlatform.IPhonePlayer) || (SystemInfo.deviceModel.Contains("iPad")))
-            {
-                txtExit.text = translate.getLocalizedValue("toqueErrExit");
-            }
-            else
-            {
-                txtExit.text = translate.getLocalizedValue("aperteErrExit");
-            }
 
             ////errorMessages.SetActive(true);
             //txtMessage.text = string.Empty;
