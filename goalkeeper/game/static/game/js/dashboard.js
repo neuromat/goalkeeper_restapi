@@ -10,8 +10,8 @@
  * BASE URL:
  */
 
-var url = window.location.href
-var arr = url.split("/");
+let url = window.location.href
+let arr = url.split("/");
 const api = arr[0] + "//" + arr[2] + "/api/results/";
 let labels = ["Partidas", "Acertos", "Erros"];
 
@@ -27,13 +27,15 @@ function select_kicker_to_filter_phase(kicker_id) {
         dataType: "json",
         data: {'kicker':kicker_id},
         success: function(retorno) {
+            $("#fase, #filtroBtn").removeAttr('disabled');
             $("#fase").empty();
+
             $.each(retorno[0], function(i, item){
                 $("#fase").append('<option value="'+item.pk+'">'+item.phase+'</option>');
             });
         },
         error: function(erro) {
-            alert('Ops, we have a problem!');
+            console.log('Ops, we have a problem!');
         }
     });
 }
@@ -45,6 +47,7 @@ function select_kicker_to_filter_phase(kicker_id) {
 function createChart(metrics){
     // Habilita a visualização de todos os gráficos
     $('canvas').removeAttr('style');
+
     let myChart = new Chart($('#barChart'), {
         type: 'horizontalBar',
         data: {
@@ -103,23 +106,23 @@ function createChart(metrics){
  */
 
 function loaderManager(flag){
-    console.log($('#preloader'));
-    console.log('loaderManager()');
-    if(flag){
-        $('#preloader').css('display', 'flex')
-    } else {
-        $('#preloader').css('display', 'none');
-    }
+    flag ? $('#preloader').css('display', 'flex') : $('#preloader').css('display', 'none');
 }
 
-
 function filtrar(){
+
+    /**
+     * Filtrar deve enviar a requisição, receber o retorno
+     * e carregar novamente o gráfico com os dados
+     *
+     */
+
     let params = {
         adversario: $('#adversario').val(),
         fase: $('#fase').val()
     };
-    console.log(params);
-    loadCharts();
+
+    loadCharts(params);
 }
 
  function resultMetrics(arr){
@@ -140,29 +143,38 @@ function filtrar(){
      }
  }
 
-function loadCharts(labels){
+function clearFilter(){
+    console.log('Limpar filtros');
+}
+
+function loadCharts(params){
+
      loaderManager(true);
-     fetch(api)
+
+     let endpoint = '';
+
+     if(params){
+         endpoint = `?kicker=${params.adversario}&phase=${params.fase}`;
+     }
+
+     fetch(api + endpoint)
          .then(res => res.json())
          .then((data)=> {
+             console.log('DATA: ', data);
              let results = resultMetrics(data);
+
              let chartInfo = {
                  totalGames: data.length,
                  wins: results.corrects,
                  fail: results.fails
              };
 
-             // ATUALIZA QUANTIDADE DE JOGOS
-            //$('#totalGames').html(chartInfo.totalGames);
-
-             console.log('resultMetrics', results);
-             console.log('chartInfo: ', chartInfo);
-             console.log('Loading: False');
-
              loaderManager(false);
+
              createChart(chartInfo);
          })
-         .catch(err => alert('Algo deu errado ', err))
+
+         .catch(err => console.log('Algo deu errado ', err))
  }
 
 
@@ -182,11 +194,10 @@ $(document).ready(() => {
      let title = $('title').html();
 
      // Verifica se a tradução para inglês foi ativada
-     if(title == 'Goalkeeper game'){
+     if(title === 'Goalkeeper game'){
          labels = ["Games", "Hits", "Errors"]
      }
 
-    console.log(labels);
      // Inicializa os tooltip's bootstrap.
      $('label i').tooltip();
 

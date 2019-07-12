@@ -65,13 +65,14 @@
 
                     <div class="form-group">
                         <label> {% trans "Phase" %} <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="{% trans "Select a phase to filter the results" %}"></i></label>
-                        <select id="fase" class="form-control" >
+                        <select disabled="disabled" id="fase" class="form-control">
                             <option value="">{% trans "Choose a kicker first" %}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <button id="filtroBtn" onclick="filtrar()" class="btn btn-dark btn-lg btn-block"> {% trans "Filter" %} </button>
+                        <button id="filtroBtn" onclick="filtrar()" disabled="disabled" class="btn btn-dark btn-lg btn-block"> {% trans "Filter" %} </button>
                     </div>
+                    <p class="text-center"><a href="#" onclick="clearFilter()">Limpar filtros</a></p>
                 </div>
             </div>
         </div>
