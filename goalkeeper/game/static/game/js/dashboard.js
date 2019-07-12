@@ -153,13 +153,7 @@ function resultMetrics(arr){
          fails: fails
      }
  }
-
-function clearFilter(){
-    myChart.destroy();
-    disableFields();
-    loadCharts();
-}
-
+ 
 function loadCharts(params){
 
      loaderManager(true);
