@@ -22,10 +22,10 @@
 "T1":"Publicações acadêmicas",
 "menu":"Menu de Jogos",
 "sair1":"ESC | Sair",
-"tut1":"Clique nas setas para decidir em qual direção o goleiro deve pular",
-"tut2":"Ao final de cada fase, você verá o resultado das suas defesas",
-"tut3":"Conforme você for mudando de fase, o campo e uniforme mudam de cor",
-"tut4":"Você pode acessar seu quadro de Prêmios para ver o que já ganhou",
+"tut1":"O jogador já se decidiu, mas só chutará\napós sua escolha",
+"tut2":"Veja seus\ntroféus",
+"tut3":"Use as setas para escolher a posição de defesa",
+"tut4":"Você é o goleiro",
 "tut5":"Você é um goleiro na hora do pênalti.\n\nQuando aparecem as setas de direção, você deve decidir rapidamente para onde pular (esquerda, direita ou centro) antes da bola sair.\n\nAtenção: cada batedor tem uma estratégia para escolher onde vai chutar. Mas cuidado... ele pode tentar te enganar!",
 "game1":"Aquecimento",
 "game2":"Iniciar Jogo",
@@ -139,5 +139,7 @@
 "buttNewAccount":"Criar nova conta",
 "buttForgotPasswd":"Esqueci minha senha",
 "txtCancelSignup":"Cancelar cadastro",
+"txtnumeroDefesas1":"Defenda",
+"txtnumeroDefesas2":"chutes para trocar de fase",
 "":""
 }

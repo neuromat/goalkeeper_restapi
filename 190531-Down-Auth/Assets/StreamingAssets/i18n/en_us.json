@@ -20,10 +20,10 @@
 "T1":"Academic Publications",
 "menu":"Game Menu",
 "sair1":"Exit (or ESC)",
-"tut1":"Click on the arrows\nto decide which direction\n the goalkeeper should jump",
-"tut2":"At each stage\nthe kicker will adopt\n a new strategy",
-"tut3":"History of the directions\n of the last kicks",
-"tut4":"Be a master of the defenses\nand reach the top",
+"tut1": "The kicker has already decided, but will only kick \n after your decision",
+"tut2": "See your \n trophies",
+"tut3": "Use the arrows to choose the defensive position",
+"tut4": "You are the goalkeeper",
 "tut5":"You are a goalkeeper defending a penalty.\n\nWhen the direction arrows appear, you must decide where to jump (left, right or center) before the ball leaves.\n\nAttention: each kicker has his own strategy to choose where he will shoot. But beware, he may try to fool you!",
 "game1":"Warm-up",
 "game2":"Goalkeeper Game",
@@ -127,5 +127,7 @@
 "buttNewAccount":"Create new account",
 "buttForgotPasswd":"Forgot my password",
 "txtCancelSignup":"Cancel signup",
+"txtnumeroDefesas1":"Defend",
+"txtnumeroDefesas2":"kicks to go to the next phase",
 "":""
 }

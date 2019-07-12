@@ -20,10 +20,10 @@
 "T1":"Publicaciones Académicas",
 "menu":"Menú de Juegos",
 "sair1":"Salir (o ESC)",
-"tut1":"Haz clic en las flechas para \ndecidir en qué dirección\nel golero debe saltar",
-"tut2":"En cada fase\nel batidor adoptará\nuna nueva estrategia",
-"tut3":"Historial de las direcciones\nde los últimos chutes",
-"tut4":"Hazte crack en las defensas\ny llega al cumbre",
+"tut1": "El jugador ya ha decidido, pero solo pateará\ndespués de su elección",
+"tut2": "Mira tus\ntrofeos",
+"tut3": "Usa las flechas para elegir en qué dirección el portero debe saltar",
+"tut4": "Tú eres el portero",
 "tut5":"Eres un golero a la hora del penalti.\n\nCuando aparecen las flechas de dirección, debes decidir a dónde saltar (izquierda, derecha o centro) antes que la pelota salga.\n\nAtención: cada batidor tiene una estrategia propia para elegir donde va a patear. ¡Pero cuidado, él puede intentar engañarte!",
 "game1":"Calentamiento",
 "game2":"Juego del Golero",
@@ -122,5 +122,7 @@
 "buttNewAccount":"Crear nueva cuenta",
 "buttForgotPasswd":"He olvidado mi contraseña",
 "txtCancelSignup":"Cancelar registro",
+"txtnumeroDefesas1":"Defiende",
+"txtnumeroDefesas2":"patadas para pasar a la siguiente fase",
 "":""
 }
