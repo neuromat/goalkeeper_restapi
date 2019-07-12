@@ -31,7 +31,7 @@
                     <div class="info-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
                     <div class="info-metric">
                         <h2>{% trans "Hit rate" %}</h2>
-                        <p>{% if hit_rate %}{{ hit_rate }}%{% else %}---{% endif %}</p>
+                        <p>{% if hit_rate %}{{ hit_rate|stringformat:"1.2f"|cut:"-" }}%{% else %}---{% endif %}</p>
                     </div>
                 </div>
                 <!-- item -->
