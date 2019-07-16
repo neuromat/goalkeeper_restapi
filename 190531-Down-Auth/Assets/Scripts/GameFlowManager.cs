@@ -60,7 +60,11 @@ public class GameFlowManager : MonoBehaviour
 
     public Text txtNumeroDefesas1;
     public Text txtNumeroDefesas2;
+    public Text txtNumeroDefesas3;
+    public Text txtNumeroDefesas4;
     public Text txtMinHits;
+    public Text txtMinHits2;
+    public Text txtOu;
     public Text TextHeaderPremios;
     public Text txtPremioDefesas;
     public Text txtPremioDefesasSeguidas;
@@ -263,6 +267,7 @@ public class GameFlowManager : MonoBehaviour
         if (!onVersusMode)
         {
             scoreMonitor.UpdateMenu();
+            DefineInstructions();
 
             //161212: verificar os limites de jogadas em cada jogo
             //170216: JG pode estar configurado para conter uma phase0 (experimental, sem historico) - o novo param informa este estado
@@ -327,7 +332,7 @@ public class GameFlowManager : MonoBehaviour
                     // Se o número de acertos consecutivos for igual ao número mínimo de acertos em sequência exigido,
                     // ou se o número de acertos, em qualquer ordem, for igual ao número mínimo de acertos exigido, termine a fase
                     if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) || 
-                        ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+                        ((uiManager.successTotal == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
                     {
                         ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
                     }
@@ -571,9 +576,6 @@ public class GameFlowManager : MonoBehaviour
                 }
 
 
-
-
-
                 // @ale - Premio 7 (Finalizar 2 fases completas)
                 if ((uiManager.success == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) || Load7() == true)
                 {
@@ -751,9 +753,6 @@ public class GameFlowManager : MonoBehaviour
                         }
                     }
                 }
-
-
-
 
 
                 //170125 nos Base Motora, se nao atingido o num minimo de jogadas, aumentar as jogadas
@@ -1083,6 +1082,36 @@ public class GameFlowManager : MonoBehaviour
       */
     // ------------------------------------fim painel usuario------------------------------------------
 
+
+    void DefineInstructions()
+    {
+        var minHits = probCalculator.getJGminHits();
+        var minHits2 = probCalculator.getJGminHitsInSequence();
+        if (minHits != 0 && minHits2 != 0)
+        {
+            txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
+            txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas2");
+            txtNumeroDefesas3.text = translate.getLocalizedValue("txtnumeroDefesas1");
+            txtNumeroDefesas4.text = translate.getLocalizedValue("txtnumeroDefesas4");
+            txtOu.text = translate.getLocalizedValue("txtOu");
+            txtMinHits.text = (minHits - uiManager.successTotal).ToString();
+            txtMinHits2.text = (minHits2 - minHitsInSequence).ToString();
+        }
+        else if (minHits != 0)
+        {
+            txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
+            txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas2");
+            txtMinHits.text = (minHits - uiManager.successTotal).ToString();
+        }
+        else if (minHits2 != 0)
+        {
+            txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
+            txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas4");
+            txtMinHits.text = (minHits2 - minHitsInSequence).ToString();
+        }
+    }
+
+
     void Start()
     {
         probCalculator = ProbCalculator.instance;
@@ -1125,14 +1154,6 @@ txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedVa
         //txtStartG.text = translate.getLocalizedValue("iniciaJ").Replace("\\n", "\n");  //180629 start game
         //txtComP.text = translate.getLocalizedValue("comP");                            //180629 com pausa
         //txtSemP.text = translate.getLocalizedValue("semP");                            //180629 sem pausa
-        var minhits = probCalculator.getJGminHitsInSequence(); 
-        txtMinHits.text = minhits.ToString();
-        if (minhits != 0)
-        {
-            txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
-            txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas2");
-        }
-
 
         //180612 new buttons
         /*
@@ -1583,6 +1604,7 @@ btnAbout.onClick.AddListener(showAbout);
         minHitsInSequence = 0;     //170921
 
         uiManager.ResetEventList(gameSelected);   //inicializa lista de eventos e o placar
+        DefineInstructions();
         game.SetActive(true);                     //GameScene
         intro.SetActive(false);                   //IntroScene(1)
         betweenLevels.SetActive(false);
@@ -1888,7 +1910,6 @@ btnAbout.onClick.AddListener(showAbout);
 
             //Josi: 161207: passa a gravar ao chegar na tela betweenLevels, nao ao Avancar; ultimo nivel eh um caso especial
             uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));   //170109
-
             uiManager.ResetEventList(gameSelected);
             game.SetActive(true);
             intro.SetActive(false);
@@ -2279,7 +2300,6 @@ btnAbout.onClick.AddListener(showAbout);
         }
         return icone3;
     }
-
 
     public bool Load4() // Void que carrega
     {

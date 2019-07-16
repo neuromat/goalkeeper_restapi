@@ -124,5 +124,7 @@
 "txtCancelSignup":"Cancelar registro",
 "txtnumeroDefesas1":"Defiende",
 "txtnumeroDefesas2":"patadas para pasar a la siguiente fase",
+"txtnumeroDefesas4":"patadas en secuencia para pasar a la siguiente fase",
+"txtOu":"o",
 "":""
 }
