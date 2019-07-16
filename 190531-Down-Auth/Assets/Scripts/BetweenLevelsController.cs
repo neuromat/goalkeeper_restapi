@@ -30,7 +30,7 @@ public class BetweenLevelsController : MonoBehaviour
     //171010 sai o readonly (soh alteravel na inicializacao) - serao preenchidas no start
     private string endMsg;      //= "Você completou a fase! Obrigado por jogar o Jogo do Goleiro!";
     private string middleMsg;   // = "Parabéns, você atingiu o próximo nível!";
-    private string failmiddleMsg;
+    private string failMsg;
     private string postEndMsg;  // = "Parabéns, agora você já é um profissional! Deseja encarar desafios ainda maiores?";
 
     //Josi: 161226: msg especificas para os jogos BM e MD - confirmar textos
@@ -52,7 +52,7 @@ public class BetweenLevelsController : MonoBehaviour
         endMsgBM = translate.getLocalizedValue("obrigado") + translate.getLocalizedValue("game1");
         endMsgMD = translate.getLocalizedValue("obrigado") + translate.getLocalizedValue("game5");
         middleMsg = translate.getLocalizedValue("middleMsg");
-        failmiddleMsg = translate.getLocalizedValue("failmiddleMsg");
+        failMsg = translate.getLocalizedValue("failMsg");
         postEndMsg = translate.getLocalizedValue("endMsg");
 
         //171010 translate botoes
@@ -83,13 +83,13 @@ public class BetweenLevelsController : MonoBehaviour
     }
 
 
-    public void FailMiddleGame(int gameSelected, int bmMode)
+    public void FailGame(int gameSelected, int bmMode)
     {
         btnContinue.SetActive(false);
         btnReplay.SetActive(true);
 
         btnMenu.SetActive(true);               //180510: botao Menu em todos os betweenLevel por uniformidade
-        msg.text = failmiddleMsg;
+        msg.text = failMsg;
         gameSelectedText(gameSelected, bmMode);
     }
 

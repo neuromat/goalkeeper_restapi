@@ -333,7 +333,7 @@ public class GameFlowManager : MonoBehaviour
                     // Se o número de acertos consecutivos for igual ao número mínimo de acertos em sequência exigido,
                     // ou se o número de acertos, em qualquer ordem, for igual ao número mínimo de acertos exigido, termine a fase
                     if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) || 
-                        ((uiManager.successTotal == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+                        ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
                     {
                         ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
                     }
@@ -1095,14 +1095,14 @@ public class GameFlowManager : MonoBehaviour
             txtNumeroDefesas3.text = translate.getLocalizedValue("txtnumeroDefesas1");
             txtNumeroDefesas4.text = translate.getLocalizedValue("txtnumeroDefesas4");
             txtOu.text = translate.getLocalizedValue("txtOu");
-            txtMinHits.text = (minHits - uiManager.successTotal).ToString();
+            txtMinHits.text = (minHits - uiManager.success).ToString();
             txtMinHits2.text = (minHits2 - minHitsInSequence).ToString();
         }
         else if (minHits != 0)
         {
             txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
             txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas2");
-            txtMinHits.text = (minHits - uiManager.successTotal).ToString();
+            txtMinHits.text = (minHits - uiManager.success).ToString();
         }
         else if (minHits2 != 0)
         {
@@ -1404,7 +1404,8 @@ btnAbout.onClick.AddListener(showAbout);
     {
         if (uiManager.userAbandonModule)    //180618 was: if(game.activeInHierarchy), but now, many options come to GoToIntro...
         {
-            uiManager.SendEventsToServer(PlayerPrefs.GetInt("gameSelected"));  //161207: o user pode querer nao avancar e ai perde a gravacao do nivel mesmo que interrupted                                                                             //      passou para o GameFlowManager.ShowInBetween e GoToIntro (ao abandonar o nivel do jogo)
+            uiManager.SendEventsToServer(PlayerPrefs.GetInt("gameSelected"));  //161207: o user pode querer nao avancar e ai perde a gravacao do nivel mesmo que interrupted                                                                             
+            //      passou para o GameFlowManager.ShowInBetween e GoToIntro (ao abandonar o nivel do jogo)
         }
 
         //170307 antes estava dentro do if acima, mas ao voltar para o menu, todos deveriam executar esta inicializacao
@@ -1781,6 +1782,7 @@ btnAbout.onClick.AddListener(showAbout);
         if (!probCalculator.CanGoToNextMachine())
         {
             uiManager.ResetEventList(PlayerPrefs.GetInt("gameSelected"));
+            DefineInstructions();
             GoToIntro();
         }
         else
@@ -1793,7 +1795,8 @@ btnAbout.onClick.AddListener(showAbout);
             //180619 reset screens; there is an error in AMPARO experiment that keeps this screen active on the next play
             bmGameLover.SetActive(false);  //180619
             bmGameOver.SetActive(false);   //180619
-
+            DefineInstructions();
+            minHitsInSequence = 0;
             StartGame(PlayerPrefs.GetInt("gameSelected"));
         }
     }
@@ -1897,15 +1900,15 @@ btnAbout.onClick.AddListener(showAbout);
             }
             else
             {
+                if (((minHitsInSequence < probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
+                    ((uiManager.success < probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+                {
+                    btLevelsController.FailGame(gameSelected, 0);
+                }
                 //no JG nao há este apendice ao nome, entao vai zero
-                if (probCalculator.GetCurrMachineIndex() + 1 >= uiManager.GetTotalLevelArts())
+                else if (probCalculator.GetCurrMachineIndex() + 1 >= uiManager.GetTotalLevelArts())
                 {
                     btLevelsController.PostEndGame(gameSelected, 0);
-                }
-                else if (((minHitsInSequence < probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
-                        ((uiManager.successTotal < probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
-                {
-                    btLevelsController.FailMiddleGame(gameSelected, 0);
                 }
                 else
                 {
@@ -1932,7 +1935,15 @@ btnAbout.onClick.AddListener(showAbout);
             //170927 novo param em btLevelController para precisar o nome do jogo
             int bmMode = (probCalculator.getMinHitsInSequence() > 0) ? 2 : 1;
 
-            btLevelsController.EndGame(gameSelected, bmMode);    //170927 novo param bmMode para AQ/AR minHits ou minSequ
+            if (((minHitsInSequence < probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
+                    ((uiManager.success < probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+            {
+                btLevelsController.FailGame(gameSelected, 0);
+            }
+            else
+            {
+                btLevelsController.EndGame(gameSelected, bmMode);    //170927 novo param bmMode para AQ/AR minHits ou minSequ
+            }
             gameCanvas.interactable = false;
         }
     }
