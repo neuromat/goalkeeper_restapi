@@ -63,6 +63,7 @@
 "tcle":"TERMINO DE CONSENTIMIENTO - LIBRE E INFORMADO\n\nEste juego fue desarrollado por el CEPID Neuromat con el objetivo de investigar el aprendizaje de una secuencia de eventos.\n\nSus datos personales (sexo, edad, lateralidad manual y familiaridad con juegos virtuales), tiempo de respuesta y cantidad de aciertos serán, si recogidos, utilizados y almacenados en un banco de datos público, quedando disponibles para futuras investigaciones científicas. El equipo responsable por la gestión de esta base de datos trabaja para proteger la información recopilada contra el acceso e/o el uso indebido por terceros.\n\nTambién informamos que este experimento no presenta riesgo y que te es garantizado, sin sufrir ninguna penalidad, el derecho de no aceptar grabar tus datos.\n\nAdemás, es importante notar que no recibirás ningún tipo de recompensa financiera.",
 "obrigado":"¡Completaste el desafío!",
 "middleMsg":"¡Enhorabuena, has llegado a la próxima fase!",
+"failmiddleMsg":"¡Qué mal que no hayas llegado a la siguiente etapa! ¡Inténtalo de nuevo!",
 "endMsg":"¡Enhorabuena, ahora eres un profesional! ¿Deseas afrontar retos aún mayores?",
 "menu1":"Menú de\nJuegos",
 "proxFase":"Siguiente\nFase",
@@ -126,5 +127,6 @@
 "txtnumeroDefesas2":"patadas para pasar a la siguiente fase",
 "txtnumeroDefesas4":"patadas en secuencia para pasar a la siguiente fase",
 "txtOu":"o",
+"replay":"Jugar\nde Nuevo",
 "":""
 }

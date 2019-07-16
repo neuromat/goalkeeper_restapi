@@ -16,9 +16,9 @@ public class BetweenLevelsController : MonoBehaviour
 {
     //	public GameObject btnExit;
     public GameObject btnContinue;
-    //	public GameObject btnsAndQuestion;
+    public GameObject btnReplay; // Botão para jogar novamente caso o jogador não tenha sucesso na partida
     public GameObject btnMenu;   //Josi: 161212: botao Menu no entre jogos - mainScene/GameScene/BetweenLevelsCanvas/Panel/
-
+    
     public ProbCalculator probCalculator;  //Josi: 161214: para trazer o nivel do jogo na tela de BetweenLevels
 
     public Text msg;
@@ -30,6 +30,7 @@ public class BetweenLevelsController : MonoBehaviour
     //171010 sai o readonly (soh alteravel na inicializacao) - serao preenchidas no start
     private string endMsg;      //= "Você completou a fase! Obrigado por jogar o Jogo do Goleiro!";
     private string middleMsg;   // = "Parabéns, você atingiu o próximo nível!";
+    private string failmiddleMsg;
     private string postEndMsg;  // = "Parabéns, agora você já é um profissional! Deseja encarar desafios ainda maiores?";
 
     //Josi: 161226: msg especificas para os jogos BM e MD - confirmar textos
@@ -51,15 +52,18 @@ public class BetweenLevelsController : MonoBehaviour
         endMsgBM = translate.getLocalizedValue("obrigado") + translate.getLocalizedValue("game1");
         endMsgMD = translate.getLocalizedValue("obrigado") + translate.getLocalizedValue("game5");
         middleMsg = translate.getLocalizedValue("middleMsg");
+        failmiddleMsg = translate.getLocalizedValue("failmiddleMsg");
         postEndMsg = translate.getLocalizedValue("endMsg");
 
         //171010 translate botoes
-        btnContinue.GetComponentInChildren<Text>().text = translate.getLocalizedValue("proxFase").Replace("\\n", "\n"); ;
+        btnContinue.GetComponentInChildren<Text>().text = translate.getLocalizedValue("proxFase").Replace("\\n", "\n");
+        btnReplay.GetComponentInChildren<Text>().text = translate.getLocalizedValue("replay").Replace("\\n", "\n");
         btnMenu.GetComponentInChildren<Text>().text = translate.getLocalizedValue("menu1").Replace("\\n", "\n");
         //btnExit.GetComponentInChildren<Text>().text = translate.getLocalizedValue ("sair").Replace("\\n","\n");
 
         //btnExit.SetActive (true);
         btnContinue.SetActive(true);
+        btnReplay.SetActive(true);
         btnMenu.SetActive(true);     //180510: botao Menu em todos os betweenLevel por uniformidade
 
         msg.text = middleMsg;
@@ -71,9 +75,21 @@ public class BetweenLevelsController : MonoBehaviour
     {
         //btnExit.SetActive (true);
         btnContinue.SetActive(true);
+        btnReplay.SetActive(false);
 
         btnMenu.SetActive(true);               //180510: botao Menu em todos os betweenLevel por uniformidade
         msg.text = middleMsg;
+        gameSelectedText(gameSelected, bmMode);
+    }
+
+
+    public void FailMiddleGame(int gameSelected, int bmMode)
+    {
+        btnContinue.SetActive(false);
+        btnReplay.SetActive(true);
+
+        btnMenu.SetActive(true);               //180510: botao Menu em todos os betweenLevel por uniformidade
+        msg.text = failmiddleMsg;
         gameSelectedText(gameSelected, bmMode);
     }
 
@@ -83,6 +99,7 @@ public class BetweenLevelsController : MonoBehaviour
     {
         //btnExit.SetActive (true);
         btnContinue.SetActive(true);
+        btnReplay.SetActive(false);
 
         btnMenu.SetActive(true);                //Josi: 161212: botao Menu
         msg.text = postEndMsg;
@@ -96,6 +113,7 @@ public class BetweenLevelsController : MonoBehaviour
                                                                          //btnExit.SetActive (true);
         UpdateLevelofPlayer();
         btnContinue.SetActive(false);
+        btnReplay.SetActive(false);
         btnMenu.SetActive(true);
 
         if ((gameSelected == 1) || (gameSelected == 4)) { //BM ou BMcomTempo

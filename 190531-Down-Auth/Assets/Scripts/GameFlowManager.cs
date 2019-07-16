@@ -139,6 +139,7 @@ public class GameFlowManager : MonoBehaviour
     public Text placarFinal;
     public Button nextLevel;  //MainScene/GameScene/BetweenLevelsCanvas/Panel/NextLevel 
     public Button thisLevel;  //MainScene/GameScene/BetweenLevelsCanvas/Panel/ThisLevel = exit
+    public Button replayLevel;//MainScene/GameScene/BetweenLevelsCanvas/Panel/ReplayLevel
     public Button endLevel;   //MainScene/GameScene/BetweenLevelsCanvas/Panel/EndLevel = menu de jogos (goToIntro)
     public Button notAbandon; //MainScene/GameScene/GiveUpMenu/Nao
     public Button yesAbandon; //MainScene/GameScene/GiveUpMenu/Sim
@@ -1236,6 +1237,9 @@ menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("
         //Josi; onClick nao funciona no betweenLevels; ideia em https://docs.unity3d.com/ScriptReference/UI.Button-onClick.html
         Button btnNextLevel = nextLevel.GetComponent<Button>();
         btnNextLevel.onClick.AddListener(NextLevel);
+
+        Button btnReplayLevel = replayLevel.GetComponent<Button>();
+        btnReplayLevel.onClick.AddListener(ToTutorial);
         //--
         //180628 changed by Exit Icon
         //Button btnThisLevel = thisLevel.GetComponent<Button>();
@@ -1473,6 +1477,11 @@ btnAbout.onClick.AddListener(showAbout);
         SceneManager.LoadScene("Configurations");
     }
 
+
+    public void ToTutorial()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 
 
     //---------------------------------------------------------------------------------------
@@ -1893,6 +1902,11 @@ btnAbout.onClick.AddListener(showAbout);
                 {
                     btLevelsController.PostEndGame(gameSelected, 0);
                 }
+                else if (((minHitsInSequence < probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
+                        ((uiManager.successTotal < probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+                {
+                    btLevelsController.FailMiddleGame(gameSelected, 0);
+                }
                 else
                 {
                     btLevelsController.MiddleGame(gameSelected, 0);
@@ -1902,14 +1916,14 @@ btnAbout.onClick.AddListener(showAbout);
             gameCanvas.interactable = false;
 
             //161207: passa a gravar ao chegar na tela betweenLevels, nao ao Avancar
-            uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));  //170109
+            //uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));  //170109
 
         }
         else
         {
 
             //Josi: 161207: passa a gravar ao chegar na tela betweenLevels, nao ao Avancar; ultimo nivel eh um caso especial
-            uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));   //170109
+            //uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));   //170109
             uiManager.ResetEventList(gameSelected);
             game.SetActive(true);
             intro.SetActive(false);
