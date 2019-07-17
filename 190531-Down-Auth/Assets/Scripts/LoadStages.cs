@@ -461,7 +461,7 @@ public class LoadStages : MonoBehaviour
                     g.constraintCount = 1;                                              //1column
                     xCellHeight = xCellHeight / files.Length;
                     xCellHeight -= g.spacing.x;
-                    g.cellSize = new Vector2(xCellWidth, ((files.Length == 1) ? xCellHeight / 3.0f : xCellHeight / 0.9f));
+                    g.cellSize = new Vector2(xCellWidth, ((files.Length == 1) ? xCellHeight / 3.0f : xCellHeight));
                 }
                 else
                 {
