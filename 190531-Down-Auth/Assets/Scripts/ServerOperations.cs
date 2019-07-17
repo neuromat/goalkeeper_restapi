@@ -1124,6 +1124,7 @@ public class ServerOperations
                 File.Copy(LogGame.ToString(), backupResults + tmp);       // copiar sem ext para backupResults com ext
                 File.Move(LogGame.ToString(), LogGame.ToString() + ".csv"); // mover sem ext para com ext, em assets
                 File.Delete(Application.dataPath + tmp + ".meta");        // deletar os .meta criados pelo unity3d
+                File.Delete(Application.dataPath + tmp);        // deletar os .meta criados pelo unity3d
             }
 
 

@@ -558,7 +558,16 @@ public class UIManager : MonoBehaviour
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> INPUT PRESSIONADO = "+input);
             //SendEventsToServerMini(PlayerPrefs.GetInt("gameSelected"));
             _events[eventCount - 1].sendedToDB = SendPlaytoServer(eventCount, eLog);
-			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> SENDEVENTSTOSERVER ATIVADO = ");
+
+            // Save the results locally
+            ServerOperations.instance.RegisterPlay2(
+                GameFlowManager.instance,
+                _events,
+                probs.CurrentMachineID(),
+                PlayerPrefs.GetInt(PlayerPrefs.GetString("teamSelected") + probs.GetCurrMachineIndex().ToString()),
+                PlayerPrefs.GetInt("game_level_name"));
+
+            Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> SENDEVENTSTOSERVER ATIVADO = ");
 		}
 	}
 
