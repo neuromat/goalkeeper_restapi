@@ -1103,15 +1103,24 @@ public class GameFlowManager : MonoBehaviour
             txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
             txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas2");
             txtMinHits.text = (minHits - uiManager.success).ToString();
+
+            txtNumeroDefesas3.text = "";
+            txtNumeroDefesas4.text = "";
+            txtOu.text = "";
+            txtMinHits2.text = "";
         }
         else if (minHits2 != 0)
         {
             txtNumeroDefesas1.text = translate.getLocalizedValue("txtnumeroDefesas1");
             txtNumeroDefesas2.text = translate.getLocalizedValue("txtnumeroDefesas4");
             txtMinHits.text = (minHits2 - minHitsInSequence).ToString();
+
+            txtNumeroDefesas3.text = "";
+            txtNumeroDefesas4.text = "";
+            txtOu.text = "";
+            txtMinHits2.text = "";
         }
     }
-
 
     void Start()
     {
@@ -1900,10 +1909,10 @@ btnAbout.onClick.AddListener(showAbout);
             }
             else
             {
-                if (((minHitsInSequence < probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
-                    ((uiManager.success < probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+                if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
+                    ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
                 {
-                    btLevelsController.FailGame(gameSelected, 0);
+                    btLevelsController.MiddleGame(gameSelected, 0);
                 }
                 //no JG nao há este apendice ao nome, entao vai zero
                 else if (probCalculator.GetCurrMachineIndex() + 1 >= uiManager.GetTotalLevelArts())
@@ -1912,7 +1921,7 @@ btnAbout.onClick.AddListener(showAbout);
                 }
                 else
                 {
-                    btLevelsController.MiddleGame(gameSelected, 0);
+                    btLevelsController.FailGame(gameSelected, 0);
                 }
             }
 
@@ -1935,14 +1944,14 @@ btnAbout.onClick.AddListener(showAbout);
             //170927 novo param em btLevelController para precisar o nome do jogo
             int bmMode = (probCalculator.getMinHitsInSequence() > 0) ? 2 : 1;
 
-            if (((minHitsInSequence < probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
-                    ((uiManager.success < probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+            if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
+                    ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
             {
-                btLevelsController.FailGame(gameSelected, 0);
+                btLevelsController.EndGame(gameSelected, bmMode);    //170927 novo param bmMode para AQ/AR minHits ou minSequ
             }
             else
             {
-                btLevelsController.EndGame(gameSelected, bmMode);    //170927 novo param bmMode para AQ/AR minHits ou minSequ
+                btLevelsController.FailGame(gameSelected, 0); 
             }
             gameCanvas.interactable = false;
         }
