@@ -97,7 +97,7 @@
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                {% trans "Optional 1 - number of hits" %}
+                                {% trans "Optional 1 - number of hits and score" %}
                             </button>
                         </h5>
                     </div>
@@ -120,6 +120,13 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label class="control-label">{% trans "The score of this game" %}</label>
+                                        {{ goalkeeper_game_form.score }}
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
                                 <div class="col-sm-6 col-12">
                                     <div class="form-group">
                                         <label class="control-label">{% trans "Number of plays to have a break" %}</label>

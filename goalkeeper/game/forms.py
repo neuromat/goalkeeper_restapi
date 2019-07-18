@@ -46,4 +46,5 @@ class GoalkeeperGameForm(forms.ModelForm):
             'show_history': CheckboxInput(attrs={'class': 'form-control'}),
             'send_markers_eeg': TextInput(attrs={'class': 'form-control'}),
             'port_eeg_serial': TextInput(attrs={'class': 'form-control'}),
+            'score': NumberInput(attrs={'class': 'form-control'}),
         }
