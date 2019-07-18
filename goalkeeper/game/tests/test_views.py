@@ -206,6 +206,7 @@ class GameTest(TestCase):
             'score_board': True,
             'show_history': True,
             'create_seq_manually': 'no',
+            'score': 10,
             'action': 'save'
         }
         self.client.post(url, self.data)
@@ -231,6 +232,7 @@ class GameTest(TestCase):
             'score_board': True,
             'show_history': True,
             'create_seq_manually': 'no',
+            'score': 10,
             'action': 'save'
         }
         self.client.post(url, self.data)
@@ -321,6 +323,7 @@ class GameTest(TestCase):
             'score_board': True,
             'show_history': True,
             'create_seq_manually': 'no',
+            'score': 10,
             'action': 'save'
         }
         response = self.client.post(reverse("goalkeeper_game_update", args=(game.id,)), self.data)
@@ -345,6 +348,7 @@ class GameTest(TestCase):
             'score_board': True,
             'show_history': True,
             'create_seq_manually': 'no',
+            'score': 0,
             'action': 'save'
         }
         response = self.client.post(reverse("goalkeeper_game_update", args=(game.id,)), self.data)

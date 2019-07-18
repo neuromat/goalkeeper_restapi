@@ -98,6 +98,7 @@ class GameTest(TestCase):
             'score_board': True,
             'show_history': True,
             'create_seq_manually': 'no',
+            'score': 10,
         }
         form = GoalkeeperGameForm(data=data)
         self.assertTrue(form.is_valid())

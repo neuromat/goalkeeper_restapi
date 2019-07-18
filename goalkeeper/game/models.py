@@ -68,6 +68,7 @@ class Game(models.Model):
     left_key = models.CharField(max_length=20, blank=True)
     center_key = models.CharField(max_length=20, blank=True)
     right_key = models.CharField(max_length=20, blank=True)
+    score = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.config.name + ' - ' + self.game_type
