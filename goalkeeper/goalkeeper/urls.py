@@ -19,10 +19,11 @@ from django.urls import include, path, re_path
 from rest_framework import routers
 
 from game.views import home, language_change
-from award.api.viewsets import AwardUserList
+from award.api.viewsets import AwardDetailList, AwardUserList
 
 router = routers.DefaultRouter()
 router.register(r'awards', AwardUserList)
+router.register(r'award_details', AwardDetailList)
 
 
 urlpatterns = [

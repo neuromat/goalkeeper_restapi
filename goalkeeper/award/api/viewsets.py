@@ -2,8 +2,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 
-from award.models import AwardUser
-from .serializers import AwardUserSerializer
+from award.models import AwardDetail, AwardUser
+from .serializers import AwardDetailSerializer, AwardUserSerializer
 
 
 class AwardUserList(ModelViewSet):
@@ -12,3 +12,11 @@ class AwardUserList(ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('user', 'award_detail', 'game')
+
+
+class AwardDetailList(ModelViewSet):
+    queryset = AwardDetail.objects.all()
+    serializer_class = AwardDetailSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('award_type', 'number', 'score')
