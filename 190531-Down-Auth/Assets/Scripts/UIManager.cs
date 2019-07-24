@@ -35,6 +35,9 @@ public class RandomEvent            //Josi: result matrix to save experiment res
 	public float pauseTime;          //170919 tempo em pausa (do Play/Pause) nesta jogada
 	public float realTime;           //180418 tempo corrido (para analisar com os marcadores)
     public bool sendedToDB;          //190625 true ou false se resultado foi ou não enviado à base
+    public int score;
+    public int defenses;
+    public int defensesseq;
 }
 
 
@@ -373,8 +376,9 @@ public class UIManager : MonoBehaviour
 				}
 			}
 
-
-			_events.Add (eLog);
+            UpdateScores(eLog);
+            Debug.Log(eLog.defenses + "+" + eLog.defensesseq + "+" + eLog.score);
+            _events.Add (eLog);
 
 			if (gameFlow.firstScreen && (PlayerPrefs.GetInt ("gameSelected") == 3)) {  //Josi: apenas no memoDeclarat
 	           _eventsFirstScreen.Add (eLog);  //170109
@@ -573,43 +577,26 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-    public List<int> UpdateScores(bool update)
-    {
-        var pontuacao = 0;
-        var defesas = 1;
-        var defesasseq = 0;
 
-        if (gameFlow.minHitsInSequence == 1)
+    public void UpdateScores(RandomEvent _event)     {
+        if (_event.correct)
         {
-            pontuacao = 1;
-        }
-        else if (gameFlow.minHitsInSequence == 2)
-        {
-            pontuacao = gameFlow.minHitsInSequence + 1;
-            defesasseq = 2;
-        }
-        else
-        {
-            pontuacao = gameFlow.minHitsInSequence + 1;
-            defesasseq = 1;
-        }
+            _event.score = 1;
+            _event.defenses = 1;
+            _event.defensesseq = 0;
 
-        if (update)
-        {
-            gameFlow.NumNivel.text = (PlayerInfo.level).ToString();
-            gameFlow.NumPontuacao.text = (Convert.ToInt32(gameFlow.NumPontuacao.text) + pontuacao).ToString();
-            gameFlow.NumDefesas.text = (Convert.ToInt32(gameFlow.NumDefesas.text) + defesas).ToString();
-            gameFlow.NumDefesasSeq.text = (Convert.ToInt32(gameFlow.NumDefesasSeq.text) + defesasseq).ToString();
+            if (gameFlow.minHitsInSequence == 2)
+            {
+                _event.score = gameFlow.minHitsInSequence + 1;
+                _event.defensesseq = 2;
+            }
+            else if (gameFlow.minHitsInSequence > 2)
+            {
+                _event.score = gameFlow.minHitsInSequence + 1;
+                _event.defensesseq = 1;
+            }
         }
-
-        List<int> scores = new List<int>();
-        scores.Add(pontuacao);
-        scores.Add(defesas);
-        scores.Add(defesasseq);
-        return scores;
-    }
-
-
+    } 
 
     //--------------------------------------------------------------------------------------------------------
     //Josi: ao trocar de nivel, envia os dados do experimento para arquivo local (a thread se encarrega de enviar o arquivo para o server)

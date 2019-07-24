@@ -99,6 +99,9 @@ public class ServerOperations
         dictObj.Add("movement_time", evento.time);
         dictObj.Add("time_running", evento.realTime);
         dictObj.Add("pause_time", evento.pauseTime);
+        dictObj.Add("score", evento.score);
+        dictObj.Add("defenses", evento.defenses);
+        dictObj.Add("defensesseq", evento.defensesseq);
 
         string jsonObj = JsonConvert.SerializeObject(dictObj);
         var encoding = new System.Text.UTF8Encoding();         Dictionary<string, string> postHeader = new Dictionary<string, string>();         postHeader.Add("Content-Type", "application/json");         postHeader.Add("Authorization", "Token " + PlayerInfo.token);          var request = new WWW("localhost:8000/api/results/", encoding.GetBytes(jsonObj), postHeader);
@@ -1064,7 +1067,7 @@ public class ServerOperations
             if (!casoEspecialInterruptedOnFirstScreen)
             {   //170223 if INTERRUPT on firstScreen do not generate header for game lines
                 //170712
-                sr.WriteLine("move,waitedResult,ehRandom,optionChosen,correct,movementTime,pauseTime,timeRunning, sendedToDB");
+                sr.WriteLine("move,waitedResult,ehRandom,optionChosen,correct,movementTime,pauseTime,timeRunning,sendedToDB,score,defenses,defensesseq");
             }
 
 
@@ -1077,7 +1080,7 @@ public class ServerOperations
                 //170919 pauseTime of the play
                 tmp = l.resultInt.ToString() + "," + l.ehRandom + "," + l.optionChosenInt.ToString() + "," + (l.correct ? "TRUE" : "false")
                 + "," + l.time.ToString("f6").Replace(",", ".") + "," + l.pauseTime.ToString("f6").Replace(",", ".")
-                + "," + l.realTime.ToString("f6").Replace(",", ".") + "," + l.sendedToDB;
+                + "," + l.realTime.ToString("f6").Replace(",", ".") + "," + l.sendedToDB + "," + l.score + "," + l.defenses + "," + l.defensesseq;
 
                 if (gameSelected != 4)
                 {
