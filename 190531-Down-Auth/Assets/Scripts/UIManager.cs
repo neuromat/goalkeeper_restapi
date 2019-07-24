@@ -136,8 +136,9 @@ public class UIManager : MonoBehaviour
 	public bool pausePressed;                 //170906
 	public GameObject mdButtonPlay;           //170912 botões Play/Pause no Jogo da Memória
 	public GameObject mdButtonPause;          //170912
+    public GameObject buttonTrofeu;
 
-	private LocalizationManager translate;    //171010 trazer script das rotinas de translation
+    private LocalizationManager translate;    //171010 trazer script das rotinas de translation
 	public SerialPort serialp = null;         //180104 define a serial port to send markers to EEG, if necessary
 	public Byte[] data = { (Byte)0 };         //180104 to send data to the serial port; used also on gameFlow
 	public int diagSerial;                    //180108 serial diagnostic
@@ -226,10 +227,11 @@ public class UIManager : MonoBehaviour
 			//       interromper fora desse gap é só para arranjar problema com as sobras de animacao na tela
 			buttonPlay.SetActive (false);
 			buttonPause.SetActive (false);
+            buttonTrofeu.SetActive(false);
 
 
-			//170320 trocado para ca para tentar isolar a diferenca entre o tempo total de jogo e o tempo de movimento menos animacoes
-			RandomEvent eLog = new RandomEvent (); 
+            //170320 trocado para ca para tentar isolar a diferenca entre o tempo total de jogo e o tempo de movimento menos animacoes
+            RandomEvent eLog = new RandomEvent (); 
 
 			//170309 acertar tempo no JG descontando o tempo das animacoes e o tempo de relax se houver (senao valem zero)
 			//eLog.time = Time.realtimeSinceStartup - movementTimeA -  (gameFlow.endRelaxTime - gameFlow.startRelaxTime);
@@ -571,12 +573,48 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+    public List<int> UpdateScores(bool update)
+    {
+        var pontuacao = 0;
+        var defesas = 1;
+        var defesasseq = 0;
+
+        if (gameFlow.minHitsInSequence == 1)
+        {
+            pontuacao = 1;
+        }
+        else if (gameFlow.minHitsInSequence == 2)
+        {
+            pontuacao = gameFlow.minHitsInSequence + 1;
+            defesasseq = 2;
+        }
+        else
+        {
+            pontuacao = gameFlow.minHitsInSequence + 1;
+            defesasseq = 1;
+        }
+
+        if (update)
+        {
+            gameFlow.NumNivel.text = (PlayerInfo.level).ToString();
+            gameFlow.NumPontuacao.text = (Convert.ToInt32(gameFlow.NumPontuacao.text) + pontuacao).ToString();
+            gameFlow.NumDefesas.text = (Convert.ToInt32(gameFlow.NumDefesas.text) + defesas).ToString();
+            gameFlow.NumDefesasSeq.text = (Convert.ToInt32(gameFlow.NumDefesasSeq.text) + defesasseq).ToString();
+        }
+
+        List<int> scores = new List<int>();
+        scores.Add(pontuacao);
+        scores.Add(defesas);
+        scores.Add(defesasseq);
+        return scores;
+    }
 
 
-	//--------------------------------------------------------------------------------------------------------
-	//Josi: ao trocar de nivel, envia os dados do experimento para arquivo local (a thread se encarrega de enviar o arquivo para o server)
-	//170109 nasce jogoJogado como parametro
-	public void SendEventsToServer(int gameSelected, int nivel = 0)
+
+    //--------------------------------------------------------------------------------------------------------
+    //Josi: ao trocar de nivel, envia os dados do experimento para arquivo local (a thread se encarrega de enviar o arquivo para o server)
+    //170109 nasce jogoJogado como parametro
+    public void SendEventsToServer(int gameSelected, int nivel = 0)
 	{
 		Debug.Log ("UIManager.cs ----------------- f:SendEventsToServer ----- Verifica Condicao---------");
 
@@ -1068,8 +1106,10 @@ public class UIManager : MonoBehaviour
 			}
 		}
 
-		//170311 remove "aperteTecla" after EXIT cancelado
-		gameFlow.bmMsg.SetActive (false);                  //BM msg tutorial ou aperteTecla
+        buttonTrofeu.SetActive(true);
+
+        //170311 remove "aperteTecla" after EXIT cancelado
+        gameFlow.bmMsg.SetActive (false);                  //BM msg tutorial ou aperteTecla
 		gameFlow.aperteTecla.SetActive (false);            //BM msg aperteTecla
 	}
 
@@ -1554,8 +1594,10 @@ public class UIManager : MonoBehaviour
 				buttonPlay.SetActive (false);
 			}
 
-			//171031 select pt-br or en-us sound
-			if (locale == "pt_br") {
+            buttonTrofeu.SetActive(true);
+
+            //171031 select pt-br or en-us sound
+            if (locale == "pt_br") {
 			   sound321.enabled = false; //170825 para resetar o som (aparentemente
 			} else {
 				if (locale == "en_us") {
@@ -1600,8 +1642,10 @@ public class UIManager : MonoBehaviour
 							buttonPlay.SetActive (false);
 						}
 
-						//170307 reiniciar contagem do tempo: desde que aparecem as teclas de defesa
-					    movementTimeA = Time.realtimeSinceStartup; //170309 para nao precisar descontar tempo das animacoes (impreciso)
+                        buttonTrofeu.SetActive(true);
+
+                        //170307 reiniciar contagem do tempo: desde que aparecem as teclas de defesa
+                        movementTimeA = Time.realtimeSinceStartup; //170309 para nao precisar descontar tempo das animacoes (impreciso)
 						decisionTimeA = Time.realtimeSinceStartup;  //170307 apareceram as setas de defesa: inicia-se a contagem do tempo de movimento
 					}
 				}
@@ -1697,7 +1741,9 @@ public class UIManager : MonoBehaviour
 					} else {
 						buttonPause.SetActive (!buttonPause.activeSelf);
 						buttonPlay.SetActive (!buttonPlay.activeSelf);
-					}
+
+                        buttonTrofeu.SetActive(true);
+                    }
 				}
 			}
 

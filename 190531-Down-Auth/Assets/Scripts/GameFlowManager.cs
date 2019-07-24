@@ -22,42 +22,8 @@ public class GameFlowManager : MonoBehaviour
 {
     // @ale : Premios
     public GameObject Premios;
-    //public GameObject Player;
-    public GameObject icon1on;
-    public GameObject icon2on;
-    public GameObject icon3on;
-    public GameObject icon4on;
-    public GameObject icon5on;
-    public GameObject icon6on;
-    public GameObject icon7on;
-    public GameObject icon8on;
-    public GameObject icon9on;
 
-    public GameObject icon1off;
-    public GameObject icon2off;
-    public GameObject icon3off;
-    public GameObject icon4off;
-    public GameObject icon5off;
-    public GameObject icon6off;
-    public GameObject icon7off;
-    public GameObject icon8off;
-    public GameObject icon9off;
-
-    public GameObject IndicaPremios;
-
-    // Quadro de Premios
-    public Text TextP1; // premio 1...
-    public Text TextP2;
-    public Text TextP3;
-    public Text TextP4;
-    public Text TextP5;
-    public Text TextP6;
-    public Text TextP7;
-    public Text TextP8;
-    public Text TextP9;
-    public Text QuadroPremios; // titulo quadro de premios
-    public Text SairQuadro;
-
+    // Instruções
     public Text txtNumeroDefesas1;
     public Text txtNumeroDefesas2;
     public Text txtNumeroDefesas3;
@@ -65,10 +31,22 @@ public class GameFlowManager : MonoBehaviour
     public Text txtMinHits;
     public Text txtMinHits2;
     public Text txtOu;
-    public Text TextHeaderPremios;
-    public Text txtPremioDefesas;
-    public Text txtPremioDefesasSeguidas;
-    public Text txtPremioFases;
+
+    // Quadro de Prêmios
+    public Text txtNivel;
+    public Text txtPontuacao;
+    public Text txtDefesas;
+    public Text txtDefesasSeq;
+    public Text NumNivel;
+    public Text NumPontuacao;
+    public Text NumDefesas;
+    public Text NumDefesasSeq;
+
+    public GameObject PausePlay;
+    public GameObject Exit;
+    public GameObject ButtonTrofeu;
+    public GameObject Pergunta;
+    public GameObject Instrucoes;
 
 
     public GameObject game;
@@ -123,7 +101,7 @@ public class GameFlowManager : MonoBehaviour
     public int playsToRelax = 0;             //170223 num jogadas para dar um descanso
 
 
-    public GameObject userInfoForm;
+    //public GameObject userInfoForm;
     public GameObject quitGameMenu;         //MainScene/gameScene/giveUpMenu
     public Text txtAbandon;                 //MainScene... GiveUpMenu
     public int playLimit = 0;
@@ -144,11 +122,11 @@ public class GameFlowManager : MonoBehaviour
     public Button notAbandon; //MainScene/GameScene/GiveUpMenu/Nao
     public Button yesAbandon; //MainScene/GameScene/GiveUpMenu/Sim
 
-    public Button menuPrizes;   //180605 
-    public Button menuTutorial; //180605 old: 4 field with a little text
-    public Button menuCredits;  //180605
-    public Button menuAbout;    //180605
-    public GameObject bkgPrizes;//180706
+    //public Button menuPrizes;   //180605 
+    //public Button menuTutorial; //180605 old: 4 field with a little text
+    //public Button menuCredits;  //180605
+    //public Button menuAbout;    //180605
+    //public GameObject bkgPrizes;//180706
 
     //170322 para saber se o Exit foi clicado (para resolver as telas onde há o "aperte alguma tecla" e o click no Exit)
     public Button exitIcon;   //MainScene/GameScene/Exit; botao para, ao clicar, enviar para uiManager.QuitGame
@@ -338,423 +316,7 @@ public class GameFlowManager : MonoBehaviour
                         ShowInBetween(PlayerPrefs.GetInt("gameSelected"));
                     }
                 }
-
-                // @ale - Premio 1 - Acertar 8 defesas em qualquer ordem
-                if (uiManager.successTotal == 8 || Load1() == true)
-                {
-                    Debug.Log("Total de Acertos = " + totalAcertos + "... ativa icone1 = " + icone1);
-                    totalAcertos = uiManager.success + totalAcertos;
-
-                    if (Load1() == false)
-                    {
-                        LigaDesligaIndicaPremios(true);
-                    }
-                    else
-                    {
-                        LigaDesligaIndicaPremios(false);
-                    }
-
-                    //Premios.SetActive (false);
-                    icon1off.SetActive(false);
-                    /*
-                    icon2off.SetActive (true);
-                    icon3off.SetActive (true);
-                    icon4off.SetActive (true);
-                    icon5off.SetActive (true);
-                    icon6off.SetActive (true);
-                    icon7off.SetActive (true);
-                    icon8off.SetActive (true);
-                    */
-                    icon1on.SetActive(true);
-                    /*
-                    icon2on.SetActive (false);
-                    icon3on.SetActive (false);
-                    icon4on.SetActive (false);
-                    icon5on.SetActive (false);
-                    icon6on.SetActive (false);
-                    icon7on.SetActive (false);
-                    icon8on.SetActive (false);
-                    */
-
-                    if (!icone1 && Load2() == true)
-                    {
-                        icone1 = true;
-                        Save(true, true, false, false, false, false, false, false, false);
-                    }
-
-                    if (!icone1 && Load2() == false)
-                    {
-                        icone1 = true;
-                        Save(true, false, false, false, false, false, false, false, false);
-                    }
-
-
-                }
-
-                // @ale - Premio 2 (32 Defesas)
-                if (uiManager.successTotal == 32 || Load2() == true)
-                {
-                    //Debug.Log ("-----ativa icone1 = "+icone1);
-                    totalAcertos = uiManager.success + totalAcertos;
-
-                    if (Load2() == false)
-                    {
-                        LigaDesligaIndicaPremios(true);
-                    }
-                    else
-                    {
-                        LigaDesligaIndicaPremios(false);
-                    }
-                    icon2off.SetActive(false);
-                    icon2on.SetActive(true);
-                    if (!icone2 && Load1() == true)
-                    {
-                        icone2 = true;
-                        Save(true, true, false, false, false, false, false, false, false);
-                    }
-                    if (!icone2 && Load1() == false)
-                    {
-                        icone2 = true;
-                        Save(false, true, false, false, false, false, false, false, false);
-                    }
-                }
-
-
-                // @ale - Premio 3 - Acertar 30 defesas em qualquer ordem
-                if (uiManager.successTotal == 64 || Load3() == true)
-                {
-                    Debug.Log("-----ativa icone3 = " + icone3);
-
-                    totalAcertos = uiManager.success + totalAcertos;
-
-                    if (Load3() == false)
-                    {
-                        LigaDesligaIndicaPremios(true);
-                    }
-                    else
-                    {
-                        LigaDesligaIndicaPremios(false);
-                    }
-
-                    icon3off.SetActive(false);
-                    icon3on.SetActive(true);
-
-                    if (!icone3 && Load2() == true)
-                    {
-                        icone3 = true;
-                        Save(true, true, true, false, false, false, false, false, false);
-                    }
-                    if (!icone3 && Load2() == false)
-                    {
-                        icone3 = true;
-                        Save(true, false, true, false, false, false, false, false, false);
-                    }
-                }
-
-
-                // @ale - Premio 4 (5 Defesas em Sequencia)
-                if (minHitsInSequence == 5 || Load4() == true)
-                {
-                    if (Load4() == false)
-                    {
-                        LigaDesligaIndicaPremios(true);
-                    }
-                    else
-                    {
-                        LigaDesligaIndicaPremios(false);
-                    }
-                    icon4off.SetActive(false);
-                    icon4on.SetActive(true);
-
-                    if (!icone4)
-                    {
-                        icone4 = true;
-                        Save(false, false, false, true, false, false, false, false, false);
-                    }
-                    if (Load1() == true)
-                    {
-                        Save(true, false, false, true, false, false, false, false, false);
-                    }
-                    if (Load2() == true)
-                    {
-                        Save(true, true, false, true, false, false, false, false, false);
-                    }
-                    if (Load3() == true)
-                    {
-                        Save(true, true, true, true, false, false, false, false, false);
-                    }
-                    if (Load5() == true)
-                    {
-                        Save(true, true, true, true, true, false, false, false, false);
-                    }
-
-                }
-
-
-                // @ale - Premio 5 (10 Defesas em Sequencia)
-                if (minHitsInSequence == 10 || Load5() == true)
-                {
-                    if (Load5() == false)
-                    {
-                        LigaDesligaIndicaPremios(true);
-                    }
-                    else
-                    {
-                        LigaDesligaIndicaPremios(false);
-                    }
-
-
-                    icon5off.SetActive(false);
-                    icon5on.SetActive(true);
-
-                    if (!icone5)
-                    {
-                        icone5 = true;
-                        Save(false, false, false, false, true, false, false, false, false);
-                    }
-                    if (Load1() == true)
-                    {
-                        Save(true, false, false, false, true, false, false, false, false);
-                    }
-                    if (Load2() == true)
-                    {
-                        Save(true, true, false, false, true, false, false, false, false);
-                    }
-                    if (Load3() == true)
-                    {
-                        Save(true, true, true, false, true, false, false, false, false);
-                    }
-                    if (Load4() == true)
-                    {
-                        Save(true, true, true, true, true, false, false, false, false);
-                    }
-
-
-                }
-
-
-                // @ale - Premio 6 (15 Defesas em Sequencia)
-                if (minHitsInSequence == 15 || Load6() == true)
-                {
-                    if (Load6() == false)
-                    {
-                        LigaDesligaIndicaPremios(true);
-                    }
-                    else
-                    {
-                        LigaDesligaIndicaPremios(false);
-                    }
-
-                    icon6off.SetActive(false);
-                    icon6on.SetActive(true);
-
-                    if (!icone6)
-                    {
-                        icone6 = true;
-                        Save(false, false, false, false, false, true, false, false, false);
-                    }
-                    if (Load1() == true)
-                    {
-                        Save(true, false, false, false, false, true, false, false, false);
-                    }
-                    if (Load2() == true)
-                    {
-                        Save(true, true, false, false, false, true, false, false, false);
-                    }
-                    if (Load3() == true)
-                    {
-                        Save(true, true, true, false, false, true, false, false, false);
-                    }
-                    if (Load4() == true)
-                    {
-                        Save(true, true, true, true, false, true, false, false, false);
-                    }
-                    if (Load5() == true)
-                    {
-                        Save(true, true, true, true, true, true, false, false, false);
-                    }
-
-                }
-
-
-                // @ale - Premio 7 (Finalizar 2 fases completas)
-                if ((uiManager.success == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) || Load7() == true)
-                {
-                    if (numeroFases < 2)
-                    {
-                        numeroFases++;
-                        Debug.Log("probCalculator.getJGminHitsInSequence --->>>>>>>>>> " + probCalculator.getJGminHitsInSequence());
-                        Debug.Log("uiManager.eventCount --->>>>>>>>>> " + uiManager.eventCount);
-                        Debug.Log("numPlays --->>>>>>>>>> " + numPlays);
-                        Debug.Log("Numero de FASES ate 2 --->>>>>>>>>> " + numeroFases);
-                    }
-
-                    if (numeroFases == 2)
-                    {
-
-                        if (Load7() == false)
-                        {
-                            LigaDesligaIndicaPremios(true);
-                        }
-                        else
-                        {
-                            LigaDesligaIndicaPremios(false);
-                        }
-
-
-                        icon7off.SetActive(false);
-                        icon7on.SetActive(true);
-
-                        if (!icone7)
-                        {
-                            icone7 = true;
-                            Save(false, false, false, false, false, false, true, false, false);
-                        }
-                        if (Load1() == true)
-                        {
-                            Save(true, false, false, false, false, false, true, false, false);
-                        }
-                        if (Load2() == true)
-                        {
-                            Save(true, true, false, false, false, false, true, false, false);
-                        }
-                        if (Load3() == true)
-                        {
-                            Save(true, true, true, false, false, false, true, false, false);
-                        }
-                        if (Load4() == true)
-                        {
-                            Save(true, true, true, true, false, false, true, false, false);
-                        }
-                        if (Load5() == true)
-                        {
-                            Save(true, true, true, true, true, false, true, false, false);
-                        }
-                        if (Load6() == true)
-                        {
-                            Save(true, true, true, true, true, true, true, false, false);
-                        }
-
-                    }
-
-                }
-
-
-                // @ale - Premio 8 (Finalizar 4 fases completas)
-                if ((uiManager.success == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) || Load8() == true)
-                {
-                    if (numeroFases > 2 && numeroFases < 4)
-                    {
-                        numeroFases++;
-                        Debug.Log("Numero de FASES de 2 ate 4 --->>>>>>>>>> " + numeroFases);
-                    }
-
-                    if (numeroFases == 4)
-                    {
-
-                        if (Load8() == false)
-                        {
-                            LigaDesligaIndicaPremios(true);
-                        }
-                        else
-                        {
-                            LigaDesligaIndicaPremios(false);
-                        }
-
-
-                        icon8off.SetActive(false);
-                        icon8on.SetActive(true);
-
-                        if (!icone8)
-                        {
-                            icone8 = true;
-                            Save(false, false, false, false, false, false, false, true, false);
-                        }
-                        if (Load1() == true)
-                        {
-                            Save(true, false, false, false, false, false, false, true, false);
-                        }
-                        if (Load2() == true)
-                        {
-                            Save(true, true, false, false, false, false, false, true, false);
-                        }
-                        if (Load3() == true)
-                        {
-                            Save(true, true, true, false, false, false, false, true, false);
-                        }
-                        if (Load4() == true)
-                        {
-                            Save(true, true, true, true, false, false, false, true, false);
-                        }
-                        if (Load5() == true)
-                        {
-                            Save(true, true, true, true, true, false, false, true, false);
-                        }
-                        if (Load6() == true)
-                        {
-                            Save(true, true, true, true, true, true, false, true, false);
-                        }
-                        if (Load7() == true)
-                        {
-                            Save(true, true, true, true, true, true, true, true, false);
-                        }
-
-                    }
-                }
-
-
-                // @ale - Premio 9 (Finalizar 8 fases completas)
-                if ((uiManager.success == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) || Load9() == true)
-
-                {
-                    if (numeroFases > 4 && numeroFases < 8)
-                    {
-                        numeroFases++;
-                        Debug.Log("Numero de FASES de 4 ate 8 --->>>>>>>>>> " + numeroFases);
-                    }
-
-                    if (numeroFases == 8)
-                    {
-
-                        if (Load9() == false)
-                        {
-                            LigaDesligaIndicaPremios(true);
-                        }
-                        else
-                        {
-                            LigaDesligaIndicaPremios(false);
-                        }
-
-
-                        icon9off.SetActive(false);
-                        icon9on.SetActive(true);
-
-                        if (!icone9 && Load7() == true && Load8() == true)
-                        {
-                            icone9 = true;
-                            Save(true, true, true, true, true, true, true, true, true);
-                        }
-
-                        if (!icone9 && Load7() == false && Load8() == false)
-                        {
-                            icone9 = true;
-                            Save(true, true, true, true, true, true, false, false, true);
-                        }
-
-                        if (!icone9 && Load7() == false && Load8() == true)
-                        {
-                            icone9 = true;
-                            Save(true, true, true, true, true, false, false, true, true);
-                        }
-
-                        if (!icone9 && Load7() == true && Load8() == false)
-                        {
-                            icone9 = true;
-                            Save(true, true, true, true, true, true, true, false, true);
-                        }
-                    }
-                }
-
+                
 
                 //170125 nos Base Motora, se nao atingido o num minimo de jogadas, aumentar as jogadas
                 //170126                  e posicionar proximo chute + atualizar placar
@@ -1038,12 +600,16 @@ public class GameFlowManager : MonoBehaviour
 
     IEnumerator PainelPremiosOn()
     {
-        Debug.Log("ATIVAR JANELA DE PREMIOS");
-        LigaDesligaIndicaPremios(false);
+        //LigaDesligaIndicaPremios(false);
         Premios.SetActive(true);
-        Debug.Log("Verifica .... Load1");
-        Load1();
+        logBox.SetActive(false);
+        PausePlay.SetActive(false);
+        Exit.SetActive(false);
+        ButtonTrofeu.SetActive(false);
+        Pergunta.SetActive(false);
+        Instrucoes.SetActive(false);
 
+        //Load1();
         yield return new WaitForSeconds(2);
     }
 
@@ -1055,6 +621,14 @@ public class GameFlowManager : MonoBehaviour
     IEnumerator PainelPremiosOff()
     {
         Premios.SetActive(false);
+        if (probCalculator.getShowPlayPauseButton())
+        {
+            PausePlay.SetActive(true);
+        }
+        Exit.SetActive(true);
+        ButtonTrofeu.SetActive(true);
+        Pergunta.SetActive(true);
+        Instrucoes.SetActive(true);
         yield return new WaitForSeconds(2);
     }
     // ------------------------------------fim painel de premios------------------------------------------
@@ -1171,22 +745,6 @@ menuAbout.GetComponentInChildren<Text>().text = translate.getLocalizedValue("sob
 menuPrizes.GetComponentInChildren<Text>().text = translate.getLocalizedValue("premios");    //.Replace("\\n", "\n");
 menuTutorial.GetComponentInChildren<Text>().text = translate.getLocalizedValue("tutor");    //.Replace("\\n", "\n");
         */
-        // TRANSLATE DOS BOTOES DO QUADRO DE PREMIOS
-        TextP1.text = translate.getLocalizedValue("TextP1");
-        TextP2.text = translate.getLocalizedValue("TextP2");
-        TextP3.text = translate.getLocalizedValue("TextP3");
-        TextP4.text = translate.getLocalizedValue("TextP4");
-        TextP5.text = translate.getLocalizedValue("TextP5");
-        TextP6.text = translate.getLocalizedValue("TextP6");
-        TextP7.text = translate.getLocalizedValue("TextP7");
-        TextP8.text = translate.getLocalizedValue("TextP8");
-        TextP9.text = translate.getLocalizedValue("TextP9");
-        SairQuadro.text = translate.getLocalizedValue("TextSair");
-        QuadroPremios.text = translate.getLocalizedValue("TextHeaderPremios");
-        txtPremioDefesas.text = translate.getLocalizedValue("TextPremioDefesas");
-        txtPremioDefesasSeguidas.text = translate.getLocalizedValue("TextPremioDefesasSeguidas");
-        txtPremioFases.text = translate.getLocalizedValue("TextPremioFases");
-
 
         //170311 validar arq conf ======================================
         errorNumber = probCalculator.configValidation();
@@ -1468,7 +1026,7 @@ btnAbout.onClick.AddListener(showAbout);
 
             //introMenu.SetActive(false);        //Josi: menuInicio em IntroScene(1): botões dos jogos
             //gameModeMenu.SetActive(true);      //Josi: userData em IntroScene(1): cata dados: msg, msg se vazio, botao Continuar
-            userInfoForm.SetActive(true);      //Josi: sendData em IntroScene(1): cata dados: apelido
+            //userInfoForm.SetActive(true);      //Josi: sendData em IntroScene(1): cata dados: apelido
 
         }
         else
@@ -2242,7 +1800,7 @@ btnAbout.onClick.AddListener(showAbout);
     public void showPrizes()
     {
         //SceneManager.LoadScene("Credits");
-        bkgPrizes.SetActive(true);
+        //bkgPrizes.SetActive(true);
     }
 
 
@@ -2414,10 +1972,10 @@ btnAbout.onClick.AddListener(showAbout);
     }
 
 
-    public void LigaDesligaIndicaPremios(bool chave)
-    {
-        IndicaPremios.SetActive(chave);
-    }
+    //public void LigaDesligaIndicaPremios(bool chave)
+    //{
+    //    IndicaPremios.SetActive(chave);
+    //}
 
 
     // ================================= fim do Save Data ===================================================
