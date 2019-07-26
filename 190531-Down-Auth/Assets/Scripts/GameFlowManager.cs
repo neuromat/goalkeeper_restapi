@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;  //170102 List
 using JsonFx.Json;
+using Newtonsoft.Json;
 
 //@ale Save Data
 using System.Collections.Generic;
@@ -609,6 +610,13 @@ public class GameFlowManager : MonoBehaviour
         Pergunta.SetActive(false);
         Instrucoes.SetActive(false);
 
+        // Scores
+        var scores = GetScores();
+        NumNivel.text = PlayerInfo.level.ToString();
+        NumPontuacao.text = scores[0].ToString();
+        NumDefesas.text = scores[1].ToString();
+        NumDefesasSeq.text = scores[2].ToString();
+
         //Load1();
         yield return new WaitForSeconds(2);
     }
@@ -631,6 +639,38 @@ public class GameFlowManager : MonoBehaviour
         Instrucoes.SetActive(true);
         yield return new WaitForSeconds(2);
     }
+
+    public List<int> GetScores()
+    {
+        string address = string.Format("localhost:8000/api/results?format=json&token={0}", PlayerInfo.token);
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+
+        var ObjList = new List<RandomEvent>();
+        ObjList = JsonConvert.DeserializeObject<List<RandomEvent>>(request.text);
+
+        List<int> scores = new List<int>();
+        scores.Add(0);
+        scores.Add(0);
+        scores.Add(0);
+
+        foreach (RandomEvent _event in ObjList)
+        {
+            scores[0] += _event.score; // Pontuacao
+            scores[1] += _event.defenses; // Defesas
+            scores[2] += _event.defensesseq; // Defesas em sequência
+        }
+
+        return scores;
+    }
+
+    IEnumerator WaitForWWW(WWW www)
+    {
+        yield return www;
+    }
+
     // ------------------------------------fim painel de premios------------------------------------------
 
 
