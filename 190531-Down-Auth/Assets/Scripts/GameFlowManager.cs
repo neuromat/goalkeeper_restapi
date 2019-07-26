@@ -660,7 +660,7 @@ public class GameFlowManager : MonoBehaviour
         {
             scores[0] += _event.score; // Pontuacao
             scores[1] += _event.defenses; // Defesas
-            scores[2] += _event.defensesseq; // Defesas em sequência
+            scores[2] += _event.defensesSeq; // Defesas em sequência
         }
 
         return scores;

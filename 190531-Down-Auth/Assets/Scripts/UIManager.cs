@@ -37,7 +37,7 @@ public class RandomEvent            //Josi: result matrix to save experiment res
     public bool sendedToDB;          //190625 true ou false se resultado foi ou não enviado à base
     public int score;
     public int defenses;
-    public int defensesseq;
+    public int defensesSeq;
 }
 
 
@@ -377,7 +377,7 @@ public class UIManager : MonoBehaviour
 			}
 
             UpdateScores(eLog);
-            Debug.Log(eLog.defenses + "+" + eLog.defensesseq + "+" + eLog.score);
+            Debug.Log(eLog.defenses + "+" + eLog.defensesSeq + "+" + eLog.score);
             _events.Add (eLog);
 
 			if (gameFlow.firstScreen && (PlayerPrefs.GetInt ("gameSelected") == 3)) {  //Josi: apenas no memoDeclarat
@@ -583,17 +583,17 @@ public class UIManager : MonoBehaviour
         {
             _event.score = 1;
             _event.defenses = 1;
-            _event.defensesseq = 0;
+            _event.defensesSeq = 0;
 
             if (gameFlow.minHitsInSequence == 2)
             {
                 _event.score = gameFlow.minHitsInSequence + 1;
-                _event.defensesseq = 2;
+                _event.defensesSeq = 2;
             }
             else if (gameFlow.minHitsInSequence > 2)
             {
                 _event.score = gameFlow.minHitsInSequence + 1;
-                _event.defensesseq = 1;
+                _event.defensesSeq = 1;
             }
         }
     } 

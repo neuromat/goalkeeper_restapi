@@ -13,9 +13,9 @@ class GameResult(models.Model):
     movement_time = models.FloatField()
     pause_time = models.FloatField()
     time_running = models.FloatField()
-    score = models.IntegerField(default=0)
-    defenses = models.IntegerField(default=0)
-    defensesseq = models.IntegerField(default=0)
+    score = models.IntegerField()
+    defenses = models.IntegerField()
+    defenses_seq = models.IntegerField()
     owner = models.ForeignKey('auth.User', related_name='game_results', on_delete=models.CASCADE)
 
     def __str__(self):
