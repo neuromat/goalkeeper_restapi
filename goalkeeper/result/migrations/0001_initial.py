@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('movement_time', models.FloatField()),
                 ('pause_time', models.FloatField()),
                 ('time_running', models.FloatField()),
-                ('scores', models.IntegerField()),
+                ('score', models.IntegerField()),
                 ('defenses', models.IntegerField()),
                 ('defenses_seq', models.IntegerField()),
                 ('game_phase', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='game.Game')),
