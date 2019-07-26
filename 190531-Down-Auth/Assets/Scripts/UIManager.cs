@@ -1321,8 +1321,15 @@ public class UIManager : MonoBehaviour
 			}
 		}
 
+        // Show/Not show Play/Pause button
+        if (probs.getShowPlayPauseButton())
+        {
+            buttonPause.SetActive(true);
+            buttonPlay.SetActive(false);
+        }
 
-		int targetAnim = probs.GetCurrMachineIndex ();
+
+        int targetAnim = probs.GetCurrMachineIndex ();
 		if ((targetAnim >= gkAnim.Length) || (gameFlow.jogarMDfase3 && ((PlayerPrefs.GetInt ("gameSelected") == 3) || (PlayerPrefs.GetInt ("gameSelected") == 5))))   //170125
 		{
 			targetAnim = gkAnim.Length - 1;
@@ -1507,17 +1514,23 @@ public class UIManager : MonoBehaviour
 				}
 			}
 
-			//============================================================================
-			AnimatorStateInfo currentBaseState = gkAnim [currAnim].gk.GetCurrentAnimatorStateInfo (0);
+            //============================================================================
+            if (gkAnim[currAnim].isActiveAndEnabled)
+            {
+                AnimatorStateInfo currentBaseState = gkAnim[currAnim].gk.GetCurrentAnimatorStateInfo(0);
 
-			if (BtwnLvls)
-				return;
-			if (currentState != currentBaseState.shortNameHash) {
-				if (currentBaseState.shortNameHash == centerStateHash) {
-					if (OnAnimationEnded != null)
-						OnAnimationEnded ();
-				}
-			}
+                if (BtwnLvls)
+                    return;
+                if (currentState != currentBaseState.shortNameHash)
+                {
+                    if (currentBaseState.shortNameHash == centerStateHash)
+                    {
+                        if (OnAnimationEnded != null)
+                            OnAnimationEnded();
+                    }
+                }
+                currentState = currentBaseState.shortNameHash;
+            }
 
 			// ============================================================================
 			//180402 playing: to avoid capture keys when gameOver/gameLover active
@@ -1549,7 +1562,6 @@ public class UIManager : MonoBehaviour
 				}
 			}
 
-			currentState = currentBaseState.shortNameHash;
 		} else {
 			//============================================================================
 			//180402 accept pausePlay key (on/off), but only if permitted

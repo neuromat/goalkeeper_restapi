@@ -603,7 +603,7 @@ public class GameFlowManager : MonoBehaviour
     {
         //LigaDesligaIndicaPremios(false);
         Premios.SetActive(true);
-        logBox.SetActive(false);
+        logBox.transform.localScale = new Vector3(0,0,0);
         PausePlay.SetActive(false);
         Exit.SetActive(false);
         ButtonTrofeu.SetActive(false);
@@ -612,7 +612,7 @@ public class GameFlowManager : MonoBehaviour
 
         // Scores
         var scores = GetScores();
-        NumNivel.text = PlayerInfo.level.ToString();
+        NumNivel.text = GetLevelNamebyID(PlayerInfo.level).ToString();
         NumPontuacao.text = scores[0].ToString();
         NumDefesas.text = scores[1].ToString();
         NumDefesasSeq.text = scores[2].ToString();
@@ -637,6 +637,7 @@ public class GameFlowManager : MonoBehaviour
         ButtonTrofeu.SetActive(true);
         Pergunta.SetActive(true);
         Instrucoes.SetActive(true);
+        logBox.transform.localScale = new Vector3(1, 1, 1);
         yield return new WaitForSeconds(2);
     }
 
@@ -648,27 +649,60 @@ public class GameFlowManager : MonoBehaviour
         StartCoroutine(WaitForWWW(request));
         while (!request.isDone) { }
 
-        var ObjList = new List<RandomEvent>();
-        ObjList = JsonConvert.DeserializeObject<List<RandomEvent>>(request.text);
+        var ObjList = new List<ScoreJson>();
+        ObjList = JsonConvert.DeserializeObject<List<ScoreJson>>(request.text);
 
         List<int> scores = new List<int>();
         scores.Add(0);
         scores.Add(0);
         scores.Add(0);
 
-        foreach (RandomEvent _event in ObjList)
+        foreach (ScoreJson _event in ObjList)
         {
             scores[0] += _event.score; // Pontuacao
             scores[1] += _event.defenses; // Defesas
-            scores[2] += _event.defensesSeq; // Defesas em sequência
+            scores[2] += _event.defenses_seq; // Defesas em sequência
         }
 
         return scores;
     }
 
+    public int GetLevelNamebyID(int level_id)
+    {
+        string address = string.Format("localhost:8000/api/getlevel?format=json&id={0}", level_id);
+
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+
+        var ObjList = new List<LoadStages.LevelJson>();
+        ObjList = JsonConvert.DeserializeObject<List<LoadStages.LevelJson>>(request.text);
+        if (ObjList.Count > 0)
+        {
+            return ObjList[0].name;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     IEnumerator WaitForWWW(WWW www)
     {
         yield return www;
+    }
+
+    public class ScoreJson
+    {
+        [JsonProperty(PropertyName = "score")]
+        public int score { get; set; }
+
+        [JsonProperty(PropertyName = "defenses")]
+        public int defenses { get; set; }
+
+        [JsonProperty(PropertyName = "defenses_seq")]
+        public int defenses_seq { get; set; }
     }
 
     // ------------------------------------fim painel de premios------------------------------------------

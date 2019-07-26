@@ -928,9 +928,11 @@ public class ProbCalculator : MonoBehaviour
 		//Random.InitState(42);  //manter apenas uma, no loadStages
 		int index = UnityEngine.Random.Range(0, max);
 
-		string key = machines[currentStateMachineIndex].dicKeys[index];
-		currentState = machines[currentStateMachineIndex].states[key];
-
+        if (max > 0)
+        {
+            string key = machines[currentStateMachineIndex].dicKeys[index];
+            currentState = machines[currentStateMachineIndex].states[key];
+        }
 	}
 
 
