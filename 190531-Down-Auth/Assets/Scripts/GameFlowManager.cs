@@ -1534,7 +1534,6 @@ btnAbout.onClick.AddListener(showAbout);
 
             //Josi: 161207: passa a gravar ao chegar na tela betweenLevels, nao ao Avancar; ultimo nivel eh um caso especial
             //uiManager.SendEventsToServer(gameSelected, PlayerPrefs.GetInt("game_level_name"));   //170109
-            uiManager.ResetEventList(gameSelected);
             game.SetActive(true);
             intro.SetActive(false);
             betweenLevels.SetActive(true);
@@ -1552,6 +1551,7 @@ btnAbout.onClick.AddListener(showAbout);
                 btLevelsController.FailGame(gameSelected, 0); 
             }
             gameCanvas.interactable = false;
+            uiManager.ResetEventList(gameSelected);
         }
     }
 
