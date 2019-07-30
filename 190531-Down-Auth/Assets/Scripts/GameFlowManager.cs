@@ -1601,6 +1601,10 @@ btnAbout.onClick.AddListener(showAbout);
                 if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
                     ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
                 {
+                    var team = PlayerPrefs.GetString("teamSelected");
+                    var phase_id = PlayerPrefs.GetInt(team + probCalculator.GetCurrMachineIndex().ToString());
+
+                    ServerOperations.instance.RegistrarFaseJogada(phase_id);
                     btLevelsController.MiddleGame(gameSelected, 0);
                 }
                 //no JG nao há este apendice ao nome, entao vai zero
@@ -1635,6 +1639,10 @@ btnAbout.onClick.AddListener(showAbout);
             if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
                     ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
             {
+                var team = PlayerPrefs.GetString("teamSelected");
+                var phase_id = PlayerPrefs.GetInt(team + probCalculator.GetCurrMachineIndex().ToString());
+
+                ServerOperations.instance.RegistrarFaseJogada(phase_id);
                 btLevelsController.EndGame(gameSelected, bmMode);    //170927 novo param bmMode para AQ/AR minHits ou minSequ
             }
             else

@@ -110,6 +110,23 @@ public class ServerOperations
         return request.responseHeaders.ContainsKey("STATUS");
     }
 
+    public bool RegistrarFaseJogada(int phase)
+    {
+        Dictionary<string, object> dictObj = new Dictionary<string, object>();
+        dictObj.Add("game", phase);
+
+        string jsonObj = JsonConvert.SerializeObject(dictObj);
+        var encoding = new System.Text.UTF8Encoding();
+        Dictionary<string, string> postHeader = new Dictionary<string, string>();
+        postHeader.Add("Content-Type", "application/json");
+        postHeader.Add("Authorization", "Token " + PlayerInfo.token);
+
+        var request = new WWW("localhost:8000/api/gamescompleted/", encoding.GetBytes(jsonObj), postHeader);
+        //StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+        return request.responseHeaders.ContainsKey("STATUS");
+    }
+
 
 
     // -------------------------------------------------------------------------------------
