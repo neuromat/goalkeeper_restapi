@@ -16,14 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path, re_path
-from rest_framework import routers
 
 from game.views import home, language_change
-from award.api.viewsets import AwardDetailList, AwardUserList
-
-router = routers.DefaultRouter()
-router.register(r'awards', AwardUserList)
-router.register(r'award_details', AwardDetailList)
 
 
 urlpatterns = [
@@ -31,7 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
     path('api/', include('result.urls')),
-    path('award/', include(router.urls)),
     path('login/', auth_views.LoginView.as_view(template_name='login/sign_in.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     re_path('language/(?P<language_code>(?:(?:\w{2})|(?:\w{2}\-\w{2})))$', language_change, name='language_change'),
