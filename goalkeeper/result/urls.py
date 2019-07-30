@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from result.api.viewsets import GameResultList, GameResultDetail
+from result.api.viewsets import GameCompletedList, GameResultList, GameResultDetail
 from custom_user.api.viewsets import UserAPI, GetAuthToken
 from game.api.viewsets import GetGameConfigs, GetGames, GetContexts, GetProbs, GetLevel, GetPlayerLevel, \
     UpdatePlayerLevel
@@ -9,6 +9,7 @@ from game.api.viewsets import GetGameConfigs, GetGames, GetContexts, GetProbs, G
 urlpatterns = [
     path('results/', GameResultList.as_view()),
     path('result/<int:pk>/', GameResultDetail.as_view()),
+    path('gamescompleted/', GameCompletedList.as_view()),
     path('user', UserAPI.as_view()),
     path('user/<int:pk>/', UserAPI.as_view()),
     path('getauthtoken', GetAuthToken.as_view()),

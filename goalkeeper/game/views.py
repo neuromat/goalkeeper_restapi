@@ -33,7 +33,7 @@ def home(request, template_name="game/home.html"):
     total_games = GameResult.objects.count()
     total_hits = GameResult.objects.filter(correct=True).count()
     hit_rate = total_hits * 100 / total_games if total_games != 0 else None
-    total_players = GameResult.objects.values_list('owner', flat=True).distinct().count()
+    total_players = GameResult.objects.values_list('user', flat=True).distinct().count()
     kickers = GameConfig.objects.all()
 
     context = {
