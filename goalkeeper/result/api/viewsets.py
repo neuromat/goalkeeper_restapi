@@ -1,7 +1,8 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
 
-from result.models import GameResult
-from .serializers import GameResultSerializer
+from result.models import GameCompleted, GameResult
+from .serializers import GameCompletedSerializer, GameResultSerializer
 from rest_framework.authtoken.models import Token
 
 
@@ -35,3 +36,11 @@ class GameResultDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = GameResult.objects.all()
     serializer_class = GameResultSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class GameCompletedList(generics.RetrieveUpdateDestroyAPIView):
+    queryset = GameCompleted.objects.all()
+    serializer_class = GameCompletedSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('user', 'game')
