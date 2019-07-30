@@ -942,7 +942,7 @@ public class LoadStages : MonoBehaviour
         public string port_eeg_serial { get; set; }
 
         [JsonProperty(PropertyName = "score")]
-        public string score { get; set; }
+        public int score { get; set; }
     }
 
     public class ContextJson

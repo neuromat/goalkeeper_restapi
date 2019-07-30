@@ -146,5 +146,10 @@
 "txtnumeroDefesas4":"chutes seguidos para trocar de fase",
 "txtOu":"ou",
 "replay":"Jogar\nNovamente",
+"txtNivel":"Nível",
+"txtPontuacao":"Pontuação",
+"txtDefesas":"Número de defesas",
+"txtDefesasSeq":"Número de defesas em sequência",
+"txtFasesConcluidas":"Número de fases concluídas",
 "":""
 }

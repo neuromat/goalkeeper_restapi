@@ -133,5 +133,10 @@
 "txtnumeroDefesas4":"kicks in sequence to go to the next phase",
 "txtOu":"or",
 "replay":"Play\nAgain",
+"txtNivel":"Level",
+"txtPontuacao":"Score",
+"txtDefesas":"Number of defenses",
+"txtDefesasSeq":"Number of defenses in sequence",
+"txtFasesConcluidas":"Number of phases completed",
 "":""
 }

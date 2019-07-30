@@ -38,10 +38,12 @@ public class GameFlowManager : MonoBehaviour
     public Text txtPontuacao;
     public Text txtDefesas;
     public Text txtDefesasSeq;
+    public Text txtFasesConcluidas;
     public Text NumNivel;
     public Text NumPontuacao;
     public Text NumDefesas;
     public Text NumDefesasSeq;
+    public Text NumFasesConcluidas;
 
     public GameObject PausePlay;
     public GameObject Exit;
@@ -616,6 +618,7 @@ public class GameFlowManager : MonoBehaviour
         NumPontuacao.text = scores[0].ToString();
         NumDefesas.text = scores[1].ToString();
         NumDefesasSeq.text = scores[2].ToString();
+        NumFasesConcluidas.text = GetAwardsScore().ToString();
 
         //Load1();
         yield return new WaitForSeconds(2);
@@ -688,6 +691,43 @@ public class GameFlowManager : MonoBehaviour
         }
     }
 
+
+    // Pega as pontuações de cada fase concluída
+    public int GetAwardsScore()
+    {
+        string address = string.Format("localhost:8000/api/gamescompleted?format=json&user={0}", PlayerInfo.user_id);
+        var request = new WWW(address);
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+
+        var ObjList = new List<GameCompletedJson>();
+        ObjList = JsonConvert.DeserializeObject<List<GameCompletedJson>>(request.text);
+
+        var score = 0;
+        foreach (GameCompletedJson gamecompleted in ObjList)
+        {
+            score += GetGameScore(gamecompleted.game);
+        }
+
+        return score;
+    }
+
+    public int GetGameScore(int id)
+    {
+        string address = string.Format("localhost:8000/api/getgames?format=json&id={0}", id);
+        var request = new WWW(address);
+
+
+        StartCoroutine(WaitForWWW(request));
+        while (!request.isDone) { }
+
+        var ObjList = new List<LoadStages.GameJson>();
+        ObjList = JsonConvert.DeserializeObject<List<LoadStages.GameJson>>(request.text);
+
+        return ObjList[0].score;
+    }
+
     IEnumerator WaitForWWW(WWW www)
     {
         yield return www;
@@ -703,6 +743,15 @@ public class GameFlowManager : MonoBehaviour
 
         [JsonProperty(PropertyName = "defenses_seq")]
         public int defenses_seq { get; set; }
+    }
+
+    public class GameCompletedJson
+    {
+        [JsonProperty(PropertyName = "user")]
+        public int user { get; set; }
+
+        [JsonProperty(PropertyName = "game")]
+        public int game { get; set; }
     }
 
     // ------------------------------------fim painel de premios------------------------------------------
@@ -796,14 +845,19 @@ public class GameFlowManager : MonoBehaviour
         txtTut2.text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
         txtTut3.text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
         txtTut4.text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
-        //txtTut5.text = translate.getLocalizedValue("tut5").Replace("\\n", "\n");  //@@ SE APROVADO APAGAR
-        //180627 from UiText to TMPro
+
+        txtNivel.text = translate.getLocalizedValue("txtNivel");
+        txtPontuacao.text = translate.getLocalizedValue("txtPontuacao");
+        txtDefesas.text = translate.getLocalizedValue("txtDefesas");
+        txtDefesasSeq.text = translate.getLocalizedValue("txtDefesasSeq");
+        txtFasesConcluidas.text = translate.getLocalizedValue("txtFasesConcluidas");
+
         /*
-txtTut1.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut1").Replace("\\n", "\n");
-txtTut2.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");
-txtTut3.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");
-txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");
-        */
+         * txtTut1.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut1").Replace("\\n", "\n");
+         * txtTut2.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut2").Replace("\\n", "\n");
+         * txtTut3.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut3").Replace("\\n", "\n");
+         * txtTut4.GetComponentInChildren<TMPro.TMP_Text>().text = translate.getLocalizedValue("tut4").Replace("\\n", "\n");
+         */
         //txtJogo.text = translate.getLocalizedValue("jogo");
         // original txtMenu.text = PlayerPrefs.GetString("teamSelected") + " : " + translate.getLocalizedValue("menu");
         txtMenu.text = translate.getLocalizedValue("menu");

@@ -105,12 +105,19 @@ class GetGames(generics.ListCreateAPIView):
     http_method_names = ['get', 'head']
 
     def get_queryset(self):
-        config_id = self.request.query_params.get('config_id', None)
-        queryset = GoalkeeperGame.objects.filter(game_type="JG", config=config_id)
-        phase = self.request.query_params.get('phase', None)
+        queryset = GoalkeeperGame.objects.all()
 
+        config_id = self.request.query_params.get('config_id', None)
+        if config_id is not None:
+            queryset = queryset.filter(game_type="JG", config=config_id)
+
+        phase = self.request.query_params.get('phase', None)
         if phase is not None:
             queryset = queryset.filter(phase=phase)
+
+        id = self.request.query_params.get('id', None)
+        if id is not None:
+            queryset = queryset.filter(id=id)
 
         return queryset.order_by("phase")
 

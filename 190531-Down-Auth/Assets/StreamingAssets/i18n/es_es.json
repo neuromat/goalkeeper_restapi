@@ -128,5 +128,10 @@
 "txtnumeroDefesas4":"patadas en secuencia para pasar a la siguiente fase",
 "txtOu":"o",
 "replay":"Jugar\nde Nuevo",
+"txtNivel":"Nivel",
+"txtPontuacao":"Puntuación",
+"txtDefesas":"Número de defensas",
+"txtDefesasSeq":"Número de defendas en secuencia",
+"txtFasesConcluidas":"Número de fases completadas",
 "":""
 }
