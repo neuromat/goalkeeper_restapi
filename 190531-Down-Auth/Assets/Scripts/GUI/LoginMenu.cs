@@ -52,7 +52,6 @@ public class LoginMenu : BaseMenu {
     public InputField nextField;
     
     private string authenticationToken = "";
-    private int user_id = 0;
     
     public delegate void LoggedIn();
     public LoggedIn HasLoggedIn;
@@ -378,9 +377,7 @@ public class LoginMenu : BaseMenu {
 
         if (responseType == ResponseType.Success) {
             authenticationToken = responseData.Value<string>("token");
-            user_id = responseData.Value<int>("user_id");
             PlayerInfo.token = authenticationToken;
-            PlayerInfo.user_id = user_id;
             if (OnLoggedIn != null) {
                 OnLoggedIn(); 
                 

@@ -24,12 +24,12 @@ class GameResultList(generics.ListCreateAPIView):
 
         if user_token is not None:
             token = Token.objects.filter(key=user_token).first()
-            queryset = queryset.filter(owner=token.user)
+            queryset = queryset.filter(user=token.user)
 
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(user=self.request.user)
 
 
 class GameResultDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -38,9 +38,19 @@ class GameResultDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
-class GameCompletedList(generics.RetrieveUpdateDestroyAPIView):
-    queryset = GameCompleted.objects.all()
+class GameCompletedList(generics.ListCreateAPIView):
     serializer_class = GameCompletedSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('user', 'game')
+
+    def get_queryset(self):
+        queryset = GameCompleted.objects.all()
+
+        user_token = self.request.query_params.get('token', None)
+        if user_token is not None:
+            token = Token.objects.filter(key=user_token).first()
+            queryset = queryset.filter(user=token.user)
+
+        return queryset.order_by("game")
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

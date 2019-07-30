@@ -614,11 +614,12 @@ public class GameFlowManager : MonoBehaviour
 
         // Scores
         var scores = GetScores();
+        var scores_fases = GetAwards();
         NumNivel.text = GetLevelNamebyID(PlayerInfo.level).ToString();
-        NumPontuacao.text = scores[0].ToString();
         NumDefesas.text = scores[1].ToString();
         NumDefesasSeq.text = scores[2].ToString();
-        NumFasesConcluidas.text = GetAwardsScore().ToString();
+        NumFasesConcluidas.text = scores_fases[0].ToString();
+        NumPontuacao.text = (scores[0] + scores_fases[1]).ToString();
 
         //Load1();
         yield return new WaitForSeconds(2);
@@ -693,9 +694,9 @@ public class GameFlowManager : MonoBehaviour
 
 
     // Pega as pontuações de cada fase concluída
-    public int GetAwardsScore()
+    public List<int> GetAwards()
     {
-        string address = string.Format("localhost:8000/api/gamescompleted?format=json&user={0}", PlayerInfo.user_id);
+        string address = string.Format("localhost:8000/api/gamescompleted?format=json&token={0}", PlayerInfo.token);
         var request = new WWW(address);
 
         StartCoroutine(WaitForWWW(request));
@@ -704,13 +705,15 @@ public class GameFlowManager : MonoBehaviour
         var ObjList = new List<GameCompletedJson>();
         ObjList = JsonConvert.DeserializeObject<List<GameCompletedJson>>(request.text);
 
-        var score = 0;
+        List<int> scores = new List<int>();
+        scores.Add(ObjList.Count);
+        scores.Add(0);
         foreach (GameCompletedJson gamecompleted in ObjList)
         {
-            score += GetGameScore(gamecompleted.game);
+            scores[1] += GetGameScore(gamecompleted.game);
         }
 
-        return score;
+        return scores;
     }
 
     public int GetGameScore(int id)
@@ -748,7 +751,7 @@ public class GameFlowManager : MonoBehaviour
     public class GameCompletedJson
     {
         [JsonProperty(PropertyName = "user")]
-        public int user { get; set; }
+        public string user { get; set; }
 
         [JsonProperty(PropertyName = "game")]
         public int game { get; set; }
