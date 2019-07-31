@@ -563,6 +563,15 @@ public class UIManager : MonoBehaviour
 
 			Debug.Log("***************UIManager.cs --> f:BtnActionGetEvent --> INPUT PRESSIONADO = "+input);
             //SendEventsToServerMini(PlayerPrefs.GetInt("gameSelected"));
+
+            // Dar pontuação bônus para jogador baseado na velocidade com que termina a fase,
+            // pois quem for muito eficiente, perde a oportunidade de ganhar pontuação por número de defesas
+            if (((gameFlow.minHitsInSequence == probs.getJGminHitsInSequence()) && (probs.getJGminHitsInSequence() > 0)) ||
+                        ((success == probs.getJGminHits()) && (probs.getJGminHits() > 0)))
+            {
+                _events[eventCount - 1].score += probs.GetCurrentPlayLimit(2) - eventCount;
+            }
+
             _events[eventCount - 1].sendedToDB = SendPlaytoServer(eventCount, eLog);
 
             // Save the results locally
