@@ -13,13 +13,13 @@ urlpatterns = [
     path('user', UserAPI.as_view()),
     path('user/<int:pk>/', UserAPI.as_view()),
     path('getauthtoken', GetAuthToken.as_view()),
-    path('getgamesconfig/', GetGameConfigs.as_view()),
-    path('getgames/', GetGames.as_view()),
-    path('getcontexts/', GetContexts.as_view()),
-    path('getprobs/', GetProbs.as_view()),
-    path('getlevel/', GetLevel.as_view()),
-    path('getplayerlevel/', GetPlayerLevel.as_view()),
-    path('setplayerlevel/', UpdatePlayerLevel.as_view()),
+    path('getgamesconfig/', GetGameConfigs.as_view(), name='get_games_configs'),
+    path('getgames/', GetGames.as_view(), name='get_games'),
+    path('getcontexts/', GetContexts.as_view(), name='get_contexts'),
+    path('getprobs/', GetProbs.as_view(), name='get_probs'),
+    path('getlevel/', GetLevel.as_view(), name='get_level'),
+    path('getplayerlevel/', GetPlayerLevel.as_view(), name='get_player_level'),
+    path('setplayerlevel/', UpdatePlayerLevel.as_view(), name='set_player_level'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -99,9 +99,7 @@ class GameResultListTestCase(APITestCase):
 
     # Testa se há sucesso ao gravar uma jogada na base através da API
     def test_post_results_of_a_play(self):
-        self.create_results(self.owner, 0)
-
-        result = GameResult.objects.last()
+        result = self.create_results(self.owner, 0, create=False)
         serializer = GameResultSerializer(result)
 
         self.client.force_login(user=self.owner)
@@ -111,7 +109,7 @@ class GameResultListTestCase(APITestCase):
             format='json',
             HTTP_AUTHORIZATION=str(self.token))
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(GameResult.objects.count(), 2)
+        self.assertEqual(GameResult.objects.count(), 1)
 
     def test___str__of_results(self):
         self.create_results(self.owner, 0)
@@ -121,7 +119,7 @@ class GameResultListTestCase(APITestCase):
 
     # Cria os elementos necessários para que uma jogada possa ser registrada na base
     @staticmethod
-    def create_results(owner, phase, kicker_name=None):
+    def create_results(owner, phase, kicker_name=None, create=True):
         faker = Factory.create()
 
         # GameConfig objects
@@ -153,7 +151,7 @@ class GameResultListTestCase(APITestCase):
         )
 
         # Game result object
-        GameResult.objects.create(
+        result = GameResult(
             game_phase=Game.objects.get(id=game.id),
             move=0,
             waited_result=1,
@@ -168,6 +166,11 @@ class GameResultListTestCase(APITestCase):
             defenses_seq=0,
             user=owner
         )
+
+        if create:
+            result.save()
+        else:
+            return result
 
 
 class GamesCompletedList(APITestCase):
