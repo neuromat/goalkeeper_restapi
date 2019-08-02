@@ -65,7 +65,8 @@ class GetLevel(generics.ListCreateAPIView):
             queryset = queryset.filter(id=id_req)
 
         if name_req is not None:
-            queryset = queryset.filter(name=name_req)
+            level_obj, created = Level.objects.get_or_create(name=name_req)
+            queryset = queryset.filter(id=level_obj.id)
 
         return queryset.order_by('id')
 

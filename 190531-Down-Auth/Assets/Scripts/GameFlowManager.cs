@@ -117,7 +117,7 @@ public class GameFlowManager : MonoBehaviour
 
     private bool onVersusMode = false;
 
-    public Text placarFinal;
+    //public Text placarFinal;
     public Button nextLevel;  //MainScene/GameScene/BetweenLevelsCanvas/Panel/NextLevel 
     public Button thisLevel;  //MainScene/GameScene/BetweenLevelsCanvas/Panel/ThisLevel = exit
     public Button replayLevel;//MainScene/GameScene/BetweenLevelsCanvas/Panel/ReplayLevel
@@ -1553,24 +1553,24 @@ btnAbout.onClick.AddListener(showAbout);
 
             //modificado versao mobile para nao indicar o % ja que depende no.min de acertos estabelecidos e nao do
             // do total de jogadas: placarFinal: xxx acertos em yyy jogadas
-            placarFinal.text = "";
+            //placarFinal.text = "";
 
             //Debug.Log ("GameFlowManager.cs *********** f:ShowInBetewwen --> placarFinal.text = " + placarFinal.text);
         }
-        else
-        {
-            if (probCalculator.getCurrentFinalScoreboard() == "short")
-            {
-                //placarFinal: xxx/yyy
-                placarFinal.text = uiManager.success.ToString().PadLeft(3).Trim() + "/" +
-                probCalculator.GetCurrentPlayLimit(gameSelected).ToString().PadLeft(3).Trim(); //170216 novo param no PlayLimit
-            }
-            else
-            {
-                //placarFinal: null
-                placarFinal.text = "";
-            }
-        }
+        //else
+        //{
+        //    if (probCalculator.getCurrentFinalScoreboard() == "short")
+        //    {
+        //        //placarFinal: xxx/yyy
+        //        placarFinal.text = uiManager.success.ToString().PadLeft(3).Trim() + "/" +
+        //        probCalculator.GetCurrentPlayLimit(gameSelected).ToString().PadLeft(3).Trim(); //170216 novo param no PlayLimit
+        //    }
+        //    else
+        //    {
+        //        //placarFinal: null
+        //        placarFinal.text = "";
+        //    }
+        //}
 
 
         if (probCalculator.CanGoToNextMachine())
@@ -1637,7 +1637,8 @@ btnAbout.onClick.AddListener(showAbout);
             int bmMode = (probCalculator.getMinHitsInSequence() > 0) ? 2 : 1;
 
             if (((minHitsInSequence == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0)) ||
-                    ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)))
+                    ((uiManager.success == probCalculator.getJGminHits()) && (probCalculator.getJGminHits() > 0)) ||
+                    ((probCalculator.getJGminHitsInSequence() == 0) && (probCalculator.getJGminHitsInSequence() == 0)))
             {
                 var team = PlayerPrefs.GetString("teamSelected");
                 var phase_id = PlayerPrefs.GetInt(team + probCalculator.GetCurrMachineIndex().ToString());
