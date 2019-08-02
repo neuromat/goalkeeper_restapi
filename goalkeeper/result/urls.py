@@ -7,9 +7,9 @@ from game.api.viewsets import GetGameConfigs, GetGames, GetContexts, GetProbs, G
 
 
 urlpatterns = [
-    path('results/', GameResultList.as_view()),
-    path('result/<int:pk>/', GameResultDetail.as_view()),
-    path('gamescompleted/', GameCompletedList.as_view()),
+    path('results/', GameResultList.as_view(), name='results'),
+    path('result/<int:pk>/', GameResultDetail.as_view(), name='results_detail'),
+    path('gamescompleted/', GameCompletedList.as_view(), name='games_completed'),
     path('user', UserAPI.as_view()),
     path('user/<int:pk>/', UserAPI.as_view()),
     path('getauthtoken', GetAuthToken.as_view()),
