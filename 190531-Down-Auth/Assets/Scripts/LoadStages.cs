@@ -974,7 +974,7 @@ public class LoadStages : MonoBehaviour
 
     public int GetPlayerLevel()
     {
-        string address = string.Format("localhost:8000/api/getplayerlevel?format=json&token={0}", PlayerInfo.token);
+        string address = string.Format("localhost:8000/api/getplayerprofile?format=json&token={0}", PlayerInfo.token);
         var request = new WWW(address);
 
         StartCoroutine(WaitForWWW(request));

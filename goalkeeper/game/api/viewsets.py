@@ -7,7 +7,7 @@ from game.api.serializers import GameConfigSerializer, GameSerializer, ContextSe
 from game.models import Context, Game, GameConfig, GoalkeeperGame, Probability
 
 
-class GetPlayerLevel(generics.ListAPIView):
+class GetPlayerProfile(generics.ListAPIView):
     serializer_class = PlayerLevelSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     http_method_names = ['get', 'head']
@@ -33,21 +33,21 @@ class UpdatePlayerLevel(generics.ListAPIView):
         token_req = self.request.query_params.get('token', None)
         token = Token.objects.filter(key=token_req).first()
 
-        level_req = self.request.query_params.get('nivel', None)
-        level = Level.objects.filter(id=level_req).first()
-
         if token is not None:
             profile = Profile.objects.get(user=token.user)
+
+            level_req = self.request.query_params.get('nivel', None)
+            level = Level.objects.filter(id=level_req).first()
 
             if level is not None:
                 new_level = level
             else:
-                new_level = Level.objects.filter(name=profile.level.name + 1).first()
+                new_level, created = Level.objects.get_or_create(name=profile.level.name + 1)
 
-            if new_level is not None:
-                profile.level = new_level
-                profile.save()
-                queryset = queryset.filter(id=profile.id)
+            profile.level = new_level
+            profile.save()
+            queryset = queryset.filter(id=profile.id)
+
         return queryset
 
 
@@ -132,7 +132,10 @@ class GetContexts(generics.ListCreateAPIView):
         game_id_req = self.request.query_params.get('game', None)
         queryset = Context.objects.filter(goalkeeper=game_id_req, is_context=True) if game_id_req else None
 
-        return queryset.order_by('id')
+        if queryset is not None:
+            return queryset.order_by('id')
+        else:
+            return None
 
 
 class GetProbs(generics.ListCreateAPIView):
@@ -149,4 +152,7 @@ class GetProbs(generics.ListCreateAPIView):
         if direction is not None:
             queryset = queryset.filter(direction=direction)
 
-        return queryset.order_by('direction')
+        if queryset is not None:
+            return queryset.order_by('direction')
+        else:
+            return None

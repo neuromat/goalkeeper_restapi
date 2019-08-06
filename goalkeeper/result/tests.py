@@ -111,7 +111,7 @@ class GameResultListTestCase(APITestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(GameResult.objects.count(), 1)
 
-    def test___str__of_results(self):
+    def test__str__of_results(self):
         self.create_results(self.owner, 0)
         results = GameResult.objects.last()
 
