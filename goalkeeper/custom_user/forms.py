@@ -22,7 +22,10 @@ class UserForm(UserCreationForm):
         self.fields['password2'].widget = PasswordInput(attrs={'class': 'form-control'})
 
     def clean_password(self):
-        return make_password(self.cleaned_data['password'])
+        try:
+            return make_password(self.cleaned_data['password'])
+        except KeyError:
+            return make_password(self.instance.password)
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

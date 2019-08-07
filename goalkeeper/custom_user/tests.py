@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse, resolve
@@ -89,6 +89,27 @@ class PasswordChangeTestCase(TestCase):
         self.url = reverse('password_change')
         self.client.login(username='john', password='old_password')
         self.response = self.client.post(self.url, data)
+
+    def test_change_password_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_view_function(self):
+        view = resolve(reverse('password_change'))
+        self.assertEquals(view.func.view_class, auth_views.PasswordChangeView)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, PasswordChangeForm)
+
+    def test_form_inputs(self):
+        """
+        The view must contain four inputs: csrf, old_password, new_password1, new_password2
+        """
+        self.assertContains(self.response, '<input', 4)
+        self.assertContains(self.response, 'type="password"', 3)
 
 
 class ReportsConfigTest(TestCase):
