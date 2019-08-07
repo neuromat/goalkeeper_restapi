@@ -19,13 +19,6 @@ class UserFormTests(TestCase):
         form = UserForm(data=form_data)
         self.assertTrue(form.is_valid())
 
-    def test_user_form_is_valid_without_email(self):
-        form_data = {'username': USER_USERNAME,
-                     'password1': USER_PWD,
-                     'password2': USER_PWD}
-        form = UserForm(data=form_data)
-        self.assertTrue(form.is_valid())
-
     def test_user_form_is_invalid_without_username(self):
         form_data = {'email': USER_EMAIL,
                      'password1': USER_PWD,
