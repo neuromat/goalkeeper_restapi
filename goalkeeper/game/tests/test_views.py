@@ -2,11 +2,14 @@ from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.urls import resolve, reverse
 from django.test import TestCase
+from faker import Factory
 
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
     context_tree, available_context, game_config_new, game_config_list, game_config_view, game_config_update, \
     check_contexts_without_probability, probability, probability_update
-from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability
+from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability, WarmUp
+from .tests_api import CommonFunctionsToGameTests
+from rest_framework.authtoken.models import Token
 
 USER_USERNAME = 'user'
 USER_PWD = 'mypassword'
@@ -537,3 +540,53 @@ class GameTest(TestCase):
         response = self.client.post(reverse("probability_update", args=(context.id,)), self.data_update)
         message = list(get_messages(response.wsgi_request))
         self.assertEqual(str(message[1]), "The sum of the probabilities must be equal to 1.")
+
+
+class WarmUPTest(TestCase, CommonFunctionsToGameTests):
+    def setUp(self):
+        faker = Factory.create()
+        self.owner = User.objects.create_user(username=faker.text(max_nb_chars=15), password=USER_PWD)
+        self.token = Token.objects.create(key=faker.text(max_nb_chars=40), user=self.owner)
+
+    def test__str__of_warm_up(self):
+        game_config = self.create_game_configs(self.owner)
+
+        warmup = self.create_game_object(game_config)
+
+        self.assertEqual(str(warmup), game_config.name + " - " + warmup.sequence)
+
+    def test_saving_warm_up(self):
+        game_config = self.create_game_configs(self.owner)
+        warmup = self.create_game_object(game_config, create=False)
+
+        game_type_before = warmup.game_type
+        warmup.save()
+        game_type_after = warmup.game_type
+
+        self.assertNotEqual(game_type_before, game_type_after)
+        self.assertEqual(game_type_after, 'AQ')
+
+
+
+    @staticmethod
+    def create_game_object(game_config, phase=0, create=False):
+        game = WarmUp(
+            config=game_config,
+            phase=phase,
+            number_of_plays=100,
+            min_hits=20,
+            min_hits_in_seq=5,
+            read_seq=False,
+            play_pause=False,
+            score_board=False,
+            game_type='JG',
+            left_key="",
+            center_key="",
+            right_key="",
+            score=10,
+        )
+
+        if create:
+            game.save()
+
+        return game
