@@ -204,6 +204,49 @@ class CustomUserTest(TestCase):
         response = self.client.post(reverse("update_user", args=(self.user.id,)), self.data)
         self.assertEqual(response.status_code, 302)
 
+    def test_update_user_fails_if_user_do_not_exists(self):
+        self.data = {
+            'first_name': 'Fulano',
+            'last_name': 'de Tal',
+            'username': USER_USERNAME,
+            'email': USER_EMAIL,
+            'password1': USER_PWD,
+            'password2': USER_PWD,
+            'action': 'save'
+        }
+        response = self.client.post(reverse("update_user", args=(self.user.id+1,)), self.data)
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_user_fails_if_user_is_not_active(self):
+        self.data = {
+            'first_name': 'Fulano',
+            'last_name': 'de Tal',
+            'username': USER_USERNAME,
+            'email': USER_EMAIL,
+            'password1': USER_PWD,
+            'password2': USER_PWD,
+            'action': 'save'
+        }
+
+        self.user.is_active = False
+        response = self.client.post(reverse("update_user", args=(self.user.id+1,)), self.data)
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_user_fails_if_form_is_invalid(self):
+        self.data = {
+            'first_name': 'Fulano',
+            'last_name': 'de Tal',
+            'username': USER_USERNAME,
+            'email': USER_EMAIL,
+            'password1': USER_PWD,
+            'password2': USER_PWD+'2',
+            'action': 'save'
+        }
+
+        self.user.is_active = False
+        response = self.client.post(reverse("update_user", args=(self.user.id+1,)), self.data)
+        self.assertEqual(response.status_code, 404)
+
     def test_remove_user(self):
         self.data = {
             'action': 'remove'
