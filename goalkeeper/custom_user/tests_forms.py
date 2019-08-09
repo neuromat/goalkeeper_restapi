@@ -17,6 +17,7 @@ class UserFormTests(TestCase):
                      'password': USER_PWD}
         form = UserForm(data=form_data)
         self.assertTrue(form.is_valid())
+        print(form.errors)
 
     def test_user_form_is_invalid_without_username(self):
         form_data = {'email': self.create_faker_email(),
@@ -25,6 +26,7 @@ class UserFormTests(TestCase):
                      'password': USER_PWD}
         form = UserForm(data=form_data)
         self.assertFalse(form.is_valid())
+        print(form.errors)
 
     def test_user_form_is_invalid_without_confirm_password(self):
         form_data = {'username': self.create_faker_username(),
@@ -32,11 +34,13 @@ class UserFormTests(TestCase):
                      'password': USER_PWD}
         form = UserForm(data=form_data)
         self.assertFalse(form.is_valid())
+        print(form.errors)
 
     def test_user_form_is_invalid_without_password(self):
         form_data = {'username': self.create_faker_username()}
         form = UserForm(data=form_data)
         self.assertFalse(form.is_valid())
+        print(form.errors)
 
     def test_user_form_is_invalid_with_different_passwords(self):
         form_data = {'username': self.create_faker_username(),
@@ -46,6 +50,7 @@ class UserFormTests(TestCase):
                      'password': USER_PWD}
         form = UserForm(data=form_data)
         self.assertFalse(form.is_valid())
+        print(form.errors)
 
     def test_clean_password(self):
         form_data = {'username': self.create_faker_username(),
@@ -57,6 +62,7 @@ class UserFormTests(TestCase):
         form = UserForm(data=form_data)
         self.assertTrue(form.is_valid())
         self.assertNotEqual(form.clean_password(), USER_PWD)
+        print(form.errors)
 
     def test_clean_email_already_exists(self):
         form_data = {'username': self.create_faker_username(),
@@ -77,6 +83,7 @@ class UserFormTests(TestCase):
         form2 = UserForm(data=form_data_2)
         self.assertFalse(form2.is_valid())
         self.assertRaises(ValidationError)
+        print(form.errors)
 
     @staticmethod
     def create_faker_email():
