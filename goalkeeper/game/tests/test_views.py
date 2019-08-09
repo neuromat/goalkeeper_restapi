@@ -7,7 +7,7 @@ from faker import Factory
 from game.views import goalkeeper_game_new, goalkeeper_game_view, goalkeeper_game_update, goalkeeper_game_list, \
     context_tree, available_context, game_config_new, game_config_list, game_config_view, game_config_update, \
     check_contexts_without_probability, probability, probability_update
-from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability, WarmUp
+from game.models import Context, GameConfig, GoalkeeperGame, Level, Probability, WarmUp, Game
 from .tests_api import CommonFunctionsToGameTests
 from rest_framework.authtoken.models import Token
 
@@ -16,7 +16,7 @@ USER_PWD = 'mypassword'
 USER_EMAIL = 'user@example.com'
 
 
-class GameTest(TestCase):
+class GameTest(TestCase, CommonFunctionsToGameTests):
     def setUp(self):
         """
         Configure authentication and variables to start each test
@@ -42,6 +42,26 @@ class GameTest(TestCase):
         url = reverse('home')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
+
+    ##############################
+    # Filter graphics on Home page
+    ##############################
+    def test_select_kicker_to_filter_phase(self):
+        game_config = self.create_game_configs(self.user)
+        self.create_game_object(game_config, 1)
+
+        response = self.client.get(reverse('select_kicker_to_filter_phase'), {'kicker': game_config.name})
+        self.assertEquals(response.status_code, 200)
+        self.assertEqual(Game.objects.count(), 2)
+
+    ##############################
+    # General
+    ##############################
+    def test_language_change(self):
+        self.client.get(reverse('home'))
+        response = self.client.get(reverse('language_change', kwargs={'language_code': 'pt-br'}),
+                                   {'next': reverse('home')})
+        self.assertEquals(response.status_code, 302)
 
     ######################
     # List game config
@@ -85,6 +105,23 @@ class GameTest(TestCase):
         self.assertEqual(game.count(), 1)
         self.assertTrue(isinstance(game[0], GameConfig))
 
+    def test_game_config_new_redirect(self):
+        level = Level.objects.first()
+        url = reverse('game_config_new')
+        self.data = {
+            'level': level.pk,
+            'code': 'flecha',
+            'name': 'Flecha Loira',
+            'is_public': 'no',
+            'created_by': self.user,
+            'action': 'save',
+            'next': url
+        }
+        self.client.post(url, self.data)
+        game = GameConfig.objects.filter(code='flecha')
+        self.assertEqual(game.count(), 1)
+        self.assertTrue(isinstance(game[0], GameConfig))
+
     ######################
     # View game config
     ######################
@@ -119,6 +156,17 @@ class GameTest(TestCase):
         self.assertEqual(len(message), 1)
         self.assertEqual(str(message[0]), "Kicker removed successfully.")
         self.assertEqual(len(GoalkeeperGame.objects.all()), 0)
+
+    def test_game_config_view_fails_to_remove_config_if_game_attached(self):
+        config = GameConfig.objects.first()
+        self.data = {
+            'action': 'remove'
+        }
+        response = self.client.post(reverse("game_config_view", args=(config.id,)), self.data)
+        message = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(message), 1)
+        self.assertEqual(str(message[0]), "This config can't be removed because there are games configured with it.")
+        self.assertEqual(len(GoalkeeperGame.objects.all()), 1)
 
     ######################
     # Update game config
@@ -216,6 +264,34 @@ class GameTest(TestCase):
         game = GoalkeeperGame.objects.filter(depth=3)
         self.assertEqual(game.count(), 1)
         self.assertTrue(isinstance(game[0], GoalkeeperGame))
+
+    def test_goalkeeper_game_new__with_sequence_created_manually(self):
+        config = GameConfig.objects.first()
+        url = reverse('goalkeeper_game_new')
+        self.data = {
+            'config': config.pk,
+            'sequence': '',
+            'depth': 3,
+            'number_of_directions': 3,
+            'number_of_plays': 10,
+            'plays_to_relax': 0,
+            'player_time': 1.0,
+            'celebration_time': 1.0,
+            'final_score_board': 'short',
+            'read_seq': True,
+            'play_pause': True,
+            'score_board': True,
+            'show_history': True,
+            'create_seq_manually': 'yes',
+            'score': 10,
+            'sequence': '0121012',
+            'action': 'save'
+        }
+        self.client.post(url, self.data)
+        game = GoalkeeperGame.objects.filter(depth=3)
+        self.assertEqual(game.count(), 1)
+        self.assertTrue(isinstance(game[0], GoalkeeperGame))
+        self.assertEqual(game[0].seq_step_det_or_prob, 'n'*len(game[0].sequence))
 
     def test_goalkeeper_game_new_phase_zero(self):
         level = Level.objects.first()
@@ -333,6 +409,34 @@ class GameTest(TestCase):
         self.assertEqual(response.status_code, 302)
         game_update = GoalkeeperGame.objects.filter(depth=4, read_seq=False)
         self.assertEqual(game_update.count(), 1)
+
+    def test_goalkeeper_game_update_creating_sequence_manually(self):
+        config = GameConfig.objects.first()
+        game = GoalkeeperGame.objects.first()
+        self.data = {
+            'config': config.pk,
+            'sequence': '',
+            'depth': 4,
+            'number_of_directions': 3,
+            'number_of_plays': 10,
+            'plays_to_relax': 0,
+            'player_time': 2.0,
+            'celebration_time': 1.0,
+            'final_score_board': 'short',
+            'read_seq': False,
+            'play_pause': True,
+            'score_board': True,
+            'show_history': True,
+            'create_seq_manually': 'yes',
+            'sequence': '010201',
+            'score': 10,
+            'action': 'save'
+        }
+        response = self.client.post(reverse("goalkeeper_game_update", args=(game.id,)), self.data)
+        self.assertEqual(response.status_code, 302)
+        game_update = GoalkeeperGame.objects.filter(depth=4)
+        self.assertEqual(game_update.count(), 1)
+        self.assertEqual(game_update[0].seq_step_det_or_prob, 'n'*len(game_update[0].sequence))
 
     def test_goalkeeper_game_update_no_changes(self):
         config = GameConfig.objects.first()
