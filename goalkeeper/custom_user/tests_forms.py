@@ -16,7 +16,8 @@ class UserFormTests(TestCase):
                      'password2': USER_PWD,
                      'password': USER_PWD}
         form = UserForm(data=form_data)
-        print("Form is valid:  %s and %s - %s" % (not form.errors, form.is_bound, not form.errors and form.is_bound))
+        print("Form is valid:  %s and %s - %s: %s" %
+              (not form.errors, form.is_bound, not form.errors and form.is_bound, form.errors))
         self.assertTrue(form.is_valid())
 
     def test_user_form_is_invalid_without_username(self):
@@ -56,7 +57,8 @@ class UserFormTests(TestCase):
                      'password': USER_PWD}
 
         form = UserForm(data=form_data)
-        print("Clean Password:  %s and %s - %s" % (not form.errors, form.is_bound, not form.errors and form.is_bound))
+        print("Clean Password:  %s and %s - %s: %s" %
+              (not form.errors, form.is_bound, not form.errors and form.is_bound, form.errors))
         self.assertTrue(form.is_valid())
         self.assertNotEqual(form.clean_password(), USER_PWD)
 
@@ -68,7 +70,8 @@ class UserFormTests(TestCase):
                      'password': USER_PWD}
 
         form = UserForm(data=form_data)
-        print("Clean Email 1:  %s and %s - %s" % (not form.errors, form.is_bound, not form.errors and form.is_bound))
+        print("Clean Email 1:  %s and %s - %s: %s" %
+              (not form.errors, form.is_bound, not form.errors and form.is_bound, form.errors))
         self.assertTrue(form.is_valid())
         form.save()
 
@@ -78,7 +81,8 @@ class UserFormTests(TestCase):
                        'password2': USER_PWD,
                        'password': USER_PWD}
         form2 = UserForm(data=form_data_2)
-        print("Clean Email 2:  %s and %s - %s" % (not form.errors, form.is_bound, not form.errors and form.is_bound))
+        print("Clean Email 2:  %s and %s - %s: %s" %
+              (not form.errors, form.is_bound, not form.errors and form.is_bound, form.errors))
         self.assertFalse(form2.is_valid())
         self.assertRaises(ValidationError)
 
