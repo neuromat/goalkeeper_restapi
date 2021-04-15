@@ -1,4 +1,3 @@
-Goalkeeper
 
   + **Autores e colaboradores:** Celso Oviedo (2019-05), Alexandre Barizon (2019-06)
   + **Mantenedor atual:** ???
