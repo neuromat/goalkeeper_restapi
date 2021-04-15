@@ -338,7 +338,7 @@ MonoBehaviour:
     <style="H1">H1<style="H2"> H2 <style="H3">H3</style></style></style>
 
 
-    Style are defined in the <#80ff80>TMP Default Style Sheet</color>.'
+    Style are defined in the <#80ff80>TMP Default_Style_Sheet</color>.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 33db60c37b63f08448ded4b385e74e38, type: 2}

@@ -209,7 +209,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Use <font="Anton SDF" material="Anton SDF - Drop Shadow"><#ffff80>multiple
+  m_text: Use <font="Anton_SDF" material="Anton_SDF_Drop_Shadow"><#ffff80>multiple
     fonts</color></font> and <#ffff80>Sprites</color> <sprite=1> per text object.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
@@ -371,7 +371,7 @@ GameObject:
   - 33: {fileID: 1390778675}
   - 114: {fileID: 1390778674}
   m_Layer: 0
-  m_Name: TMP SubMesh [Anton SDF - Drop Shadow]
+  m_Name: TMP SubMesh [Anton_SDF_Drop_Shadow]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

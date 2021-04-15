@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 347737869}
   - component: {fileID: 347737874}
   m_Layer: 0
-  m_Name: TextMesh Pro - Styles
+  m_Name: TextMesh_Pro - Styles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

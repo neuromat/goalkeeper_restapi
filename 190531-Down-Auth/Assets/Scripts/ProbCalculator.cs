@@ -113,8 +113,8 @@ public class ProbCalculator : MonoBehaviour
 
 	public String saveOriginalBMsequ;          //170108 salvar conteudo original antes de sobrepor no BM sequ dado
 	public String saveOriginalMDsequ;          //170108 salvar conteudo original antes de sobrepor no MD sequ dado
-	public int saveOriginalBMnumPlays;         //170126 o numero de jogadas pode ser acrescido na obrigatoriedade do num Minimo de acertos
-	public int saveOriginalMDnumPlays;         //170126 o numero de jogadas sera alterado pelo size de 3x sequ
+	public int saveOriginalBMnumPlays;         //170126 o número de jogadas pode ser acrescido na obrigatoriedade do num Minimo de acertos
+	public int saveOriginalMDnumPlays;         //170126 o número de jogadas sera alterado pelo size de 3x sequ
 
 
 	private bool menuListAlreadyDefined = false;     //170303 se carregado menu do primeiro arq de config nao precisa mais carregar
@@ -230,7 +230,7 @@ public class ProbCalculator : MonoBehaviour
 			s.states[i.path] = i;
 		}
 
-		//170221 ler o menu (game: numero dentro do programa; title: texto para o botao; sequMenu: sequencia do jogo na tela - 0 nao deve aparecer)
+		//170221 ler o menu (game: número dentro do programa; title: texto para o botao; sequMenu: sequencia do jogo na tela - 0 nao deve aparecer)
 		if (! menuListAlreadyDefined) {                     //170303 se param menu de Jogose nao carregado, carregar
 		    s.menuList = new List<JsonGameMenuInput> ();    //170224 Prof Gubi encontrou o erro da falta desta linha para inicializar o vetor
 			if (input.menus != null) {                      //171009 caso nao exista o param menus ou seja treeN.txt com N>1
@@ -295,7 +295,7 @@ public class ProbCalculator : MonoBehaviour
 						ehRandomKick = true;  
 
 						//com base no random gerado, define onde fazer o sorteio (no evento 0 ou 2)
-						float r = UnityEngine.Random.Range (0.0f, 1.0f);  //Josi: como estah float, vai gerar numeros entre 0 e 1 inclusive
+						float r = UnityEngine.Random.Range (0.0f, 1.0f);  //Josi: como estah float, vai gerar números entre 0 e 1 inclusive
 						if (r <= currentState.GetProbEvent0 ()) {
 							result = "0";
 						} else {
@@ -431,7 +431,7 @@ public class ProbCalculator : MonoBehaviour
 					} else {
 						//Josi: jogada probabilistica - já estava assim
 						//      com base no random gerado, define onde fazer o sorteio (no evento 0, 1 ou 2)
-						float r = UnityEngine.Random.Range (0.0f, 1.0f);  //Josi: como estah float, vai gerar numeros entre 0 e 1 inclusive: https://docs.unity3d.com/ScriptReference/Random.Range.html
+						float r = UnityEngine.Random.Range (0.0f, 1.0f);  //Josi: como estah float, vai gerar números entre 0 e 1 inclusive: https://docs.unity3d.com/ScriptReference/Random.Range.html
 
 						ehRandomKick = true;  //170215
 
@@ -783,7 +783,7 @@ public class ProbCalculator : MonoBehaviour
 
 
 	//------------------------------------------------------------------------------------
-	//170124 somar um ao numero de jogadas do Base Motora - até atingir o minimo de jogadas corretas
+	//170124 somar um ao número de jogadas do Base Motora - até atingir o minimo de jogadas corretas
 	public void sumNumPlays(int jogadasAacertar)
 	{
 		machines [currentStateMachineIndex].bmLimitPlays = machines [currentStateMachineIndex].bmLimitPlays + jogadasAacertar;
@@ -1152,7 +1152,7 @@ public class ProbCalculator : MonoBehaviour
 
 
     //-------------------------------------------------------------------------------------
-	//171109 devolve uma direção de chute cf o número de opções
+	//171109 devolve uma direção de chute cf o número  de opções
 	//       2: devolve 0 ou 2
 	//       3: devolve 0, 1 ou 2
 	public string getRandomSequ(int choices) {

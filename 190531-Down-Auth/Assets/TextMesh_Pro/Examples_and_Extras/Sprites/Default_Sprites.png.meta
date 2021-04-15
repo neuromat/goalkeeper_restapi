@@ -4,20 +4,20 @@ timeCreated: 1454541089
 licenseType: Store
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Default Sprite Asset_0
-    21300002: Default Sprite Asset_1
-    21300004: Default Sprite Asset_2
-    21300006: Default Sprite Asset_3
-    21300008: Default Sprite Asset_4
-    21300010: Default Sprite Asset_5
-    21300012: Default Sprite Asset_6
-    21300014: Default Sprite Asset_7
-    21300016: Default Sprite Asset_8
-    21300018: Default Sprite Asset_11
-    21300020: Default Sprite Asset_12
-    21300022: Default Sprite Asset_13
-    21300024: Default Sprite Asset_14
-    21300026: Default Sprite Asset_15
+    21300000: Default_Sprite_Asset_0
+    21300002: Default_Sprite_Asset_1
+    21300004: Default_Sprite_Asset_2
+    21300006: Default_Sprite_Asset_3
+    21300008: Default_Sprite_Asset_4
+    21300010: Default_Sprite_Asset_5
+    21300012: Default_Sprite_Asset_6
+    21300014: Default_Sprite_Asset_7
+    21300016: Default_Sprite_Asset_8
+    21300018: Default_Sprite_Asset_11
+    21300020: Default_Sprite_Asset_12
+    21300022: Default_Sprite_Asset_13
+    21300024: Default_Sprite_Asset_14
+    21300026: Default_Sprite_Asset_15
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -108,7 +108,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Default Sprite Asset_0
+      name: Default_Sprite_Asset_0
       rect:
         serializedVersion: 2
         x: 0
@@ -121,7 +121,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_1
+      name: Default_Sprite_Asset_1
       rect:
         serializedVersion: 2
         x: 128
@@ -134,7 +134,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_2
+      name: Default_Sprite_Asset_2
       rect:
         serializedVersion: 2
         x: 256
@@ -147,7 +147,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_3
+      name: Default_Sprite_Asset_3
       rect:
         serializedVersion: 2
         x: 384
@@ -160,7 +160,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_4
+      name: Default_Sprite_Asset_4
       rect:
         serializedVersion: 2
         x: 0
@@ -173,7 +173,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_5
+      name: Default_Sprite_Asset_5
       rect:
         serializedVersion: 2
         x: 128
@@ -186,7 +186,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_6
+      name: Default_Sprite_Asset_6
       rect:
         serializedVersion: 2
         x: 256
@@ -199,7 +199,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_7
+      name: Default_Sprite_Asset_7
       rect:
         serializedVersion: 2
         x: 384
@@ -212,7 +212,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_8
+      name: Default_Sprite_Asset_8
       rect:
         serializedVersion: 2
         x: 0
@@ -225,7 +225,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_11
+      name: Default_Sprite_Asset_11
       rect:
         serializedVersion: 2
         x: 128
@@ -238,7 +238,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_12
+      name: Default_Sprite_Asset_12
       rect:
         serializedVersion: 2
         x: 0
@@ -251,7 +251,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_13
+      name: Default_Sprite_Asset_13
       rect:
         serializedVersion: 2
         x: 128
@@ -264,7 +264,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_14
+      name: Default_Sprite_Asset_14
       rect:
         serializedVersion: 2
         x: 256
@@ -277,7 +277,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: Default Sprite Asset_15
+      name: Default_Sprite_Asset_15
       rect:
         serializedVersion: 2
         x: 384

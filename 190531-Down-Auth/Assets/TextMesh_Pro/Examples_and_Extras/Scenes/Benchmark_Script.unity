@@ -309,7 +309,7 @@ GameObject:
   - 4: {fileID: 1913208941}
   - 114: {fileID: 1913208940}
   m_Layer: 0
-  m_Name: Benchmark (TextMesh Pro)
+  m_Name: Benchmark (TextMesh_Pro)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

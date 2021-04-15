@@ -341,7 +341,7 @@ GameObject:
   - 4: {fileID: 2142710355}
   - 114: {fileID: 2142710354}
   m_Layer: 0
-  m_Name: Benchmark (Shader Perf)
+  m_Name: Benchmark_Shader_Perf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

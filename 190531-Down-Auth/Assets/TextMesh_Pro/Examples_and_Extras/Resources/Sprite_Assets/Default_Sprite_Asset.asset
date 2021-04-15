@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 2019389346, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
-  m_Name: Default Sprite Asset
+  m_Name: Default_Sprite_Asset
   m_EditorClassIdentifier: 
   hashCode: 826640882
   material: {fileID: 2102322}
@@ -71,7 +71,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_1
+    name: Default_Sprite_Asset_1
     hashCode: -1731209668
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -99,7 +99,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_3
+    name: Default_Sprite_Asset_3
     hashCode: -1731209666
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -127,7 +127,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_5
+    name: Default_Sprite_Asset_5
     hashCode: -1731209672
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -141,7 +141,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_6
+    name: Default_Sprite_Asset_6
     hashCode: -1731209669
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -155,7 +155,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_7
+    name: Default_Sprite_Asset_7
     hashCode: -1731209670
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -169,7 +169,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_8
+    name: Default_Sprite_Asset_8
     hashCode: -1731209675
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -183,7 +183,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 384
     scale: 1.25
-    name: Default Sprite Asset_11
+    name: Default_Sprite_Asset_11
     hashCode: -1295344243
     unicode: 0
     pivot: {x: -192, y: 64}
@@ -197,7 +197,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_12
+    name: Default_Sprite_Asset_12
     hashCode: -1295344242
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -211,7 +211,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_13
+    name: Default_Sprite_Asset_13
     hashCode: -1295344241
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -225,7 +225,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_14
+    name: Default_Sprite_Asset_14
     hashCode: -1295344248
     unicode: 0
     pivot: {x: -64, y: 64}
@@ -239,7 +239,7 @@ MonoBehaviour:
     yOffset: 106.14
     xAdvance: 128
     scale: 1.25
-    name: Default Sprite Asset_15
+    name: Default_Sprite_Asset_15
     hashCode: -1295344247
     unicode: 0
     pivot: {x: -64, y: 64}

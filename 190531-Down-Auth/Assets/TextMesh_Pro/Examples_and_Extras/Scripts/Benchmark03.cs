@@ -27,7 +27,7 @@ namespace TMPro.Examples
             {
                 if (SpawnType == 0)
                 {
-                    // TextMesh Pro Implementation
+                    // TextMesh_Pro Implementation
                     //go.transform.localScale = new Vector3(2, 2, 2);
                     GameObject go = new GameObject(); //"NPC " + i);
                     //go.transform.position = new Vector3(Random.Range(-95f, 95f), 0.5f, Random.Range(-95f, 95f));
@@ -38,7 +38,7 @@ namespace TMPro.Examples
                     //go.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
                     TextMeshPro textMeshPro = go.AddComponent<TextMeshPro>();
-                    //textMeshPro.FontAsset = Resources.Load("Fonts & Materials/LiberationSans SDF", typeof(TextMeshProFont)) as TextMeshProFont;
+                    //textMeshPro.FontAsset = Resources.Load("Fonts_and_Materials/LiberationSans_SDF", typeof(TextMeshProFont)) as TextMeshProFont;
                     textMeshPro.alignment = TextAlignmentOptions.Center;
                     textMeshPro.fontSize = 96;
 

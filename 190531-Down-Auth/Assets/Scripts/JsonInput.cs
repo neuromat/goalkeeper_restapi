@@ -19,18 +19,18 @@ public class JsonInput
 	public string sequ;   				//Josi: sequencia otima para a arvore, ou quase otima, no JG
 	public string sequR;                //170214: tripa com a indicacao de posicoes randomicas (Y) ou não (n) na sequ manual
 	public string bmSequ;               //Josi: sequencia a indicar no BM 
-	public int bmLimitPlays;            //Josi: numero de vezes a jogar a bmSequ no BM
+	public int bmLimitPlays;            //Josi: número de vezes a jogar a bmSequ no BM
 	public bool bmReadSequ;             //Josi 161227 no BM ler sequencia ou gerar sequencia?
 	public int bmMinHits;				//Josi: 170124 nao avancar enquanto minHits nao tenha sido atingido
 	public string mdSequ;               //Josi: sequencia a indicar no MD (atual Base memoria)
-	public int mdLimitPlays;            //Josi: numero de vezes a jogar a mdSequ no MD
+	public int mdLimitPlays;            //Josi: número de vezes a jogar a mdSequ no MD
 	public bool mdReadSequ;             //Josi 161227 no MD ler sequencia ou gerar sequencia?
 	public string animationTypeJG;      //170214: LONG (3s), SHORT(1s), NONE(0s) das animacoes defendeu/perdeu+som
 	public string animationTypeOthers;  //170217: LONG (3s), SHORT(1s), NONE(0s) das animacoes defendeu/perdeu+som
 	public bool scoreboard;             //170214: true | false, para colocar ou não o placar no JG (na fase)
 	public string finalScoreboard;      //170412: long (com porcentagem), short (acertos/jogadas), none
 	public int playsToRelax;            //170215: número de jogadas onde o programa dá uma parada para que o experimento faca uma pausa
-	public bool showHistory;			//170622: mostrar ou não o historico de andamento das 8 ultimas jogadas
+	public bool showHistory;	    //170622: mostrar ou não o historico de andamento das 8 ultimas jogadas
 	public string sendMarkersToEEG;     //170623: bool: enviar ou nao, marcadores para o EEG paralelo 0x378 em windows 32bits
 	                                    //180103: passa a receber string: serial|parallel|none
 	public string portEEGserial;        //180103: if sendMarkers = serial, send to this port; format COMx

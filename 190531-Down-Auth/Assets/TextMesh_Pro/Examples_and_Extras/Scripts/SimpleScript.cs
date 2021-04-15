@@ -17,17 +17,17 @@ namespace TMPro.Examples
 
         void Start()
         {
-            // Add new TextMesh Pro Component
+            // Add new TextMesh_Pro Component
             m_textMeshPro = gameObject.AddComponent<TextMeshPro>();
 
             m_textMeshPro.autoSizeTextContainer = true;
 
             // Load the Font Asset to be used.
-            //m_FontAsset = Resources.Load("Fonts & Materials/LiberationSans SDF", typeof(TMP_FontAsset)) as TMP_FontAsset;
+            //m_FontAsset = Resources.Load("Fonts_and_Materials/LiberationSans_SDF", typeof(TMP_FontAsset)) as TMP_FontAsset;
             //m_textMeshPro.font = m_FontAsset;
 
-            // Assign Material to TextMesh Pro Component
-            //m_textMeshPro.fontSharedMaterial = Resources.Load("Fonts & Materials/LiberationSans SDF - Bevel", typeof(Material)) as Material;
+            // Assign Material to TextMesh_Pro Component
+            //m_textMeshPro.fontSharedMaterial = Resources.Load("Fonts_and_Materials/LiberationSans_SDF - Bevel", typeof(Material)) as Material;
             //m_textMeshPro.fontSharedMaterial.EnableKeyword("BEVEL_ON");
             
             // Set various font settings.

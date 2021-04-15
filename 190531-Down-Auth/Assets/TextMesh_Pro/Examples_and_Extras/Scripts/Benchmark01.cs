@@ -33,7 +33,7 @@ namespace TMPro.Examples
 
 
 
-            if (BenchmarkType == 0) // TextMesh Pro Component
+            if (BenchmarkType == 0) // TextMesh_Pro Component
             {
                 m_textMeshPro = gameObject.AddComponent<TextMeshPro>();
                 m_textMeshPro.autoSizeTextContainer = true;
@@ -43,8 +43,8 @@ namespace TMPro.Examples
                 if (TMProFont != null)
                     m_textMeshPro.font = TMProFont;
 
-                //m_textMeshPro.font = Resources.Load("Fonts & Materials/Anton SDF", typeof(TextMeshProFont)) as TextMeshProFont; // Make sure the Anton SDF exists before calling this...
-                //m_textMeshPro.fontSharedMaterial = Resources.Load("Fonts & Materials/Anton SDF", typeof(Material)) as Material; // Same as above make sure this material exists.
+                //m_textMeshPro.font = Resources.Load("Fonts_and_Materials/Anton_SDF", typeof(TextMeshProFont)) as TextMeshProFont; // Make sure the Anton_SDF exists before calling this...
+                //m_textMeshPro.fontSharedMaterial = Resources.Load("Fonts_and_Materials/Anton_SDF", typeof(Material)) as Material; // Same as above make sure this material exists.
 
                 m_textMeshPro.fontSize = 48;
                 m_textMeshPro.alignment = TextAlignmentOptions.Center;
@@ -60,7 +60,7 @@ namespace TMPro.Examples
                 //m_textMeshPro.fontColor = new Color32(255, 255, 255, 255);
 
                 m_material01 = m_textMeshPro.font.material;
-                m_material02 = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Drop Shadow"); // Make sure the LiberationSans SDF exists before calling this...  
+                m_material02 = Resources.Load<Material>("Fonts_and_Materials/LiberationSans_SDF_Drop_Shadow"); // Make sure the LiberationSans_SDF exists before calling this...  
 
 
             }

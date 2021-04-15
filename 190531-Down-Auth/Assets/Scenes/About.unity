@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 491605560}
   - component: {fileID: 491605559}
   m_Layer: 0
-  m_Name: TMP SubMeshUI [Roboto-Bold SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [Roboto-Bold_SDF Material + LiberationSans_SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1609,7 +1609,7 @@ GameObject:
   - component: {fileID: 1325468642}
   - component: {fileID: 1325468641}
   m_Layer: 0
-  m_Name: TMP SubMeshUI [Roboto-Bold SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [Roboto-Bold_SDF Material + LiberationSans_SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

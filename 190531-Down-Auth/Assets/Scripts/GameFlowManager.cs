@@ -304,7 +304,7 @@ public class GameFlowManager : MonoBehaviour
                 //       onde não é possível determinar uma sequência, ou que o JG deve continuar independentemente de acertar/errar
                 if (PlayerPrefs.GetInt("gameSelected") == 2)
                 {
-                    //modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
+                    //modificado 190322 depois de um certo número de acerto (nao em sequencia) for igual ao parametro
 										// era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
 										if ( (uiManager.success  == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
                     {    //180402 extremes (>, not >=)
@@ -331,7 +331,7 @@ public class GameFlowManager : MonoBehaviour
 										
 		                if (PlayerPrefs.GetInt("gameSelected") == 2)
 		                {
-											//modificado 190322 depois de um certo numero de acerto (nao em sequencia) for igual ao parametro
+											//modificado 190322 depois de um certo número de acerto (nao em sequencia) for igual ao parametro
 											// era assim 190322 : if ( (uiManager.successTotal == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
 											if ( (uiManager.success  == probCalculator.getJGminHitsInSequence()) && (probCalculator.getJGminHitsInSequence() > 0) )
 											{    //180402 extremes (>, not >=)
@@ -625,7 +625,7 @@ public class GameFlowManager : MonoBehaviour
 				// @ale - Premio 8 (Finalizar 4 fases completas)
 				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load8() == true)
 				{
-					if (numeroFases > 2 && numeroFases < 4) {
+					if (numeroFases < 4) {
 						numeroFases ++;
 						Debug.Log ("Numero de FASES de 2 ate 4 --->>>>>>>>>> " + numeroFases);
 					}
@@ -684,7 +684,7 @@ public class GameFlowManager : MonoBehaviour
 				if ((uiManager.success  == probCalculator.getJGminHitsInSequence()) || (uiManager.eventCount >= numPlays) ||  Load9() == true)
 
 				{
-					if (numeroFases > 4 && numeroFases < 8) {
+					if (numeroFases < 8) {
 						numeroFases ++;
 						Debug.Log ("Numero de FASES de 4 ate 8 --->>>>>>>>>> " + numeroFases);
 					}
@@ -865,7 +865,7 @@ public class GameFlowManager : MonoBehaviour
 
                 //if(playing && uiManager.events.Count >= probCalculator.GetCurrentPlayLimit())    //Josi: era assim
                 //				if (playing && uiManager.events.Count >= numPlays) {   //170106 events contem o log,que no caso do MD acumula os testes iniciais
-                //if (playing && (uiManager.eventCount >= numPlays)) {   //       eventCount contem o numero de jogadas de uma fase
+                //if (playing && (uiManager.eventCount >= número de jogadas de uma fase
                 if (playing && (uiManager.eventCount >= numPlays) && (PlayerPrefs.GetInt("gameSelected") != 5))
                 { //
                     uiManager.BtwnLvls = true;

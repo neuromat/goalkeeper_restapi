@@ -35,8 +35,8 @@ namespace TMPro.Examples
             GameObject frameCounter = new GameObject("Frame Counter");
 
             m_TextMeshPro = frameCounter.AddComponent<TextMeshPro>();
-            m_TextMeshPro.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
-            m_TextMeshPro.fontSharedMaterial = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Overlay");
+            m_TextMeshPro.font = Resources.Load<TMP_FontAsset>("Fonts_and_Materials/LiberationSans_SDF");
+            m_TextMeshPro.fontSharedMaterial = Resources.Load<Material>("Fonts_and_Materials/LiberationSans_SDF_Overlay");
 
 
             m_frameCounter_transform = frameCounter.transform;

@@ -310,7 +310,7 @@ GameObject:
   - 114: {fileID: 151148668}
   - 222: {fileID: 151148672}
   m_Layer: 10
-  m_Name: TextMesh Pro - Caption
+  m_Name: TextMesh_Pro - Caption
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1963,7 +1963,7 @@ GameObject:
   - 114: {fileID: 1746165347}
   - 222: {fileID: 1746165350}
   m_Layer: 10
-  m_Name: TextMesh Pro - Text
+  m_Name: TextMesh_Pro - Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LiberationSans SDF - Overlay
+  m_Name: LiberationSans_SDF_Overlay
   m_Shader: {fileID: 4800000, guid: 9ecb3fe313cb5f7478141eba4a2d54ed, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5

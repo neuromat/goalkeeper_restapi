@@ -401,7 +401,7 @@ GameObject:
   - 222: {fileID: 694875409}
   - 114: {fileID: 694875408}
   m_Layer: 0
-  m_Name: TMP SubMeshUI [Bangers SDF - Drop Shadow]
+  m_Name: TMP SubMeshUI [Bangers_SDF_Drop_Shadow]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -534,7 +534,7 @@ MonoBehaviour:
 
     The <<#ffff00>link="id"</color>><link="id_01><u><i><#80ff80>Insert link text here</u></i></color></link>
     <<#ffff00>/link</color>> tag allows adding <link="id_02"><u><i><#80ff80>links</color></i></u></link>
-    within a text object in <font="Bangers SDF">TextMesh<#40a0ff>Pro!</font>'
+    within a text object in <font="Bangers_SDF">TextMesh<#40a0ff>Pro!</font>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 33db60c37b63f08448ded4b385e74e38, type: 2}

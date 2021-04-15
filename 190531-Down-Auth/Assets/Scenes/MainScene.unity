@@ -1961,7 +1961,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 125580, guid: e3f5f4f5baad9bf4c842da0d97013099, type: 2}
       propertyPath: m_Name
-      value: Pegou!-enus
+      value: Pegou-enus
       objectReference: {fileID: 0}
     - target: {fileID: 9513462, guid: e3f5f4f5baad9bf4c842da0d97013099, type: 2}
       propertyPath: m_Controller
@@ -27437,7 +27437,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 125580, guid: e3f5f4f5baad9bf4c842da0d97013099, type: 2}
       propertyPath: m_Name
-      value: Pegou!EsEs
+      value: PegouEsEs
       objectReference: {fileID: 0}
     - target: {fileID: 9513462, guid: e3f5f4f5baad9bf4c842da0d97013099, type: 2}
       propertyPath: m_Controller

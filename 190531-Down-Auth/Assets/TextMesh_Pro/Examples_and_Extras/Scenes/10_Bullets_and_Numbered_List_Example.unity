@@ -358,12 +358,12 @@ MonoBehaviour:
     to create bullets and numbered lists.
 
 
-    <sprite="DropCap Numbers" index=11><indent=8em>For these bullets, I am making
+    <sprite="DropCap_Numbers" index=11><indent=8em>For these bullets, I am making
     creative use of the <#ffff80><sprite></color> tag to use sprites instead of plain
     bullets or numbers.</indent>
 
 
-    <sprite="DropCap Numbers" index=12><indent=8em>By using the <#ffff80><indent></color>
+    <sprite="DropCap_Numbers" index=12><indent=8em>By using the <#ffff80><indent></color>
     tag, we can indent the text to make room for the sprites.
 
 
@@ -373,7 +373,7 @@ MonoBehaviour:
     \u2022<indent=10.5em>This is placeholder text for another sub item in our list.</indent></indent>
 
 
-    <sprite="DropCap Numbers" index=13><indent=8em>Using the <#ffff80><noparse></indent></noparse></color>
+    <sprite="DropCap_Numbers" index=13><indent=8em>Using the <#ffff80><noparse></indent></noparse></color>
     tag, we can go back to the previous level of indentation.</indent>
 
 

@@ -184,7 +184,7 @@ GameObject:
   - 33: {fileID: 1915181344}
   - 222: {fileID: 1915181345}
   m_Layer: 0
-  m_Name: Multi Line TextMesh Pro
+  m_Name: Multi Line TextMesh_Pro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LiberationSans SDF - Soft Mask
+  m_Name: LiberationSans_SDF_Soft_Mask
   m_Shader: {fileID: 4800000, guid: afc255f7c2be52e41973a3d10a2e632d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
